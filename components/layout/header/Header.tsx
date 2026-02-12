@@ -65,7 +65,7 @@ const Header = () => {
 
   return (
     <header ref={headerRef} className="fixed top-0 left-0 w-full z-50">
-      <div className="w-full h-[90px] px-16 flex justify-between items-center bg-[#828282] text-white border-b border-white/5">
+      <div className="w-full h-[90px] px-16 flex justify-between items-center backdrop-blur-lg text-white border-b border-white/5">
         <Link href="/" className="flex items-center gap-2" onClick={() => {setIsClicked(false); setActiveMenu(null);}}>
           <span className="text-[#AD9463] text-4xl">✦</span>
           <span className="text-[#AD9463] text-2xl tracking-[0.2em] font-medium leading-none font-pop">
@@ -89,11 +89,11 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center gap-8">
-          <button className="hover:opacity-70 transition-opacity">
+          {/* <button className="hover:opacity-70 transition-opacity">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
             </svg>
-          </button>
+          </button> */}
           
           <button 
             ref={menuIconRef}
@@ -126,7 +126,7 @@ const Header = () => {
         />
 
         {/* Height adjusts automatically, Width is constant */}
-        <div className="bg-[#111111] shadow-2xl border border-white/5 w-[1450px] overflow-hidden">
+        <div className="bg-[#111111] shadow-2xl border border-white/5 w-[1450px] 2xl:w-[1800px] overflow-hidden">
           <div className="p-12 flex flex-wrap justify-center content-start gap-4">
             {currentCategories.map((cat, index) => (
               <div 

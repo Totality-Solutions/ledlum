@@ -6,55 +6,39 @@
 @import "tailwindcss";
 
 :root {
+  /* Colors */
   --background: #ffffff;
   --foreground: #171717;
+  --primary-color: #CE3731;
+  --secondary-color: #EB5A4D;
+  --gray-color: #F0F0F0;
+  --black-color: #000000;
+  --white-color: #FFFFFF;
 
   /* Fonts */
   --primary-font: 'Bai Jamjuree', sans-serif;
   --secondary-font: 'Poppins', sans-serif;
 
-  /* If using Tailwind inline theme */
+  /* Font Aliases */
   --font-bai: var(--primary-font);
   --font-pop: var(--secondary-font);
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-bai: var(--primary-font);
-  --font-pop: var(--secondary-font);
-}
+  /* Text Sizes */
+  --text-desk-h1: 3.5rem;
+  --text-desk-h2: 3rem;
+  --text-desk-h3: 2rem;
+  --text-tab-h1: 2rem;
+  --text-tab-h2: 1.75rem;
+  --text-mob-h1: 2rem;
+  --text-mob-h2: 1rem;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffffff;
-    --foreground: #171717;
+  --text-body: 1.125rem;
+  --text-body-sm: 0.875rem;
+  --text-body-xs: 0.75rem;
+  --text-button-sm: 1.125rem;
+  --text-button-xs: 0.875rem;
 
-    --primary-color: #CE3731;
-    --secondary-color: #EB5A4D;
-    --gray-color: #F0F0F0;
-    --black-color: #000000;
-    --white-color: #FFFFFF;
-
-    --primary-font: 'Bai Jamjuree', sans-serif;
-    --secondary-font: 'Poppins', sans-serif;
-
-    /* text sizes */
-    --text-desk-h1: 4.5rem;
-    --text-desk-h2: 2rem;
-    --text-desk-h3: 1.5rem;
-    --text-tab-h1: 3rem;
-    --text-tab-h2: 1.5rem;
-    --text-mob-h1: 1rem;
-    --text-mob-h2: 1rem;
-
-    --text-body: 1rem;
-    --text-body-sm: 0.875rem;
-    --text-body-xs: 0.75rem;
-
-    --button-text: 1rem;
-
-  /* Primary font: Bai Jamjuree */
+  /* Primary font weights: Bai Jamjuree */
   --primary-thin: 100;
   --primary-extralight: 200;
   --primary-light: 300;
@@ -63,7 +47,7 @@
   --primary-semibold: 600;
   --primary-bold: 700;
 
-  /* Secondary font: Poppins */
+  /* Secondary font weights: Poppins */
   --secondary-thin: 100;
   --secondary-extralight: 200;
   --secondary-light: 300;
@@ -73,16 +57,23 @@
   --secondary-bold: 700;
   --secondary-extrabold: 800;
   --secondary-black: 900;
-  }
 }
 
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-bai: var(--primary-font);
+  --font-pop: var(--secondary-font);
+}
+
+/* Base Styles */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--primary-font);
 }
 
-/* Hide Scrollbar */
+/* Hide Scrollbar Utilities */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -91,6 +82,8 @@ body {
   scrollbar-width: none;
 }
 
+/* --- Global Typography Classes --- */
+
 .desk-h1 {
   font-family: var(--primary-font);
   font-weight: var(--primary-semibold);
@@ -98,65 +91,91 @@ body {
   letter-spacing: -0.5px;
   line-height: auto;
 }
+
 .desk-h2 {
-  font-family: var(--primary-font);
-  font-weight: var(--primary-semibold);
+  font-family: var(--secondary-font);
+  font-weight: var(--secondary-regular);
   font-size: var(--text-desk-h2);
   letter-spacing: -1.2px;
   line-height: 40px;
-
 }
+
 .desk-h3 {
-  font-family: var(--primary-font);
-  font-weight: var(--primary-regular);
+  font-family: var(--secondary-font);
+  font-weight: var(--secondary-regular);
   font-size: var(--text-desk-h3);
   line-height: auto;
 }
+
 .tab-h1 {
   font-family: var(--primary-font);
   font-weight: var(--primary-semibold);
   font-size: var(--text-tab-h1);
   line-height: auto;
 }
+
 .tab-h2 {
-  font-family: var(--primary-font);
-  font-weight: var(--primary-medium);
+  font-family: var(--secondary-font);
+  font-weight: var(--secondary-medium);
   font-size: var(--text-tab-h2);
   line-height: auto;
 }
+
 .mob-h1 {
   font-family: var(--primary-font);
   font-weight: var(--primary-semibold);
   font-size: var(--text-mob-h1);
   line-height: auto;
 }
+
 .mob-h2 {
-  font-family: var(--primary-font);
-  font-weight: var(--primary-regular);
+  font-family: var(--secondary-font);
+  font-weight: var(--secondary-regular);
   font-size: var(--text-mob-h2);
   line-height: auto;
 }
+
 .body {
   font-family: var(--secondary-font);
   font-weight: var(--secondary-regular);
   font-size: var(--text-body);
   line-height: auto;
 }
+
 .body-sm {
   font-family: var(--secondary-font);
   font-weight: var(--secondary-medium);
   font-size: var(--text-body-sm);
   line-height: auto;
 }
+
 .body-xs {
   font-family: var(--secondary-font);
   font-weight: var(--secondary-regular);
   font-size: var(--text-body-xs);
   line-height: auto;
 }
-.button {
+
+.button-sm {
   font-family: var(--secondary-font);
   font-weight: var(--secondary-semibold);
-  font-size: var(--text-button);
+  font-size: var(--text-button-sm);
   line-height: auto;
+}
+.button-xs {
+  font-family: var(--secondary-font);
+  font-weight: var(--secondary-semibold);
+  font-size: var(--text-button-xs);
+  line-height: auto;
+}
+
+/* Responsive Overrides (Optional: keeps text sizing fluid) */
+@media (max-width: 1024px) {
+  .desk-h1 { font-size: var(--text-tab-h1); }
+  .desk-h2 { font-size: var(--text-tab-h2); }
+}
+
+@media (max-width: 640px) {
+  .desk-h1 { font-size: var(--text-mob-h1); }
+  .desk-h2 { font-size: var(--text-mob-h2); }
 }
