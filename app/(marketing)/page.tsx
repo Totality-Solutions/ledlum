@@ -24,6 +24,7 @@ const Home = () => {
       <Achievements/>
       <ProjectSection/>
       <AutoCarousel/>
+
     </div>
   )
 }

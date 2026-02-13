@@ -1,7 +1,8 @@
 import Header from "@/components/layout/header/Header";
-import Footer from "@/components/layout/Footer";
+// import Footer from "@/components/layout/Footer";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
+import Footer from "@/components/layout/footer/Footer";
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
