@@ -17,38 +17,38 @@ export default function ContactPage() {
     <div className="relative min-h-screen text-white bg-black font-bai selection:bg-[#8D794E] selection:text-black overflow-hidden">
       {/* <TechGrid /> */}
 
-        <div 
-    className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2"
-    style={{
-      backgroundImage: "url('/images/about/ledlumline.png')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      opacity:'0.3'
-    }}
-  ></div>
+      <div
+        className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2"
+        style={{
+          backgroundImage: "url('/images/about/ledlumline.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: '0.3'
+        }}
+      ></div>
 
 
 
-     <div 
-  className="absolute z-0 pointer-events-none"
-  style={{
-    width: '1608px',
-    height: '2010px',
-    /* Using your exact calculation for horizontal centering with an offset */
-   left: 'calc(50% - 1608px / 2 + 10px)',
-    top: '277px',
-    backgroundImage: "url('/images/blog/not-bg.jpg')",
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    mixBlendMode: 'difference',
-    opacity: '0.05',
-  }}
-/>
+      <div
+        className="absolute z-0 pointer-events-none"
+        style={{
+          width: '1608px',
+          height: '2010px',
+          /* Using your exact calculation for horizontal centering with an offset */
+          left: 'calc(50% - 1608px / 2 + 10px)',
+          top: '277px',
+          backgroundImage: "url('/images/blog/not-bg.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          mixBlendMode: 'difference',
+          opacity: '0.05',
+        }}
+      />
 
 
       <main className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-16 lg:px-24 min-h-screen flex items-center pt-24 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-start w-full">
-          
+
           {/* --- LEFT COLUMN: INFO --- */}
           <div className="space-y-16">
             <header className="space-y-8">
@@ -61,19 +61,19 @@ export default function ContactPage() {
             </header>
 
             <div className="space-y-4 max-w-[480px]">
-              <ContactLink 
-                label="E-mail" 
-                value="info@ledlum.com" 
+              <ContactLink
+                label="E-mail"
+                value="info@ledlum.com"
                 iconType="mail"
               />
-              <ContactLink 
-                label="Call us" 
-                value="+91 96631 02951" 
+              <ContactLink
+                label="Call us"
+                value="+91 96631 02951"
                 iconType="phone"
               />
-              <ContactLink 
-                label="Msg on Whatsapp" 
-                value="10:00 am to 6:00 pm" 
+              <ContactLink
+                label="Msg on Whatsapp"
+                value="10:00 am to 6:00 pm"
                 iconType="whatsapp"
               />
             </div>
@@ -83,49 +83,56 @@ export default function ContactPage() {
           <div className="w-full lg:pt-4">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-4">
-                <input 
-                  type="text" 
-                  placeholder="Name" 
+                <input
+                  type="text"
+                  placeholder="Name"
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-full px-8 py-6 body-sm focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-zinc-700 text-white" 
+                  className="w-full bg-white/5 border border-white/10 rounded-full px-8 py-6 body-sm focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-zinc-700 text-white"
                 />
-                <input 
-                  type="email" 
-                  placeholder="E-mail / Contact no." 
+                <input
+                  type="email"
+                  placeholder="E-mail / Contact no."
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-full px-8 py-6 body-sm focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-zinc-700 text-white" 
+                  className="w-full bg-white/5 border border-white/10 rounded-full px-8 py-6 body-sm focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-zinc-700 text-white"
                 />
-                <textarea 
-                  placeholder="Message" 
-                  rows={6} 
+                <textarea
+                  placeholder="Message"
+                  rows={6}
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-[40px] px-8 py-8 body-sm focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-zinc-700 text-white resize-none" 
+                  className="w-full bg-white/5 border border-white/10 rounded-[40px] px-8 py-8 body-sm focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-zinc-700 text-white resize-none"
                 />
               </div>
-              
-              <div className="flex items-center justify-between pt-6">
+
+              <div className="flex items-center justify-between gap-4 pt-8 w-full">
                 {/* Reset Button */}
-                <button 
-                  type="reset" 
-                  className="group flex items-center gap-4 px-8 py-3 rounded-full bg-[#141414] border border-white/5 hover:bg-[#1a1a1a] transition-all cursor-pointer"
+                <button
+                  type="reset"
+                  className="group flex items-center justify-center gap-2 
+               w-[140px] h-[48px] md:w-[180px] md:h-[56px] 
+               rounded-full bg-[#1A1A1A] border border-white/10 
+               hover:bg-[#222] transition-all cursor-pointer shrink-0"
                 >
                   <span className="button-xs text-zinc-400 capitalize">Reset</span>
-                  <svg className="w-5 h-5 text-zinc-500 group-hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8m0 0V3m0 5h5M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16m0 0v5m0-5h-5"/>
+                  <svg className="w-4 h-4 text-zinc-500 group-hover:rotate-180 transition-transform duration-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8m0 0V3m0 5h5M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16m0 0v5m0-5h-5" />
                   </svg>
                 </button>
-                
-                {/* Submit Button - EXACT SCREENSHOT UI */}
-                <button 
-                  type="submit" 
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
                   disabled={isSubmitting}
-                  className="group flex items-center gap-8 bg-[#E5E1D8] text-black pl-12 pr-2 py-2 rounded-full hover:bg-white transition-all duration-500 cursor-pointer disabled:opacity-50"
+                  className="group flex items-center justify-between 
+               w-[140px] h-[48px] md:w-[180px] md:h-[56px] 
+               bg-[#E5E1D8] text-black pl-4 pr-1 md:pl-8 md:pr-1.5 
+               rounded-full hover:bg-white transition-all duration-500 
+               cursor-pointer disabled:opacity-50 shrink-0"
                 >
                   <span className="button-sm font-bold capitalize">
-                    {isSubmitting ? "Sending..." : "Submit"}
+                    {isSubmitting ? "..." : "Submit"}
                   </span>
-                  <div className="w-11 h-11 rounded-full bg-[#8D794E] flex items-center justify-center text-white transition-transform group-hover:rotate-45">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <div className="w-8 h-8 md:w-11 md:h-11 rounded-full bg-[#8D794E] flex items-center justify-center text-white transition-transform group-hover:rotate-45 shrink-0">
+                    <svg className="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="7" y1="17" x2="17" y2="7"></line>
                       <polyline points="7 7 17 7 17 17"></polyline>
                     </svg>

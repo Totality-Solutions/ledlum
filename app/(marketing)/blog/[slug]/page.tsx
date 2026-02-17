@@ -58,12 +58,20 @@ export default async function BlogPost({ params }: PageProps) {
 
       {/* --- HERO SECTION --- */}
       <section className="w-full pt-[90px] relative">
-        <div className="w-full h-[60vh] md:h-[85vh] relative overflow-hidden">
+        {/* <div className="w-full h-[60vh] md:h-[85vh] relative overflow-hidden">
+          <Image src={post.image} fill priority className="object-cover" alt={post.title} />
+        </div> */}
+
+
+        <div className="w-full h-[35vh] md:h-[65vh] relative overflow-hidden">
           <Image src={post.image} fill priority className="object-cover" alt={post.title} />
         </div>
+
+        
       </section>
 
-      <main className="max-w-[1440px] mx-auto px-6 md:px-16 lg:px-24">
+      {/* <main className="max-w-[1440px] mx-auto px-6 md:px-16 lg:px-24"> */}
+      <main className="w-full mx-auto px-6 md:px-16 lg:px-24">
         <article className="pt-20 md:pt-32">
           
           <header className="max-w-4xl mb-24">
