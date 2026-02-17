@@ -7,9 +7,9 @@ import AutoCarousel from '@/components/sections/home/AutoCarousel'
 import Achievements from '@/components/sections/home/Achievements'
 
 export const metadata = buildMetadata({
-  title: "Enterprise electrical partner",
+  title: "LedLum",
   description:
-    "Rolta Electricals delivers consulting, EPC, automation, and lifecycle services for critical infrastructure across India and beyond.",
+    " ",
   canonical: "/",
 });
 

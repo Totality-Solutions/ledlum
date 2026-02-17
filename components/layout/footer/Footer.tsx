@@ -26,7 +26,7 @@ export default function Footer() {
           <div className="absolute inset-0 bg-black/40 md:bg-transparent" />
         </div>
 
-        <Container className="relative z-20 py-16 md:py-24">
+        <Container className="relative z-10 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
             
             {/* Left Section: Brand & Description */}

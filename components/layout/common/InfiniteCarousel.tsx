@@ -7,11 +7,13 @@ import Image, { StaticImageData } from "next/image";
 interface ImageSliderCardProps {
   images: (string | StaticImageData)[];
   interval?: number;
+  className?: string;
 }
 
 const InfiniteCarousel: React.FC<ImageSliderCardProps> = ({ 
   images, 
-  interval = 5000 
+  interval = 5000,
+  className = "w-full aspect-square"
 }) => {
   const [index, setIndex] = useState(0);
 
@@ -23,28 +25,27 @@ const InfiniteCarousel: React.FC<ImageSliderCardProps> = ({
   }, [images.length, interval]);
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto aspect-[21/9] rounded-[25px] overflow-hidden shadow-xl bg-gray-200">
-      {/* 1. REMOVE mode="wait" so images animate simultaneously */}
+    // Changed bg-gray-200 to bg-black to ensure any gap shows as black, not white
+    <div className={cn("relative overflow-hidden rounded-[25px] shadow-xl bg-black", className)}>
       <AnimatePresence initial={false}>
         <motion.div
           key={index}
-          // 2. Initial state: New image starts just outside the right edge
-          initial={{ x: "100%" }}
-          // 3. Animate state: New image moves to the center
+          // Added a 1% offset (101%) to ensure images overlap slightly, hiding the gap
+          initial={{ x: "100.5%" }} 
           animate={{ x: 0 }}
-          // 4. Exit state: Old image moves out to the left
-          exit={{ x: "-100%" }}
+          exit={{ x: "-100.5%" }}
           transition={{ 
             duration: 0.8, 
-            ease: [0.4, 0, 0.2, 1] // Professional cubic-bezier for "snappy" feel
+            ease: [0.4, 0, 0.2, 1] 
           }}
-          className="absolute inset-0 w-full h-full"
+          // Added willChange and translateZ to fix sub-pixel rendering lines
+          className="absolute inset-0 w-full h-full will-change-transform"
+          style={{ backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <Image
             src={images[index]}
             alt={`Slide ${index}`}
             fill
-            // 5. Use object-cover to ensure the image fills the card like your screenshot
             className="object-contain" 
             priority
           />
@@ -53,5 +54,9 @@ const InfiniteCarousel: React.FC<ImageSliderCardProps> = ({
     </div>
   );
 };
+
+function cn(...classes: (string | boolean | undefined)[]) {
+  return classes.filter(Boolean).join(" ");
+}
 
 export default InfiniteCarousel;

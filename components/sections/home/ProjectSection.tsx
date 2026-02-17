@@ -10,10 +10,13 @@ import {
   Facebook, 
   MessageCircle 
 } from "lucide-react";
+
+// 1. Import your Carousel component
+import InfiniteCarousel from "@/components/layout/common/InfiniteCarousel"; 
+
 import productImg1 from "@/public/images/home/product-1.png";
 import productImg2 from "@/public/images/home/product-2.png";
 import Arrival1 from "@/public/images/home/new-arrival.png";
-
 
 const PROJECTS = [
   { id: 1, img: productImg1 },
@@ -23,13 +26,15 @@ const PROJECTS = [
 ];
 
 export default function OurProjectsSection() {
+  // Extract just the images for the carousel
+  const carouselImages = PROJECTS.map((p) => p.img);
+
   return (
     <Section className="bg-[#0A0A0A] text-white py-16 md:py-24 overflow-hidden">
-      {/* Laptop Optimized Container: max-w-[1280px] */}
       <Container className="max-w-[1280px] 2xl:max-w-[1600px] w-full px-6 lg:px-10">
         
-        {/* Header Row - Optimized Scaling */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
+        {/* Header Row - Exactly as your original */}
+        <div className="flex flex-col-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
           <div className="flex flex-col">
             <h2 className="text-white text-[2.5rem] lg:text-[3.5rem] font-semibold leading-tight font-bai">
               Our.
@@ -40,11 +45,10 @@ export default function OurProjectsSection() {
           </div>
 
           <div className="flex flex-col items-start md:items-end gap-5">
-            <p className="text-[0.875rem] lg:text-[1rem] text-white/60 font-pop tracking-wide">
+            <p className="hidden md:block text-[0.875rem] lg:text-[1rem] text-white/60 font-pop tracking-wide">
               See how LEDLUM lives in real spaces.
             </p>
             
-            {/* Social Icons Row */}
             <div className="flex items-center gap-6 text-white/30">
               <a href="#" className="hover:text-white transition-all hover:scale-110">
                 <Instagram size={22} strokeWidth={1.5} />
@@ -62,12 +66,17 @@ export default function OurProjectsSection() {
           </div>
         </div>
 
-        {/* Project Gallery Grid - Standardized to match Arrival/Bestseller geometry */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        {/* 2. MOBILE & TABLET VIEW: Uses your InfiniteCarousel */}
+        <div className="lg:hidden">
+          <InfiniteCarousel className="w-full aspect-[9/12]" images={carouselImages} interval={4000} />
+        </div>
+
+        {/* 3. DESKTOP VIEW: Your original Gallery Grid */}
+        <div className="hidden lg:grid lg:grid-cols-4 gap-6 lg:gap-8">
           {PROJECTS.map((project) => (
             <div 
               key={project.id}
-              className="relative aspect-[3/4] rounded-[25px] lg:rounded-[25px] overflow-hidden group cursor-pointer shadow-2xl"
+              className="relative aspect-[3/4] rounded-[25px] overflow-hidden group cursor-pointer shadow-2xl"
             >
               <Image 
                 src={project.img} 
@@ -76,7 +85,6 @@ export default function OurProjectsSection() {
                 className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
                 unoptimized
               />
-              {/* Subtle Elegant Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           ))}

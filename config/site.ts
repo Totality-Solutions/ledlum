@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Rolta Electricals",
+  name: " Ledlum ",
   legalName: "Rolta Electricals Private Limited",
   description:
     "Rolta Electricals is an enterprise engineering partner delivering turnkey electrical, automation, and infrastructure projects across industrial and commercial sectors.",

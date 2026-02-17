@@ -62,18 +62,27 @@ export default function CombinedLightingPartners() {
         />
       </Container>
       {/* PART 2: LIGHTING SECTION */}
-      <Container className="max-w-[1280px] 2xl:max-w-[1600px] px-6 lg:px-10">
-        <div className="max-w-5xl mb-12">
-          <h2 className="text-5xl lg:text-6xl font-bold text-white tracking-tight font-bai">
-            Lighting.
-          </h2>
-          <p className="text-xl text-white/60 mt-2 font-bai">
-            That Defines the Space.
-          </p>
-        </div>
-        
-        <ImageSliderCard images={LIGHTING_IMAGES} interval={5000} />
-      </Container>
+<Container className="max-w-[1280px] 2xl:max-w-[1600px] px-6 lg:px-10">
+  <div className="max-w-5xl mb-12">
+    <h2 className="text-5xl lg:text-6xl font-bold text-white tracking-tight font-bai">
+      Lighting.
+    </h2>
+    <p className="text-xl text-white/60 mt-2 font-bai">
+      That Defines the Space.
+    </p>
+  </div>
+  
+  {/* 1. Added max-w-2xl to limit the width 
+      2. Added aspect-video or aspect-square if you want it even shorter
+  */}
+  <div className="flex justify-center"> {/* Use justify-center if you want it in the middle */}
+    <ImageSliderCard 
+      images={LIGHTING_IMAGES} 
+      interval={5000} 
+      className="w-full max-w-5xl aspect-video md:aspect-[16/9] " 
+    />
+  </div>
+</Container>
     </Section>
   );
 }
