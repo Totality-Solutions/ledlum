@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { Container } from "@/components/layout/Container";
 import Link from "next/link";
-import { Instagram, Facebook, Linkedin, Send } from "lucide-react";
+import { Instagram, Facebook, Linkedin, Send, ArrowUpRight } from "lucide-react";
+import { GetInTouch } from './GetInTouch';
 
 export default function Footer() {
   const footerLinks = {
@@ -11,112 +13,140 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-black py-10 md:py-20 px-4 overflow-hidden">
+    <footer className="relative bg-black pt-6 md:pt-10 px-6 md:px-6 overflow-hidden flex flex-col min-h-screen lg:min-h-[90vh] pb-[5rem]">
       
-      {/* 1. THE PILL CARD - Responsive rounding and height */}
-      <div className="relative z-10 max-w-7xl mx-auto rounded-[40px] md:rounded-[80px] overflow-hidden bg-zinc-900/20 min-h-[500px] flex items-center border border-white/5">
+      <div 
+        className="absolute inset-0 z-0 bg-[url('/images/about/ledlumline.png')] bg-cover bg-center opacity-60 pointer-events-none" 
+        style={{ 
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)' 
+        }}
+      />
+      {/* 1. GLOBAL BACKGROUND LAYERS */}
+     
+
+    
+
+{/* <div className="absolute bottom-0 left-0 w-full z-0 pointer-events-none">
+  <div className="relative w-full h-full">
+    <img 
+      src="/images/about/footer-logo.png" 
+      alt="Ledlum Watermark" 
+      className="w-full h-auto min-h-[40vh] md:min-h-[70vh] object-cover object-bottom" 
+    />
+
+  </div>
+</div> */}
+
+
+
+{/* uu */}
+
+{/* 1. UPDATED BACKGROUND LOGO CONTAINER */}
+<div className="absolute bottom-0 left-0  w-full h-[45vh] md:h-auto scale-110 md:scale-100 object-contain md:object-cover object-bottom opacity-70">
+  <div className="relative w-full overflow-hidden">
+    <img 
+      src="/images/about/footer-logo.png" 
+      alt="Ledlum Watermark" 
+      /* - h-[30vh] md:h-auto: On mobile, we force the image area to take 30% of the screen height.
+         - object-contain: Ensures the logo doesn't cut off.
+         - object-bottom: Keeps the logo pinned to the very bottom of that 30vh area.
+      */
+      className="w-full h-[30vh] md:h-auto object-contain md:object-cover object-bottom opacity-80" 
+    />
+  </div>
+</div>
+
+{/* uuu */}
+
+
+      {/* 2. THE PILL CARD */}
+      <div className="relative z-10 w-full mx-auto rounded-[40px] md:rounded-[80px] max-w-[95%] overflow-hidden bg-zinc-900/40 backdrop-blur-md border border-white/5 shadow-2xl mb-20 md:mb-32">
         
-        {/* Card Background Image with Overlay for Readability */}
+        {/* Card Background Texture */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <img 
-            src="/Ledlum Footer Card.png" 
-            className="w-full h-full object-cover opacity-60 md:opacity-100" 
+            src="/images/about/footercard.png" 
+            className="w-full h-full object-cover opacity-60 " 
             alt="Card Texture"
           />
-          <div className="absolute inset-0 bg-black/40 md:bg-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-transparent to-black/60" />
         </div>
 
-        <Container className="relative z-10 py-16 md:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
+        {/* CONTAINER */}
+        <Container className="relative z-20 py-12 md:py-20 lg:py-12 !max-w-none px-8 md:px-[7vw]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             
             {/* Left Section: Brand & Description */}
             <div className="lg:col-span-5 flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-10 h-10 flex items-center justify-center border border-white/20 rounded-full">
-                    <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-12 h-12 flex items-center justify-center border border-white/20 rounded-full bg-white/5">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
                       <path d="M20 0V40M0 20H40" stroke="currentColor" strokeWidth="2"/>
                       <path d="M10 10L30 30M30 10L10 30" stroke="currentColor" strokeWidth="2"/>
                     </svg>
                   </div>
-                  <span className="text-3xl font-semibold tracking-tight text-white font-bai">Ledlum</span>
+                  <span className="text-3xl font-bold tracking-tighter text-white font-bai">Ledlum</span>
                 </div>
                 
-                <p className="text-sm md:text-base leading-relaxed text-white/80 max-w-sm font-pop font-light">
+                <p className="text-base leading-relaxed text-white max-w-md font-pop font-light">
                   Enhancing environments through energy efficiency, aesthetic appeal, 
                   and high-performance architectural lighting solutions.
                 </p>
 
-                {/* Social Icons - Improved Touch Targets */}
-                <div className="flex gap-6 mt-10">
-                  <Link href="#" className="p-2 -m-2 hover:text-yellow-100 transition-colors duration-300">
-                    <Instagram className="w-5 h-5 text-white/70 hover:text-white" />
-                  </Link>
-                  <Link href="#" className="p-2 -m-2 hover:text-yellow-100 transition-colors duration-300">
-                    <Send className="w-5 h-5 text-white/70 hover:text-white" />
-                  </Link>
-                  <Link href="#" className="p-2 -m-2 hover:text-yellow-100 transition-colors duration-300">
-                    <Linkedin className="w-5 h-5 text-white/70 hover:text-white" />
-                  </Link>
-                  <Link href="#" className="p-2 -m-2 hover:text-yellow-100 transition-colors duration-300">
-                    <Facebook className="w-5 h-5 text-white/70 hover:text-white" />
-                  </Link>
+                {/* Social Icons */}
+                <div className="flex gap-5 mt-10">
+                  {[Instagram, Send, Linkedin, Facebook].map((Icon, i) => (
+                    <Link key={i} href="#" className="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 hover:border-white/40 hover:bg-white/5 transition-all duration-500 group">
+                      <Icon className="w-4 h-4  text-white transition-colors" />
+                    </Link>
+                  ))}
                 </div>
               </div>
 
-              {/* Copyright - Bottom aligned on desktop */}
               <div className="mt-16 lg:mt-24">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-white/40 font-pop">
+                <p className="text-[10px] tracking-[0.3em] text-white font-pop font-medium">
                   © 2026 LEDLUM. Technical Brilliance.
                 </p>
               </div>
             </div>
 
             {/* Right Section: Link Columns */}
-            <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-y-12 gap-x-8 text-white">
-              <div className="col-span-1">
-                <h4 className="text-[14px] font-semibold mb-6 font-bai text-white">About</h4>
-                <ul className="space-y-4">
-                  {footerLinks.about.map((link) => (
-                    <li key={link}>
-                      <Link href="#" className="text-sm text-white/60 hover:text-white transition-all duration-300 font-pop font-light hover:pl-1">
-                        {link}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="col-span-1">
-                <h4 className="text-[14px] font-semibold mb-6 font-bai text-white">Capabilities</h4>
-                <ul className="space-y-4">
-                  {footerLinks.services1.map((link, idx) => (
-                    <li key={idx}>
-                      <Link href="#" className="text-sm text-white/60 hover:text-white transition-all duration-300 font-pop font-light hover:pl-1">
-                        {link}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="col-span-2 sm:col-span-1">
-                <h4 className="text-[14px] font-semibold mb-6 font-bai text-white">Innovation</h4>
-                <ul className="space-y-4">
-                  {footerLinks.services2.map((link, idx) => (
-                    <li key={idx}>
-                      <Link href="#" className="text-sm text-white/60 hover:text-white transition-all duration-300 font-pop font-light hover:pl-1">
-                        {link}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-y-12 gap-x-12">
+              {[
+                { title: "About", links: footerLinks.about },
+                { title: "Capabilities", links: footerLinks.services1 },
+                { title: "Innovation", links: footerLinks.services2 }
+              ].map((column, i) => (
+                <div key={i} className={i === 2 ? "col-span-2 sm:col-span-1" : "col-span-1"}>
+                  <h4 className="text-[14px] font-bold mb-6 font-bai text-white  tracking-widest">{column.title}</h4>
+                  <ul className="space-y-4">
+                    {column.links.map((link) => (
+                      <li key={link}>
+                        <Link 
+                          href="#" 
+                          className="text-[15px] text-white transition-all duration-300 font-pop font-light flex items-center group"
+                        >
+                          <span className="w-0 group-hover:w-2 h-[1px] bg-white mr-0 group-hover:mr-2 transition-all duration-300 opacity-0 group-hover:opacity-100" />
+                          {link}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </div>
-          
         </Container>
       </div>
+
+      {/* Flex-grow ensures the logo has space at the bottom */}
+      <div className="flex-grow min-h-[100px]" />
+      
     </footer>
   );
 }
+
+
+

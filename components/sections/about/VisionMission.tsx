@@ -1,137 +1,121 @@
+
+
+
+import React from 'react';
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 
-/**
- * VISION & MISSION SECTION
- * UX Optimized: Responsive flow, uniform title scaling, mixed-case typography.
- */
+// 1. Define Interfaces for your Props
+interface ArrowCornerProps {
+  className?: string;
+}
+
+interface ValueItemProps {
+  label: string;
+  className?: string;
+  lineHeight: string;
+  orientation: 'top' | 'bottom';
+}
 
 export default function VisionMission() {
-  // Shared title style for perfect consistency
-  const titleStyle = "text-4xl sm:text-6xl lg:text-7xl font-light font-bai tracking-tight leading-[1.1]";
-  // Arrow style: Slightly bigger (w-8 h-8), white, and bolder stroke
-  const arrowStyle = "w-8 h-8 text-white mb-6 transition-transform duration-500";
+  const ourStyle = "block !text-[32px] md:!text-[40px] lg:!text-[48px] text-white opacity-90 !font-medium mb-0 leading-none tracking-tight";
+  const wordStyle = "block !text-[24px] md:!text-[28px] lg:!text-[32px] !font-bold leading-tight text-white tracking-tight";
+  const bodyStyle = "body !text-[14px] md:!text-[15px] lg:!text-[16px] !text-zinc-500 mt-6 leading-relaxed !font-light max-w-[280px] md:max-w-[340px]";
+  const arrowStyle = "w-5 h-5 md:w-6 md:h-6 text-white mb-4";
 
   return (
-    <Section className="relative bg-black text-white py-20 md:py-40 lg:py-60 overflow-hidden">
+    <Section className="relative bg-black text-white py-24 md:py-24 lg:py-48 overflow-hidden">
       
-      {/* BACKGROUND ELEMENT */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] pointer-events-none opacity-20 md:opacity-40">
-        <div className="absolute inset-0 border border-white/20 rounded-full" />
-      </div>
+      {/* BACKGROUND: Covers all padding, fades at top */}
+      <div 
+        className="absolute inset-0 z-0 bg-[url('/images/about/mission.png')] bg-cover bg-center   " 
+        style={{ maskImage: 'linear-gradient(to bottom, transparent, black 15%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%)' }}
+      />
 
-      <Container className="relative z-10">
-        
-        {/* 1. MISSION & VISION GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 lg:min-h-[500px]">
-          
-          {/* Mission */}
-          <div className="max-w-[340px]">
-            <ArrowCorner className={`${arrowStyle} rotate-90`} />
-            <h2 className={titleStyle}>
-              Our <span className="font-bold text-white">Mission</span>
-            </h2>
-            <p className="font-pop text-sm md:text-base text-zinc-500 mt-6 leading-relaxed font-light">
-              To deliver lighting systems that enhance environments through energy efficiency and technical precision.
-            </p>
-          </div>
+      <div 
+        className="absolute inset-0 z-0 bg-[url('/images/about/ledlumline.png')] bg-cover bg-center opacity-25 pointer-events-none" 
+        style={{ 
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)' 
+        }}
+      />
 
-          {/* Vision - Staggered on desktop for UX/Visual interest */}
-          <div className="max-w-[340px] md:mt-40 md:justify-self-end text-left md:text-right">
-            <div className="flex flex-col items-start md:items-end">
-              <ArrowCorner className={`${arrowStyle} md:rotate-0 -rotate-180`} />
-              <h2 className={titleStyle}>
-                Our <span className="font-bold text-white">Vision</span>
-              </h2>
-            </div>
-            <p className="font-pop text-sm md:text-base text-zinc-500 mt-6 leading-relaxed font-light">
-              To support smarter, greener infrastructure through innovation and high-performance architectural design.
-            </p>
-          </div>
-        </div>
+    <Container className="relative z-10 !max-w-none px-6 md:px-[10vw]">
+  <div className="flex flex-col space-y-24 md:space-y-0 relative min-h-fit md:min-h-[900px]">
+    
+    {/* 1. VISION: Center on mobile, Top-Right on desktop */}
+    <div className="md:absolute md:top-0 md:right-0 flex flex-col items-center md:items-end text-center md:text-right">
+      <ArrowCorner className={`${arrowStyle} md:rotate-0 -rotate-45`} />
+      <h2 className="font-bai">
+        <span className={ourStyle}>Our.</span>
+        <span className={wordStyle}>Vision.</span>
+      </h2>
+      <p className={`${bodyStyle} mx-auto md:ml-auto md:mr-0`}>
+        To support smarter, greener infrastructure through innovative LED solutions.
+      </p>
+    </div>
 
-        {/* 2. CORE VALUES HEADER */}
-        <div className="mt-32 md:mt-52 mb-16 md:text-right flex flex-col items-start md:items-end">
-          <ArrowCorner className={`${arrowStyle} -rotate-90`} />
-          <h2 className={titleStyle}>
-            Our <span className="font-bold text-white">Core Values</span>
-          </h2>
-        </div>
+    {/* 2. MISSION: Center on mobile, Middle-Left on desktop */}
+    <div className="md:absolute md:top-1/2 md:-translate-y-1/2 md:left-0 flex flex-col items-center md:items-start text-center md:text-left">
+      <ArrowCorner className={`${arrowStyle} md:rotate-90 rotate-[135deg]`} />
+      <h2 className="font-bai">
+        <span className={ourStyle}>Our.</span>
+        <span className={wordStyle}>Mission.</span>
+      </h2>
+      <p className={`${bodyStyle} mx-auto md:ml-0 md:mr-auto`}>
+        To deliver lighting systems that enhance environments through efficiency.
+      </p>
+    </div>
 
-        {/* 3. VALUE WAVE - Fully Responsive Layout */}
-        <div className="relative w-full flex flex-col md:flex-row justify-between items-center gap-12 md:gap-0 md:h-[400px] lg:h-[500px]">
-          
-          <ValueItem 
-            label="Customer-first service" 
-            className="md:absolute md:left-[0%] md:bottom-[5%]" 
-            lineHeight="h-12 md:h-32 lg:h-48" 
-            orientation="bottom"
-          />
-          
-          <ValueItem 
-            label="Engineering excellence" 
-            className="md:absolute md:left-[28%] md:top-[5%]" 
-            lineHeight="h-12 md:h-28 lg:h-40" 
-            orientation="top"
-          />
-          
-          <ValueItem 
-            label="Energy efficiency" 
-            className="md:absolute md:left-[58%] md:bottom-[0%]" 
-            lineHeight="h-12 md:h-40 lg:h-56" 
-            orientation="bottom"
-          />
-          
-          <ValueItem 
-            label="Bespoke customization" 
-            className="md:absolute md:left-[85%] md:top-[10%]" 
-            lineHeight="h-12 md:h-24 lg:h-36" 
-            orientation="top"
-          />
-        </div>
+    {/* 3. CORE VALUES: Center on mobile, Bottom-Right on desktop */}
+    <div className="md:absolute md:bottom-0 md:right-0 flex flex-col items-center md:items-end text-center md:text-right">
+      <ArrowCorner className={`${arrowStyle} md:-rotate-90 -rotate-[135deg]`} />
+      <h2 className="font-bai">
+        <span className={ourStyle}>Our.</span>
+        <span className={wordStyle}>Core Values.</span>
+      </h2>
+    </div>
+  </div>
 
-      </Container>
+  {/* BOTTOM VALUE ITEMS: Ensuring horizontal center on mobile */}
+  <div className="relative w-full mt-24 md:mt-40 flex flex-col md:flex-row justify-between items-center gap-12 md:gap-0 md:h-[150px] pt-10 border-t border-white/5">
+    <ValueItem label="Customer-first service" className="md:absolute md:left-[0%] md:bottom-0" lineHeight="h-10" orientation="bottom" />
+    <ValueItem label="Engineering excellence" className="md:absolute md:left-[33%] md:top-0" lineHeight="h-10" orientation="top" />
+    <ValueItem label="Energy efficiency" className="md:absolute md:left-[66%] md:bottom-0" lineHeight="h-10" orientation="bottom" />
+    <ValueItem label="Bespoke customization" className="md:absolute md:right-0 md:top-0" lineHeight="h-10" orientation="top" />
+  </div>
+</Container>
     </Section>
   );
 }
 
-// Updated ArrowCorner: Bigger, Bolder (stroke-2), and pure White
-function ArrowCorner({ className }: { className?: string }) {
+// 2. Apply Types to Helper Components
+function ArrowCorner({ className }: ArrowCornerProps) {
   return (
-    <svg className={className} width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg className={className} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );
 }
 
-function ValueItem({ label, className, lineHeight, orientation }: { 
-  label: string, 
-  className?: string, 
-  lineHeight: string, 
-  orientation: 'top' | 'bottom' 
-}) {
+function ValueItem({ label, className, lineHeight, orientation }: ValueItemProps) {
   return (
-    <div className={`flex flex-col items-center group transition-all duration-700 ${className}`}>
-      
+    <div className={`flex flex-col items-center group ${className}`}>
       {orientation === 'top' && (
         <>
-          <span className="font-pop text-sm md:text-base font-medium text-zinc-500 mb-4 group-hover:text-white transition-colors duration-300 text-center">
-            {label}
-          </span>
-          <div className="w-2 h-2 rounded-full border border-white/20 bg-white/5 group-hover:bg-white/20 transition-all" />
+          <span className="!text-[12px] md:!text-[13px] !text-zinc-500 mb-2 group-hover:text-white transition-colors text-center font-light">{label}</span>
+          <div className="w-1 h-1 rounded-full bg-white/40 group-hover:bg-white" />
         </>
       )}
-
-      <div className={`w-[1px] ${lineHeight} bg-gradient-to-b from-white/5 via-white/20 to-white/5 group-hover:via-white/50 transition-all duration-500`} />
-
+      <div className={`w-[1px] ${lineHeight} bg-white/10 group-hover:bg-white/30`} />
       {orientation === 'bottom' && (
         <>
-          <div className="w-2 h-2 rounded-full border border-white/20 bg-white/5 group-hover:bg-white/20 transition-all" />
-          <span className="font-pop text-sm md:text-base font-medium text-zinc-500 mt-4 group-hover:text-white transition-colors duration-300 text-center">
-            {label}
-          </span>
+          <div className="w-1 h-1 rounded-full bg-white/40 group-hover:bg-white" />
+          <span className="!text-[12px] md:!text-[13px] !text-zinc-500 mt-2 group-hover:text-white transition-colors text-center font-light">{label}</span>
         </>
       )}
     </div>
   );
 }
+
+

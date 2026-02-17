@@ -7,8 +7,14 @@
 
 :root {
   /* Colors */
+  /* Colors */
   --background: #ffffff;
   --foreground: #171717;
+  --primary-color: #CE3731;
+  --secondary-color: #EB5A4D;
+  --gray-color: #F0F0F0;
+  --black-color: #000000;
+  --white-color: #FFFFFF;
   --primary-color: #CE3731;
   --secondary-color: #EB5A4D;
   --gray-color: #F0F0F0;
@@ -19,6 +25,7 @@
   --primary-font: 'Bai Jamjuree', sans-serif;
   --secondary-font: 'Poppins', sans-serif;
 
+  /* Font Aliases */
   /* Font Aliases */
   --font-bai: var(--primary-font);
   --font-pop: var(--secondary-font);
@@ -38,6 +45,7 @@
   --text-button: 1rem;
 
   /* Primary font weights: Bai Jamjuree */
+  /* Primary font weights: Bai Jamjuree */
   --primary-thin: 100;
   --primary-extralight: 200;
   --primary-light: 300;
@@ -46,6 +54,7 @@
   --primary-semibold: 600;
   --primary-bold: 700;
 
+  /* Secondary font weights: Poppins */
   /* Secondary font weights: Poppins */
   --secondary-thin: 100;
   --secondary-extralight: 200;
@@ -65,6 +74,14 @@
   --font-pop: var(--secondary-font);
 }
 
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-bai: var(--primary-font);
+  --font-pop: var(--secondary-font);
+}
+
+/* Base Styles */
 /* Base Styles */
 body {
   background: var(--background);
@@ -72,6 +89,7 @@ body {
   font-family: var(--primary-font);
 }
 
+/* Hide Scrollbar Utilities */
 /* Hide Scrollbar Utilities */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
@@ -83,6 +101,8 @@ body {
 
 /* --- Global Typography Classes --- */
 
+/* --- Global Typography Classes --- */
+
 .desk-h1 {
   font-family: var(--primary-font);
   font-weight: var(--primary-semibold);
@@ -90,6 +110,7 @@ body {
   letter-spacing: -0.5px;
   line-height: auto;
 }
+
 
 .desk-h2 {
   font-family: var(--primary-font);
@@ -99,12 +120,16 @@ body {
   line-height: 40px;
 }
 
+
 .desk-h3 {
+  font-family: var(--secondary-font);
+  font-weight: var(--secondary-regular);
   font-family: var(--secondary-font);
   font-weight: var(--secondary-regular);
   font-size: var(--text-desk-h3);
   line-height: auto;
 }
+
 
 .tab-h1 {
   font-family: var(--primary-font);
@@ -113,12 +138,14 @@ body {
   line-height: auto;
 }
 
+
 .tab-h2 {
-  font-family: var(--primary-font);
-  font-weight: var(--primary-medium);
+  font-family: var(--secondary-font);
+  font-weight: var(--secondary-medium);
   font-size: var(--text-tab-h2);
   line-height: auto;
 }
+
 
 .mob-h1 {
   font-family: var(--primary-font);
@@ -127,12 +154,14 @@ body {
   line-height: auto;
 }
 
+
 .mob-h2 {
-  font-family: var(--primary-font);
-  font-weight: var(--primary-regular);
+  font-family: var(--secondary-font);
+  font-weight: var(--secondary-regular);
   font-size: var(--text-mob-h2);
   line-height: auto;
 }
+
 
 .body {
   font-family: var(--secondary-font);
@@ -141,12 +170,14 @@ body {
   line-height: auto;
 }
 
+
 .body-sm {
   font-family: var(--secondary-font);
   font-weight: var(--secondary-medium);
   font-size: var(--text-body-sm);
   line-height: auto;
 }
+
 
 .body-xs {
   font-family: var(--secondary-font);
@@ -158,7 +189,7 @@ body {
 .button {
   font-family: var(--secondary-font);
   font-weight: var(--secondary-semibold);
-  font-size: var(--text-button);
+  font-size: var(--text-button-xs);
   line-height: auto;
 }
 

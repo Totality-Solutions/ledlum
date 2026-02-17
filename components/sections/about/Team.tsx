@@ -1,77 +1,111 @@
+
+
 import { Container } from "@/components/layout/Container";
+import { GetInTouch } from "@/components/layout/footer/GetInTouch";
 import Section from "@/components/layout/Section";
-import { Linkedin } from "lucide-react";
+import { Linkedin } from "lucide-react"; 
 
 export default function Team() {
   const team = [
-    { name: "Sumeet Malhotra", role: "Director & Founder - Ledlum" },
-    { name: "Sumeet Malhotra", role: "Director & Founder - Ledlum" },
-    { name: "Sumeet Malhotra", role: "Director & Founder - Ledlum" },
-    { name: "Sumeet Malhotra", role: "Director & Founder - Ledlum" },
-    { name: "Sumeet Malhotra", role: "Director & Founder - Ledlum" },
+    { 
+      name: "Sumeet Malhotra", 
+      role: "Director & Founder - Ledlum", 
+      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&h=400&fit=crop" 
+    },
+    { 
+      name: "Sumeet Malhotra", 
+      role: "Director & Founder - Ledlum", 
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&h=400&fit=crop" 
+    },
+    { 
+      name: "Sumeet Malhotra", 
+      role: "Director & Founder - Ledlum", 
+      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&h=400&fit=crop" 
+    },
+    { 
+      name: "Sumeet Malhotra", 
+      role: "Director & Founder - Ledlum", 
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&h=400&fit=crop" 
+    },
+    { 
+      name: "Sumeet Malhotra", 
+      role: "Director & Founder - Ledlum", 
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=400&fit=crop" 
+    },
   ];
 
-  const workingImage = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop";
-
   return (
-    <Section className="bg-[#080808] text-white py-20 md:py-32 lg:py-40">
-      <Container>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+    <Section className="bg-black text-white py-16 md:py-32 overflow-hidden">
+      <Container className="relative z-10 !max-w-none px-6 md:px-[8vw]  bg-[url('/images/about/ledlumbox.png')] bg-cover bg-center py-16">
+        
+        {/* The Grid matches the image structure: 3 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           
-          {/* 1. HEADER SECTION - Responsive sizing and alignment */}
-          <div className="flex flex-col justify-center mb-8 md:mb-0 pr-0 md:pr-10 lg:pr-16">
-            <h2 className="text-4xl sm:text-5xl lg:text-7xl font-light font-bai tracking-tight leading-[1.1] mb-6">
-              Meet Our <br />
-              <span className="font-bold">Visionaries</span>
+          {/* 1. HEADER SECTION */}
+          <div className="flex flex-col justify-start pt-10 pr-4">
+            <h2 className="font-bai leading-tight text-white mb-6">
+              <span className="block font-bold text-[40px] md:text-[48px] tracking-tight">
+                Meet Our.
+              </span>
+              <span className="block font-light text-[24px] md:text-[28px] opacity-90">
+                Visionaries.
+              </span>
             </h2>
-            <p className="font-pop text-sm md:text-base text-zinc-500 leading-relaxed font-light max-w-sm">
-              Delivering lighting systems that enhance environments through energy efficiency, 
-              aesthetic appeal, and engineered performance.
+            <p className="font-pop text-[15px] md:text-[16px] text-zinc-400 leading-relaxed font-light max-w-[320px]">
+              To Deliver Lighting Systems That Enhance Environments Through Energy Efficiency, 
+              Aesthetic Appeal, And Engineered Performance.
             </p>
           </div>
 
-          {/* 2. TEAM CARDS - Grid Flow with hover effects */}
+          {/* 2. TEAM CARDS */}
           {team.map((member, index) => (
             <div 
               key={index} 
-              className="group relative bg-[#111111] p-4 md:p-6 flex flex-col transition-all duration-500 border border-white/5 hover:border-white/10"
+              className="group relative bg-[#0F0F0F] p-6 md:p-8 flex flex-col rounded-[32px] border border-white/5"
             >
-              {/* Profile Image Container - Subtle Zoom on Hover */}
-              <div className="relative aspect-[4/5] overflow-hidden mb-6 bg-zinc-900">
+              {/* Image Container with specific rounding */}
+              <div className="relative aspect-square overflow-hidden mb-6 rounded-[24px]">
                 <img
-                  src={workingImage}
+                  src={member.image}
                   alt={member.name}
-                  className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
                 />
-                {/* Subtle Overlay on hover */}
-                <div className="absolute inset-0 bg-yellow-100/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
 
-              {/* Info Section */}
-              <div className="flex justify-between items-end mt-auto">
-                <div className="flex-grow pr-4">
-                  <h4 className="text-lg md:text-xl font-bai font-semibold tracking-tight text-white mb-1">
+              {/* Text Area */}
+              <div className="flex justify-between items-end">
+                <div>
+                  <h4 className="font-bai text-[20px] md:text-[22px] font-bold text-white mb-1">
                     {member.name}
                   </h4>
-                  <p className="font-pop text-[11px] md:text-xs text-zinc-500 tracking-wider font-medium">
+                  <p className="text-[12px] text-zinc-500 font-light">
                     {member.role}
                   </p>
                 </div>
                 
-                {/* LinkedIn Icon - Styled to match the journey interaction */}
+                {/* LinkedIn Icon styled to match the image */}
                 <a 
                   href="#" 
-                  className="bg-white/5 p-2.5 rounded-sm hover:bg-yellow-100/20 transition-all duration-300 group/link"
+                  className="bg-[#0077B5] p-1.5 rounded-sm mb-1 hover:scale-110 transition-transform"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Linkedin className="w-4 h-4 text-zinc-400 group-hover/link:text-yellow-100 transition-colors" />
+                  <Linkedin className="w-3.5 h-3.5 text-white fill-current" />
                 </a>
               </div>
             </div>
           ))}
+
+           {/* --- RENDERED SEPARATELY --- */}
+      
         </div>
+
+        
       </Container>
+      <GetInTouch />
     </Section>
   );
-}
+  }
+
+  
