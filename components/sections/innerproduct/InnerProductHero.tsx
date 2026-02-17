@@ -8,6 +8,7 @@ import productImg1 from "@/public/images/home/product-1.png";
 import productImg2 from "@/public/images/home/product-2.png";
 import productImg3 from "@/public/images/home/new-arrival.png";
 import productImg4 from "@/public/images/home/new-arrival.png";
+import Section from "@/components/layout/Section";
 
 
 // Update this with the actual images for the specific product
@@ -27,8 +28,8 @@ const ProductInnerHero = () => {
   };
 
   return (
-    <section className="relative w-full min-h-screen bg-black flex items-center justify-center pt-24 pb-12 px-6 lg:px-16 overflow-hidden">
-      <div className="w-full max-w-[1440px] flex flex-col md:flex-row items-stretch gap-10">
+    <Section className="relative w-full min-h-screen bg-black flex items-center justify-center pt-24 pb-12 overflow-hidden">
+      <div className="w-full flex flex-col md:flex-row items-stretch gap-10">
         
         {/* SIDEBAR: Navigation, Thumbnails & Controls */}
         <div className="flex flex-col w-full md:w-auto shrink-0 justify-between py-4 z-10">
@@ -119,7 +120,7 @@ const ProductInnerHero = () => {
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 };
 

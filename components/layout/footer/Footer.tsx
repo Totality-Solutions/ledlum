@@ -61,7 +61,7 @@ export default function Footer() {
 
 
       {/* 2. THE PILL CARD */}
-      <div className="relative z-10 w-full mx-auto rounded-[40px] md:rounded-[80px] max-w-[95%] overflow-hidden bg-zinc-900/40 backdrop-blur-md border border-white/5 shadow-2xl mb-20 md:mb-32">
+      <div className="relative z-10 w-full mx-auto rounded-[20px] md:rounded-[30px] max-w-[95%] overflow-hidden bg-zinc-900/40 backdrop-blur-md border border-white/5 shadow-2xl mb-20 md:mb-32">
         
         {/* Card Background Texture */}
         <div className="absolute inset-0 z-0 pointer-events-none">
