@@ -288,7 +288,7 @@ export default function Pagination({
             key={pageNum}
             className={`w-10 h-10 rounded-full text-sm font-medium transition-all flex items-center justify-center ${
               pageNum === currentPage 
-                ? 'bg-[#AD9463] text-black shadow-[0_0_15px_rgba(173,148,99,0.3)]' 
+                ? 'bg-white/5 text-white/70 ]' 
                 : 'bg-transparent text-zinc-500 hover:text-zinc-300'
             }`}
             onClick={() => handlePageChange(pageNum)}

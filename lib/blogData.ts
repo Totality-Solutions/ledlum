@@ -74,7 +74,7 @@ export const blogPosts: Post[] = [
     slug: "retail-experience-design",
     category: "Commercial projects",
     title: "Illuminating the Retail Journey",
-    description: "How targeted lighting increases product visibility and customer dwell time.",
+    description: "Lighting is far more than a utility; it is a silent salesperson that dictates how customers navigate a physical space. By using targeted lighting, such as high-contrast spotlights or focused track lighting, retailers can create a visual hierarchy that guides the eye directly to high-margin items or new arrivals.",
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070",
     midSectionTitle: "The Psychology of Color Rendering",
     midSectionImage: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=2070",
