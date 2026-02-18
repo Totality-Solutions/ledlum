@@ -2,11 +2,13 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+
+// 1. Local Image Imports from the /public folder
+import LogoImg from "@/public/images/logo/LEDLUM_LOGO.svg";
+import MenuIcon from "@/public/images/icons/menu_icon.png";
 
 const HEADER_HEIGHT = "90px";
-const ACCENT_GOLD = "#AD9463";
-const BG_DARK = "#111111";
-const BG_CARD = "#222222";
 
 interface MenuData {
   [key: string]: string[];
@@ -41,7 +43,7 @@ const Header = () => {
     "side-menu": ["Home", "About Us", "Contact Us"],
   };
 
-  // Scroll Lock Logic
+  // Scroll Lock Logic for Mobile Menu
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
@@ -51,6 +53,7 @@ const Header = () => {
     return () => { document.body.style.overflow = "unset"; };
   }, [mobileOpen]);
 
+  // Handle clicking outside to close menus
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
@@ -102,15 +105,20 @@ const Header = () => {
     <header ref={headerRef} className="fixed top-0 left-0 w-full z-50 bg-black">
       {/* TOP BAR */}
       <div 
-        className="w-full px-6 lg:px-16 flex justify-between items-center backdrop-blur-lg text-white border-b border-white/5"
+        className="w-full px-6 lg:px-14 flex justify-between items-center backdrop-blur-lg text-white border-b border-white/5"
         style={{ height: HEADER_HEIGHT }}
       >
-        {/* LOGO */}
-        <Link href="/" className="flex items-center gap-2" onClick={closeAllMenus}>
-          <span className="text-[#AD9463] text-4xl">✦</span>
-          <span className="text-[#AD9463] text-2xl tracking-[0.2em] font-medium leading-none font-pop">
-            LEDLUM
-          </span>
+        {/* LOGO SECTION */}
+        <Link href="/" className="flex items-center gap-3" onClick={closeAllMenus}>
+          <div className="relative w-30 h-30 lg:w-40 lg:h-40">
+            <Image 
+              src={LogoImg} 
+              alt="LEDLUM Logo"
+              fill
+              className="object-cover"
+              priority 
+            />
+          </div>
         </Link>
 
         {/* DESKTOP NAV */}
@@ -122,35 +130,52 @@ const Header = () => {
               onMouseEnter={(e) => handleMouseEnter(e, link)}
               onMouseLeave={handleMouseLeave}
             >
-              <span className={`body-sm transition-colors ${activeMenu === link ? "font-(--primary-semibold)" : ""}`}>
+              <span className={`body-sm transition-colors ${activeMenu === link ? "text-[#AD9463]" : "hover:text-[#AD9463]"}`}>
                 {link}
               </span>
             </div>
           ))}
         </nav>
 
-        {/* RIGHT SIDE */}
-        <div className="flex items-center">
+        {/* RIGHT SIDE ICONS */}
+        <div className="flex items-center gap-6">
+          {/* Desktop Sidebar Trigger */}
           <button
             ref={menuIconRef}
             onClick={handleIconClick}
             aria-expanded={isClicked}
-            className="hidden lg:block transition-colors hover:text-[#AD9463]"
+            className="hidden lg:block transition-transform hover:scale-110 active:scale-95"
           >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <line x1="4" y1="8" x2="20" y2="8" />
-              <line x1="8" y1="16" x2="20" y2="16" />
-            </svg>
+            <Image 
+              src={MenuIcon} 
+              alt="Open Menu"
+              width={28}
+              height={28}
+              className="brightness-0 invert" 
+            />
           </button>
 
-          <button onClick={() => setMobileOpen(!mobileOpen)} aria-expanded={mobileOpen} className="lg:hidden">
-            <svg width="28" height="28" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none">
-              {mobileOpen ? (
-                <><line x1="6" y1="6" x2="18" y2="18" /><line x1="6" y1="18" x2="18" y2="6" /></>
-              ) : (
-                <><line x1="4" y1="8" x2="20" y2="8" /><line x1="4" y1="16" x2="20" y2="16" /></>
-              )}
-            </svg>
+          {/* Mobile Menu Trigger */}
+          <button 
+            onClick={() => setMobileOpen(!mobileOpen)} 
+            aria-expanded={mobileOpen} 
+            className="lg:hidden transition-transform active:scale-90"
+          >
+            {mobileOpen ? (
+              // Inline Close SVG since local file is unavailable
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            ) : (
+              // Hamburger Icon
+              <Image 
+                src={MenuIcon} 
+                alt="Toggle Menu"
+                width={28}
+                height={28}
+                className="brightness-0 invert"
+              />
+            )}
           </button>
         </div>
       </div>
@@ -186,21 +211,19 @@ const Header = () => {
 
       {/* MOBILE MENU */}
       <div
-        className={`lg:hidden fixed left-0 w-full bg-black transition-all duration-300 ${
+        className={`lg:hidden fixed left-0 w-full bg-black transition-all duration-300 z-40 ${
           mobileOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"
         }`}
         style={{ top: HEADER_HEIGHT, height: `calc(100vh - ${HEADER_HEIGHT})` }}
       >
         <div className="px-6 py-8 flex flex-col gap-8 h-full overflow-y-auto no-scrollbar">
-          
-          {/* Primary Side Menu */}
           <div className="flex flex-col gap-5">
             {menuData["side-menu"].map((item, index) => (
               <Link
                 key={index}
                 href="/"
                 onClick={closeAllMenus}
-                className="body-sm text-white font-(--primary-semibold) tracking-[0.05em]"
+                className="body-sm text-white font-semibold tracking-[0.05em] hover:text-[#AD9463] transition-colors"
               >
                 {item}
               </Link>
@@ -214,7 +237,7 @@ const Header = () => {
                   onClick={() => setExpandedMobile(expandedMobile === link ? null : link)}
                   className="w-full flex justify-between items-center text-white"
                 >
-                  <span className={`body-sm transition-colors ${expandedMobile === link ? "font-(--primary-semibold)" : ""}`}>
+                  <span className={`body-sm transition-colors ${expandedMobile === link ? "text-[#AD9463] font-semibold" : ""}`}>
                     {link}
                   </span>
                   <span className="text-[#AD9463] text-xl font-light">
@@ -224,8 +247,8 @@ const Header = () => {
 
                 {expandedMobile === link && (
                   <div className="mt-5 flex flex-col gap-4 pl-4 border-l border-white/5">
-                    {menuData[link].map((cat, index) => (
-                      <span key={index} className="body-sm text-gray-400 font-light">
+                    {currentCategories.map((cat, index) => (
+                      <span key={index} className="body-sm text-gray-400 font-light hover:text-white transition-colors cursor-pointer">
                         {cat}
                       </span>
                     ))}
