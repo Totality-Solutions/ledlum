@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -23,12 +24,7 @@ export default async function BlogPost({ params }: PageProps) {
     .slice(0, 6);
 
   return (
-    <div 
-      className="relative min-h-screen text-white bg-black selection:bg-[#AD9463] selection:text-black font-bai overflow-x-hidden isolate" 
-      style={{ 
-        contain: 'layout style paint'
-      }}
-    >
+    <div className="relative min-h-screen text-white bg-black selection:bg-[#AD9463] selection:text-black font-bai overflow-x-hidden">
       
       {/* 1. GLOBAL BACKGROUND LAYER - Responsive Opacity */}
       <div 
@@ -44,8 +40,7 @@ export default async function BlogPost({ params }: PageProps) {
       <div className="fixed top-[100px] md:top-[115px] left-6 md:left-12 lg:left-16 z-50 pointer-events-none font-pop">
         <Link 
           href="/blog" 
-          className="pointer-events-auto group flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-[#111111]/80 backdrop-blur-md hover:bg-white hover:text-black transition-all duration-500 shadow-2xl will-change-filter"
-          style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}
+          className="pointer-events-auto group flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-[#111111]/80 backdrop-blur-md hover:bg-white hover:text-black transition-all duration-500 shadow-2xl"
         >
           <div className="w-5 h-5 rounded-full bg-white/10 group-hover:bg-black/10 flex items-center justify-center transition-colors">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
