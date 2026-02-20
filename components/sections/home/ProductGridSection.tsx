@@ -164,7 +164,6 @@ export default function CombinedProductSection() {
 
         <MarqueeFlow
           items={NEW_ARRIVALS}
-          visibleItems={4}
           gap={20}
           speed={3000}
           renderItem={(item) => (
