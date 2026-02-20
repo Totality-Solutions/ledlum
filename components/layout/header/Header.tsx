@@ -108,8 +108,12 @@ const Header = () => {
     <header ref={headerRef} className="fixed top-0 left-0 w-full z-50 bg-black">
       {/* TOP BAR */}
       <div 
-        className="w-full px-6 lg:px-14 flex justify-between items-center backdrop-blur-lg text-white border-b border-white/5"
-        style={{ height: HEADER_HEIGHT }}
+        className="w-full px-6 lg:px-14 flex justify-between items-center backdrop-blur-lg text-white border-b border-white/5 will-change-filter" 
+        style={{ 
+          height: HEADER_HEIGHT,
+          transform: 'translate3d(0, 0, 0)', 
+          backfaceVisibility: 'hidden' 
+        }}
       >
         {/* LOGO SECTION */}
         <Link href="/" className="flex items-center gap-3" onClick={closeAllMenus}>

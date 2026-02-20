@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import Image from "next/image";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
@@ -25,7 +25,7 @@ const PROJECTS = [
   { id: 4, img: productImg1 },
 ];
 
-export default function OurProjectsSection() {
+const OurProjectsSection = memo(function OurProjectsSection() {
   // Extract just the images for the carousel
   const carouselImages = PROJECTS.map((p) => p.img);
 
@@ -82,7 +82,8 @@ export default function OurProjectsSection() {
                 src={project.img} 
                 alt="Our Projects"
                 fill
-                className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110 will-change-transform" 
+                style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}
                 unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -93,4 +94,6 @@ export default function OurProjectsSection() {
       </Container>
     </Section>
   );
-}
+});
+
+export default OurProjectsSection;

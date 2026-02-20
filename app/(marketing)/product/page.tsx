@@ -32,7 +32,8 @@ export default function ProductPage() {
         <Hero />
         
         {/* 2. Sticky Filters - Optimized */}
-        <div className="lg:relative z-50 bg-black/60 backdrop-blur-sm border-b border-white/5 will-change-transform">
+        <div className="lg:relative z-50 bg-black/60 backdrop-blur-sm border-b border-white/5 will-change-transform" 
+          style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}>
           <ProductFilters onFilterChange={setFilters} />
         </div>
         

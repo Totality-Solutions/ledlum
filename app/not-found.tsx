@@ -66,7 +66,8 @@ export default function NotFound() {
       <img 
         src="/404.png" 
         alt="404 Error" 
-        className="w-full h-full object-contain pointer-events-none select-none transition-transform duration-700 hover:scale-105"
+        className="w-full h-full object-contain pointer-events-none select-none transition-transform duration-700 hover:scale-105 will-change-transform" 
+        style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}
       />
     </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { memo, useState } from 'react';
+import Image from 'next/image';
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow"; 
@@ -32,7 +32,7 @@ function cn(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function CombinedProductSection() {
+const CombinedProductSection = memo(function CombinedProductSection() {
   const [isAllDark, setIsAllDark] = useState(false);
   const [activeModes, setActiveModes] = useState<Record<number, boolean>>({});
 
@@ -101,13 +101,12 @@ export default function CombinedProductSection() {
                     fill 
                     className="object-cover transition-opacity duration-700 ease-in-out" 
                     unoptimized 
-                  />
+                    sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw" />
                   
                   {/* INFO CONTAINER: Desktop Overlay Mode */}
                   <div className={cn(
                     "hidden lg:flex absolute bottom-0 left-0 w-full h-[110px] px-8 items-center justify-between transition-all",
-                    "bg-white/10 backdrop-blur-xl border-t border-white/20",
-                    "rounded-b-[25px]" // THIS FIXES THE ROUNDING ISSUE
+                    "bg-white/20 backdrop-blur-[20px] border-t border-white/20 will-change-filter rounded-b-[25px]"
                   )}>
                     <div className="flex flex-col">
                       <span className="body font-semibold font-pop leading-tight text-black">{product.title}</span>
@@ -176,9 +175,10 @@ export default function CombinedProductSection() {
                 src={item.img} 
                 alt="New Arrival" 
                 fill 
-                className="object-cover transition-transform duration-500 group-hover:scale-110" 
+                className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform" 
+                style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
                 unoptimized 
-              />
+                sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" />
               <div className="absolute bottom-6 right-6 w-11 h-11 bg-white/20 backdrop-blur-md rounded-full flex flex-col items-center justify-center gap-1 opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300">
                 <div className="w-1.5 h-1.5 border-[1.5px] border-white rounded-full" />
                 <div className="w-1.5 h-1.5 border-[1.5px] border-white rounded-full" />
@@ -189,4 +189,6 @@ export default function CombinedProductSection() {
       </Container>
     </Section>
   );
-}
+});
+
+export default CombinedProductSection;

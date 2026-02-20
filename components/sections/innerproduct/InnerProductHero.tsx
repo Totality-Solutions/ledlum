@@ -38,7 +38,8 @@ const ProductInnerHero = () => {
                     href="/product" 
                     className="absolute top-24 left-6 z-50 flex items-center gap-4 text-white"
                 >
-                    <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10 shadow-xl">
+                    <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/10 shadow-xl will-change-filter" 
+                        style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}>
                         <span className="text-xl">←</span>
                     </div>
                     <span className="text-base font-light tracking-wide opacity-90">Back to List</span>
@@ -128,7 +129,8 @@ const ProductInnerHero = () => {
                         {PRODUCT_IMAGES.map((_, i) => (
                             <div 
                                 key={i} 
-                                className={`h-1 rounded-full transition-all duration-500 backdrop-blur-md ${activeIndex === i ? 'w-8 bg-white' : 'w-1.5 bg-white/20'}`}
+                                className={`h-1 rounded-full transition-all duration-500 backdrop-blur-md will-change-filter ${activeIndex === i ? 'w-8 bg-white' : 'w-1.5 bg-white/20'}`} 
+                                style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}
                             />
                         ))}
                     </div>
