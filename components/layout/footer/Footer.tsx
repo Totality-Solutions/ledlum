@@ -308,7 +308,7 @@ export default function Footer() {
       />
 
       {/* Big Watermark Logo */}
-      <div className="absolute bottom-0 left-0 w-full  pointer-events-none">
+      <div className="absolute bottom-4 md:bottom-0 left-0 w-full  pointer-events-none  top-auto md:top-2.5 ">
         <img 
           src="/images/about/footer-logo.png" 
           alt="Ledlum Watermark" 
@@ -378,7 +378,7 @@ export default function Footer() {
               ].map((column, i) => (
                 <div key={i} className="min-w-[140px] flex-grow md:flex-grow-0">
                   {/* Using body-lg for column headers */}
-                  <h4 className="body-lg !text-sm font-medium mb-6 font-pop text-white uppercase tracking-wider">
+                  <h4 className="body-lg !text-sm font-medium mb-6 font-pop text-white  tracking-wider">
                     {column.title}
                   </h4>
                   <ul className="space-y-4">
@@ -399,7 +399,7 @@ export default function Footer() {
 
             {/* --- MOBILE COPYRIGHT --- */}
             <div className="lg:hidden w-full mt-4 pt-8 border-t border-white/10">
-              <p className="text-[10px] tracking-[0.3em] text-white/70 font-pop font-medium uppercase text-center">
+              <p className="text-[10px] tracking-[0.3em] text-white/70 font-pop font-medium  text-center">
                 © 2026 LEDLUM. Technical Brilliance.
               </p>
             </div>

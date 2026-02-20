@@ -182,7 +182,7 @@ export default async function BlogPost({ params }: PageProps) {
     .slice(0, 6);
 
   return (
-    <div className="relative min-h-screen text-white bg-black selection:bg-[#AD9463] selection:text-black font-bai">
+    <div className="relative min-h-screen text-white bg-black selection:bg-[#AD9463] selection:text-black font-bai overflow-x-hidden">
       
       {/* 1. GLOBAL BACKGROUND LAYER - Responsive Opacity */}
       <div 

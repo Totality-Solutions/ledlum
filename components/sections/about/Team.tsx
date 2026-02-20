@@ -35,8 +35,14 @@ export default function Team() {
   ];
 
   return (
-    <Section className="bg-black text-white py-16 md:py-32 overflow-hidden">
+    <Section className="bg-black text-white py-16 md:py-32 overflow-hidden !px-0">
+
+
       <Container className="relative z-10 !max-w-none px-6 md:px-[8vw]  bg-[url('/images/about/ledlumbox.png')] bg-cover bg-center py-16">
+
+       
+
+     
         
         {/* The Grid matches the image structure: 3 columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -51,7 +57,7 @@ export default function Team() {
                 Visionaries.
               </span>
             </h2>
-            <p className="font-pop text-[15px] md:text-[16px] text-zinc-400 leading-relaxed font-light max-w-[320px]">
+            <p className="font-pop text-[15px] md:text-[16px] text-zinc-100 leading-relaxed font-light max-w-[320px]">
               To Deliver Lighting Systems That Enhance Environments Through Energy Efficiency, 
               Aesthetic Appeal, And Engineered Performance.
             </p>

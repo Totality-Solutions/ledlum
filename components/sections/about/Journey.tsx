@@ -139,9 +139,9 @@ export default function Journey() {
           {/* !text-[2.5rem] ensures the font is ~40px on mobile.
             md:!text-[var(--text-desk-h1)] reverts it to your global desktop size.
           */}
-          <h2 className="desk-h1 !text-[2.5rem] md:!text-[var(--text-desk-h1)] text-white leading-[1.1]">
-            <span className="block opacity-50 !font-extralight mb-1">Our</span>
-            <span className="block !font-bold">Journey</span>
+          <h2 className="desk-h1 !text-[2.5rem] md:!text-[var(--text-desk-h1)] text-white leading-[1.1] font-pop">
+            <span className="block opacity-50 !font-extralight mb-1 font-pop font-bold">Our </span>
+            <span className="block  font-pop">Journey</span>
           </h2>
         </div>
 
@@ -164,7 +164,7 @@ export default function Journey() {
 
               {/* YEAR BLOCK - FIXED MOBILE SIZE */}
               <div className="relative z-10 w-24 sm:w-28 md:w-40 lg:w-48 flex-shrink-0 text-right py-8 md:py-12 pr-6 md:pr-12">
-                <span className={`desk-h3 !text-[1.2rem] md:!text-[var(--text-desk-h3)] transition-all duration-500 block leading-none ${
+                <span className={`desk-h3 !text-[36px] md:!text-[var(--text-desk-h3)] transition-all duration-500 block leading-none ${
                   hoveredIndex === i ? "text-white scale-105" : "text-zinc-800"
                 }`}>
                   {step.year}
@@ -180,7 +180,7 @@ export default function Journey() {
 
               {/* CONTENT BLOCK */}
               <div className="relative z-10 flex-grow py-8 md:py-12 pl-6 md:pl-16 pr-4 flex flex-col justify-center">
-                <h3 className={`desk-h3 !text-[1.2rem] md:!text-[var(--text-desk-h3)] transition-colors duration-500 tracking-tight leading-tight ${
+                <h3 className={`desk-h3 !text-[24px] md:!text-[var(--text-desk-h3)] transition-colors duration-500 tracking-tight leading-tight ${
                   hoveredIndex === i ? "text-white" : "text-zinc-600"
                 }`}>
                   {step.title}
@@ -192,7 +192,7 @@ export default function Journey() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="body !text-[0.9rem] md:!text-[var(--text-body)] !text-zinc-400 leading-relaxed max-w-xl">
+                    <p className="body !text-[16px] md:!text-[var(--text-body)] !text-zinc-400 leading-relaxed max-w-xl">
                       {step.desc}
                     </p>
                   </div>

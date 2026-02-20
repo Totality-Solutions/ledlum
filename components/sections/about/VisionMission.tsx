@@ -276,8 +276,8 @@ interface ValueItemProps {
 
 export default function VisionMission() {
   // Styles using your global CSS variables and architectural overrides
-  const ourStyle = "block !text-[48px] md:!text-[72px] lg:!text-[84px] text-white opacity-90 font-bai font-medium mb-0 leading-[0.8] tracking-tighter ";
-  const wordStyle = "block !text-[24px] md:!text-[32px] lg:!text-[40px] font-bai font-bold leading-tight text-white tracking-tight ";
+  const ourStyle = "block !text-[48px] md:!text-[72px] lg:!text-[84px] text-white opacity-90 font-pop font-medium mb-0 leading-[0.8] tracking-tighter ";
+  const wordStyle = "block !text-[24px] md:!text-[32px] lg:!text-[40px] font-pop font-bold-300 leading-tight text-white tracking-tight ";
   const bodyStyle = "body !text-[13px] md:!text-[14px] lg:!text-[15px] !text-zinc-500 mt-6 leading-relaxed font-pop font-light max-w-[280px] md:max-w-[320px] ";
   const arrowStyle = "w-5 h-5 md:w-6 md:h-6 text-white mb-4";
 
@@ -325,7 +325,7 @@ export default function VisionMission() {
 
       {/* 2. WAVY LINE IMAGE */}
       <div
-        className="absolute bottom-0 left-0 w-full h-[350px] z-0 pointer-events-none "
+        className="absolute bottom-0 left-0 w-full h-[350px] z-0 pointer-events-none  "
         style={{
           backgroundImage: `url('/images/about/abstractline.png')`,
           backgroundSize: 'cover',
@@ -341,7 +341,7 @@ export default function VisionMission() {
           {/* VISION - Top Right */}
           <div className="md:absolute md:top-0 md:right-0 flex flex-col items-center md:items-start text-center md:text-left">
             <ArrowCorner className={`${arrowStyle} md:rotate-0 -rotate-45`} />
-            <h2 className="font-bai">
+            <h2 className="font-pop">
               <span className={ourStyle}>Our.</span>
               <span className={wordStyle}>Vision.</span>
             </h2>
@@ -353,7 +353,7 @@ export default function VisionMission() {
           {/* MISSION - Center Left */}
           <div className="md:absolute md:top-[40%] md:left-5 flex flex-col items-center md:items-start text-center md:text-left">
             <ArrowCorner className={`${arrowStyle} md:rotate-90 rotate-[135deg]`} />
-            <h2 className="font-bai">
+            <h2 className="font-pop">
               <span className={ourStyle}>Our.</span>
               <span className={wordStyle}>Mission.</span>
             </h2>
@@ -365,7 +365,7 @@ export default function VisionMission() {
           {/* CORE VALUES - Bottom Right */}
           <div className="md:absolute md:bottom-[20%] md:right-0 flex flex-col items-center md:items-start text-center md:text-left">
             <ArrowCorner className={`${arrowStyle} md:-rotate-90 -rotate-[135deg]`} />
-            <h2 className="font-bai">
+            <h2 className="font-pop">
               <span className={ourStyle}>Our.</span>
               <span className={wordStyle}>Core Values.</span>
             </h2>
@@ -373,7 +373,7 @@ export default function VisionMission() {
         </div>
 
         {/* BOTTOM VALUE TICKERS */}
-        <div className="relative w-full mt-32 md:mt-0 flex flex-col md:flex-row justify-between items-center gap-12 md:gap-0 md:h-[180px] pt-10 border-white/10">
+        <div className="relative w-full mt-32 md:mt-0 flex flex-col md:flex-row justify-between items-center gap-12 md:gap-0 md:h-[180px] pt-10 border-white/10  border border-amber-400  ">
           <ValueItem label="Customer-first service" className="md:absolute md:left-0 md:bottom-0" lineHeight="h-16" orientation="bottom" />
           <ValueItem label="Engineering excellence" className="md:absolute md:left-[30%] md:top-0" lineHeight="h-16" orientation="top" />
           <ValueItem label="Energy efficiency & Sustainability" className="md:absolute md:left-[60%] md:bottom-0" lineHeight="h-16" orientation="bottom" />

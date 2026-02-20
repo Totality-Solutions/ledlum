@@ -53,7 +53,7 @@ export default function BlogCard({ category, description, image, isFeatured }: B
         </div>
 
         {/* Description using secondary font logic */}
-        <p className="body-xs text-zinc-500 leading-relaxed line-clamp-2 ">
+        <p className="body-xs text-zinc-300 leading-relaxed line-clamp-2 ">
           {description}
         </p>
       </div>
