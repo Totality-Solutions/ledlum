@@ -11,25 +11,28 @@ export default function ProductPage() {
 
   return (
     <main className="relative min-h-screen">
-      {/* 1. Fixed Background (Z: -10) */}
+      {/* 1. Optimized Fixed Background */}
       <div className="fixed inset-0 -z-10 h-full w-full overflow-hidden bg-black">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black" />
         <Image
           src={bgImage}
           alt="Background Texture"
           fill
           priority
-          className="object-cover opacity-30 transition-opacity duration-1000"
+          className="object-cover opacity-20 will-change-transform"
           sizes="100vw"
+          style={{
+            transform: 'translate3d(0, 0, 0)',
+            backfaceVisibility: 'hidden'
+          }}
         />
       </div>
 
       <div className="relative">
         <Hero />
         
-        {/* 2. Sticky Filters (Z: 40) 
-            Lifts the filter bar above the grid, but stays below the Header (usually z-50) 
-        */}
-        <div className="lg:relative z-50 bg-black/40 backdrop-blur-md border-b border-white/5">
+        {/* 2. Sticky Filters - Optimized */}
+        <div className="lg:relative z-50 bg-black/60 backdrop-blur-sm border-b border-white/5 will-change-transform">
           <ProductFilters onFilterChange={setFilters} />
         </div>
         

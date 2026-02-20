@@ -36,7 +36,6 @@ export default function TrustedPartnersSection() {
         {/* MARQUEE FLOW CAROUSEL */}
         <MarqueeFlow
           items={PARTNERS}
-          visibleItems={6} // Shows 6 items at once as per your design
           gap={20}
           speed={2000} // Slightly faster flow for logos
           renderItem={(partner) => (

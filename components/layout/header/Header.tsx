@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -24,16 +24,17 @@ const Header = () => {
   const headerRef = useRef<HTMLDivElement>(null);
   const menuIconRef = useRef<HTMLButtonElement>(null);
 
-  const navLinks = [
+  // Memoize static data to prevent recreation on every render
+  const navLinks = useMemo(() => [
     "LED Lum Outdoor",
     "LED Lum Indoor",
     "Artizan",
     "Astara",
     "Volaris",
     "Klewe",
-  ];
+  ], []);
 
-  const menuData: MenuData = {
+  const menuData = useMemo<MenuData>(() => ({
     "LED Lum Outdoor": ["Flood Light", "Bollard", "Wall Washer", "Step Light", "Spike Light", "Pole Light"],
     "LED Lum Indoor": ["Micro spot", "Anti glare", "Linear light", "Linear series", "Linear pin hole", "Anti glare tiltable", "Recess low glare", "Soft track"],
     "Artizan": ["Decorative", "Custom Made", "Pendants", "Wall Lights"],
@@ -41,7 +42,7 @@ const Header = () => {
     "Volaris": ["Magnetic 20mm", "Magnetic 35mm", "Trimless Magnetic"],
     "Klewe": ["Flexible Strip", "Neon Flex", "IP67 Strip"],
     "side-menu": ["Home", "About Us", "Contact Us"],
-  };
+  }), []);
 
   // Scroll Lock Logic for Mobile Menu
   useEffect(() => {
@@ -67,18 +68,18 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>, link: string) => {
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLDivElement>, link: string) => {
     if (isClicked) setIsClicked(false);
     setActiveMenu(link);
     const rect = e.currentTarget.getBoundingClientRect();
     setTriangleLeft(rect.left + rect.width / 2);
-  };
+  }, [isClicked]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     if (!isClicked) setActiveMenu(null);
-  };
+  }, [isClicked]);
 
-  const handleIconClick = () => {
+  const handleIconClick = useCallback(() => {
     if (isClicked) {
       setIsClicked(false);
       setActiveMenu(null);
@@ -90,16 +91,18 @@ const Header = () => {
         setTriangleLeft(rect.left + rect.width / 2);
       }
     }
-  };
+  }, [isClicked]);
 
-  const closeAllMenus = () => {
+  const closeAllMenus = useCallback(() => {
     setIsClicked(false);
     setActiveMenu(null);
     setMobileOpen(false);
     setExpandedMobile(null);
-  };
+  }, []);
 
-  const currentCategories = activeMenu ? menuData[activeMenu] || [] : [];
+  const currentCategories = useMemo(() => {
+    return activeMenu ? menuData[activeMenu] || [] : [];
+  }, [activeMenu, menuData]);
 
   return (
     <header ref={headerRef} className="fixed top-0 left-0 w-full z-50 bg-black">
@@ -195,10 +198,10 @@ const Header = () => {
         />
         <div className="bg-[#111111] shadow-2xl border border-white/5 w-[1450px] 2xl:w-[1800px] overflow-hidden">
           <div className="p-12 flex flex-wrap justify-center content-start gap-4">
-            {currentCategories.map((cat, index) => (
+            {currentCategories.map((cat) => (
               <div
-                key={index}
-                className="h-[75px] w-[200px] flex-shrink-0 bg-[#222222] border border-white/5 flex items-center justify-center px-6 hover:bg-[#AD9463]/20 hover:border-[#AD9463]/40 transition-all cursor-pointer group"
+                key={`${activeMenu}-${cat}`}
+                className="h-[75px] w-[200px] shrink-0 bg-[#222222] border border-white/5 flex items-center justify-center px-6 hover:bg-[#AD9463]/20 hover:border-[#AD9463]/40 transition-all cursor-pointer group"
               >
                 <span className="text-[#DBDCDD] body-sm text-center group-hover:text-white whitespace-nowrap">
                   {cat}
@@ -218,9 +221,9 @@ const Header = () => {
       >
         <div className="px-6 py-8 flex flex-col gap-8 h-full overflow-y-auto no-scrollbar">
           <div className="flex flex-col gap-5">
-            {menuData["side-menu"].map((item, index) => (
+            {menuData["side-menu"].map((item) => (
               <Link
-                key={index}
+                key={item}
                 href="/"
                 onClick={closeAllMenus}
                 className="body-sm text-white font-semibold tracking-[0.05em] hover:text-[#AD9463] transition-colors"
@@ -247,8 +250,8 @@ const Header = () => {
 
                 {expandedMobile === link && (
                   <div className="mt-5 flex flex-col gap-4 pl-4 border-l border-white/5">
-                    {currentCategories.map((cat, index) => (
-                      <span key={index} className="body-sm text-gray-400 font-light hover:text-white transition-colors cursor-pointer">
+                    {currentCategories.map((cat) => (
+                      <span key={`${link}-${cat}`} className="body-sm text-gray-400 font-light hover:text-white transition-colors cursor-pointer">
                         {cat}
                       </span>
                     ))}

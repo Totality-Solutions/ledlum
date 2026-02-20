@@ -5,6 +5,44 @@
 /* Tailwind */
 @import "tailwindcss";
 
+/* Performance Optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  /* Enable GPU acceleration for smooth scrolling */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  
+  /* CSS containment for better performance */
+  contain: layout style paint;
+}
+
+/* Optimize images during scroll */
+img {
+  will-change: transform;
+  contain: layout paint;
+}
+
+/* Optimize fixed backgrounds */
+.fixed {
+  will-change: transform;
+  contain: layout style paint;
+}
+
+/* Optimize backdrop blur elements */
+.backdrop-blur-sm,
+.backdrop-blur-md {
+  will-change: filter;
+  contain: layout style paint;
+}
+
 :root {
   /* Colors */
   /* Colors */

@@ -19,8 +19,12 @@ export default function AchievementsSection() {
 
   return (
     <Section
-      className="relative py-12 lg:py-20 bg-cover bg-top bg-no-repeat overflow-hidden"
-      style={{ backgroundImage: `url(${BgImg.src})` }}
+      className="relative py-12 lg:py-20 bg-cover bg-top bg-no-repeat overflow-hidden will-change-transform"
+      style={{ 
+        backgroundImage: `url(${BgImg.src})`,
+        transform: 'translate3d(0, 0, 0)',
+        backfaceVisibility: 'hidden'
+      }}
     >
       <div className="absolute inset-0 z-0 pointer-events-none" />
 
