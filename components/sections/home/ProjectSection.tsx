@@ -67,9 +67,19 @@ export default function OurProjectsSection() {
         </div>
 
         {/* 2. MOBILE & TABLET VIEW: Uses your InfiniteCarousel */}
-        <div className="lg:hidden">
-          <InfiniteCarousel className="w-full aspect-[9/12]" images={carouselImages} interval={4000} />
-        </div>
+        {/* 2. MOBILE & TABLET VIEW */}
+<div className="lg:hidden">
+  <div className="mx-auto w-full max-w-[350px] md:max-w-[500px]">
+    <InfiniteCarousel 
+      className="w-full aspect-[3/4] rounded-[25px] overflow-hidden shadow-xl" 
+      images={carouselImages} 
+      interval={4000} 
+    />
+    <p className="text-center mt-6 text-white/40 text-sm font-pop md:block lg:hidden">
+      Swipe to explore projects
+    </p>
+  </div>
+</div>
 
         {/* 3. DESKTOP VIEW: Your original Gallery Grid */}
         <div className="hidden lg:grid lg:grid-cols-4 gap-6 lg:gap-8">
