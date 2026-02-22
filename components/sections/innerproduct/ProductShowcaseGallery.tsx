@@ -16,9 +16,9 @@ export const ProductShowcaseGallery = ({
   return (
     <div className="w-full bg-black mx-auto px-6 lg:px-[70px] py-10 lg:py-[60px] border-t border-white/30">
       <div className="w-full flex flex-col md:flex-row justify-center items-center gap-4 lg:gap-2">
-        {images.map((src, index) => (
+        {images.map((src) => (
           <div 
-            key={index} 
+            key={src} 
             className={cn(
               "relative overflow-hidden rounded-[10px] transition-all duration-700",
               /* Maintaining Ratio: Using aspect ratio instead of fixed height 
@@ -31,7 +31,7 @@ export const ProductShowcaseGallery = ({
           >
             <img 
               src={src} 
-              alt={`Lifestyle detail ${index + 1}`} 
+              alt={`Lifestyle detail ${images.findIndex(img => img === src) + 1}`} 
               className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" 
             />
           </div>

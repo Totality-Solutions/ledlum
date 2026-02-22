@@ -29,8 +29,12 @@ const PARTNERS = [
 export default function CombinedLightingPartners() {
   return (
     <Section 
-      className="relative py-20 lg:py-32 flex flex-col gap-24 lg:gap-32 bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(${BgImg.src})` }} // Shared background applied here
+      className="relative py-20 lg:py-32 flex flex-col gap-24 lg:gap-32 bg-cover bg-center bg-no-repeat will-change-transform"
+      style={{ 
+        backgroundImage: `url(${BgImg.src})`,
+        transform: 'translate3d(0, 0, 0)',
+        backfaceVisibility: 'hidden'
+      }} // Shared background applied here
     >
       {/* PART 1: TRUSTED PARTNERS SECTION */}
       <Container className="max-w-[1280px] 2xl:max-w-[1600px] px-6 lg:px-10">
@@ -47,7 +51,6 @@ export default function CombinedLightingPartners() {
         {/* MARQUEE FLOW CAROUSEL */}
         <MarqueeFlow
           items={PARTNERS}
-          visibleItems={6}
           gap={20}
           speed={2000}
           renderItem={(partner) => (

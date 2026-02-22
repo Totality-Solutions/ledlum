@@ -9,14 +9,18 @@ import BgImg from '@/public/images/home/home-bg2.png';
 export default function WhoWeAreSection() {
   return (
     <Section className="relative min-h-[400px] py-16 md:py-24 overflow-hidden flex items-center">
-      {/* Background Image Layer with Luminosity effect */}
-      <div className="absolute inset-0 z-0">
+      {/* Background Image Layer with Luminosity effect - Optimized */}
+      <div className="absolute inset-0 z-0 will-change-transform">
         <Image
           src={BgImg}
           alt="Background Texture"
           fill
           className="object-cover mix-blend-luminosity"
           priority
+          style={{
+            transform: 'translate3d(0, 0, 0)',
+            backfaceVisibility: 'hidden'
+          }}
         />
         {/* Color Overlay Layer (rgba(161, 147, 110, 0.50)) */}
         <div 

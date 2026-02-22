@@ -22,7 +22,8 @@ export default function BlogCard({ category, description, image, isFeatured }: B
           src={image} 
           alt={category} 
           fill 
-          className="object-cover transition-transform duration-1000 group-hover:scale-105" 
+          className="object-cover transition-transform duration-1000 group-hover:scale-105 will-change-transform" 
+          style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
         />
       </div>
       

@@ -1,12 +1,11 @@
-
-
 import { Container } from "@/components/layout/Container";
 import { GetInTouch } from "@/components/layout/footer/GetInTouch";
 import Section from "@/components/layout/Section";
-import { Linkedin } from "lucide-react"; 
+import { Linkedin } from "lucide-react";
+import Image from "next/image";
 
-export default function Team() {
-  const team = [
+// Local team images for better performance
+const team = [
     { 
       name: "Sumeet Malhotra", 
       role: "Director & Founder - Ledlum", 
@@ -31,6 +30,42 @@ export default function Team() {
       name: "Sumeet Malhotra", 
       role: "Director & Founder - Ledlum", 
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=400&fit=crop" 
+    },
+  ];
+const teamImages = [
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&h=400&fit=crop",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=400&fit=crop"
+]; 
+
+export default function Team() {
+  const team = [
+    { 
+      name: "Sumeet Malhotra", 
+      role: "Director & Founder - Ledlum", 
+      image: teamImages[0]
+    },
+    { 
+      name: "Arjun Singh", 
+      role: "Lead Designer - Ledlum", 
+      image: teamImages[1]
+    },
+    { 
+      name: "Priya Sharma", 
+      role: "Technical Director - Ledlum", 
+      image: teamImages[2]
+    },
+    { 
+      name: "Rahul Verma", 
+      role: "Project Manager - Ledlum", 
+      image: teamImages[3]
+    },
+    { 
+      name: "Ananya Patel", 
+      role: "Creative Director - Ledlum", 
+      image: teamImages[4]
     },
   ];
 
@@ -69,13 +104,19 @@ export default function Team() {
               key={index} 
               className="group relative bg-[#0F0F0F] p-6 md:p-8 flex flex-col rounded-[32px] border border-white/5"
             >
-              {/* Image Container with specific rounding */}
-              <div className="relative aspect-square overflow-hidden mb-6 rounded-[24px]">
-                <img
+              {/* Image Container with specific rounding - OPTIMIZED */}
+              <div className="relative aspect-square overflow-hidden mb-6 rounded-[24px] will-change-transform">
+                <Image
                   src={member.image}
                   alt={member.name}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                   loading="lazy"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  style={{
+                    transform: 'translate3d(0, 0, 0)',
+                    backfaceVisibility: 'hidden'
+                  }}
                 />
               </div>
 

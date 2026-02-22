@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -16,11 +16,12 @@ export default function ProductFilters({ onFilterChange }: any) {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isMobileMenuOpen]);
 
-  const categories = ["All", "INDOOR", "OUTDOOR", "TRACKS/ MAGNETIC TRACKS", "SENSORS"];
-  const groups = ["All", "Led Cob Concealed", "Led Smd Concealed", "Premium Series"];
-  const dimmings = ["All", "Non - Dimming", "Paste Cut - Out", "Dali", "DP"];
+  // Memoize static arrays to prevent recreation
+  const categories = useMemo(() => ["All", "INDOOR", "OUTDOOR", "TRACKS/ MAGNETIC TRACKS", "SENSORS"], []);
+  const groups = useMemo(() => ["All", "Led Cob Concealed", "Led Smd Concealed", "Premium Series"], []);
+  const dimmings = useMemo(() => ["All", "Non - Dimming", "Paste Cut - Out", "Dali", "DP"], []);
 
-  const updateFilters = (newVal: any) => {
+  const updateFilters = useCallback((newVal: any) => {
     const updated = { ...filters, ...newVal };
     if (newVal.category === "All") {
       updated.group = "All";
@@ -28,9 +29,9 @@ export default function ProductFilters({ onFilterChange }: any) {
     }
     setFilters(updated);
     onFilterChange(updated);
-  };
+  }, [filters, onFilterChange]);
 
-  const isSubFilterVisible = filters.category !== "All";
+  const isSubFilterVisible = useMemo(() => filters.category !== "All", [filters.category]);
 
   // Mobile Menu Logic (Portal)
   const MobileMenu = (

@@ -163,7 +163,8 @@ function BlogContent() {
 
         <div className="mt-8 md:mt-16 bg-[#0a0a0a] border border-white/5 rounded-[32px] md:rounded-[48px] p-6 md:p-8 lg:p-12 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start shadow-2xl">
           <div className="w-full lg:w-[58%] aspect-[16/9] relative rounded-[24px] md:rounded-[32px] overflow-hidden group">
-            <img src={heroPost?.image} className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-1000" alt="Hero" />
+            <img src={heroPost?.image} className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-1000 will-change-transform" alt="Hero" 
+            style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} />
           </div>
 
           <div className="w-full lg:w-[42%] flex flex-col justify-center lg:pt-4">
@@ -222,11 +223,13 @@ circleBg="green"
       {/* --- MODAL --- */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-0 md:p-6 lg:p-10">
-          <div className="absolute inset-0 bg-black/95 backdrop-blur-md" onClick={() => setIsModalOpen(false)} />
+          <div className="absolute inset-0 bg-black/95 backdrop-blur-md will-change-filter" 
+            style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} onClick={() => setIsModalOpen(false)} />
 
           <div className="relative w-full max-w-[1300px] h-full md:h-[90vh] bg-[#0a0a0a] border border-white/10 shadow-2xl flex flex-col overflow-hidden md:rounded-[40px] animate-in fade-in zoom-in-95 duration-300">
 
-            <button onClick={() => setIsModalOpen(false)} className="absolute top-8 right-8 z-[100] p-3 bg-black/40 rounded-full hover:bg-white/10 border border-white/10 transition-all backdrop-blur-xl">
+            <button onClick={() => setIsModalOpen(false)} className="absolute top-8 right-8 z-[100] p-3 bg-black/40 rounded-full hover:bg-white/10 border border-white/10 transition-all backdrop-blur-xl will-change-filter" 
+              style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}>
               <X className="text-2xl text-white" />
             </button>
 

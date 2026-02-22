@@ -1,72 +1,59 @@
+"use client";
 
 import React from 'react';
 import { Container } from "@/components/layout/Container";
 import Link from "next/link";
-import { Instagram, Facebook, Linkedin, Send, ArrowUpRight } from "lucide-react";
+import { Instagram, Facebook, Linkedin, Send } from "lucide-react";
 import { GetInTouch } from './GetInTouch';
 
 export default function Footer() {
   const footerLinks = {
-    about: ["Contact", "Our Work", "Studio Notes", "About the Studio"],
+    about: ["Contact", "Our Work", "Studio Notes", "About: Studio"],
     services1: ["Architectural Lighting", "Industrial Solutions", "Smart Controls", "Sustainability"],
     services2: ["Bespoke Design", "Energy Audits", "Custom Fabrication", "Technical Support"],
   };
 
   return (
-    <footer className="relative bg-black pt-6 md:pt-10 px-6 md:px-6 overflow-hidden flex flex-col min-h-screen lg:min-h-[90vh] pb-[5rem]">
+    <footer className="relative bg-black pt-6 md:pt-10 px-4 md:px-6 overflow-hidden flex flex-col min-h-screen lg:min-h-[90vh] pb-[5rem] max-w-full">
       
+      {/* 1. BACKGROUND LAYERS - OPTIMIZED */}
       <div 
-        className="absolute inset-0 z-0 bg-[url('/images/about/ledlumline.png')] bg-cover bg-center opacity-60 pointer-events-none" 
+        className="absolute inset-0 z-0 bg-[url('/images/about/ledlumline.png')] bg-cover bg-center opacity-40 pointer-events-none will-change-transform" 
         style={{ 
           maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)' 
-        }}
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden'
+        }} 
       />
-      {/* 1. GLOBAL BACKGROUND LAYERS */}
-      
-{/* <div className="absolute bottom-0 left-0 w-full z-0 pointer-events-none">
-  <div className="relative w-full h-full">
-    <img 
-      src="/images/about/footer-logo.png" 
-      alt="Ledlum Watermark" 
-      className="w-full h-auto min-h-[40vh] md:min-h-[70vh] object-cover object-bottom" 
-    />
 
-  </div>
-</div> */}
+      {/* 2. WATERMARK LOGO - OPTIMIZED */}
+      <div className="absolute bottom-4 md:bottom-0 left-0 w-full pointer-events-none top-auto md:top-2.5 will-change-transform">
+        <img 
+          src="/images/about/footer-logo.png" 
+          alt="Ledlum Watermark" 
+          className="w-full h-auto object-contain object-bottom opacity-60"
+          style={{
+            transform: 'translate3d(0, 0, 0)',
+            backfaceVisibility: 'hidden'
+          }}
+        />
+      </div>
 
-
-
-{/* uu */}
-
-{/* 1. UPDATED BACKGROUND LOGO CONTAINER */}
-<div className="absolute bottom-0 left-0  w-full h-[45vh] md:h-auto scale-110 md:scale-100 object-contain md:object-cover object-bottom opacity-70">
-  <div className="relative w-full overflow-hidden">
-    <img 
-      src="/images/about/footer-logo.png" 
-      alt="Ledlum Watermark" 
-      /* - h-[30vh] md:h-auto: On mobile, we force the image area to take 30% of the screen height.
-         - object-contain: Ensures the logo doesn't cut off.
-         - object-bottom: Keeps the logo pinned to the very bottom of that 30vh area.
-      */
-      className="w-full h-[30vh] md:h-auto object-contain md:object-cover object-bottom opacity-80" 
-    />
-  </div>
-</div>
-
-{/* uuu */}
-
-
-      {/* 2. THE PILL CARD */}
-      <div className="relative z-10 w-full mx-auto rounded-[20px] md:rounded-[30px] max-w-[95%] overflow-hidden bg-zinc-900/40 backdrop-blur-md border border-white/5 shadow-2xl mb-20 md:mb-32">
-        
-        {/* Card Background Texture */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* 3. PILL CARD - OPTIMIZED */}
+      <div className="relative z-10 w-full mx-auto rounded-[24px] md:rounded-[24px] max-w-[96%] overflow-hidden bg-[#9d9272] shadow-2xl mb-10 md:mb-20 will-change-transform">
+        {/* Card Background - Optimized */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-80">
           <img 
             src="/images/about/footercard.png" 
-            className="w-full h-full object-cover opacity-60 " 
-            alt="Card Texture"
+            className="w-full h-full object-cover will-change-transform"
+            alt="Texture"
+            style={{
+              transform: 'translate3d(0, 0, 0)',
+              backfaceVisibility: 'hidden'
+            }}
           />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-transparent to-black/60" />
           <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-transparent to-black/60" />
         </div>
 
@@ -77,14 +64,15 @@ export default function Footer() {
             {/* Left Section: Brand & Description */}
             <div className="lg:col-span-5 flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 flex items-center justify-center border border-white/20 rounded-full bg-white/5">
-                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                      <path d="M20 0V40M0 20H40" stroke="currentColor" strokeWidth="2"/>
-                      <path d="M10 10L30 30M30 10L10 30" stroke="currentColor" strokeWidth="2"/>
-                    </svg>
-                  </div>
-                  <span className="text-3xl font-bold tracking-tighter text-white font-bai">Ledlum</span>
+                <div className="flex items-center gap-3 mb-8">
+                  <svg width="32" height="32" viewBox="0 0 40 40" fill="none" className="text-white">
+                    <path d="M20 0V40M0 20H40" stroke="currentColor" strokeWidth="1.5"/>
+                    <path d="M10 10L30 30M30 10L10 30" stroke="currentColor" strokeWidth="1.5"/>
+                  </svg>
+                  {/* Using fluid desk-h3 for logo text to keep it bold and responsive */}
+                  <span className="desk-h3 !text-3xl font-bold tracking-tighter text-white font-pop uppercase ">
+                    L E D L U M
+                  </span>
                 </div>
                 
                 <p className="text-base leading-relaxed text-white max-w-md font-pop font-light">
@@ -134,16 +122,19 @@ export default function Footer() {
                 </div>
               ))}
             </div>
+
+            {/* --- MOBILE COPYRIGHT --- */}
+            <div className="lg:hidden w-full mt-4 pt-8 border-t border-white/10">
+              <p className="text-[10px] tracking-[0.3em] text-white/70 font-pop font-medium  text-center">
+                © 2026 LEDLUM. Technical Brilliance.
+              </p>
+            </div>
           </div>
         </Container>
-      </div>
 
-      {/* Flex-grow ensures the logo has space at the bottom */}
-      <div className="flex-grow min-h-[100px]" />
-      
+        {/* Spacer to push card up slightly */}
+        <div className="flex-grow min-h-[50px] lg:min-h-[100px]" />
+      </div>
     </footer>
   );
 }
-
-
-
