@@ -19,6 +19,21 @@ const Header = () => {
   const headerRef = useRef<HTMLDivElement>(null);
   const menuIconRef = useRef<HTMLButtonElement>(null);
 
+  // --- STOP BACKGROUND SCROLLING ---
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100vh"; // Locks the body height
+    } else {
+      document.body.style.overflow = "unset";
+      document.body.style.height = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+      document.body.style.height = "unset";
+    };
+  }, [mobileOpen]);
+
   // Close menus on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -89,7 +104,7 @@ const Header = () => {
           </button>
 
           {/* Mobile Menu Trigger */}
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden transition-transform active:scale-90">
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden transition-transform active:scale-90 z-50">
             {mobileOpen ? (
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
@@ -101,20 +116,17 @@ const Header = () => {
         </div>
       </div>
 
-      {/* THE PREVIOUS DESIGN: FULL WIDTH DROPDOWN */}
+      {/* DESKTOP DROPDOWN */}
       <div
         className={`hidden lg:block absolute left-1/2 -translate-x-1/2 w-max pt-4 transition-all duration-300 ease-in-out z-50 ${
           sideMenuOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-[-10px] pointer-events-none"
         }`}
         style={{ top: HEADER_HEIGHT }}
       >
-        {/* Triangle pointer */}
         <div
           className="absolute top-2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-b-[#111111] transition-all duration-300 ease-out"
           style={{ left: `calc(${triangleLeft}px - (50vw - 50%))` }}
         />
-        
-        {/* Main Panel Content */}
         <div className="bg-[#111111] shadow-2xl border border-white/5 w-[1450px] 2xl:w-[1800px] overflow-hidden">
           <div className="p-12 flex flex-wrap justify-center content-start gap-4">
             {sideNavigation.map((item, index) => (
@@ -133,17 +145,24 @@ const Header = () => {
         </div>
       </div>
 
-      {/* MOBILE MENU (Full Overlay) */}
+      {/* MOBILE MENU - FIXED FULL HEIGHT */}
       <div
         className={`lg:hidden fixed left-0 w-full bg-black transition-all duration-300 z-40 ${
-          mobileOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+          mobileOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
         }`}
-        style={{ top: HEADER_HEIGHT, height: `calc(100vh - ${HEADER_HEIGHT})` }}
+        style={{ 
+          top: HEADER_HEIGHT, 
+          height: `calc(100dvh - ${HEADER_HEIGHT})` // Using dvh for accurate mobile height
+        }}
       >
-        <div className="px-6 py-8 flex flex-col gap-8 h-full overflow-y-auto no-scrollbar">
-           {/* Combined links for mobile */}
+        <div className="px-6 py-8 flex flex-col gap-8 h-full overflow-y-auto">
            {[...sideNavigation, ...primaryNavigation].map((item, idx) => (
-             <Link key={idx} href={item.href} onClick={closeAll} className="body-sm text-white font-semibold hover:text-[#AD9463]">
+             <Link 
+               key={idx} 
+               href={item.href} 
+               onClick={closeAll} 
+               className="text-white body-sm font-semibold hover:text-[#AD9463] transition-colors py-2"
+             >
                {item.title}
              </Link>
            ))}
