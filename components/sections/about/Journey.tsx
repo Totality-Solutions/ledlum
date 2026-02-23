@@ -1,47 +1,23 @@
+
 "use client";
 
 import { useState } from "react";
 import { Container } from "@/components/layout/Container";
-import Section from "@/components/layout/Section";
 
 export default function Journey() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const steps = [
-    { 
-      year: "1989", 
-      title: "The Beginning", 
-      desc: "Establishing the foundation of specialized lighting expertise with a focus on technical precision." 
-    },
-    { 
-      year: "2007", 
-      title: "ABBA Lighting is Born", 
-      desc: "Sumeet founded ABBA Lighting, offering end-to-end LED lighting solutions tailored for mid to high-end spaces." 
-    },
-    { 
-      year: "2017", 
-      title: "Enter Ledlum Lighting", 
-      desc: "Expanding portfolio with cutting-edge architectural designs and high-performance fixtures." 
-    },
-    { 
-      year: "2020", 
-      title: "Artizan by Ledlum", 
-      desc: "Launching a curated collection focusing on aesthetic appeal and artisanal craftsmanship in lighting." 
-    },
-    { 
-      year: "2022", 
-      title: "Astara by Ledlum", 
-      desc: "Introducing innovative smart lighting solutions for modern living environments." 
-    },
-    { 
-      year: "2023", 
-      title: "Volaris by Ledlum", 
-      desc: "Reaching new heights in sustainable, high-efficiency lighting for global markets." 
-    }
+    { year: "1989", title: "The Beginning", desc: "Establishing the foundation of specialized lighting expertise." },
+    { year: "2007", title: "ABBA Lighting is Born", desc: "Sumeet founded ABBA Lighting for mid to high-end spaces." },
+    { year: "2017", title: "Enter Ledlum Lighting", desc: "Expanding with architectural designs and high-performance fixtures." },
+    { year: "2020", title: "Artizan by Ledlum", desc: "Launching a curated collection focusing on artisanal craftsmanship." },
+    { year: "2022", title: "Astara by Ledlum", desc: "Introducing innovative smart lighting solutions." },
+    { year: "2023", title: "Volaris by Ledlum", desc: "Sustainable, high-efficiency lighting for global markets." }
   ];
 
   return (
-    <Section className="bg-black text-white py-20 md:py-32 overflow-hidden">
+    <section className="bg-black text-white py-20 md:py-32 overflow-hidden">
       <Container className="!max-w-none px-6 md:px-[5vw] lg:px-[74px]">
         
         {/* HEADER SECTION - FIXED MOBILE SIZE */}
@@ -112,6 +88,6 @@ export default function Journey() {
           ))}
         </div>
       </Container>
-    </Section>
+    </section>
   );
 }
