@@ -104,9 +104,8 @@ export default function VisionMission() {
 
         </div>
 
-        {/* VALUE TICKERS */}
-        <div className="relative w-full mt-32 md:mt-0 flex flex-col md:flex-row justify-between items-center gap-12 md:gap-0 md:h-[180px] pt-10 border border-white/10">
-
+        {/* BOTTOM VALUE TICKERS */}
+        <div className="relative w-full mt-32 md:mt-0 flex flex-col md:flex-row justify-between items-center gap-12 md:gap-0 md:h-[180px] pt-10 border-white/10  s  ">
           <ValueItem label="Customer-first service" className="md:absolute md:left-0 md:bottom-0" lineHeight="h-16" orientation="bottom" />
           <ValueItem label="Engineering excellence" className="md:absolute md:left-[30%] md:top-0" lineHeight="h-16" orientation="top" />
           <ValueItem label="Energy efficiency & Sustainability" className="md:absolute md:left-[60%] md:bottom-0" lineHeight="h-16" orientation="bottom" />
