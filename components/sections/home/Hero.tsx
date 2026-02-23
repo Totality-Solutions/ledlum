@@ -6,7 +6,7 @@ import heroImage from '@/public/images/home/home-hero.png';
 
 const Hero = memo(function Hero() {
   return (
-    <section className="relative w-full h-[70vh] sm:h-[80vh] lg:h-screen min-h-[450px] max-h-[700px] lg:max-h-[1000px] flex items-center justify-center bg-gray-900 overflow-hidden">
+    <section className="relative w-full h-[70vh] sm:h-[80vh] lg:h-screen min-h-[450px] max-h-[700px] lg:max-h-[700px] flex items-center justify-center bg-gray-900 overflow-hidden">
       {/* 1. The Background Image */}
       <Image
         src={heroImage}

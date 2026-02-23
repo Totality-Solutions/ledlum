@@ -5,6 +5,7 @@ import ImageSliderCard from "@/components/layout/common/InfiniteCarousel";
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow";
+import TrustedPartnersSection from "./TrustedPartners";
 
 // --- ASSETS ---
 import productImg1 from "@/public/images/home/product-1.png";
@@ -37,35 +38,9 @@ export default function CombinedLightingPartners() {
       }} // Shared background applied here
     >
       {/* PART 1: TRUSTED PARTNERS SECTION */}
-      <Container className="max-w-[1280px] 2xl:max-w-[1600px] px-6 lg:px-10">
-        {/* HEADING SECTION */}
-        <div className="mb-12">
-          <h2 className="text-[48px] lg:text-[64px] font-bai font-medium text-white leading-tight">
-            Our.
-          </h2>
-          <p className="text-[18px] lg:text-[22px] font-bai text-white/60 -mt-2 uppercase tracking-widest">
-            Trusted Partners.
-          </p>
-        </div>
-
-        {/* MARQUEE FLOW CAROUSEL */}
-        <MarqueeFlow
-          items={PARTNERS}
-          gap={20}
-          speed={2000}
-          renderItem={(partner) => (
-            <div 
-              className="w-full h-[70px] lg:h-[90px] bg-[#5B5442] rounded-[45px] flex items-center justify-center transition-all duration-500 hover:bg-[#4a4435] group shadow-xl border border-white/5 cursor-pointer"
-            >
-              <div className="text-white text-2xl lg:text-3xl font-bold opacity-90 group-hover:scale-110 group-hover:opacity-100 transition-all duration-300">
-                {partner.icon}
-              </div>
-            </div>
-          )}
-        />
-      </Container>
+      <TrustedPartnersSection />
       {/* PART 2: LIGHTING SECTION */}
-<Container className="max-w-[1280px] 2xl:max-w-[1600px] px-6 lg:px-10">
+<Container className="px-6 lg:px-10">
   <div className="max-w-5xl mb-12">
     <h2 className="text-5xl lg:text-6xl font-bold text-white tracking-tight font-bai">
       Lighting.
@@ -82,7 +57,7 @@ export default function CombinedLightingPartners() {
     <ImageSliderCard 
       images={LIGHTING_IMAGES} 
       interval={5000} 
-      className="w-full max-w-5xl aspect-video md:aspect-[16/9] " 
+      className="w-full aspect-video md:aspect-[20/9] " 
     />
   </div>
 </Container>

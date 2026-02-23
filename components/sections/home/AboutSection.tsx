@@ -30,7 +30,7 @@ export default function WhoWeAreSection() {
       </div>
 
       {/* Laptop Optimized Container: max-w-[1280px] */}
-      <Container className="relative z-10 max-w-[1280px] 2xl:max-w-[1600px] w-full px-6 lg:px-10">
+      <Container className="relative z-10 px-6 lg:px-10">
         <div className="flex flex-col gap-10">
           
           {/* Title Header - Optimized Typography */}

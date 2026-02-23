@@ -60,7 +60,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
     >
       <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" />
       {/* SECTION 1: BESTSELLERS GRID */}
-      <Container className="max-w-[1280px] 2xl:max-w-[1600px] relative z-10 px-6 lg:px-10">
+      <Container className="relative z-10 px-6 lg:px-10">
         <div className="flex flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
           <div className="max-w-xl">
             <h2 className="sm:mob-h1 desk-h1 text-white font-bai">Designed In-House.</h2>
@@ -157,7 +157,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       </Container>
 
       {/* SECTION 2: NEW ARRIVALS CAROUSEL */}
-      <Container className="max-w-[1280px] 2xl:max-w-[1600px] relative z-10 px-6 lg:px-10">
+      <Container className="relative z-10 px-6 lg:px-10">
         <div className="flex justify-between items-center mb-10">
           <h2 className="body text-white tracking-[0.3em] flex items-center gap-2 uppercase font-bai">
             <span>New</span><span className="font-semibold">Arrivals</span>
