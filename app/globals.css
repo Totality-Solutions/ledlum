@@ -252,3 +252,74 @@ body {
   }
 }
 
+html.no-scroll,
+body.no-scroll {
+  overflow: hidden !important;
+  height: 100vh !important;
+  touch-action: none !important;
+}
+
+/* Core Viewport Lock - Prevents the loaders themselves from scrolling */
+.preloader-video-container,
+.loader-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important; 
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  touch-action: none; /* Prevents mobile touch scrolling */
+}
+
+/* Video Preloader (Highest Z-Index) */
+.preloader-video-container {
+  z-index: 1000000 !important;
+  background: black;
+}
+
+.fullscreen-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.exit-fade {
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  pointer-events: none;
+}
+
+
+/* SVG Page Loader (Second Highest Z-Index) */
+.loader-overlay {
+  z-index: 999999 !important;
+  background-color: #000000; /* Light mode */
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.dark .loader-overlay {
+  background-color: #000000;
+}
+
+.hidden-loader {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* SVG Animation */
+.loader-animated-svg {
+  animation: scaleRotateClockwise 2.5s infinite ease-in-out;
+}
+
+@keyframes scaleRotateClockwise {
+  0% { transform: scale(0.2) rotate(0deg); opacity: 0; }
+  50% { transform: scale(0.9) rotate(180deg); opacity: 1; }
+  100% { transform: scale(1) rotate(360deg); opacity: 1; }
+}

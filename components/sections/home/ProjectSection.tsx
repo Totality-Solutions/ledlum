@@ -75,9 +75,6 @@ const OurProjectsSection = memo(function OurProjectsSection() {
       images={carouselImages} 
       interval={4000} 
     />
-    <p className="text-center mt-6 text-white/40 text-sm font-pop md:block lg:hidden">
-      Swipe to explore projects
-    </p>
   </div>
 </div>
 
