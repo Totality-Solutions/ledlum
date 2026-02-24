@@ -277,6 +277,23 @@ function BlogContent() {
                     </svg>
                   </div>
                 </button>
+
+
+
+
+{/* 
+<CTABtn 
+  showButtonBg={true} 
+  showIconCircle={true} 
+  showLabel={true} 
+  iconColor="#c5a36e" 
+  label="Cancel" 
+  showIcon={true} 
+  circleBg="green"
+  btnBg="#1a1a1a"
+  textColor="#ffffff"
+  btnHoverBg="none" 
+/> */}
               </div>
             </div>
           </div>
