@@ -60,7 +60,7 @@ const Header = () => {
   };
 
   return (
-    <header ref={headerRef} className="fixed top-0 left-0 w-full z-50 bg-black">
+    <header ref={headerRef} className="sticky top-0 left-0 w-full z-50 bg-black">
       {/* TOP BAR */}
       <div 
         className="w-full px-6 lg:px-14 flex justify-between items-center backdrop-blur-lg text-white border-b border-white/5 will-change-filter" 
