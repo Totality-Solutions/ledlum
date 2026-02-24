@@ -5,6 +5,7 @@ import Image from "next/image";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import BgImg from '@/public/images/home/home-bg2.png';
+import CTABtn from "@/components/layout/common/CTABtn"; // Adjust this path based on your folder structure
 
 export default function WhoWeAreSection() {
   return (
@@ -50,16 +51,15 @@ export default function WhoWeAreSection() {
               quality, and innovation. Each piece is crafted to balance aesthetics with performance.
             </p>
 
-            {/* "Our Story" CTA Button - Consistent Styling */}
-            <div className="group cursor-pointer bg-[#F3E7D8] rounded-full pl-8 pr-2 py-2 flex items-center gap-8 ">
-              <span className="text-black desk-h3">
-                Our Story
-              </span>
-              <div className="w-10 h-10 lg:w-12 lg:h-12 relative bg-[#96865D] rounded-full flex items-center justify-center ">
-                 {/* Arrow Icon */}
-                <div className="w-3 h-3 border-t-2 border-r-2 border-white  translate-x-[-1px] translate-y-[1px]" />
-              </div>
-            </div>
+            {/* "Our Story" CTA Button - Now using the CTABtn Component */}
+            <CTABtn 
+              label="Our Story"
+              href="/our-story" // Or use onClick={() => ...}
+              size="md"
+              btnBg="#F3E7D8"
+              circleBg="#96865D"
+              btnHoverBg="#ffffff"
+            />
           </div>
           
         </div>
