@@ -320,7 +320,7 @@ export default function CTABtn({
   // MODULE: THE ICON
   const IconPart = showIcon && (
     <div 
-      className="flex items-center justify-center"
+      className="flex items-center justify-center transition-transform duration-300"
       style={{ transform: hovered ? 'rotate(45deg)' : 'rotate(0deg)' }}
     >
       {iconType === 'x' ? <FiX size={cur.iconSize} color={iconColor} /> :

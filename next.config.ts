@@ -6,10 +6,18 @@ const nextConfig: NextConfig = {
   // uu
 
   images: {
+    // remotePatterns: [
+    //   {
+    //     protocol: 'https',
+    //     hostname: 'images.unsplash.com',
+    //     pathname: '/**',
+    //   },
+    // ],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: 'placehold.co',
+        port: '',
         pathname: '/**',
       },
     ],
