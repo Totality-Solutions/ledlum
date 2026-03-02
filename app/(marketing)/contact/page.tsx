@@ -3,10 +3,11 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 
 /**
  * CONTACT PAGE
- * Integrated with global typography protection and responsive background opacity.
+ * Integrated with Next/Image optimization and responsive background layers.
  */
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,30 +25,34 @@ export default function ContactPage() {
   return (
     <div className="relative min-h-screen text-white bg-black font-bai selection:bg-[#8D794E] selection:text-black overflow-hidden">
       
-      {/* 1. GLOBAL BACKGROUND LAYER - Responsive Opacity */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2 transition-opacity duration-1000 opacity-10 md:opacity-30"
-        style={{
-          backgroundImage: "url('/images/about/ledlumline.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
+      {/* 1. GLOBAL BACKGROUND LAYER - Optimized with Next/Image */}
+      <div className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2 transition-opacity duration-1000 opacity-10 md:opacity-30">
+        <Image 
+          src="/images/about/ledlumline.png"
+          alt="background line"
+          fill
+          priority
+          className="object-cover object-center"
+        />
+      </div>
 
-      {/* 2. TEXTURE OVERLAY - Adjusted for mobile readability */}
-      <div
-        className="absolute z-0 pointer-events-none opacity-[0.02] md:opacity-[0.05]"
+      {/* 2. TEXTURE OVERLAY - Optimized with Next/Image */}
+      <div className="absolute z-0 pointer-events-none opacity-[0.02] md:opacity-[0.05] overflow-hidden"
         style={{
           width: '1608px',
           height: '2010px',
           left: 'calc(50% - 1608px / 2 + 10px)',
           top: '277px',
-          backgroundImage: "url('/images/blog/not-bg.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
           mixBlendMode: 'difference',
         }}
-      />
+      >
+        <Image 
+          src="/images/blog/not-bg.jpg"
+          alt="texture overlay"
+          fill
+          className="object-cover"
+        />
+      </div>
 
       <main className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-16 lg:px-24 min-h-screen flex items-center pt-32 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-start w-full">
@@ -56,9 +61,6 @@ export default function ContactPage() {
           <div className="space-y-12 md:space-y-16">
             <header className="space-y-6 md:space-y-8">
               <h1 className="leading-none tracking-tighter">
-                {/* FIX: We use !text-[rem] to stop the global 1rem mobile override.
-                   We use !font-pop to ensure it stays Poppins regardless of parent.
-                */}
                 <span className="desk-h1 block text-white !text-[3.5rem] md:!text-[var(--text-desk-h1)] !font-pop !font-medium capitalize">
                   Get.
                 </span>
@@ -118,7 +120,6 @@ export default function ContactPage() {
 
               {/* BUTTON GROUP */}
               <div className="flex items-center justify-between gap-4 pt-6 md:pt-8 w-full">
-                {/* Reset Button */}
                 <button
                   type="reset"
                   className="group flex items-center justify-center gap-2 
@@ -132,7 +133,6 @@ export default function ContactPage() {
                   </svg>
                 </button>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}

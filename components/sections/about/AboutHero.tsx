@@ -1,12 +1,12 @@
+
+
+
+
 'use client';
 
 import Image from 'next/image';
 import React from 'react';
 
-/* 
-  Static data moved outside component 
-  Prevents recreation on every render
-*/
 const stats = [
   {
     title: "Who We Are",
@@ -30,22 +30,25 @@ export default function AboutHero() {
   return (
     <section className="relative bg-black text-white pt-32 pb-20 md:pb-32 overflow-hidden px-6 md:px-[74px]">
 
-      {/* BACKGROUND DECORATIVE LAYER (lightweight local image) */}
-      <div
-        className="absolute inset-0 z-0 opacity-20 bg-[url('/images/about/ledlumline.png')] bg-cover bg-center pointer-events-none will-change-transform"
+      {/* BACKGROUND DECORATIVE LAYER - Optimized with Next/Image */}
+      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
         style={{
           maskImage: 'linear-gradient(to_bottom,transparent_0%,black_30%)',
           WebkitMaskImage: 'linear-gradient(to_bottom,transparent_0%,black_30%)',
-          transform: 'translate3d(0, 0, 0)',
-          backfaceVisibility: 'hidden'
         }}
-        aria-hidden="true"
-      />
+      >
+        <Image 
+          src="/images/about/ledlumline.png"
+          alt="decorative line"
+          fill
+          className="object-cover object-center"
+          aria-hidden="true"
+        />
+      </div>
 
       {/* HEADER SECTION */}
       <div className="relative z-10 w-full mb-16 md:mb-24">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
-
           <div className="flex-1">
             <h1 className="text-4xl md:desk-h1 text-white leading-[1.05]">
               <span className="block opacity-50 font-extralight mb-2">
@@ -62,15 +65,13 @@ export default function AboutHero() {
               Transforming architectural lighting through innovation, performance and design excellence.
             </p>
           </div>
-
         </div>
       </div>
 
-      {/* OPTIMIZED CINEMATIC IMAGE */}
+      {/* CINEMATIC IMAGE - Using Priority for LCP optimization */}
       <div className="relative z-10 w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] 
                       h-[35vh] md:h-[60vh] lg:h-[70vh] 
                       mb-20 md:mb-32 border-y border-white/10 overflow-hidden">
-
         <Image
           src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80"
           alt="LEDLUM Architectural Lighting"
@@ -79,15 +80,12 @@ export default function AboutHero() {
           sizes="100vw"
           className="object-cover brightness-75"
         />
-
-        {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-60" />
       </div>
 
       {/* STAGGERED GRID SECTION */}
       <div className="relative z-10 w-full">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-start gap-y-0 sm:gap-y-12">
-
           {stats.map((item, i) => (
             <div
               key={item.title}
@@ -99,7 +97,6 @@ export default function AboutHero() {
                 ${i === 3 ? "lg:translate-y-[45%]" : ""}
               `}
             >
-
               {/* Desktop Vertical Line */}
               <div className="hidden sm:block absolute left-0 top-0 w-[1px] h-full bg-white/20" />
 
@@ -112,18 +109,14 @@ export default function AboutHero() {
                 <h3 className="text-2xl lg:text-3xl font-medium mb-6 tracking-tight leading-tight">
                   {item.title}
                 </h3>
-
                 <p className="text-zinc-500 font-light leading-relaxed">
                   {item.desc}
                 </p>
               </div>
-
             </div>
           ))}
-
         </div>
       </div>
-
     </section>
   );
 }

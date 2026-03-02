@@ -1,5 +1,6 @@
 
 
+import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { GetInTouch } from "@/components/layout/footer/GetInTouch";
 import Section from "@/components/layout/Section";
@@ -36,16 +37,20 @@ export default function Team() {
 
   return (
     <Section className="bg-black text-white py-16 md:py-32 overflow-hidden !px-0">
-
-
-      <Container className="relative z-10 !max-w-none px-6 md:px-[8vw]  bg-[url('/images/about/ledlumbox.png')] bg-cover bg-center py-16">
-
-       
-
-     
+      <Container className="relative z-10 !max-w-none px-6 md:px-[8vw] py-16 overflow-hidden">
         
-        {/* The Grid matches the image structure: 3 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {/* Background Decorative Box - Optimized */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+           <Image 
+            src="/images/about/ledlumbox.png"
+            alt="box background"
+            fill
+            className="object-cover object-center"
+           />
+        </div>
+
+        {/* 3-Column Grid */}
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           
           {/* 1. HEADER SECTION */}
           <div className="flex flex-col justify-start pt-10 pr-4">
@@ -67,15 +72,16 @@ export default function Team() {
           {team.map((member, index) => (
             <div 
               key={index} 
-              className="group relative bg-[#0F0F0F] p-6 md:p-8 flex flex-col rounded-[32px] border border-white/5"
+              className="group relative bg-[#0F0F0F] p-6 md:p-8 flex flex-col rounded-[32px] border border-white/5 hover:border-white/10 transition-colors"
             >
-              {/* Image Container with specific rounding */}
+              {/* Image Container */}
               <div className="relative aspect-square overflow-hidden mb-6 rounded-[24px]">
-                <img
+                <Image
                   src={member.image}
                   alt={member.name}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
 
@@ -90,28 +96,23 @@ export default function Team() {
                   </p>
                 </div>
                 
-                {/* LinkedIn Icon styled to match the image */}
+                {/* LinkedIn Icon */}
                 <a 
                   href="#" 
-                  className="bg-[#0077B5] p-1.5 rounded-sm mb-1 hover:scale-110 transition-transform"
+                  className="bg-[#0077B5] p-1.5 rounded-sm mb-1 hover:scale-110 transition-transform flex items-center justify-center"
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`${member.name} LinkedIn Profile`}
                 >
                   <Linkedin className="w-3.5 h-3.5 text-white fill-current" />
                 </a>
               </div>
             </div>
           ))}
-
-           {/* --- RENDERED SEPARATELY --- */}
-      
         </div>
-
-        
       </Container>
+
       <GetInTouch />
     </Section>
   );
-  }
-
-  
+}

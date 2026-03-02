@@ -1,9 +1,12 @@
 
+
+
 "use client";
 
 import React from 'react';
 import { Container } from "@/components/layout/Container";
 import Link from "next/link";
+import Image from "next/image"; // Added for optimization
 import { Instagram, Facebook, Linkedin, Send } from "lucide-react";
 
 export default function Footer() {
@@ -14,36 +17,45 @@ export default function Footer() {
   };
 
   return (
-    /* FIXED: max-w-full and overflow-hidden to match your blog layout safety */
     <footer className="relative bg-black pt-6 md:pt-10 px-4 md:px-6 overflow-hidden flex flex-col min-h-screen lg:min-h-[90vh] max-w-full">
       
-      {/* 1. BACKGROUND LAYERS */}
-      <div 
-        className="absolute inset-0 z-0 bg-[url('/images/about/ledlumline.png')] bg-cover bg-center opacity-40 pointer-events-none" 
-        style={{ 
-          maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)' 
-        }}
-      />
-
-      {/* Big Watermark Logo */}
-      <div className="absolute bottom-4 md:bottom-0 left-0 w-full  pointer-events-none  top-auto md:top-2.5 ">
-        <img 
-          src="/images/about/footer-logo.png" 
-          alt="Ledlum Watermark" 
-          className="w-full h-auto object-contain object-bottom" 
+      {/* 1. BACKGROUND LAYERS - Optimized with Next/Image */}
+      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+        <Image
+          src="/images/about/ledlumline.png"
+          alt="Background Line"
+          fill
+          className="object-cover object-center"
+          style={{ 
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)' 
+          }}
         />
       </div>
+
+      {/* Big Watermark Logo - Fixed Positioning */}
+{/* Big Watermark Logo - Restored to Original Scaling */}
+<div className="absolute bottom-4 md:bottom-0 left-0 w-full pointer-events-none top-auto md:top-2.5 z-0">
+  <Image 
+    src="/images/about/footer-logo.png" 
+    alt="Ledlum Watermark" 
+    width={1920} // Large base width
+    height={600} // Large base height
+    className="w-full h-auto object-contain object-bottom" 
+    priority
+  />
+</div>
 
       {/* 2. THE PILL CARD */}
       <div className="relative z-10 w-full mx-auto rounded-[24px] md:rounded-[24px] max-w-[96%] overflow-hidden bg-[#9d9272] shadow-2xl mb-10 md:mb-20">
         
-        {/* Card Subtle Texture Overlay */}
+        {/* Card Subtle Texture Overlay - Optimized */}
         <div className="absolute inset-0 z-0 pointer-events-none opacity-80 mix-blend-multiply">
-          <img 
+          <Image 
             src="/images/about/footercard.png" 
-            className="w-full h-full object-cover" 
             alt="Texture"
+            fill
+            className="object-cover"
           />
         </div>
 
@@ -58,13 +70,11 @@ export default function Footer() {
                     <path d="M20 0V40M0 20H40" stroke="currentColor" strokeWidth="1.5"/>
                     <path d="M10 10L30 30M30 10L10 30" stroke="currentColor" strokeWidth="1.5"/>
                   </svg>
-                  {/* Using fluid desk-h3 for the logo text to keep it bold and responsive */}
                   <span className="desk-h3 !text-3xl font-bold tracking-tighter text-white font-pop uppercase ">
                     L E D L U M
                   </span>
                 </div>
                 
-                {/* Using body-sm from global.css */}
                 <p className="body-sm leading-relaxed text-white font-pop font-light max-w-[320px]">
                   Enhancing environments through energy efficiency, aesthetic appeal, 
                   and high-performance architectural lighting solutions.
@@ -96,8 +106,7 @@ export default function Footer() {
                 { title: "Our Services", links: footerLinks.services2 }
               ].map((column, i) => (
                 <div key={i} className="min-w-[140px] flex-grow md:flex-grow-0">
-                  {/* Using body-lg for column headers */}
-                  <h4 className="body-lg !text-sm font-medium mb-6 font-pop text-white  tracking-wider">
+                  <h4 className="body-lg !text-sm font-medium mb-6 font-pop text-white tracking-wider">
                     {column.title}
                   </h4>
                   <ul className="space-y-4">
@@ -118,7 +127,7 @@ export default function Footer() {
 
             {/* --- MOBILE COPYRIGHT --- */}
             <div className="lg:hidden w-full mt-4 pt-8 border-t border-white/10">
-              <p className="text-[10px] tracking-[0.3em] text-white/70 font-pop font-medium  text-center">
+              <p className="text-[10px] tracking-[0.3em] text-white/70 font-pop font-medium text-center">
                 © 2026 LEDLUM. Technical Brilliance.
               </p>
             </div>
@@ -127,7 +136,6 @@ export default function Footer() {
         </Container>
       </div>
 
-      {/* Spacer to push card up slightly */}
       <div className="flex-grow min-h-[50px] lg:min-h-[100px]" />
     </footer>
   );

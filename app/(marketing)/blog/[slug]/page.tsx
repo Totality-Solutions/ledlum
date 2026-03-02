@@ -1,4 +1,6 @@
 
+
+
 import React from 'react';
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -25,26 +27,28 @@ export default async function BlogPost({ params }: PageProps) {
 
   return (
     <div className="relative min-h-screen text-white bg-black selection:bg-[#AD9463] selection:text-black font-bai overflow-x-hidden">
-      
-      {/* 1. GLOBAL BACKGROUND LAYER - Responsive Opacity */}
-      <div 
-        className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2 opacity-10 md:opacity-30"
-        style={{
-          backgroundImage: "url('/images/about/ledlumline.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      ></div>
+
+      {/* 1. GLOBAL BACKGROUND LAYER - Optimized */}
+      <div className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2 opacity-10 md:opacity-30">
+        <Image
+          src="/images/about/ledlumline.png"
+          alt="background texture"
+          fill
+          priority
+          className="object-cover object-center"
+        />
+      </div>
 
       {/* --- BACK BUTTON --- */}
-      <div className="fixed top-[100px] md:top-[115px] left-6 md:left-12 lg:left-16 z-50 pointer-events-none font-pop">
-        <Link 
-          href="/blog" 
+      {/* Reduced z-index to z-30 so it sits under the Header (usually z-50) and Hamburger menu */}
+      <div className="absolute top-[20px] md:top-[130px] left-1 md:left-12 lg:left-16 z-30 pointer-events-none font-pop">
+        <Link
+          href="/blog"
           className="pointer-events-auto group flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-[#111111]/80 backdrop-blur-md hover:bg-white hover:text-black transition-all duration-500 shadow-2xl"
         >
           <div className="w-5 h-5 rounded-full bg-white/10 group-hover:bg-black/10 flex items-center justify-center transition-colors">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
+              <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
           </div>
           <span className="text-[12px] font-bold uppercase tracking-widest pr-1">Back</span>
@@ -54,21 +58,21 @@ export default async function BlogPost({ params }: PageProps) {
       {/* --- HERO SECTION --- */}
       <section className="w-full pt-[80px] md:pt-[90px] relative">
         <div className="w-full h-[40vh] md:h-[65vh] relative overflow-hidden">
-          <Image 
-            src={post.image} 
-            fill 
-            priority 
-            className="object-cover" 
-            alt={post.title} 
+          <Image
+            src={post.image}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+            alt={post.title}
           />
         </div>
       </section>
 
       <main className="w-full mx-auto px-6 md:px-16 lg:px-24 relative z-10">
         <article className="pt-16 md:pt-32">
-          
+
           <header className="max-w-4xl mb-16 md:mb-24">
-            {/* FIX: Force large title on mobile */}
             <h1 className="desk-h1 !text-[2.5rem] md:!text-[var(--text-desk-h1)] leading-[1.1] mb-8 md:mb-12 capitalize">
               {post.title}
             </h1>
@@ -110,20 +114,32 @@ export default async function BlogPost({ params }: PageProps) {
             </div>
 
             <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl rounded-sm">
-                <Image src={post.midSectionImage} fill className="object-cover" alt="Detail View" />
+              <Image
+                src={post.midSectionImage}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+                alt="Detail View"
+              />
             </div>
           </div>
 
           {/* --- DYNAMIC OUTCOME SECTION --- */}
           <div className="space-y-12 md:space-y-16 pb-24 md:pb-32">
             <div className="max-w-4xl space-y-6">
-               <h5 className="button-xs text-zinc-500 capitalize tracking-widest font-bold">The Outcome</h5>
-               <p className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] font-light leading-snug text-zinc-300">
-                 {post.outcomeDescription}
-               </p>
+              <h5 className="button-xs text-zinc-500 capitalize tracking-widest font-bold">The Outcome</h5>
+              <p className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] font-light leading-snug text-zinc-300">
+                {post.outcomeDescription}
+              </p>
             </div>
             <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden bg-zinc-900 border border-white/5 rounded-sm">
-                <Image src={post.outcomeImage} fill className="object-cover" alt="Project Result" />
+              <Image
+                src={post.outcomeImage}
+                fill
+                sizes="100vw"
+                className="object-cover"
+                alt="Project Result"
+              />
             </div>
           </div>
         </article>
@@ -133,14 +149,14 @@ export default async function BlogPost({ params }: PageProps) {
           <h2 className="desk-h3 !text-[1.75rem] md:!text-[var(--text-desk-h3)] capitalize mb-12 md:mb-16">
             Latest insights & innovations.
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 md:gap-y-20">
             {latestInsights.map((insight) => (
               <Link key={insight.slug} href={`/blog/${insight.slug}`}>
-                <BlogCard 
-                  category={insight.category} 
-                  description={insight.description} 
-                  image={insight.image} 
+                <BlogCard
+                  category={insight.category}
+                  description={insight.description}
+                  image={insight.image}
                 />
               </Link>
             ))}

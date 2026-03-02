@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from "react";
@@ -20,18 +21,15 @@ export default function Journey() {
     <section className="bg-black text-white py-20 md:py-32 overflow-hidden">
       <Container className="!max-w-none px-6 md:px-[5vw] lg:px-[74px]">
         
-        {/* HEADER SECTION - FIXED MOBILE SIZE */}
+        {/* HEADER SECTION */}
         <div className="mb-16 md:mb-24">
-          {/* !text-[2.5rem] ensures the font is ~40px on mobile.
-            md:!text-[var(--text-desk-h1)] reverts it to your global desktop size.
-          */}
           <h2 className="desk-h1 !text-[2.5rem] md:!text-[var(--text-desk-h1)] text-white leading-[1.1] font-pop">
             <span className="block opacity-50 !font-extralight mb-1 font-pop font-bold">Our </span>
-            <span className="block  font-pop">Journey</span>
+            <span className="block font-pop">Journey</span>
           </h2>
         </div>
 
-        {/* TIMELINE CONTAINER */}
+        {/* TIMELINE CONTAINER - Restored gap-4 and gap-6 */}
         <div className="flex flex-col w-full gap-4 md:gap-6">
           {steps.map((step, i) => (
             <div
@@ -48,7 +46,7 @@ export default function Journey() {
                 }`} 
               />
 
-              {/* YEAR BLOCK - FIXED MOBILE SIZE */}
+              {/* YEAR BLOCK */}
               <div className="relative z-10 w-24 sm:w-28 md:w-40 lg:w-48 flex-shrink-0 text-right py-8 md:py-12 pr-6 md:pr-12">
                 <span className={`desk-h3 !text-[36px] md:!text-[var(--text-desk-h3)] transition-all duration-500 block leading-none ${
                   hoveredIndex === i ? "text-white scale-105" : "text-zinc-800"
@@ -57,7 +55,7 @@ export default function Journey() {
                 </span>
               </div>
 
-              {/* VERTICAL LINE */}
+              {/* VERTICAL LINE - No Dot */}
               <div className="relative z-10 flex flex-col">
                 <div className={`w-[1px] h-full transition-all duration-700 ${
                   hoveredIndex === i ? "bg-white/40" : "bg-white/10"
