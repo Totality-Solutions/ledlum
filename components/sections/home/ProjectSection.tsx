@@ -31,7 +31,7 @@ const OurProjectsSection = memo(function OurProjectsSection() {
 
   return (
     <Section className="bg-[#0A0A0A] text-white py-16 md:py-24 overflow-hidden">
-      <Container className="max-w-[1280px] 2xl:max-w-[1600px] w-full px-6 lg:px-10">
+      <Container className="relative z-10 px-6 lg:px-10">
         
         {/* Header Row - Exactly as your original */}
         <div className="flex flex-col-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
@@ -71,7 +71,7 @@ const OurProjectsSection = memo(function OurProjectsSection() {
 <div className="lg:hidden">
   <div className="mx-auto w-full max-w-[350px] md:max-w-[500px]">
     <InfiniteCarousel 
-      className="w-full aspect-[3/4] rounded-[25px] overflow-hidden shadow-xl" 
+      className="w-full aspect-[1/1] rounded-[25px] overflow-hidden shadow-xl" 
       images={carouselImages} 
       interval={4000} 
     />

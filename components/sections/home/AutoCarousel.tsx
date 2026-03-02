@@ -5,6 +5,7 @@ import ImageSliderCard from "@/components/layout/common/InfiniteCarousel";
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow";
+import TrustedPartnersSection from "./TrustedPartners";
 
 // --- ASSETS ---
 import productImg1 from "@/public/images/home/product-1.png";
@@ -65,7 +66,7 @@ export default function CombinedLightingPartners() {
         /> */}
       </Container>
       {/* PART 2: LIGHTING SECTION */}
-<Container className="max-w-[1280px] 2xl:max-w-[1600px] px-6 lg:px-10">
+<Container className="px-6 lg:px-10">
   <div className="max-w-5xl mb-12">
     <h2 className="text-5xl lg:text-6xl font-bold text-white tracking-tight font-bai">
       Lighting.
@@ -82,7 +83,7 @@ export default function CombinedLightingPartners() {
     <ImageSliderCard 
       images={LIGHTING_IMAGES} 
       interval={5000} 
-      className="w-full max-w-5xl aspect-video md:aspect-[16/9] " 
+      className="w-full aspect-video md:aspect-[20/9] " 
     />
   </div>
 </Container>

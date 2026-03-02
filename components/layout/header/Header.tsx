@@ -8,6 +8,7 @@ import { primaryNavigation, sideNavigation } from "@/config/navigation";
 // Local Image Imports
 import LogoImg from "@/public/images/logo/LEDLUM_LOGO.svg";
 import MenuIcon from "@/public/images/icons/menu_icon.png";
+import { Container } from "../Container";
 
 const HEADER_HEIGHT = "90px";
 
@@ -61,9 +62,10 @@ const Header = () => {
 
   return (
     <header ref={headerRef} className="sticky top-0 left-0 w-full z-50 bg-black">
+      <Container>
       {/* TOP BAR */}
       <div 
-        className="w-full px-6 lg:px-14 flex justify-between items-center backdrop-blur-lg text-white border-b border-white/5 will-change-filter" 
+        className="w-full  flex justify-between items-center backdrop-blur-lg text-white border-b border-white/5 will-change-filter" 
         style={{ 
           height: HEADER_HEIGHT,
           transform: 'translate3d(0, 0, 0)', 
@@ -144,8 +146,10 @@ const Header = () => {
           </div>
         </div>
       </div>
+      </Container>
 
       {/* MOBILE MENU - FIXED FULL HEIGHT */}
+      <Container> 
       <div
         className={`lg:hidden fixed left-0 w-full bg-black transition-all duration-300 z-40 ${
           mobileOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
@@ -168,6 +172,7 @@ const Header = () => {
            ))}
         </div>
       </div>
+      </Container>
     </header>
   );
 };

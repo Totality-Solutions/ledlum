@@ -28,7 +28,7 @@ export default function AchievementsSection() {
     >
       <div className="absolute inset-0 z-0 pointer-events-none" />
 
-      <Container className="max-w-[1280px] 2xl:max-w-[1600px] relative z-10 px-6 lg:px-10">
+      <Container className="relative z-10 px-6 lg:px-10">
 
         {/* HEADER (UNCHANGED DESKTOP STYLE) */}
         <div className="mb-20">

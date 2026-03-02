@@ -7,6 +7,9 @@ interface MarqueeFlowProps<T> {
   renderItem: (item: T, index: number) => React.ReactNode;
   gap?: number;
   speed?: number;
+  mobileCount?: number;
+  tabletCount?: number;
+  desktopCount?: number;
 }
 
 export default function MarqueeFlow<T>({
@@ -14,8 +17,11 @@ export default function MarqueeFlow<T>({
   renderItem,
   gap = 24,
   speed = 3500,
+  mobileCount = 2,
+  tabletCount = 3,
+  desktopCount = 4
 }: MarqueeFlowProps<T>) {
-  const [visibleItems, setVisibleItems] = useState(4); // how many cards shown
+  const [visibleItems, setVisibleItems] = useState(desktopCount); // how many cards shown
   const [isVisible, setIsVisible] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -61,9 +67,9 @@ export default function MarqueeFlow<T>({
     let timeoutId: NodeJS.Timeout;
     const update = () => {
       const w = window.innerWidth;
-      if (w < 640) setVisibleItems(2);       // mobile: show 2
-      else if (w < 1024) setVisibleItems(3); // tablet: show 3
-      else setVisibleItems(4);               // desktop: show 4
+      if (w < 640) setVisibleItems(mobileCount);       // mobile: show 2
+      else if (w < 1024) setVisibleItems(tabletCount); // tablet: show 3
+      else setVisibleItems(desktopCount);               // desktop: show 4
     };
     const handleResize = () => {
       clearTimeout(timeoutId);
