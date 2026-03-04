@@ -1,11 +1,29 @@
+"use client";
+
 import React from 'react';
-import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import CTABtn from "../../../components/layout/common/CTABtn"; // Adjust the import path as necessary
+import { usePathname } from 'next/navigation';
 
 export function GetInTouch() {
+  const pathname = usePathname(); // Initialize pathname
+
+
+  // 1. Theme now only controls the main footer background
+  const theme: Record<string, { bg: string }> = {
+    '/': { bg: 'bg-black' },        // Home
+    '/about': { bg: 'bg-[#111111]' },   // About
+    '/blog': { bg: 'bg-black' },     // Contact
+     
+  }; 
+
+
+
+  // Fallback to default if route isn't defined
+  const currentTheme = theme[pathname] || theme['/']; 
+
   return (
-    <section className="relative z-10 w-full pt-20 pb-20 flex flex-col items-center text-center bg-[#111111] overflow-hidden">
+    <section className={`relative z-10 w-full pt-20 pb-20 flex flex-col items-center text-center ${currentTheme.bg} overflow-hidden`}>
       
       {/* 1. GLOBAL BACKGROUND LAYER - Optimized */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
@@ -18,30 +36,27 @@ export function GetInTouch() {
       </div>
 
       <div className="relative z-10 flex flex-col items-center">
-        {/* Title: Manual sizing and font-pop */}
+        {/* Title */}
         <h2 className="font-pop font-medium text-[48px] md:text-[64px] leading-tight text-white mb-2 tracking-tight">
           Get In Touch
         </h2>
         
-        {/* Subtitle: Manual sizing and font-pop */}
+        {/* Subtitle */}
         <p className="font-pop font-light text-[24px] md:text-[42px] text-white opacity-95 mb-14">
           With Our Lighting Specialists.
         </p>
         
-        {/* Button: Exact color matching and shape */}
-        <Link 
-          href="/contact" 
-          className="group flex items-center gap-5 bg-[#EFE3D3] pl-10 pr-4 py-3 rounded-full transition-all hover:scale-105 duration-300 active:scale-95"
-        >
-          <span className="text-black font-pop font-semibold text-[22px]">
-            Our Story
-          </span>
-          
-          {/* Arrow Container: Circle matching the branding */}
-          <div className="bg-[#A39678] rounded-full w-14 h-14 flex items-center justify-center group-hover:rotate-45 transition-transform duration-300 shadow-sm">
-            <ArrowUpRight className="w-8 h-8 text-white" strokeWidth={2.5} />
-          </div>
-        </Link>
+        {/* Modular Button Replacement */}
+        <CTABtn 
+          label="Our Story"
+          href="/contact"
+          size="md"
+          btnBg="#EFE3D3"
+          circleBg="#A39678"
+          textColor="#000000"
+          iconColor="#FFFFFF"
+          className="hover:scale-105 transition-transform duration-300"
+        />
       </div>
     </section>
   );

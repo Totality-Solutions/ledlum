@@ -8,16 +8,35 @@ import { Container } from "@/components/layout/Container";
 import Link from "next/link";
 import Image from "next/image"; // Added for optimization
 import { Instagram, Facebook, Linkedin, Send } from "lucide-react";
+import { usePathname } from 'next/navigation';
+import logo from '../../../public/images/logo/ledlum-logo-footer.png'
 
 export default function Footer() {
+
+  const pathname = usePathname(); // Initialize pathname
+
   const footerLinks = {
     about: ["Contact", "Our Work", "Studio Notes", "About the Studio"],
     services1: ["Architectural Lighting", "Industrial Solutions", "Smart Controls", "Sustainability"],
     services2: ["Bespoke Design", "Energy Audits", "Custom Fabrication", "Technical Support"],
   };
 
+
+
+ // 1. Theme now only controls the main footer background
+  const theme: Record<string, { bg: string }> = {
+    '/': { bg: 'bg-black' },        // Home
+    '/about': { bg: 'bg-[#111111]' },   // About
+    '/contact': { bg: 'bg-black' },     // Contact
+     
+  }; 
+// Fallback to default if route isn't defined
+  const currentTheme = theme[pathname] || theme['/']; 
+
+  
   return (
-    <footer className="relative bg-black pt-6 md:pt-10 px-4 md:px-6 overflow-hidden flex flex-col min-h-screen lg:min-h-[90vh] max-w-full">
+    // <footer className="relative bg-[#111111] pt-6 md:pt-10 px-4 md:px-6 overflow-hidden flex flex-col min-h-screen lg:min-h-[90vh] max-w-full  ">
+    <footer className={`relative ${currentTheme.bg}  pt-6 md:pt-10 px-4 md:px-6 overflow-hidden flex flex-col min-h-screen lg:min-h-[90vh] max-w-full transition-colors duration-500`}>
       
       {/* 1. BACKGROUND LAYERS - Optimized with Next/Image */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
@@ -34,8 +53,30 @@ export default function Footer() {
       </div>
 
       {/* Big Watermark Logo - Fixed Positioning */}
-{/* Big Watermark Logo - Restored to Original Scaling */}
-<div className="absolute bottom-4 md:bottom-0 left-0 w-full pointer-events-none top-auto md:top-2.5 z-0">
+
+{/* <div className="absolute bottom-4 md:bottom-0 left-0 w-full pointer-events-none top-auto md:top-2.5 z-0"> */}
+
+{/* Big Watermark Logo - Custom Responsive Positioning */}
+<div className={`
+  absolute z-0 w-full pointer-events-none transition-all duration-700
+  
+  /* 1. Default Mobile (up to 767px) */
+  bottom-5 left-0 scale-110
+  
+  /* 2. Tablets (768px and up) */
+  md:bottom-0 md:left-0 md:scale-100
+  
+  /* 3. Laptops / Small Desktop (min-width: 1024px) */
+  lg:bottom-[10px] lg:left-[2%]
+  
+  /* 4. Large Screens (min-width: 1440px) */
+  [@media(min-width:1440px)]:bottom-[160px] 
+  [@media(min-width:1440px)]:left-[-5%]
+  
+  /* 5. Ultra-Wide / 4K (min-width: 1920px) */
+  [@media(min-width:1920px)]:bottom-[100px] 
+  [@media(min-width:1920px)]:scale-105
+`}>
   <Image 
     src="/images/about/footer-logo.png" 
     alt="Ledlum Watermark" 
@@ -65,15 +106,31 @@ export default function Footer() {
             {/* --- LEFT MODULE: Brand & Identity --- */}
             <div className="flex flex-col justify-between h-full max-w-sm w-full">
               <div>
-                <div className="flex items-center gap-3 mb-8">
+                {/* <div className="flex items-center gap-3 mb-8">
                   <svg width="32" height="32" viewBox="0 0 40 40" fill="none" className="text-white">
                     <path d="M20 0V40M0 20H40" stroke="currentColor" strokeWidth="1.5"/>
                     <path d="M10 10L30 30M30 10L10 30" stroke="currentColor" strokeWidth="1.5"/>
                   </svg>
                   <span className="desk-h3 !text-3xl font-bold tracking-tighter text-white font-pop uppercase ">
-                    L E D L U M
+                    LEDLUM
                   </span>
-                </div>
+                </div> */}
+
+
+
+                <div className="flex items-center gap-3 mb-8">
+      {/* Replaced SVG and Span with the Logo Image */}
+      <Link href="/" className="transition-opacity hover:opacity-90">
+        <Image 
+          src={logo} 
+          alt="Ledlum Logo" 
+          width={180} // Adjust based on your preferred desktop size
+          height={45} 
+          className="h-auto w-auto object-contain"
+          priority // Ensures logo loads immediately as a key brand element
+        />
+      </Link>
+    </div>
                 
                 <p className="body-sm leading-relaxed text-white font-pop font-light max-w-[320px]">
                   Enhancing environments through energy efficiency, aesthetic appeal, 

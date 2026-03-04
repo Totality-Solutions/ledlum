@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Section from "@/components/layout/Section";
+import { jsPDF } from "jspdf";
 
 interface ProductInfoProps {
   config: any;
@@ -13,10 +14,26 @@ interface ProductInfoProps {
 
 export default function ProductInfoSection({ config, activeId, onModelChange, allModelIds, permutations = [] }: ProductInfoProps) {
   const [selections, setSelections] = useState<Record<string, string>>({});
+  const [error, setError] = useState("");
+  const [touched, setTouched] = useState<string[]>([]);
 
   useEffect(() => {
     setSelections({});
+    setError("");
+    setTouched([]);
   }, [activeId]);
+
+  const requiredFields = [
+    "voltage",
+    "dimensions",
+    "watts",
+    "cct",
+    "bodyColor",
+    "beamAngles",
+    "ledChip",
+    "luminous",
+    "cri"
+  ];
 
   const checkIsDisabled = (category: string, value: string): boolean => {
     if (!permutations || permutations.length === 0) return false;
@@ -33,6 +50,8 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
   };
 
   const handleSelect = (category: string, value: string) => {
+    setError("");
+
     setSelections((prev) => {
       if (prev[category] === value) {
         const newState = { ...prev };
@@ -41,9 +60,44 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
       }
       return { ...prev, [category]: value };
     });
+
+    setTouched((prev) => prev.filter((f) => f !== category));
   };
 
-  // Logic: Enable download if at least one config is selected
+  const handleDownload = () => {
+
+    const missing = requiredFields.filter(field => !selections[field]);
+
+    if (missing.length > 0) {
+      setTouched(missing);
+      setError(`Please select: ${missing.join(", ")}`);
+      return;
+    }
+
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Product Configuration Tech Pack", 20, 20);
+
+    doc.setFontSize(12);
+    doc.text(`Product ID: ${activeId}`, 20, 40);
+
+    let y = 60;
+
+    Object.entries(selections).forEach(([key, value]) => {
+      doc.text(`${key.toUpperCase()} : ${value}`, 20, y);
+      y += 10;
+    });
+
+    doc.save(`${activeId}-tech-pack.pdf`);
+  };
+
+  const resetAll = () => {
+    setSelections({});
+    setError("");
+    setTouched([]);
+  };
+
   const hasSelection = Object.keys(selections).length > 0;
 
   return (
@@ -52,9 +106,8 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
 
         <h1 className="text-white text-4xl font-medium mb-12">Product Configuration</h1>
         
-{/* 1. Model Selection Grid */}
 <div className="mb-10">
-  <p className="text-[#acacac] text-2xl font-normal tracking-wide">Model Spectrum :</p>
+  <p className="text-[#acacac] text-2xl font-normal tracking-wide mb-4">Model Spectrum :</p>
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
     {allModelIds.map((id) => {
       const isActive = activeId.toLowerCase() === id.toLowerCase();
@@ -68,25 +121,22 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
               : "bg-transparent border-white/10 hover:border-white/30"
           }`}
         >
-          {/* Radio-style Circle */}
+
           <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-4 ${
             isActive ? "border-[#4A61AD]" : "border-white/20"
           }`}>
             {isActive && <div className="w-2.5 h-2.5 rounded-full bg-[#4A61AD]" />}
           </div>
 
-          {/* Model ID */}
           <span className={`text-lg font-normal uppercase flex-1 ${isActive ? "text-black" : "text-[#888888]"}`}>
             {id}
           </span>
 
-          {/* Vertical Divider */}
           <div className={`h-10 w-[1px] mx-4 ${isActive ? "bg-black/10" : "bg-white/10"}`} />
 
-          {/* Product Image */}
           <div className="relative w-12 h-12">
              <Image 
-               src={`https://placehold.co/100x100?text=${id}`} // Apne path ke hisaab se change kar lena
+               src={`https://placehold.co/100x100?text=${id}`}
                alt={id} 
                fill 
                unoptimized 
@@ -101,7 +151,6 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
 
         <div className="flex flex-col border-t border-white/10">
           
-          {/* TOP SECTION HEADING */}
           <div className="mt-10 mb-2">
             <h3 className="text-[#acacac] text-2xl font-normal tracking-wide">
               Core Configuration
@@ -114,6 +163,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
             selected={selections.voltage}
             onSelect={(val: string) => handleSelect("voltage", val)}
             isDisabled={(val: string) => checkIsDisabled("voltage", val)}
+            isError={touched.includes("voltage")}
           />
 
           <ConfigRow 
@@ -122,6 +172,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
             selected={selections.dimensions}
             onSelect={(val: string) => handleSelect("dimensions", val)}
             isDisabled={(val: string) => checkIsDisabled("dimensions", val)}
+            isError={touched.includes("dimensions")}
           />
 
           <ConfigRow 
@@ -130,10 +181,10 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
             selected={selections.watts}
             onSelect={(val: string) => handleSelect("watts", val)}
             isDisabled={(val: string) => checkIsDisabled("watts", val)}
+            isError={touched.includes("watts")}
           />
 
-          {/* CCT Row */}
-          <div className="py-5 border-b border-white/10 flex flex-col lg:flex-row lg:items-center gap-6">
+          <div className={`py-5 border-b flex flex-col lg:flex-row lg:items-center gap-6 ${touched.includes("cct") ? "border-red-500" : "border-white/10"}`}>
             <span className="w-full lg:w-[300px] text-[#EBEBEB] text-lg">CCT :</span>
             <div className="flex flex-wrap gap-3">
               {(config.cct || []).map((item: any, idx: number) => {
@@ -156,14 +207,12 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
             </div>
           </div>
 
-          {/* BOTTOM SECTION HEADING */}
           <div className="mt-14 mb-4">
             <h3 className="text-[#acacac] text-2xl font-normal tracking-wide">
               Technical Specifications & Finish
             </h3>
           </div>
 
-          {/* FIRST GRID: Physical Specs */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 py-8 border-b border-white/10">
             <ConfigColumn 
               label="Body Color :" 
@@ -172,6 +221,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
               onSelect={(val: string) => handleSelect("bodyColor", val)}
               isDisabled={(val: string) => checkIsDisabled("bodyColor", val)}
               isColorType={true}
+              isError={touched.includes("bodyColor")}
             />
 
             <ConfigColumn 
@@ -180,13 +230,13 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
               selected={selections.beamAngles}
               onSelect={(val: string) => handleSelect("beamAngles", val)}
               isDisabled={(val: string) => checkIsDisabled("beamAngles", val)}
+              isError={touched.includes("beamAngles")}
             />
 
             <ConfigColumn label="IP Rating :" options={config.ipRating || []} selected={config.ipRating?.[0]} />
             <ConfigColumn label="Cutout Size :" options={config.cutoutSizes || []} selected={config.cutoutSizes?.[0]} />
           </div>
 
-          {/* SECOND GRID: Technical Specs */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-8 border-b border-white/10">
             <ConfigColumn 
               label="LED Chip :" 
@@ -194,6 +244,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
               selected={selections.ledChip}
               onSelect={(val: string) => handleSelect("ledChip", val)}
               isDisabled={(val: string) => checkIsDisabled("ledChip", val)}
+              isError={touched.includes("ledChip")}
             />
 
             <ConfigColumn 
@@ -202,6 +253,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
               selected={selections.luminous}
               onSelect={(val: string) => handleSelect("luminous", val)}
               isDisabled={(val: string) => checkIsDisabled("luminous", val)}
+              isError={touched.includes("luminous")}
             />
 
             <ConfigColumn 
@@ -210,11 +262,16 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
               selected={selections.cri}
               onSelect={(val: string) => handleSelect("cri", val)}
               isDisabled={(val: string) => checkIsDisabled("cri", val)}
+              isError={touched.includes("cri")}
             />
           </div>
+
+          {error && (
+            <p className="text-red-500 mt-6">{error}</p>
+          )}
+
         </div>
 
-        {/* Footer */}
         <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col gap-1">
             <p className="text-white/40 text-sm font-light italic uppercase tracking-tighter">
@@ -227,18 +284,14 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
           
           <div className="flex gap-4">
             <button 
-              onClick={() => setSelections({})}
+              onClick={resetAll}
               className="text-white/60 hover:text-white text-sm underline underline-offset-4 transition-all"
             >
               Reset Selection
             </button>
             <button 
-              disabled={!hasSelection}
-              className={`px-10 py-4 rounded-full transition-all font-medium ${
-                hasSelection 
-                ? "bg-[#96865D] text-white hover:bg-[#85764d]" 
-                : "bg-white/5 text-white/20 cursor-not-allowed border border-white/10"
-              }`}
+              onClick={handleDownload}
+              className="px-10 py-4 rounded-full transition-all font-medium bg-[#96865D] text-white hover:bg-[#85764d]"
             >
               Download Tech Pack
             </button>
@@ -249,8 +302,8 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
   );
 }
 
-const ConfigRow = ({ label, options, selected, onSelect, isDisabled }: any) => (
-  <div className="py-5 border-b border-white/10 flex flex-col lg:flex-row lg:items-center gap-6">
+const ConfigRow = ({ label, options, selected, onSelect, isDisabled, isError }: any) => (
+  <div className={`py-5 border-b flex flex-col lg:flex-row lg:items-center gap-6 ${isError ? "border-red-500" : "border-white/10"}`}>
     <span className="w-full lg:w-[300px] text-[#EBEBEB] text-lg font-normal">{label}</span>
     <div className="flex flex-wrap gap-3">
       {options.map((opt: string) => {
@@ -274,8 +327,8 @@ const ConfigRow = ({ label, options, selected, onSelect, isDisabled }: any) => (
   </div>
 );
 
-const ConfigColumn = ({ label, options = [], selected, onSelect, isDisabled, isColorType }: any) => (
-  <div className="flex flex-col gap-4">
+const ConfigColumn = ({ label, options = [], selected, onSelect, isDisabled, isColorType, isError }: any) => (
+  <div className={`flex flex-col gap-4 ${isError ? "border border-red-500 p-3 rounded-xl" : ""}`}>
     <span className="text-[#EBEBEB] text-lg">{label}</span>
     <div className="flex flex-wrap gap-2">
       {options.map((opt: any) => {
@@ -311,3 +364,7 @@ const ConfigColumn = ({ label, options = [], selected, onSelect, isDisabled, isC
     </div>
   </div>
 );
+
+
+
+
