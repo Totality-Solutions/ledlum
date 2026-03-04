@@ -4,12 +4,12 @@ export type NavigationItem = {
 };
 
 export const primaryNavigation: NavigationItem[] = [
-  { title: "LED Lum Outdoor", href: "/products/outdoor" },
-  { title: "LED Lum Indoor", href: "/products/indoor" },
-  { title: "Artizan", href: "/products/artizan" },
-  { title: "Astara", href: "/products/astara" },
-  { title: "Volaris", href: "/products/volaris" },
-  { title: "Klewe", href: "/products/klewe" },
+  { title: "LED Lum Outdoor", href: "/product/outdoor" },
+  { title: "LED Lum Indoor", href: "/product/indoor" },
+  { title: "Artizan", href: "/product/artizan" },
+  { title: "Astara", href: "/product/astara" },
+  { title: "Volaris", href: "/product/volaris" },
+  { title: "Klewe", href: "/product/klewe" },
 ];
 
 export const sideNavigation: NavigationItem[] = [
