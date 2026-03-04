@@ -188,8 +188,18 @@ export default function VisionMission() {
       </div>
 
       {/* 2. MISSION CIRCULAR IMAGE */}
-      <div className="absolute top-[20%] left-[-10%] md:left-[5%] w-[400px] h-[400px] md:w-[700px] md:h-[700px] z-0 pointer-events-none">
-        <div className="relative w-full h-full rounded-full blur-[30px] transition-opacity duration-700 opacity-20 md:opacity-90 overflow-hidden"
+      <div className="absolute top-[20%] left-[-10%] md:left-[5%] w-[400px] h-[400px] md:w-[700px] md:h-[700px] z-0 pointer-events-none ">
+        <div className={`relative w-full h-full rounded-full blur-[30px] transition-opacity duration-700 opacity-20 md:opacity-40  lg:opacity-50 overflow-hidden 
+        
+        /* 4. Large Screens (min-width: 1440px) */
+  [@media(min-width:1440px)]:opacity-100 
+  [@media(min-width:1440px)]:opacity-100 
+  
+  /* 5. Ultra-Wide / 4K (min-width: 1920px) */
+  [@media(min-width:1920px)]:opacity-100  
+  [@media(min-width:1920px)]:opacity-100 
+        
+        `}
              style={{
                WebkitMaskImage: 'radial-gradient(circle, black 40%, transparent 80%)',
                maskImage: 'radial-gradient(circle, black 40%, transparent 80%)',
