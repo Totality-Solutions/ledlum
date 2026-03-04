@@ -2,6 +2,12 @@
 
 export const PRODUCT_DATABASE = {
   "llf-103": {
+
+    category: "LED COB Spotlight",
+    group: "Led Cob Concealed",
+    dimming: "Dali",
+
+    collection: "indoor",
     hero: {
       category: "LED COB Spotlight",
       name: "LLF-103",
@@ -27,7 +33,6 @@ export const PRODUCT_DATABASE = {
       cri: ["≥90"]
     },
     permutations: [
-      // Isme har config option kam se kam ek baar 'selectable' hai
       { voltage: "220-240V", watts: "7W", dimensions: "Ø100x92mm", bodyColor: "White", beamAngles: "15°", ledChip: "CREE COB", luminous: "800lm", cri: "≥90", cct: "2700K" },
       { voltage: "220-240V", watts: "12W", dimensions: "Ø100x92mm", bodyColor: "Dark Gray", beamAngles: "24°", ledChip: "CREE COB", luminous: "1200lm", cri: "≥90", cct: "3000K" },
       { voltage: "110-120V", watts: "15W", dimensions: "Ø130x116mm", bodyColor: "White", beamAngles: "36°", ledChip: "CREE COB", luminous: "1500lm", cri: "≥90", cct: "4000K" },
@@ -41,6 +46,12 @@ export const PRODUCT_DATABASE = {
   },
 
   "llf-104": {
+
+    category: "Recessed Downlight",
+    group: "Led Smd Concealed",
+    dimming: "Non - Dimming",
+
+    collection: "indoor",
     hero: {
       category: "Recessed Downlight",
       name: "LLF-104",
@@ -75,9 +86,16 @@ export const PRODUCT_DATABASE = {
       "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail",
       "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail",
       "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail"
-    ]  },
+    ]
+  },
 
   "llf-205": {
+
+    category: "Track Light System",
+    group: "Premium Series",
+    dimming: "Dali",
+
+    collection: "indoor",
     hero: {
       category: "Track Light System",
       name: "LLF-205",
@@ -114,6 +132,12 @@ export const PRODUCT_DATABASE = {
   },
 
   "llf-m20": {
+
+    category: "Magnetic Track System",
+    group: "Premium Series",
+    dimming: "DP",
+
+    collection: "indoor",
     hero: {
       category: "Magnetic Track System",
       name: "LLF-M20",
