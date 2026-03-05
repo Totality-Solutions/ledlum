@@ -2,11 +2,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Section from "@/components/layout/Section";
-import ExcelJS from "exceljs";
-import saveAs from "file-saver";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineDownload } from "react-icons/hi";
 import { PdfFile } from "./Pdf";
+import { ExcelFile } from "./ExcelFile";
 
 interface ProductInfoProps {
   config: any;
@@ -23,6 +22,8 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const ANIMATION_DURATION = 2000; // 2 seconds for a premium feel
 
   useEffect(() => {
     setSelections({});
@@ -97,14 +98,22 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
   const handleDownloadPDF = async () => {
     if (!validateForm()) return;
     setIsDownloading(true);
+    const startTime = Date.now();
+
     try {
-      // Passing config values that aren't in selections (IP and Cutout)
+      // Start PDF generation
       await PdfFile({ 
         selections, 
         activeId, 
         ipRating: config.ipRating?.[0] || "IP20",
         cutout: config.cutoutSizes?.[0] || "N/A"
       });
+
+      // Sync timing so animation finishes before state resets
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, ANIMATION_DURATION - elapsedTime);
+      await new Promise((resolve) => setTimeout(resolve, remainingTime));
+
       setIsMenuOpen(false);
     } catch (err) {
       setError("PDF Generation failed.");
@@ -115,21 +124,27 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
 
   const handleDownloadExcel = async () => {
     if (!validateForm()) return;
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Technical Specs");
-    worksheet.columns = [
-      { header: "SPECIFICATION", key: "spec", width: 25 },
-      { header: "VALUE", key: "value", width: 35 },
-    ];
-    worksheet.addRow({ spec: "PRODUCT ID", value: activeId });
-    Object.entries(selections).forEach(([key, value]) => {
-      worksheet.addRow({ spec: key.toUpperCase(), value: value });
-    });
-    worksheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
-    worksheet.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF96865D' } };
-    const buffer = await workbook.xlsx.writeBuffer();
-    saveAs(new Blob([buffer]), `${activeId}-tech-pack.xlsx`);
-    setIsMenuOpen(false);
+    setIsDownloading(true);
+    const startTime = Date.now();
+
+    try {
+      await ExcelFile({
+        selections,
+        activeId,
+        ipRating: config.ipRating?.[0] || "IP20",
+        cutout: config.cutoutSizes?.[0] || "N/A"
+      });
+
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, ANIMATION_DURATION - elapsedTime);
+      await new Promise((resolve) => setTimeout(resolve, remainingTime));
+
+      setIsMenuOpen(false);
+    } catch (err) {
+      setError("Excel Generation failed.");
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const resetAll = () => {
@@ -221,26 +236,73 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
               <AnimatePresence>
                 {isMenuOpen && (
                   <motion.div initial={{ opacity: 0, y: 10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 10, scale: 0.95 }} className="absolute top-full mt-4 flex flex-col gap-2 w-fit left-35 z-50">
-                    <button onClick={handleDownloadExcel} className="flex items-center justify-between gap-8 bg-[#96865D] hover:bg-[#85764d] text-white pl-10 pr-2 py-2 rounded-full transition-all w-full shadow-xl">
-                      <span className="font-medium text-lg">Sheet Data</span>
+                    <button onClick={handleDownloadExcel} className="flex items-center justify-between gap-2 bg-[#96865D] hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all w-fit shadow-xl">
+                      <span className="font-medium text-md">Sheet Data</span>
                       <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center">
-                        <HiOutlineDownload className="text-black text-xl" />
+                        <HiOutlineDownload className="text-black text-lg" />
                       </div>
                     </button>
-                    <button onClick={handleDownloadPDF} disabled={isDownloading} className="flex items-center justify-between gap-8 bg-[#96865D] hover:bg-[#85764d] text-white pl-10 pr-2 py-2 rounded-full transition-all w-full shadow-xl">
-                      <span className="font-medium text-lg">{isDownloading ? "Generating..." : "PDF Tech Pack"}</span>
+                    <button onClick={handleDownloadPDF} disabled={isDownloading} className="flex items-center justify-between gap-2 bg-[#96865D] hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all w-fit shadow-xl">
+                      <span className="font-medium text-md">{isDownloading ? "Generating..." : "PDF Tech Pack"}</span>
                       <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center">
-                        <HiOutlineDownload className="text-black text-xl" />
+                        <HiOutlineDownload className="text-black text-lg" />
                       </div>
                     </button>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="flex items-center justify-between gap-8 bg-[#96865D] hover:bg-[#85764d] text-white pl-10 pr-2 py-2 rounded-full transition-all min-w-[320px] group shadow-lg">
-                <span className="font-medium text-xl">Download Technical Pack</span>
-                <div className="bg-[#FAF3E0] p-3 rounded-full flex items-center justify-center">
-                  <HiOutlineDownload className="text-black text-2xl group-hover:scale-110 transition-transform" />
+              <button
+                onClick={() => !isDownloading && setIsMenuOpen(!isMenuOpen)}
+                disabled={isDownloading}
+                className="flex items-center justify-between gap-4 bg-[#96865D] hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all max-w-[300px] group shadow-lg disabled:opacity-90 disabled:cursor-wait"
+              >
+                <span className="font-medium text-md">
+                  {isDownloading ? "Downloading....." : "Download Pack"}
+                </span>
+
+                <div className="relative bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center">
+                  <AnimatePresence>
+                    {isDownloading && (
+                      <svg
+                        className="absolute inset-0 w-full h-full -rotate-90"
+                        viewBox="0 0 100 100"
+                      >
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="42"
+                          fill="transparent"
+                          stroke="rgba(150, 134, 93, 0.15)"
+                          strokeWidth="8"
+                        />
+                        <motion.circle
+                          cx="50"
+                          cy="50"
+                          r="42"
+                          fill="transparent"
+                          stroke="#96865D"
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{
+                            duration: ANIMATION_DURATION / 1000,
+                            ease: "linear",
+                          }}
+                        />
+                      </svg>
+                    )}
+                  </AnimatePresence>
+
+                  <div className="relative z-10">
+                    <HiOutlineDownload 
+                      className={`text-black text-xl transition-all duration-300 ${
+                        isDownloading ? "opacity-50 scale-75" : "group-hover:scale-110"
+                      }`} 
+                    />
+                  </div>
                 </div>
               </button>
             </div>

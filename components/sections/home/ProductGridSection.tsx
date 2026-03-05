@@ -10,15 +10,16 @@ import BgImg from '@/public/images/home/home-bg1.png';
 import productImg1 from "@/public/images/home/product-1.png";
 import productImg2 from "@/public/images/home/product-2.png";
 import Arrival1 from "@/public/images/home/new-arrival.png";
+import CTABtn from '@/components/layout/common/CTABtn';
 
 // --- DATA ---
 const NEW_ARRIVALS = [
-  { id: 1, img: Arrival1 },
-  { id: 2, img: Arrival1 },
-  { id: 3, img: Arrival1 },
-  { id: 4, img: Arrival1 },
-  { id: 5, img: Arrival1 },
-  { id: 6, img: Arrival1 },
+  { id: 1, img: Arrival1, title: 'Simply Dummy' },
+  { id: 2, img: Arrival1, title: 'Simply Dummy' },
+  { id: 3, img: Arrival1, title: 'Simply Dummy' },
+  { id: 4, img: Arrival1, title: 'Simply Dummy' },
+  { id: 5, img: Arrival1, title: 'Simply Dummy' },
+  { id: 6, img: Arrival1, title: 'Simply Dummy' },
 ];
 
 const BESTSELLERS = [
@@ -63,20 +64,20 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       <Container className="relative z-10 px-6 lg:px-10">
         <div className="flex flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
           <div className="max-w-xl">
-            <h2 className="sm:mob-h1 desk-h1 text-white font-bai">Designed In-House.</h2>
-            <p className="sm:mob-h2 desk-h2 text-white/80 font-bai">Built <span className="lowercase">to</span> Last.</p>
+            <h2 className="desk-h2 text-white ">Designed In-House.</h2>
+            <p className="desk-h3 text-white ">Built <span className="lowercase">to</span> Last.</p>
           </div>
           
           <div className="flex flex-row md:flex-col items-end gap-6">
             <div className="flex items-center gap-6 lg:gap-10">
-              <div className="hidden lg:flex items-center gap-2">
+              {/* <div className="hidden lg:flex items-center gap-2">
                 {["Ceiling", "Table", "Wall", "Floor lights"].map((item, index, array) => (
                   <React.Fragment key={item}>
                     <span className="body-xs text-white/40 font-bai cursor-pointer hover:text-white transition-colors uppercase tracking-widest">{item}</span>
                     {index !== array.length - 1 && <div className="w-8 h-[1px] bg-white opacity-20" />}
                   </React.Fragment>
                 ))}
-              </div>
+              </div> */}
               <span className="hidden md:block body-sm text-white">Bestsellers</span>
             </div>
               
@@ -158,35 +159,51 @@ const CombinedProductSection = memo(function CombinedProductSection() {
 
       {/* SECTION 2: NEW ARRIVALS CAROUSEL */}
       <Container className="relative z-10 px-6 lg:px-10">
-        <div className="flex justify-between items-center mb-10">
-          <h2 className="body text-white tracking-[0.3em] flex items-center gap-2 uppercase font-bai">
-            <span>New</span><span className="font-semibold">Arrivals</span>
-          </h2>
-          <p className="body-xs text-white opacity-60 font-pop italic">Experience the Fan’s</p>
+  <div className="flex justify-between items-center mb-10">
+    <h2 className="body text-white flex items-center font-pop">
+      <span>New Arrivals</span>
+    </h2>
+    <p className="body text-white font-pop ">Experience the Fan’s</p>
+  </div>
+
+  <MarqueeFlow
+    items={NEW_ARRIVALS}
+    gap={20}
+    speed={3000}
+    renderItem={(item) => (
+      /* Parent container keeps your exact sizing and overflow hidden */
+      <div className="relative aspect-[3/4] w-full rounded-[16px] overflow-hidden group shadow-xl">
+
+        {/* The Image fills the entire card now */}
+        <Image 
+          src={item.img} 
+          alt={item.title || "New Arrival"} 
+          fill 
+          className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform" 
+          style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
+          unoptimized 
+          sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
+        />
+
+
+        {/* The Overlay: Positioned absolute at the bottom to match the 2nd image */}
+        <div className="absolute bottom-0 bg-black left-0 w-full p-6 lg:p-4">
+          <CTABtn
+            label={item.title || "Simply Dummy"}
+            showButtonBg={false}
+            showIconCircle={true}
+            circleBg="#9a8c66"
+            textColor="#ffffff"
+            width="full"
+            size="md"
+            className="!px-0"
+          />
         </div>
 
-        <MarqueeFlow
-          items={NEW_ARRIVALS}
-          gap={20}
-          speed={3000}
-          renderItem={(item) => (
-            <div className="relative aspect-[3/4] rounded-[12px] lg:rounded-[25px] overflow-hidden group shadow-xl w-full">
-              <Image 
-                src={item.img} 
-                alt="New Arrival" 
-                fill 
-                className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform" 
-                style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
-                unoptimized 
-                sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" />
-              <div className="absolute bottom-6 right-6 w-11 h-11 bg-white/20 backdrop-blur-md rounded-full flex flex-col items-center justify-center gap-1 opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300">
-                <div className="w-1.5 h-1.5 border-[1.5px] border-white rounded-full" />
-                <div className="w-1.5 h-1.5 border-[1.5px] border-white rounded-full" />
-              </div>
-            </div>
-          )}
-        />
-      </Container>
+      </div>
+    )}
+  />
+</Container>
     </Section>
   );
 });
