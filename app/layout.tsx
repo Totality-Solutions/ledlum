@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, Bai_Jamjuree } from "next/font/google";
 import { Suspense } from "react";
 import Image from "next/image";
 import "./globals.css";
@@ -12,11 +12,18 @@ import linearGradientBg from "@/public/lineargradient.png";
 import ledlumLineBg from "@/public/images/about/ledlumline.png";
 import glowBg from "@/public/glow-bg.png";;
 
-const montserrat = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-pop",
-  style:"normal"
+  style: "normal"
+});
+
+const baiJamjuree = Bai_Jamjuree({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700"],
+  variable: "--font-bai",
+  style: "normal"
 });
 
 export const metadata: Metadata = buildMetadata();
@@ -32,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${montserrat.variable}  text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased`}
+        className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased`}
       >
         {/* ── Fixed full-page background image layers ── */}
         <div

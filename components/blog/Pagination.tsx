@@ -1,6 +1,6 @@
 
 "use client";
-import React from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -10,28 +10,29 @@ interface PaginationProps {
   paramName?: string; // NEW: Allows different URL parameters
 }
 
-export default function Pagination({ 
+const Pagination = memo(function Pagination({ 
   currentPage, 
   totalPages, 
-  paramName = "page" // Default is still "page"
+  paramName = "page"
 }: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set(paramName, page.toString()); // Sets the specific parameter
+    params.set(paramName, page.toString());
     router.push(`/blog?${params.toString()}`, { scroll: false });
-  };
+  }, [searchParams, router, paramName]);
 
   if (totalPages <= 1) return null;
 
-  // Logic to show only 2 numbers
-  let startPage = Math.max(1, currentPage);
-  if (startPage + 1 > totalPages) {
-    startPage = Math.max(1, totalPages - 1);
-  }
-  const pagesToShow = [startPage, startPage + 1].filter(p => p <= totalPages);
+  const pagesToShow = useMemo(() => {
+    let startPage = Math.max(1, currentPage);
+    if (startPage + 1 > totalPages) {
+      startPage = Math.max(1, totalPages - 1);
+    }
+    return [startPage, startPage + 1].filter(p => p <= totalPages);
+  }, [currentPage, totalPages]);
 
   return (
     <div className="flex items-center justify-center gap-4 mt-16 relative z-10 font-bai">
@@ -46,7 +47,7 @@ export default function Pagination({
 
       {/* 2 Page Numbers */}
       <div className="flex items-center gap-2">
-        {pagesToShow.map((pageNum) => (
+        {pagesToShow.map((pageNum: number) => (
           <button
             key={pageNum}
             className={`w-10 h-10 rounded-full text-sm font-medium transition-all flex items-center justify-center ${
@@ -71,4 +72,8 @@ export default function Pagination({
       </button>
     </div>
   );
-}
+});
+
+Pagination.displayName = 'Pagination';
+
+export default Pagination;

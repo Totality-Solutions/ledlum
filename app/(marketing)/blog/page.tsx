@@ -1,10 +1,8 @@
-
-
 "use client";
 
-import React, { useMemo, useState, useEffect, Suspense } from 'react';
+import React, { useMemo, useState, useEffect, Suspense, memo, useCallback } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // Added for performance
+import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import BlogCard from "@/components/blog/BlogCard";
@@ -14,7 +12,6 @@ import CTABtn from '@/components/layout/common/CTABtn';
 import { GetInTouch } from '@/components/layout/footer/GetInTouch';
 import Section from '@/components/layout/Section';
 
-// --- UPDATED STRUCTURED CONTENT: Added optimization params to URLs ---
 const CATEGORY_EXTENDED_CONTENT: Record<string, any> = {
   "Architectural lighting": [
     {
@@ -115,224 +112,207 @@ function BlogContent() {
   const currentPage = Number(searchParams.get('page')) || 1;
   const stayPage = Number(searchParams.get('stayPage')) || 1;
 
-  const categories = ["All", "Architectural lighting", "Commercial projects", "Residential systems", "Energy efficiency", "Product insights"];
-  const normalize = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '').trim();
+  const categories = useMemo(() => [
+    "All", "Architectural lighting", "Commercial projects",
+    "Residential systems", "Energy efficiency", "Product insights"
+  ], []);
 
-  const handleCategoryChange = (category: string) => {
+  const normalize = useCallback((str: string) =>
+    str.toLowerCase().replace(/[^a-z0-9]/g, '').trim(), []);
+
+  const handleCategoryChange = useCallback((category: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set('category', category);
     params.set('page', '1');
     router.push(`/blog?${params.toString()}`, { scroll: false });
-  };
+  }, [searchParams, router]);
 
   const heroPost = useMemo(() => {
     const target = normalize(activeCategory);
     if (target === "all") return blogPosts.find(p => p.isFeatured) || blogPosts[0];
     return blogPosts.find(post => normalize(post.category) === target) || blogPosts[0];
-  }, [activeCategory]);
+  }, [activeCategory, normalize]);
 
-  const currentGridPosts = blogPosts.slice((currentPage - 1) * 6, currentPage * 6);
-  const stayUpdatedPosts = blogPosts.slice((stayPage - 1) * 5, stayPage * 5);
+  const currentGridPosts = useMemo(() =>
+    blogPosts.slice((currentPage - 1) * 6, currentPage * 6), [currentPage]);
 
-  const totalPagesLatest = Math.ceil(blogPosts.length / 6);
-  const totalPagesStay = Math.ceil(blogPosts.length / 5);
+  const stayUpdatedPosts = useMemo(() =>
+    blogPosts.slice((stayPage - 1) * 5, stayPage * 5), [stayPage]);
 
-  const modalSections = useMemo(() => {
-    return CATEGORY_EXTENDED_CONTENT[heroPost?.category] || CATEGORY_EXTENDED_CONTENT["All"];
-  }, [heroPost]);
+  const totalPagesLatest = useMemo(() => Math.ceil(blogPosts.length / 6), []);
+  const totalPagesStay = useMemo(() => Math.ceil(blogPosts.length / 5), []);
+
+  const modalSections = useMemo(() =>
+    CATEGORY_EXTENDED_CONTENT[heroPost?.category] || CATEGORY_EXTENDED_CONTENT["All"],
+    [heroPost]);
 
   return (
     <Section>
-
-
-
       <div className="mb-14 relative">
-        <h1 className="desk-h1 !text-[3.5rem] md:!text-[var(--text-desk-h1)] text-white leading-tight font-bai">Insights.</h1>
-        <p className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white mt-2 font-pop font-light">That illuminate.</p>
+        <h5 className="desk-h1 !text-[3.5rem] text-white leading-tight font-bai">
+          Insights.
+        </h5>
+        <p className="desk-h3 !text-[1.5rem] text-white mt-2 font-pop font-bold">
+          That illuminate.
+        </p>
 
-        {/* <div className="flex flex-wrap gap-2 md:gap-2.5 mt-10 md:mt-12 font-pop">
-          {categories.map((cat) => (
-            <button key={cat} onClick={() => handleCategoryChange(cat)}
-              className={`w-[calc(50%-4px)] md:w-auto px-3 md:px-6 py-3 md:py-2 rounded-full border transition-all cursor-pointer text-center 
-              ${normalize(activeCategory) === normalize(cat) ? 'bg-[#c5a36e]/10 border-[#c5a36e]/40 text-[#c5a36e]' : 'border-white/5 text-zinc-500 hover:text-white'}`}>
-              {cat}
-            </button>
-          ))}
-        </div> */}
-
-
-        {/* --- CATEGORY NAVIGATION CAROUSEL (ABSOLUTE CONTAINMENT) --- */}
+        {/* Category Navigation */}
         <div className="relative mt-10 md:mt-12 w-full" style={{ height: '54px' }}>
           <style dangerouslySetInnerHTML={{
-            __html: `
-    .nav-scroll-container::-webkit-scrollbar { display: none; }
-    .nav-scroll-container { -ms-overflow-style: none; scrollbar-width: none; }
-  `}} />
-
-          {/* <div
-    className="nav-scroll-container flex flex-nowrap overflow-x-auto md:flex-wrap gap-2 md:gap-2.5 pb-4 md:pb-0 -mb-4 md:mb-0 snap-x snap-mandatory touch-pan-x"
-    style={{
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      WebkitOverflowScrolling: 'touch',
-      display: 'flex',
-      width: '100%',
-    }}
-  > */}
-
-
-
+            __html: `.nav-scroll-container::-webkit-scrollbar { display: none; }
+                     .nav-scroll-container { -ms-overflow-style: none; scrollbar-width: none; }`
+          }} />
           <div
-            className="nav-scroll-container 
-    /* Mobile Styles (Default) */
-    flex flex-nowrap overflow-x-auto snap-x snap-mandatory touch-pan-x w-full absolute left-0 right-0 top-0 pb-4 -mb-4 gap-2.5
-    
-    /* Desktop Styles (md: 768px and up) */
-    md:relative md:flex-wrap md:overflow-visible md:gap-2.5 md:pb-0 md:mb-0"
-            style={{
-              WebkitOverflowScrolling: 'touch',
-            }}
+            className="nav-scroll-container flex flex-nowrap overflow-x-auto snap-x snap-mandatory touch-pan-x w-full absolute left-0 right-0 top-0 pb-4 -mb-4 gap-2.5 md:relative md:flex-wrap md:overflow-visible md:gap-2.5 md:pb-0 md:mb-0"
+            style={{ WebkitOverflowScrolling: 'touch' }}
           >
-
             {categories.map((cat) => {
               const isActive = normalize(activeCategory) === normalize(cat);
-
               return (
                 <button
                   key={cat}
                   onClick={() => handleCategoryChange(cat)}
-                  className={`
-            flex-shrink-0
-            px-5
-            md:px-6
-            py-3
-            md:py-2
-            rounded-2xl
-            border
-            transition-all
-            cursor-pointer
-            text-center
-            font-pop
-            text-sm
-            md:text-base
-            whitespace-nowrap
-          
-            ${isActive
-                      ? 'bg-[#8D794E] text-[var(--text-gray)] border-[#8D794E]'
+                  className={`flex-shrink-0 px-5 md:px-6 py-3 md:py-2 rounded-2xl border transition-all cursor-pointer text-center font-pop text-sm md:text-base whitespace-nowrap
+                    ${isActive
+                      ? 'bg-[#8D794E] text-txgray border-[#8D794E]'
                       : 'border-black text-zinc-500 hover:text-white bg-black/15'
-                    }
-          `}
-
+                    }`}
                 >
                   {cat}
                 </button>
               );
             })}
           </div>
-
           <div
             className="absolute right-0 top-0 bottom-0 w-12 pointer-events-none md:hidden"
-            style={{
-              background: 'linear-gradient(to left, black, transparent)',
-              zIndex: 30
-            }}
+            style={{ background: 'linear-gradient(to left, black, transparent)', zIndex: 30 }}
           />
         </div>
 
-
-
-
-
-        {/* Hero Card */}
-        <div className="mt-8 md:mt-16 bg-[#000] border border-white/5 rounded-[32px] md:rounded-[48px] p-6  flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start shadow-2xl">
-          <div className="w-full lg:w-[58%] aspect-[16/9] relative rounded-[24px] md:rounded-[32px] overflow-hidden group">
+        {/* Hero Card — fixed aspect ratio on image container prevents layout shift */}
+        <div className="mt-8 md:mt-16 bg-[#000] border border-white/5 rounded-[32px] md:rounded-[48px] p-6 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start shadow-2xl">
+          <div className="w-full lg:w-[58%] relative rounded-[24px] md:rounded-[32px] overflow-hidden group"
+            style={{ aspectRatio: '16/9' }}>
             {heroPost?.image && (
               <Image
                 src={heroPost.image}
-                alt="Hero"
+                alt={heroPost.category ?? 'Hero'}
                 fill
                 className="object-cover transform group-hover:scale-105 transition-transform duration-1000"
                 priority
+                sizes="(max-width: 768px) 100vw, 58vw"
               />
             )}
           </div>
 
           <div className="w-full lg:w-[42%] flex flex-col justify-center lg:pt-4">
             <div className="space-y-6 md:space-y-8">
-              <h2 className="desk-h3 !text-[1.75rem] md:!text-[var(--text-desk-h3)] text-white font-bai font-medium">{heroPost?.category}</h2>
-              <p className="body-sm text-zinc-400 desk-h3 font-light leading-relaxed line-clamp-4 font-pop">{heroPost?.description}</p>
+              <h2 className="desk-h3 !text-[1.75rem] text-gray-300 font-bai font-medium">
+                {heroPost?.category}
+              </h2>
+              <p className="body-sm text-zinc-400 desk-h3 font-light leading-relaxed line-clamp-4 font-pop">
+                {heroPost?.description}
+              </p>
               <div className="pt-2">
-                <CTABtn onClick={() => setIsModalOpen(true)} label='Read More' />
+                <CTABtn onClick={() => setIsModalOpen(true)} label="Read More" />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* --- REFACTORED MODAL --- */}
+      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[9999] flex items-top justify-center p-4">
-          <div className="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity" onClick={() => setIsModalOpen(false)} />
-          <div className="relative w-full max-w-[1200px] max-h-[90vh] bg-[#0a0a0a] border border-white/10 shadow-2xl animate-in fade-in zoom-in duration-300 flex flex-col overflow-hidden rounded-2xl">
+        <div className="fixed inset-0 z-[9999] flex items-start justify-center p-4">
+          <div
+            className="absolute inset-0 bg-black/90 backdrop-blur-sm"
+            onClick={() => setIsModalOpen(false)}
+          />
+          <div className="relative w-full max-w-[1200px] max-h-[90vh] bg-[#0a0a0a] border border-white/10 shadow-2xl animate-in fade-in zoom-in duration-300 flex flex-col overflow-hidden rounded-2xl mt-8">
             <div className="absolute top-6 right-6 z-50">
-              <button onClick={() => setIsModalOpen(false)}
-                className="p-2 bg-black/50 backdrop-blur-md rounded-full hover:bg-white/10 border border-white/10 group transition-all">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="p-2 bg-black/50 backdrop-blur-md rounded-full hover:bg-white/10 border border-white/10 group transition-all"
+                aria-label="Close modal"
+              >
                 <X className="text-2xl text-white group-hover:rotate-90 transition-transform" />
               </button>
             </div>
 
-            <div className="overflow-y-auto h-full hide-scrollbar" style={{ scrollbarWidth: 'none' }}>
-              <section className="relative h-[50vh] md:h-[60vh] w-full">
-                {heroPost?.image && <Image src={heroPost.image} alt="Hero" fill className="object-cover" />}
+            <div className="overflow-y-auto h-full hide-scrollbar">
+              {/* Modal hero image — fixed aspect ratio */}
+              <section className="relative w-full" style={{ aspectRatio: '21/9', minHeight: '240px' }}>
+                {heroPost?.image && (
+                  <Image
+                    src={heroPost.image}
+                    alt={heroPost.category ?? 'Hero'}
+                    fill
+                    className="object-cover"
+                    sizes="100vw"
+                    priority
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
               </section>
 
               <section className="py-12 md:py-16 px-6 md:px-12">
                 <div className="max-w-4xl">
-                  <span className="font-pop text-[#c5a36e] tracking-[0.4em] uppercase text-[10px] mb-4 block">Detailed Insights</span>
-                  <h2 className="font-bai text-3xl md:text-7xl text-white font-medium  tracking-tighter mb-8">{heroPost?.category}.</h2>
+                  <span className="font-pop text-[#c5a36e] tracking-[0.4em] uppercase text-[10px] mb-4 block">
+                    Detailed Insights
+                  </span>
+                  <h2 className="font-bai text-3xl md:text-7xl text-white font-medium tracking-tighter mb-8">
+                    {heroPost?.category}.
+                  </h2>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/10 pt-8 mt-12">
-                    <div>
-                      <div className="text-white/40 text-[10px] uppercase tracking-widest mb-2 font-pop">Topic</div>
-                      <div className="text-white/80 text-sm font-medium">{heroPost?.category}</div>
-                    </div>
-                    <div>
-                      <div className="text-white/40 text-[10px] uppercase tracking-widest mb-2 font-pop">Reading Time</div>
-                      <div className="text-white/80 text-sm font-medium">5 min read</div>
-                    </div>
-                    <div>
-                      <div className="text-white/40 text-[10px] uppercase tracking-widest mb-2 font-pop">Released</div>
-                      <div className="text-white/80 text-sm font-medium">Feb 2026</div>
-                    </div>
-                    <div>
-                      <div className="text-white/40 text-[10px] uppercase tracking-widest mb-2 font-pop">Author</div>
-                      <div className="text-white/80 text-sm font-medium">LedLum Team</div>
-                    </div>
+                    {[
+                      { label: 'Topic', value: heroPost?.category },
+                      { label: 'Reading Time', value: '5 min read' },
+                      { label: 'Released', value: 'Feb 2026' },
+                      { label: 'Author', value: 'LedLum Team' },
+                    ].map(({ label, value }) => (
+                      <div key={label}>
+                        <div className="text-white/40 text-[10px] uppercase tracking-widest mb-2 font-pop">{label}</div>
+                        <div className="text-white/80 text-sm font-medium">{value}</div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </section>
 
               <div className="px-6 md:px-12 space-y-24 md:space-y-32 pb-24">
                 {modalSections.map((section: any, idx: number) => (
-                  <section key={idx} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 items-center ${idx % 2 !== 0 ? 'lg:direction-rtl' : ''}`}>
+                  <section
+                    key={idx}
+                    className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 items-center"
+                  >
                     <div className={`${idx % 2 !== 0 ? 'lg:order-2' : 'lg:order-1'} space-y-6`}>
-                      <h3 className="font-bai text-2xl md:text-4xl text-[#c5a36e] lowercase leading-tight">{section.title}</h3>
-                      <p className="font-pop text-lg text-white/60 leading-relaxed font-light">{section.text}</p>
+                      <h3 className="font-bai text-2xl md:text-4xl text-[#c5a36e] lowercase leading-tight">
+                        {section.title}
+                      </h3>
+                      <p className="font-pop text-lg text-white/60 leading-relaxed font-light">
+                        {section.text}
+                      </p>
                     </div>
-                    <div className={`${idx % 2 !== 0 ? 'lg:order-1' : 'lg:order-2'} relative aspect-video rounded-2xl overflow-hidden border border-white/5`}>
+                    <div
+                      className={`${idx % 2 !== 0 ? 'lg:order-1' : 'lg:order-2'} relative rounded-2xl overflow-hidden border border-white/5`}
+                      style={{ aspectRatio: '16/9' }}
+                    >
                       <Image
                         src={section.image}
                         alt={section.title}
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-1000"
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>
                   </section>
                 ))}
+
                 <div className="pt-20 text-center border-t border-white/10">
-                  <p className="font-bai text-3xl md:text-5xl text-white font-light leading-tight max-w-4xl mx-auto">"Innovation is at the heart of everything we illuminate."</p>
+                  <p className="font-bai text-3xl md:text-5xl text-white font-light leading-tight max-w-4xl mx-auto">
+                    "Innovation is at the heart of everything we illuminate."
+                  </p>
                   <div className="mt-12 flex justify-center">
                     <CTABtn label="Discuss a Project" onClick={() => setIsModalOpen(false)} />
                   </div>
@@ -343,47 +323,72 @@ function BlogContent() {
         </div>
       )}
 
-
-
-
-      {/* --- GRID SECTIONS --- */}
+      {/* Latest Insights Grid */}
       <section className="mb-32 relative pt-16">
         <div className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2">
-          <Image src="/images/about/ledlumbox.png" alt="Overlay" fill className="object-cover  " />
-          {/* <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-black" /> */}
+          <Image
+            src="/images/about/ledlumbox.png"
+            alt="Background overlay"
+            fill
+            className="object-cover"
+            loading="lazy"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-black/35" />
         </div>
+
         <div className="relative">
           <div className="mb-12 pb-6 border-b border-white/5">
-            <h2 className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white font-bai">Latest insights & innovations.</h2>
+            <h2 className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white font-bai">
+              Latest insights & innovations.
+            </h2>
           </div>
+
+          {/* FIX: col-span must live on the grid child, not inside BlogCard */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
             {currentGridPosts.map((post) => (
               <Link key={post.slug} href={`/blog/${post.slug}`}>
-                <BlogCard category={post.category} description={post.description} image={post.image} />
+                <BlogCard
+                  category={post.category}
+                  description={post.description}
+                  image={post.image}
+                />
               </Link>
             ))}
           </div>
+
           <Pagination currentPage={currentPage} totalPages={totalPagesLatest} />
         </div>
       </section>
 
-      <section className="pb-20 relative ">
+      {/* Stay Updated — col-span applied on wrapper div (correct) */}
+      <section className="pb-20 relative">
         <header className="mb-14">
-          <h2 className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white font-bai">Stay Updated.</h2>
-          <p className="desk-h3 !text-[1.25rem] md:!text-[var(--text-desk-h3)] text-white/50 mt-1 font-pop font-light">With industry insights.</p>
+          <h2 className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white font-bai">
+            Stay Updated.
+          </h2>
+          <p className="desk-h3 !text-[1.25rem] md:!text-[var(--text-desk-h3)] text-white/50 mt-1 font-pop font-light">
+            With industry insights.
+          </p>
         </header>
+
         <div className="grid grid-cols-1 md:grid-cols-6 gap-8 items-stretch">
-          {stayUpdatedPosts.map((post, i) => {
-            let spanClass = i === 0 ? "md:col-span-4" : "md:col-span-2";
-            return (
-              <div key={`${post.slug}-stay`} className={spanClass}>
-                <Link href={`/blog/${post.slug}`}>
-                  <BlogCard isFeatured={i === 0} category={post.category} description={post.description} image={post.image} />
-                </Link>
-              </div>
-            );
-          })}
+          {stayUpdatedPosts.map((post, i) => (
+            // col-span is correctly on the grid child here — BlogCard gets isFeatured
+            // only to adjust its internal image aspect ratio
+            <div key={`${post.slug}-stay`} className={i === 0 ? 'md:col-span-4' : 'md:col-span-2'}>
+              <Link href={`/blog/${post.slug}`}>
+                <BlogCard
+                  isFeatured={i === 0}
+                  category={post.category}
+                  description={post.description}
+                  image={post.image}
+                />
+              </Link>
+            </div>
+          ))}
         </div>
+
         <div className="mt-12">
           <Pagination currentPage={stayPage} totalPages={totalPagesStay} paramName="stayPage" />
         </div>
@@ -401,7 +406,3 @@ export default function BlogMainPage() {
     </Suspense>
   );
 }
-
-
-
-
