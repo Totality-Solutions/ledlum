@@ -78,6 +78,9 @@ const nextConfig: NextConfig = {
   //   allowedDevOrigins: ["192.168.1.16"],
   // } as any,
    reactStrictMode: true,
+   turbopack: {
+    resolveAlias: {}
+  }
 };
 
 export default nextConfig;
