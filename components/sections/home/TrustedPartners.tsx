@@ -23,10 +23,10 @@ export default function TrustedPartnersSection() {
       <Container className=" px-6 lg:px-10">
               {/* HEADING SECTION */}
               <div className="mb-12">
-                <h2 className="text-[48px] lg:text-[64px] font-bai font-medium text-white leading-tight">
+                <h2 className="desk-h2 text-white">
                   Our.
                 </h2>
-                <p className="text-[18px] lg:text-[22px] font-bai text-white/60 -mt-2 uppercase tracking-widest">
+                <p className="desk-h3  -mt-2 text-white">
                   Trusted Partners.
                 </p>
               </div>

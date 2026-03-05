@@ -28,14 +28,14 @@ export default function AchievementsSection() {
     >
       <div className="absolute inset-0 z-0 pointer-events-none" />
 
-      <Container className="relative z-10 px-6 lg:px-10">
+      <Container className="relative z-10 ">
 
         {/* HEADER (UNCHANGED DESKTOP STYLE) */}
         <div className="mb-20">
-          <h2 className="desk-h2 font-medium text-white leading-none">
+          <h2 className="desk-h2 text-white ">
             Our.
           </h2>
-          <p className="desk-h3 text-white font-normal mt-2">
+          <p className="desk-h3 text-white mt-1">
             Achievements.
           </p>
         </div>
@@ -43,7 +43,7 @@ export default function AchievementsSection() {
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-32">
 
           {/* DESKTOP IMAGE (unchanged) */}
-          <div className="relative w-[350px] aspect-[3/4] rounded-[24px] overflow-hidden shadow-2xl hidden lg:block border border-white/10 sticky top-32">
+          <div className="relative w-[320px] aspect-[3/4] rounded-[24px] overflow-hidden shadow-2xl hidden lg:block border border-white/10 sticky top-32">
             {ACHIEVEMENTS.map((item) => (
               <div
                 key={item.id}
@@ -63,72 +63,86 @@ export default function AchievementsSection() {
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="flex-1 w-full flex flex-col">
+<div className="flex-1 w-full flex flex-col">
+  {ACHIEVEMENTS.map((stat) => {
+    const isActive = activeId === stat.id;
 
-            {ACHIEVEMENTS.map((stat) => {
-              const isActive = activeId === stat.id;
+    return (
+      <div
+        key={stat.id}
+        onMouseEnter={() => setActiveId(stat.id)}
+        className={`
+          relative border-b border-white/20 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden
+          
+          /* LAYOUT LOGIC */
+          flex flex-col
+          
+          /* MOBILE + TABLET */
+          h-auto py-6 md:py-8
+          
+          /* DESKTOP ACCORDION SIZING */
+          lg:py-0
+          ${isActive ? "lg:h-[190px]" : "lg:h-[80px]"}
+        `}
+      >
+        {/* SPACER: Grows only when active to push content from top to bottom */}
+        <div className={`hidden lg:block transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isActive ? "flex-grow" : "h-0"}`} />
 
-              return (
-                <div
-                  key={stat.id}
-                  onMouseEnter={() => setActiveId(stat.id)} // DESKTOP behavior untouched
-                  className={`
-                    relative border-b border-white/20 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden
+        {/* MOBILE + TABLET CONTENT (Always Visible) */}
+        <div className="block lg:hidden px-4">
+          <span className="text-[48px] md:text-[56px] font-bai text-[#96865D] leading-none">
+            {stat.value}
+          </span>
+          <span className="block text-[14px] md:text-[16px] font-pop tracking-[0.2em] uppercase mt-4 text-white">
+            {stat.label}
+          </span>
+        </div>
 
-                    /* MOBILE + TABLET = Always Open */
-                    h-auto py-6 md:py-8
+        {/* DESKTOP CONTENT 
+            Uses absolute top-5 when collapsed, but switches to standard flow (bottom-anchored) when active.
+        */}
+        <div 
+          className={`
+            hidden lg:block w-full px-8 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]
+            ${isActive 
+              ? "relative pb-3 translate-y-0" 
+              : "absolute top-10 left-0 translate-y-0"
+            }
+          `}
+        >
+          <div className="flex flex-col">
+            <span
+              className={`text-[84px] font-bai font-bold leading-[0.8] transition-all duration-700 ${
+                isActive
+                  ? "text-[#96865D] opacity-100"
+                  : "text-[#96865D]/30 opacity-40"
+              }`}
+            >
+              {stat.value}
+            </span>
 
-                    /* DESKTOP = ORIGINAL ACCORDION */
-                    lg:py-0
-                    ${isActive ? "lg:h-[220px]" : "lg:h-[70px]"}
-                  `}
-                >
-                  {/* MOBILE + TABLET CONTENT (Always Visible) */}
-                  <div className="block lg:hidden px-4">
-                    <span className="text-[48px] md:text-[56px] font-bai text-[#96865D] leading-none">
-                      {stat.value}
-                    </span>
-                    <span className="block text-[14px] md:text-[16px] font-pop tracking-[0.2em] uppercase mt-4 text-white">
-                      {stat.label}
-                    </span>
-                  </div>
-
-                  {/* DESKTOP CONTENT (Original Layout) */}
-                  <div className="hidden lg:block absolute top-3 left-0 w-full px-8">
-                    <div className="flex flex-col">
-                      <span
-                        className={`text-[84px] font-bai font-bold leading-none transition-all duration-700 ${
-                          isActive
-                            ? "text-[#96865D] opacity-100 translate-y-0"
-                            : "text-[#96865D]/30 opacity-40 translate-y-2"
-                        }`}
-                      >
-                        {stat.value}
-                      </span>
-
-                      <span
-                        className={`text-[18px] font-pop tracking-[0.2em] uppercase mt-6 transition-all duration-700 ${
-                          isActive
-                            ? "text-white opacity-100 translate-y-0"
-                            : "text-white/0 opacity-0 translate-y-8"
-                        }`}
-                      >
-                        {stat.label}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* DESKTOP UNDERLINE */}
-                  <div
-                    className={`hidden lg:block absolute bottom-0 left-0 h-[1px] bg-[#96865D] transition-all duration-1000 ${
-                      isActive ? "w-full opacity-100" : "w-0 opacity-0"
-                    }`}
-                  />
-                </div>
-              );
-            })}
-
+            <span
+              className={`text-[18px] font-pop tracking-[0.2em] uppercase transition-all duration-700 ${
+                isActive
+                  ? "text-white opacity-100 mt-2 h-auto block"
+                  : "text-white/0 opacity-0 h-0 overflow-hidden"
+              }`}
+            >
+              {stat.label}
+            </span>
           </div>
+        </div>
+
+        {/* DESKTOP UNDERLINE */}
+        <div
+          className={`hidden lg:block absolute bottom-0 left-0 h-[1.5px] bg-[#96865D] transition-all duration-1000 z-10 ${
+            isActive ? "w-full opacity-100" : "w-0 opacity-0"
+          }`}
+        />
+      </div>
+    );
+  })}
+</div>
         </div>
       </Container>
     </Section>

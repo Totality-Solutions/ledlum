@@ -25,7 +25,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
 
   return (
     <Section className="w-full min-h-screen bg-black flex items-center justify-center">
-      <div className="relative w-full max-w-[1440px] min-h-[705px] bg-[#101010] rounded-[25px] overflow-hidden flex flex-col lg:flex-row items-center p-8 lg:p-0">
+      <div className="relative w-full min-h-[705px] bg-[#101010] rounded-[25px] overflow-hidden flex flex-col lg:flex-row items-center p-8 lg:p-0">
 
         {/* BACK BUTTON */}
         <Link

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { memo, useState } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
@@ -14,12 +15,12 @@ import CTABtn from '@/components/layout/common/CTABtn';
 
 // --- DATA ---
 const NEW_ARRIVALS = [
-  { id: 1, img: Arrival1, title: 'Simply Dummy' },
-  { id: 2, img: Arrival1, title: 'Simply Dummy' },
-  { id: 3, img: Arrival1, title: 'Simply Dummy' },
-  { id: 4, img: Arrival1, title: 'Simply Dummy' },
-  { id: 5, img: Arrival1, title: 'Simply Dummy' },
-  { id: 6, img: Arrival1, title: 'Simply Dummy' },
+  { id: 1, img: Arrival1, title: 'Simply Dummy', href:"#" },
+  { id: 2, img: Arrival1, title: 'Simply Dummy', href:"#" },
+  { id: 3, img: Arrival1, title: 'Simply Dummy', href:"#" },
+  { id: 4, img: Arrival1, title: 'Simply Dummy', href:"#" },
+  { id: 5, img: Arrival1, title: 'Simply Dummy', href:"#" },
+  { id: 6, img: Arrival1, title: 'Simply Dummy', href:"#" },
 ];
 
 const BESTSELLERS = [
@@ -61,11 +62,11 @@ const CombinedProductSection = memo(function CombinedProductSection() {
     >
       <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" />
       {/* SECTION 1: BESTSELLERS GRID */}
-      <Container className="relative z-10 px-6 lg:px-10">
+      <Container className="relative z-10 ">
         <div className="flex flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
           <div className="max-w-xl">
             <h2 className="desk-h2 text-white ">Designed In-House.</h2>
-            <p className="desk-h3 text-white ">Built <span className="lowercase">to</span> Last.</p>
+            <p className="desk-h3 text-white mt-1 ">Built <span className="lowercase">to</span> Last.</p>
           </div>
           
           <div className="flex flex-row md:flex-col items-end gap-6">
@@ -158,7 +159,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       </Container>
 
       {/* SECTION 2: NEW ARRIVALS CAROUSEL */}
-      <Container className="relative z-10 px-6 lg:px-10">
+      <Container className="relative z-10">
   <div className="flex justify-between items-center mb-10">
     <h2 className="body text-white flex items-center font-pop">
       <span>New Arrivals</span>
@@ -171,36 +172,49 @@ const CombinedProductSection = memo(function CombinedProductSection() {
     gap={20}
     speed={3000}
     renderItem={(item) => (
-      /* Parent container keeps your exact sizing and overflow hidden */
-      <div className="relative aspect-[3/4] w-full rounded-[16px] overflow-hidden group shadow-xl">
-
-        {/* The Image fills the entire card now */}
+      /* Each card is now a Link providing unique navigation based on item data */
+      <Link 
+        href={item.href || "#"} 
+        className="relative block aspect-[3/4] w-full rounded-[12px] overflow-hidden group shadow-xl"
+      >
+        {/* The Image fills the entire card */}
         <Image 
           src={item.img} 
           alt={item.title || "New Arrival"} 
           fill 
-          className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform" 
+          className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform rounded-[16px] " 
           style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
           unoptimized 
           sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
         />
 
+        {/* The Overlay: Custom footer with left text and right arrow */}
+        <div className="absolute bottom-0 left-0 w-full bg-black p-4 flex items-center justify-between">
+          
+          {/* Left Side: Title */}
+          <span className="text-white font-pop text-sm md:text-base font-medium truncate pr-4">
+            {item.title}
+          </span>
 
-        {/* The Overlay: Positioned absolute at the bottom to match the 2nd image */}
-        <div className="absolute bottom-0 bg-black left-0 w-full p-6 lg:p-4">
-          <CTABtn
-            label={item.title || "Simply Dummy"}
-            showButtonBg={false}
-            showIconCircle={true}
-            circleBg="#9a8c66"
-            textColor="#ffffff"
-            width="full"
-            size="md"
-            className="!px-0"
-          />
+          {/* Right Side: Normal Circle Button with Arrow */}
+          <div className="w-8 h-8 md:w-10 md:h-10 bg-[#9a8c66] rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-45">
+            <svg 
+              width="18" 
+              height="18" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="white" 
+              strokeWidth="2.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </div>
+          
         </div>
-
-      </div>
+      </Link>
     )}
   />
 </Container>
