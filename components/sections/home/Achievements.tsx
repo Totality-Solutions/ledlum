@@ -32,10 +32,10 @@ export default function AchievementsSection() {
 
         {/* HEADER (UNCHANGED DESKTOP STYLE) */}
         <div className="mb-20">
-          <h2 className="text-[36px] md:text-[42px] lg:text-[48px] font-bai font-medium text-white leading-none">
+          <h2 className="desk-h2 font-medium text-white leading-none">
             Our.
           </h2>
-          <p className="text-[22px] md:text-[26px] lg:text-[32px] font-pop text-white font-normal mt-2">
+          <p className="desk-h3 text-white font-normal mt-2">
             Achievements.
           </p>
         </div>
@@ -85,7 +85,7 @@ export default function AchievementsSection() {
                 >
                   {/* MOBILE + TABLET CONTENT (Always Visible) */}
                   <div className="block lg:hidden px-4">
-                    <span className="text-[48px] md:text-[56px] font-bai font-bold text-[#96865D] leading-none">
+                    <span className="text-[48px] md:text-[56px] font-bai text-[#96865D] leading-none">
                       {stat.value}
                     </span>
                     <span className="block text-[14px] md:text-[16px] font-pop tracking-[0.2em] uppercase mt-4 text-white">

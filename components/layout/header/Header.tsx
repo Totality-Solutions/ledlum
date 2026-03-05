@@ -61,8 +61,8 @@ const Header = () => {
   };
 
   return (
-    <header ref={headerRef} className="sticky top-0 left-0 w-full z-50 bg-black">
-      <Container>
+    <header ref={headerRef} className="sticky top-0 left-0 w-full z-[60] bg-black px-12">
+       
       {/* TOP BAR */}
       <div 
         className="w-full  flex justify-between items-center backdrop-blur-lg text-white  will-change-filter" 
@@ -146,10 +146,10 @@ const Header = () => {
           </div>
         </div>
       </div>
-      </Container>
+       
 
       {/* MOBILE MENU - FIXED FULL HEIGHT */}
-      <Container> 
+        
       <div
         className={`lg:hidden fixed left-0 w-full bg-black transition-all duration-300 z-40 ${
           mobileOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
@@ -172,7 +172,7 @@ const Header = () => {
            ))}
         </div>
       </div>
-      </Container>
+       
     </header>
   );
 };

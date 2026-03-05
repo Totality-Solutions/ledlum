@@ -36,10 +36,10 @@ export default function WhoWeAreSection() {
           
           {/* Title Header - Optimized Typography */}
           <div className="flex flex-col">
-            <h2 className="text-white text-[2.5rem] lg:text-[3.5rem] font-semibold leading-tight font-bai">
+            <h2 className="text-white text-[2.5rem] lg:text-[3.5rem] font-semibold leading-tight font-pop">
               Who.
             </h2>
-            <p className="text-white text-[1.5rem] lg:text-[2rem] font-medium leading-tight font-bai opacity-90">
+            <p className="text-white text-[1.5rem] lg:text-[2rem] font-medium leading-tight font-pop opacity-90">
               We Are.
             </p>
           </div>

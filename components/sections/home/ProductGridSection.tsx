@@ -64,20 +64,20 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       <Container className="relative z-10 px-6 lg:px-10">
         <div className="flex flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
           <div className="max-w-xl">
-            <h2 className="sm:mob-h1 desk-h1 text-white font-bai">Designed In-House.</h2>
-            <p className="sm:mob-h2 desk-h2 text-white/80 font-bai">Built <span className="lowercase">to</span> Last.</p>
+            <h2 className="desk-h2 text-white ">Designed In-House.</h2>
+            <p className="desk-h3 text-white ">Built <span className="lowercase">to</span> Last.</p>
           </div>
           
           <div className="flex flex-row md:flex-col items-end gap-6">
             <div className="flex items-center gap-6 lg:gap-10">
-              <div className="hidden lg:flex items-center gap-2">
+              {/* <div className="hidden lg:flex items-center gap-2">
                 {["Ceiling", "Table", "Wall", "Floor lights"].map((item, index, array) => (
                   <React.Fragment key={item}>
                     <span className="body-xs text-white/40 font-bai cursor-pointer hover:text-white transition-colors uppercase tracking-widest">{item}</span>
                     {index !== array.length - 1 && <div className="w-8 h-[1px] bg-white opacity-20" />}
                   </React.Fragment>
                 ))}
-              </div>
+              </div> */}
               <span className="hidden md:block body-sm text-white">Bestsellers</span>
             </div>
               
@@ -160,10 +160,10 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       {/* SECTION 2: NEW ARRIVALS CAROUSEL */}
       <Container className="relative z-10 px-6 lg:px-10">
   <div className="flex justify-between items-center mb-10">
-    <h2 className="body text-white tracking-[0.3em] flex items-center gap-2 uppercase font-bai">
-      <span>New</span><span className="font-semibold">Arrivals</span>
+    <h2 className="body text-white flex items-center font-pop">
+      <span>New Arrivals</span>
     </h2>
-    <p className="body-xs text-white opacity-60 font-pop italic">Experience the Fan’s</p>
+    <p className="body text-white font-pop ">Experience the Fan’s</p>
   </div>
 
   <MarqueeFlow
@@ -172,7 +172,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
     speed={3000}
     renderItem={(item) => (
       /* Parent container keeps your exact sizing and overflow hidden */
-      <div className="relative aspect-[3/4] w-full rounded-[25px] overflow-hidden group shadow-xl">
+      <div className="relative aspect-[3/4] w-full rounded-[16px] overflow-hidden group shadow-xl">
 
         {/* The Image fills the entire card now */}
         <Image 
