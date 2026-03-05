@@ -106,10 +106,10 @@ export default function AboutHero() {
               )}
 
               <div className="relative z-10">
-                <h3 className="text-2xl lg:text-3xl font-medium mb-6 tracking-tight leading-tight">
+                <h3 className="text-2xl lg:text-3xl font-medium mb-6 tracking-tight leading-tight font-pop ">
                   {item.title}
                 </h3>
-                <p className="text-zinc-500 font-light leading-relaxed">
+                <p className="text-zinc-500 font-light leading-relaxed font-pop">
                   {item.desc}
                 </p>
               </div>
