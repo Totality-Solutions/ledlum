@@ -1,16 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { Suspense } from "react";
+import Image from "next/image";
 import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
 
 import Preloader from "@/components/layout/common/PreLoader";
 import PageLoader from "@/components/layout/common/PageLoader";
 
-const montserrat = Montserrat({
+import linearGradientBg from "@/public/lineargradient.png";
+import ledlumLineBg from "@/public/images/about/ledlumline.png";
+import glowBg from "@/public/glow-bg.png";;
+
+const montserrat = Poppins({
   subsets: ["latin"],
-  weight: ["200","300","400","500","600","700","800"],
-  variable: "--font-montserrat",
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  variable: "--font-pop",
+  style:"normal"
 });
 
 export const metadata: Metadata = buildMetadata();
@@ -26,15 +32,86 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${montserrat.variable} bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased`}
+        className={`${montserrat.variable}  text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased`}
       >
-        <Preloader />
+        {/* ── Fixed full-page background image layers ── */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 0,
+            pointerEvents: "none",
+            overflow: "hidden",
+          }}
+        >
+          {/* Layer 1 — glow-bg: iridescent arc atmosphere, base layer */}
 
-        <Suspense fallback={null}>
-          <PageLoader />
-        </Suspense>
+          {/* Layer 2 — lineargradient: soft light bleed from top-right */}
+          <Image
+            src={linearGradientBg}
+            alt=""
+            fill
+            className="will-change-transform"
+            style={{
+              objectFit: "cover",
+              objectPosition: "top right",
+              transform: 'translate3d(0, 0, 0)',
+              backfaceVisibility: 'hidden',
+              mixBlendMode: "screen",
+            }}
+          />
 
-        {children}
+          {/* Layer 3 — ledlumline: geometric line grid on top */}
+          <Image
+            src={ledlumLineBg}
+            alt=""
+            fill
+            className="will-change-transform"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center",
+              transform: 'translate3d(0, 0, 0)',
+              backfaceVisibility: 'hidden',
+              mixBlendMode: "screen",
+            }}
+          />
+            <Image
+              src={glowBg}
+              alt=""
+              fill
+              priority
+              className="will-change-transform"
+              style={{
+                objectFit: "fill",
+                objectPosition: "bottom",
+                opacity: 0.95,
+                transform: 'translate3d(0, 0, 0)',
+                backfaceVisibility: 'hidden',
+                mixBlendMode: "screen",
+              }}
+            />
+
+          {/* Layer 4 — gradient overlay: darkens left→right for readability */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.2) 100%)",
+            }}
+          />
+        </div>
+
+        {/* ── Page content sits above the background ── */}
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <Preloader />
+
+          <Suspense fallback={null}>
+            <PageLoader />
+          </Suspense>
+
+          {children}
+        </div>
       </body>
     </html>
   );

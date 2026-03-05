@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FiArrowUpRight, FiPlus, FiX } from "react-icons/fi";
+import { FiArrowUpRight, FiPlus, FiRefreshCcw, FiX } from "react-icons/fi";
 
 interface CTABtnProps {
   label?: string;
@@ -20,8 +20,9 @@ interface CTABtnProps {
   circleBg?: string;
   iconColor?: string;
   textColor?: string;
-  iconType?: 'arrow' | 'plus' | 'x';
+  iconType?: 'arrow'| 'reset' | 'plus' | 'x';
   className?: string;
+  disabled?:boolean;
 }
 
 export default function CTABtn({
@@ -43,6 +44,7 @@ export default function CTABtn({
   iconColor = "#ffffff",
   textColor = "#000000",
   className = "",
+  disabled
 }: CTABtnProps) {
   const [hovered, setHovered] = useState(false);
 
@@ -64,10 +66,11 @@ export default function CTABtn({
   const IconPart = showIcon && (
     <div 
       className="flex items-center justify-center transition-transform duration-500 ease-in-out"
-      style={{ transform: hovered && iconType === 'arrow' ? 'rotate(45deg)' : 'rotate(0deg)' }}
+      style={{ transform: hovered && (iconType === 'arrow' || iconType === 'reset') ? 'rotate(45deg)' : 'rotate(0deg)' }}
     >
       {iconType === 'x' ? <FiX size={cur.iconSize} color={iconColor} /> :
        iconType === 'plus' ? <FiPlus size={cur.iconSize} color={iconColor} /> :
+       iconType === 'reset' ? <FiRefreshCcw size={cur.iconSize} color={iconColor} /> :
        <FiArrowUpRight size={cur.iconSize} color={iconColor} strokeWidth={2.5} />}
     </div>
   );
@@ -102,7 +105,7 @@ export default function CTABtn({
   );
 
   const commonProps = {
-    className: `group relative flex items-center overflow-hidden rounded-full transition-all duration-300 ${cur.h} ${width === 'full' ? 'w-full' : 'w-fit'} ${cur.px} ${className}`,
+    className: `group relative flex items-center overflow-hidden rounded-full transition-all duration-300 ${cur.h} ${width === 'full' ? 'w-full' : 'w-fit'} ${cur.px} ${className} ${disabled}`,
     style: { 
       backgroundColor: showButtonBg ? (hovered ? btnHoverBg : btnBg) : 'transparent',
     },
@@ -116,7 +119,7 @@ export default function CTABtn({
   return (
     //@ts-ignore
     <Component {...(href ? { ...commonProps, href } : commonProps)}>
-      <div className={`relative z-10 flex items-center ${cur.gap} w-full`}>
+      <div className={`font-light relative z-10 flex items-center ${cur.gap} w-full`}>
         {/* The order of these is handled by the "order" style property in the modules */}
         {LabelModule}
         {(showIcon || showIconCircle) && CircleModule}

@@ -12,6 +12,7 @@ import Pagination from '@/components/blog/Pagination';
 import { blogPosts } from "@/lib/blogData";
 import CTABtn from '@/components/layout/common/CTABtn';
 import { GetInTouch } from '@/components/layout/footer/GetInTouch';
+import Section from '@/components/layout/Section';
 
 // --- UPDATED STRUCTURED CONTENT: Added optimization params to URLs ---
 const CATEGORY_EXTENDED_CONTENT: Record<string, any> = {
@@ -141,22 +142,13 @@ function BlogContent() {
   }, [heroPost]);
 
   return (
-    <main className="relative min-h-screen bg-black text-white px-6 md:px-16 lg:px-24 py-24 overflow-x-hidden">
-      
-      {/* Background Overlay - Optimized with Image component */}
-      <div className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2 opacity-10 md:opacity-30">
-        <Image 
-          src="/images/about/ledlumline.png" 
-          alt="background" 
-          fill 
-          className="object-cover" 
-          priority 
-        />
-      </div>
+    <Section>
 
-      <header className="mb-14 relative z-10">
+
+
+      <div className="mb-14 relative">
         <h1 className="desk-h1 !text-[3.5rem] md:!text-[var(--text-desk-h1)] text-white leading-tight font-bai">Insights.</h1>
-        <p className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white/50 mt-2 font-pop font-light">That illuminate.</p>
+        <p className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white mt-2 font-pop font-light">That illuminate.</p>
 
         {/* <div className="flex flex-wrap gap-2 md:gap-2.5 mt-10 md:mt-12 font-pop">
           {categories.map((cat) => (
@@ -169,14 +161,15 @@ function BlogContent() {
         </div> */}
 
 
-{/* --- CATEGORY NAVIGATION CAROUSEL (ABSOLUTE CONTAINMENT) --- */}
-<div className="relative mt-10 md:mt-12 z-20 w-full" style={{ height: '54px' }}>
-  <style dangerouslySetInnerHTML={{ __html: `
+        {/* --- CATEGORY NAVIGATION CAROUSEL (ABSOLUTE CONTAINMENT) --- */}
+        <div className="relative mt-10 md:mt-12 w-full" style={{ height: '54px' }}>
+          <style dangerouslySetInnerHTML={{
+            __html: `
     .nav-scroll-container::-webkit-scrollbar { display: none; }
     .nav-scroll-container { -ms-overflow-style: none; scrollbar-width: none; }
   `}} />
 
-  {/* <div
+          {/* <div
     className="nav-scroll-container flex flex-nowrap overflow-x-auto md:flex-wrap gap-2 md:gap-2.5 pb-4 md:pb-0 -mb-4 md:mb-0 snap-x snap-mandatory touch-pan-x"
     style={{
       position: 'absolute',
@@ -191,32 +184,32 @@ function BlogContent() {
 
 
 
-<div
-  className="nav-scroll-container 
+          <div
+            className="nav-scroll-container 
     /* Mobile Styles (Default) */
     flex flex-nowrap overflow-x-auto snap-x snap-mandatory touch-pan-x w-full absolute left-0 right-0 top-0 pb-4 -mb-4 gap-2.5
     
     /* Desktop Styles (md: 768px and up) */
     md:relative md:flex-wrap md:overflow-visible md:gap-2.5 md:pb-0 md:mb-0"
-  style={{
-    WebkitOverflowScrolling: 'touch',
-  }}
->
+            style={{
+              WebkitOverflowScrolling: 'touch',
+            }}
+          >
 
-    {categories.map((cat) => {
-      const isActive = normalize(activeCategory) === normalize(cat);
-     
-      return (
-        <button
-          key={cat}
-          onClick={() => handleCategoryChange(cat)}
-          className={`
+            {categories.map((cat) => {
+              const isActive = normalize(activeCategory) === normalize(cat);
+
+              return (
+                <button
+                  key={cat}
+                  onClick={() => handleCategoryChange(cat)}
+                  className={`
             flex-shrink-0
             px-5
             md:px-6
             py-3
             md:py-2
-            rounded-full
+            rounded-2xl
             border
             transition-all
             cursor-pointer
@@ -227,42 +220,42 @@ function BlogContent() {
             whitespace-nowrap
           
             ${isActive
-              ? 'bg-[#c5a36e]/10 border-[#c5a36e]/40 text-[#c5a36e]'
-              : 'border-white/5 text-zinc-500 hover:text-white'
-            }
+                      ? 'bg-[#8D794E] text-[var(--text-gray)] border-[#8D794E]'
+                      : 'border-black text-zinc-500 hover:text-white bg-black/15'
+                    }
           `}
-            
-        >
-          {cat}
-        </button>
-      );
-    })}
-  </div>
 
-  <div
-    className="absolute right-0 top-0 bottom-0 w-12 pointer-events-none md:hidden"
-    style={{
-      background: 'linear-gradient(to left, black, transparent)',
-      zIndex: 30
-    }}
-  />
-</div>
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+
+          <div
+            className="absolute right-0 top-0 bottom-0 w-12 pointer-events-none md:hidden"
+            style={{
+              background: 'linear-gradient(to left, black, transparent)',
+              zIndex: 30
+            }}
+          />
+        </div>
 
 
 
 
 
         {/* Hero Card */}
-        <div className="mt-8 md:mt-16 bg-[#0a0a0a] border border-white/5 rounded-[32px] md:rounded-[48px] p-6 md:p-8 lg:p-12 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start shadow-2xl">
+        <div className="mt-8 md:mt-16 bg-[#000] border border-white/5 rounded-[32px] md:rounded-[48px] p-6  flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start shadow-2xl">
           <div className="w-full lg:w-[58%] aspect-[16/9] relative rounded-[24px] md:rounded-[32px] overflow-hidden group">
             {heroPost?.image && (
-               <Image 
-                 src={heroPost.image} 
-                 alt="Hero" 
-                 fill 
-                 className="object-cover transform group-hover:scale-105 transition-transform duration-1000" 
-                 priority
-               />
+              <Image
+                src={heroPost.image}
+                alt="Hero"
+                fill
+                className="object-cover transform group-hover:scale-105 transition-transform duration-1000"
+                priority
+              />
             )}
           </div>
 
@@ -271,21 +264,12 @@ function BlogContent() {
               <h2 className="desk-h3 !text-[1.75rem] md:!text-[var(--text-desk-h3)] text-white font-bai font-medium">{heroPost?.category}</h2>
               <p className="body-sm text-zinc-400 desk-h3 font-light leading-relaxed line-clamp-4 font-pop">{heroPost?.description}</p>
               <div className="pt-2">
-                <button onClick={() => setIsModalOpen(true)}
-                  className="group flex items-center justify-between w-full sm:w-auto sm:min-w-[195px] bg-[#ece3d4] hover:bg-white transition-all rounded-full p-1.5 pr-1.5 pl-8 md:pl-10">
-                  <span className="font-pop text-[#1a1a1a] text-[15px] font-bold tracking-tight">Read more</span>
-                  <div className="w-10 h-10 rounded-full bg-[#9a8c66] flex items-center justify-center transition-transform duration-500 group-hover:rotate-45">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                      <line x1="7" y1="17" x2="17" y2="7"></line>
-                      <polyline points="7 7 17 7 17 17"></polyline>
-                    </svg>
-                  </div>
-                </button>
+                <CTABtn onClick={() => setIsModalOpen(true)} label='Read More' />
               </div>
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
       {/* --- REFACTORED MODAL --- */}
       {isModalOpen && (
@@ -293,7 +277,7 @@ function BlogContent() {
           <div className="absolute inset-0 bg-black/90 backdrop-blur-sm transition-opacity" onClick={() => setIsModalOpen(false)} />
           <div className="relative w-full max-w-[1200px] max-h-[90vh] bg-[#0a0a0a] border border-white/10 shadow-2xl animate-in fade-in zoom-in duration-300 flex flex-col overflow-hidden rounded-2xl">
             <div className="absolute top-6 right-6 z-50">
-              <button onClick={() => setIsModalOpen(false)} 
+              <button onClick={() => setIsModalOpen(false)}
                 className="p-2 bg-black/50 backdrop-blur-md rounded-full hover:bg-white/10 border border-white/10 group transition-all">
                 <X className="text-2xl text-white group-hover:rotate-90 transition-transform" />
               </button>
@@ -338,17 +322,17 @@ function BlogContent() {
                       <p className="font-pop text-lg text-white/60 leading-relaxed font-light">{section.text}</p>
                     </div>
                     <div className={`${idx % 2 !== 0 ? 'lg:order-1' : 'lg:order-2'} relative aspect-video rounded-2xl overflow-hidden border border-white/5`}>
-                      <Image 
-                        src={section.image} 
-                        alt={section.title} 
-                        fill 
-                        className="object-cover hover:scale-105 transition-transform duration-1000" 
+                      <Image
+                        src={section.image}
+                        alt={section.title}
+                        fill
+                        className="object-cover hover:scale-105 transition-transform duration-1000"
                       />
                     </div>
                   </section>
                 ))}
                 <div className="pt-20 text-center border-t border-white/10">
-                   <p className="font-bai text-3xl md:text-5xl text-white font-light leading-tight max-w-4xl mx-auto">"Innovation is at the heart of everything we illuminate."</p>
+                  <p className="font-bai text-3xl md:text-5xl text-white font-light leading-tight max-w-4xl mx-auto">"Innovation is at the heart of everything we illuminate."</p>
                   <div className="mt-12 flex justify-center">
                     <CTABtn label="Discuss a Project" onClick={() => setIsModalOpen(false)} />
                   </div>
@@ -360,15 +344,15 @@ function BlogContent() {
       )}
 
 
-      
+
 
       {/* --- GRID SECTIONS --- */}
-      <section className="mb-32 relative z-10 pt-16">
+      <section className="mb-32 relative pt-16">
         <div className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2">
-           <Image src="/images/about/ledlumbox.png" alt="Overlay" fill className="object-cover opacity-40 md:opacity-100" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-black" />
+          <Image src="/images/about/ledlumbox.png" alt="Overlay" fill className="object-cover  " />
+          {/* <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-black" /> */}
         </div>
-        <div className="relative z-10">
+        <div className="relative">
           <div className="mb-12 pb-6 border-b border-white/5">
             <h2 className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white font-bai">Latest insights & innovations.</h2>
           </div>
@@ -383,7 +367,7 @@ function BlogContent() {
         </div>
       </section>
 
-      <section className="pb-20 relative z-10 ">
+      <section className="pb-20 relative ">
         <header className="mb-14">
           <h2 className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white font-bai">Stay Updated.</h2>
           <p className="desk-h3 !text-[1.25rem] md:!text-[var(--text-desk-h3)] text-white/50 mt-1 font-pop font-light">With industry insights.</p>
@@ -405,8 +389,8 @@ function BlogContent() {
         </div>
       </section>
 
-      <GetInTouch/>
-    </main>
+      <GetInTouch />
+    </Section>
   );
 }
 

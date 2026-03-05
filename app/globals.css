@@ -58,6 +58,8 @@ img {
   --gray-color: #F0F0F0;
   --black-color: #000000;
   --white-color: #FFFFFF;
+  --text-gray: #DBDCDD;
+  --bg-gray:#222222;
 
   /* Fonts */
   --primary-font: 'Bai Jamjuree', sans-serif;
@@ -110,14 +112,10 @@ img {
   --color-foreground: var(--foreground);
   --font-bai: var(--primary-font);
   --font-pop: var(--secondary-font);
+  --text-gray:var(--text-gray);
+  --bg-gray:var(--bg-gray)
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-bai: var(--primary-font);
-  --font-pop: var(--secondary-font);
-}
 
 /* Base Styles */
 /* Base Styles */

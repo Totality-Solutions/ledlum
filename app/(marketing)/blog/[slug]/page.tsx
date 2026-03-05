@@ -26,10 +26,10 @@ export default async function BlogPost({ params }: PageProps) {
     .slice(0, 6);
 
   return (
-    <div className="relative min-h-screen text-white bg-black selection:bg-[#AD9463] selection:text-black font-bai overflow-x-hidden">
+    <div className="relative min-h-screen text-white  selection:bg-[#AD9463] selection:text-black font-bai overflow-x-hidden">
 
       {/* 1. GLOBAL BACKGROUND LAYER - Optimized */}
-      <div className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2 opacity-10 md:opacity-30">
+      {/* <div className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2 opacity-10 md:opacity-30">
         <Image
           src="/images/about/ledlumline.png"
           alt="background texture"
@@ -37,7 +37,7 @@ export default async function BlogPost({ params }: PageProps) {
           priority
           className="object-cover object-center"
         />
-      </div>
+      </div> */}
 
       {/* --- BACK BUTTON --- */}
       {/* Reduced z-index to z-30 so it sits under the Header (usually z-50) and Hamburger menu */}
