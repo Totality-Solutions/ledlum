@@ -31,15 +31,15 @@ export default function WhoWeAreSection() {
       </div>
 
       {/* Laptop Optimized Container: max-w-[1280px] */}
-      <Container className="relative z-10 px-6 lg:px-10">
+      <Container className="relative z-10 ">
         <div className="flex flex-col gap-10">
           
           {/* Title Header - Optimized Typography */}
           <div className="flex flex-col">
-            <h2 className="text-white text-[2.5rem] lg:text-[3.5rem] font-semibold leading-tight font-pop">
+            <h2 className="desk-h2 text-white font-pop">
               Who.
             </h2>
-            <p className="text-white text-[1.5rem] lg:text-[2rem] font-medium leading-tight font-pop opacity-90">
+            <p className="desk-h3 text-white mt-1 opacity-90">
               We Are.
             </p>
           </div>

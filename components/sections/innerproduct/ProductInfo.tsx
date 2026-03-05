@@ -155,29 +155,62 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
 
   return (
     <Section className="w-full bg-black md:px-[50px] font-pop">
-      <div className="max-w-[1420px] mx-auto">
+      <div className="">
         <h1 className="text-white text-4xl font-medium mb-12">Product Configuration</h1>
 
-        <div className="mb-10">
-          <p className="text-[#acacac] text-2xl font-normal tracking-wide mb-4">Model Spectrum</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {allModelIds.map((id) => {
-              const isActive = activeId.toLowerCase() === id.toLowerCase();
-              return (
-                <div key={id} onClick={() => onModelChange(id)} className={`h-[86px] flex items-center px-6 rounded-[12px] cursor-pointer transition-all border ${isActive ? "bg-white border-white" : "bg-transparent border-white/10 hover:border-white/30"}`}>
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-4 ${isActive ? "border-[#4A61AD]" : "border-white/20"}`}>
-                    {isActive && <div className="w-2.5 h-2.5 rounded-full bg-[#4A61AD]" />}
-                  </div>
-                  <span className={`text-lg font-normal uppercase flex-1 ${isActive ? "text-black" : "text-[#888888]"}`}>{id}</span>
-                  <div className={`h-10 w-[1px] mx-4 ${isActive ? "bg-black/10" : "bg-white/10"}`} />
-                  <div className="relative w-12 h-12">
-                    <Image src={`https://placehold.co/100x100?text=${id}`} alt={id} fill unoptimized className="object-contain" />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        {/* STICKY WRAPPER: SET TO top-0 TO OVERLAP THE HEADER */}
+<div className="sticky top-0 z-[100] bg-black pt-6 pb-6 mb-10 -mx-4 px-4 md:-mx-[50px] md:px-[50px] border-b border-white/10 shadow-2xl">
+  <div className="">
+    <div className="flex flex-col gap-4">
+      <p className="text-[#acacac] text-sm md:text-xl font-normal tracking-wide uppercase">
+        Model Spectrum
+      </p>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {allModelIds.map((id) => {
+          const isActive = activeId.toLowerCase() === id.toLowerCase();
+          return (
+            <div 
+              key={id} 
+              onClick={() => onModelChange(id)} 
+              className={`h-[70px] md:h-[86px] flex items-center px-6 rounded-[12px] cursor-pointer transition-all border ${
+                isActive 
+                  ? "bg-white border-white" 
+                  : "bg-[#0A0A0A] border-white/10 hover:border-white/30"
+              }`}
+            >
+              <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full border-2 flex items-center justify-center mr-4 ${
+                isActive ? "border-[#4A61AD]" : "border-white/20"
+              }`}>
+                {isActive && <div className="w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-[#4A61AD]" />}
+              </div>
+              
+              <span className={`text-sm md:text-lg font-normal uppercase flex-1 ${
+                isActive ? "text-black" : "text-[#888888]"
+              }`}>
+                {id}
+              </span>
+              
+              <div className={`h-8 md:h-10 w-[1px] mx-4 ${
+                isActive ? "bg-black/10" : "bg-white/10"
+              }`} />
+              
+              <div className="relative w-8 h-8 md:w-12 md:h-12">
+                <Image 
+                  src={`https://placehold.co/100x100?text=${id}`} 
+                  alt={id} 
+                  fill 
+                  unoptimized 
+                  className="object-contain" 
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</div>
 
         <div className="flex flex-col border-t border-white/10 pt-10">
           <p className="text-[#acacac] text-2xl font-normal tracking-wide mb-4">Core Configuration</p>

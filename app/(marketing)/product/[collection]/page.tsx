@@ -41,7 +41,7 @@ export default function CollectionPage() {
 
       <Hero />
 
-      <div className="bg-black border-b border-white/5">
+      <div className="">
 
         <ProductFilters
           filters={filters}
@@ -52,7 +52,7 @@ export default function CollectionPage() {
 
       </div>
 
-      <div className="relative max-w-[1440px] mx-auto px-6 lg:px-20 py-12">
+      <div className="relative mx-auto px-6 lg:px-20 py-12">
 
         <ProductGrid
           filters={filters}

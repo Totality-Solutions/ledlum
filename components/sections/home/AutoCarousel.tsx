@@ -38,19 +38,19 @@ export default function CombinedLightingPartners() {
       }} // Shared background applied here
     >
       {/* PART 1: TRUSTED PARTNERS SECTION */}
-      <Container className="max-w-[1280px] 2xl:max-w-[1600px] px-6 lg:px-10">
+      <Container className="max-w-[1280px] 2xl:max-w-[1600px] ">
         {/* HEADING SECTION */}
         <div className="mb-12">
-          <h2 className="text-[48px] lg:text-[64px] font-bai font-medium text-white leading-tight">
+          <h2 className="desk-h2 text-white">
             Our.
           </h2>
-          <p className="text-[18px] lg:text-[22px] font-bai text-white/60 -mt-2 uppercase tracking-widest">
+          <p className="desk-h3 mt-1 text-white">
             Trusted Partners.
           </p>
         </div>
 
         {/* MARQUEE FLOW CAROUSEL */}
-        {/* <MarqueeFlow
+        <MarqueeFlow
           items={PARTNERS}
           gap={20}
           speed={2000}
@@ -63,15 +63,15 @@ export default function CombinedLightingPartners() {
               </div>
             </div>
           )}
-        /> */}
+        />
       </Container>
       {/* PART 2: LIGHTING SECTION */}
-<Container className="px-6 lg:px-10">
+<Container className="">
   <div className="max-w-5xl mb-12">
-    <h2 className="text-5xl lg:text-6xl font-bold text-white tracking-tight font-bai">
+    <h2 className="desk-h2 text-white">
       Lighting.
     </h2>
-    <p className="text-xl text-white/60 mt-2 font-bai">
+    <p className="desk-h3 mt-1 text-white">
       That Defines the Space.
     </p>
   </div>

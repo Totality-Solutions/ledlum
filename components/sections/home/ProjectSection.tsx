@@ -31,21 +31,21 @@ const OurProjectsSection = memo(function OurProjectsSection() {
 
   return (
     <Section className="bg-[#0A0A0A] text-white py-16 md:py-24 overflow-hidden">
-      <Container className="relative z-10 px-6 lg:px-10">
+      <Container className="relative z-10 ">
         
         {/* Header Row - Exactly as your original */}
         <div className="flex flex-col-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
           <div className="flex flex-col">
-            <h2 className="text-white text-[2.5rem] lg:text-[3.5rem] font-semibold leading-tight font-bai">
+            <h2 className="text-white desk-h2">
               Our.
             </h2>
-            <p className="text-white text-[1.5rem] lg:text-[2rem] font-medium leading-tight font-bai opacity-80">
+            <p className="text-white mt-1 desk-h3">
               Projects.
             </p>
           </div>
 
           <div className="flex flex-col items-start md:items-end gap-5">
-            <p className="hidden md:block text-[0.875rem] lg:text-[1rem] text-white/60 font-pop tracking-wide">
+            <p className="hidden md:block text-white/60 body">
               See how LEDLUM lives in real spaces.
             </p>
             
