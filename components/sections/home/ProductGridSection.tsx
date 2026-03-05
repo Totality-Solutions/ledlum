@@ -55,12 +55,12 @@ const CombinedProductSection = memo(function CombinedProductSection() {
     <Section 
       className="relative min-h-screen py-16 lg:py-24 flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat will-change-transform"
       style={{ 
-        backgroundImage: `url(${BgImg.src})`,
+        // backgroundImage: `url(${BgImg.src})`,
         transform: 'translate3d(0, 0, 0)',
         backfaceVisibility: 'hidden'
       }}
     >
-      <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" />
+      {/* <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" /> */}
       {/* SECTION 1: BESTSELLERS GRID */}
       <Container className="relative z-10 ">
         <div className="flex flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">

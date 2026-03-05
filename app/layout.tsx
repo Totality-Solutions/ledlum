@@ -92,7 +92,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               style={{
                 objectFit: "fill",
                 objectPosition: "bottom",
-                opacity: 0.95,
+                opacity: 0.8,
                 transform: 'translate3d(0, 0, 0)',
                 backfaceVisibility: 'hidden',
                 mixBlendMode: "screen",
@@ -104,7 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             style={{
               position: "absolute",
               inset: 0,
-              background: "linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.2) 100%)",
+              background: "linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%)",
             }}
           />
         </div>

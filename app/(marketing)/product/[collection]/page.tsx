@@ -37,7 +37,7 @@ export default function CollectionPage() {
   }, [collection])
 
   return (
-    <main className="relative bg-black min-h-screen">
+    <main className="relative bg-transparent min-h-screen">
 
       <Hero />
 
