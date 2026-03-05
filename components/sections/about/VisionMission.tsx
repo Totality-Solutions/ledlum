@@ -168,7 +168,7 @@ export default function VisionMission() {
   const ourStyle = "block !text-[48px] md:!text-[72px] lg:!text-[84px] text-white opacity-90 font-pop font-medium mb-0 leading-[0.8] tracking-tighter ";
   const wordStyle = "block !text-[24px] md:!text-[32px] lg:!text-[40px] font-pop font-bold-300 leading-tight text-white tracking-tight ";
   const bodyStyle = "body !text-[13px] md:!text-[14px] lg:!text-[15px] !text-zinc-500 mt-6 leading-relaxed font-pop font-light max-w-[280px] md:max-w-[320px] ";
-  const arrowStyle = "w-5 h-5 md:w-6 md:h-6 text-white mb-4";
+  const arrowStyle = "w-5 h-5 md:w-6 md:h-6 text-white mb-4" ;
 
   return (
     <Section className="relative bg-black text-white py-24 md:py-32 lg:py-52 overflow-hidden font-bai !px-0">
@@ -216,11 +216,15 @@ export default function VisionMission() {
 
       {/* Text Container keeps its own padding for content alignment */}
       <Container className="relative z-10 !max-w-none px-6 md:px-[10vw]">
-        <div className="flex flex-col space-y-32 md:space-y-0 relative min-h-fit md:min-h-[850px]">
+        <div className="flex flex-col space-y-32 md:space-y-0 relative min-h-fit md:min-h-[1000px]">
 
           {/* VISION */}
           <div className="md:absolute md:top-0 md:right-0 flex flex-col items-center md:items-start text-center md:text-left">
-            <ArrowCorner className={`${arrowStyle} md:rotate-0 -rotate-45`} />
+            <div style={{ rotate: '183deg', translate: '115px',  }}>
+
+               <ArrowCorner className={`${arrowStyle} md:rotate-0 -rotate-45 `}  />
+            </div>
+           
             <h2 className="font-pop">
               <span className={ourStyle}>Our.</span>
               <span className={wordStyle}>Vision.</span>
@@ -243,8 +247,9 @@ export default function VisionMission() {
           </div>
 
           {/* CORE VALUES */}
-          <div className="md:absolute md:bottom-[20%] md:right-0 flex flex-col items-center md:items-start text-center md:text-left">
-            <ArrowCorner className={`${arrowStyle} md:-rotate-90 -rotate-[135deg]`} />
+          <div className="md:absolute md:bottom-[8%] md:right-0 flex flex-col items-center md:items-start text-center md:text-left">
+            <div style={{ rotate: '275deg', translate: '115px',  }}> <ArrowCorner className={`${arrowStyle} md:-rotate-90 -rotate-[135deg]`} /></div>
+           
             <h2 className="font-pop">
               <span className={ourStyle}>Our.</span>
               <span className={wordStyle}>Core Values.</span>
@@ -269,3 +274,7 @@ function ArrowCorner({ className }: ArrowCornerProps) {
     </svg>
   );
 }
+
+
+
+
