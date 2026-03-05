@@ -25,7 +25,7 @@ const ContactSection = memo(function ContactSection() {
   return (
     <Section className="relative min-h-full text-white bg-transparent font-pop selection:bg-[#8D794E] selection:text-black overflow-hidden">
 
-      <main className="relative z-10 mx-auto min-h-full py-8 flex items-center">
+      <main className="relative z-10 mx-auto min-h-full flex items-center">
 
         {/* GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-6 items-start w-full">
