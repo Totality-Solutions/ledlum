@@ -1,12 +1,9 @@
-// content/data/products.js
-
 export const PRODUCT_DATABASE = {
   "llf-103": {
-
     category: "LED COB Spotlight",
+    series: "llf-100", 
     group: "Led Cob Concealed",
     dimming: "Dali",
-
     collection: "indoor",
     hero: {
       category: "LED COB Spotlight",
@@ -39,18 +36,16 @@ export const PRODUCT_DATABASE = {
       { voltage: "110-120V", watts: "7W", dimensions: "Ø100x92mm", bodyColor: "Dark Gray", beamAngles: "15°", ledChip: "CREE COB", luminous: "800lm", cri: "≥90", cct: "3000K" }
     ],
     gallery: [
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail"
+      "https://placehold.co/437x531/101010/ffffff?text=LLF-103+Detail",
+      "https://placehold.co/437x531/101010/ffffff?text=LLF-103+Detail",
+      "https://placehold.co/437x531/101010/ffffff?text=LLF-103+Detail"
     ]
   },
-
   "llf-104": {
-
     category: "Recessed Downlight",
+    series: "llf-100", 
     group: "Led Smd Concealed",
     dimming: "Non - Dimming",
-
     collection: "indoor",
     hero: {
       category: "Recessed Downlight",
@@ -83,18 +78,16 @@ export const PRODUCT_DATABASE = {
       { voltage: "220-240V", watts: "10W", dimensions: "Ø110x140mm", bodyColor: "Dark Gray", beamAngles: "24°", ledChip: "Bridgelux", luminous: "1000lm", cri: "≥80", cct: "4000K" }
     ],
     gallery: [
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail"
+      "https://placehold.co/437x531/101010/ffffff?text=LLF-104+Detail",
+      "https://placehold.co/437x531/101010/ffffff?text=LLF-104+Detail",
+      "https://placehold.co/437x531/101010/ffffff?text=LLF-104+Detail"
     ]
   },
-
   "llf-205": {
-
     category: "Track Light System",
+    series: "llf-200", 
     group: "Premium Series",
     dimming: "Dali",
-
     collection: "indoor",
     hero: {
       category: "Track Light System",
@@ -125,18 +118,16 @@ export const PRODUCT_DATABASE = {
       { voltage: "48V DC", watts: "15W", dimensions: "Ø60x150mm", bodyColor: "White", beamAngles: "20°", ledChip: "Citizen COB", luminous: "1350lm", cri: "≥97", cct: "4000K" }
     ],
     gallery: [
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail"
+      "https://placehold.co/437x531/101010/ffffff?text=LLF-205+Detail",
+      "https://placehold.co/437x531/101010/ffffff?text=LLF-205+Detail",
+      "https://placehold.co/437x531/101010/ffffff?text=LLF-205+Detail"
     ]
   },
-
   "llf-m20": {
-
     category: "Magnetic Track System",
+    series: "llf-m20", 
     group: "Premium Series",
     dimming: "DP",
-
     collection: "indoor",
     hero: {
       category: "Magnetic Track System",
