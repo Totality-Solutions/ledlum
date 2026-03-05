@@ -74,9 +74,10 @@ const nextConfig: NextConfig = {
     ],
   },
   // Use "as any" to satisfy the TS compiler for experimental properties
-  experimental: {
-    allowedDevOrigins: ["192.168.1.16"],
-  } as any,
+  // experimental: {
+  //   allowedDevOrigins: ["192.168.1.16"],
+  // } as any,
+   reactStrictMode: true,
 };
 
 export default nextConfig;
