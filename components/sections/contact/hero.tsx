@@ -25,13 +25,13 @@ const ContactSection = memo(function ContactSection() {
   return (
     <Section className="relative min-h-full text-white bg-transparent font-pop selection:bg-[#8D794E] selection:text-black overflow-hidden">
 
-      <main className="relative z-10 mx-auto min-h-full flex items-center">
+      <main className="relative z-10 mx-auto min-h-full py-8 flex items-center">
 
         {/* GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-6 items-start w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-0 items-start w-full">
 
           {/* LEFT COLUMN */}
-          <div className="flex flex-col gap-10 px-4 sm:px-6 lg:px-5">
+          <div className="flex flex-col gap-4 px-4 sm:px-6 lg:px-5">
 
             <header className="space-y-6 md:space-y-8">
               <h1 className=" tracking-wide">
