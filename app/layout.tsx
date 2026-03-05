@@ -1,15 +1,15 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
 
-// ❗ Import Preloader + PageLoader normally
 import Preloader from "@/components/layout/common/PreLoader";
 import PageLoader from "@/components/layout/common/PageLoader";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  weight: ["200","300","400","500","600","700","800"],
   variable: "--font-montserrat",
 });
 
@@ -28,11 +28,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${montserrat.variable} bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased`}
       >
-        {/* 1. Placement: Always at the very top of the body */}
         <Preloader />
-        <PageLoader />
 
-        {/* 2. Content: The Header/Footer/Main are injected via children here */}
+        <Suspense fallback={null}>
+          <PageLoader />
+        </Suspense>
+
         {children}
       </body>
     </html>

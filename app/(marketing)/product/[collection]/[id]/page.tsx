@@ -7,7 +7,7 @@ import ProductInnerHero from "@/components/sections/innerproduct/InnerProductHer
 import ProductInfoSection from "@/components/sections/innerproduct/ProductInfo";
 import ProductShowcaseGallery from "@/components/sections/innerproduct/ProductShowcaseGallery";
 
-export default function InnerProductPage() {
+export default function InnerProductContent() {
 
   const params = useParams();
   const router = useRouter();
