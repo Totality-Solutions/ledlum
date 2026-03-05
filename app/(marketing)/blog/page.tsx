@@ -11,6 +11,7 @@ import BlogCard from "@/components/blog/BlogCard";
 import Pagination from '@/components/blog/Pagination';
 import { blogPosts } from "@/lib/blogData";
 import CTABtn from '@/components/layout/common/CTABtn';
+import { GetInTouch } from '@/components/layout/footer/GetInTouch';
 
 // --- UPDATED STRUCTURED CONTENT: Added optimization params to URLs ---
 const CATEGORY_EXTENDED_CONTENT: Record<string, any> = {
@@ -157,7 +158,7 @@ function BlogContent() {
         <h1 className="desk-h1 !text-[3.5rem] md:!text-[var(--text-desk-h1)] text-white leading-tight font-bai">Insights.</h1>
         <p className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white/50 mt-2 font-pop font-light">That illuminate.</p>
 
-        <div className="flex flex-wrap gap-2 md:gap-2.5 mt-10 md:mt-12 font-pop">
+        {/* <div className="flex flex-wrap gap-2 md:gap-2.5 mt-10 md:mt-12 font-pop">
           {categories.map((cat) => (
             <button key={cat} onClick={() => handleCategoryChange(cat)}
               className={`w-[calc(50%-4px)] md:w-auto px-3 md:px-6 py-3 md:py-2 rounded-full border transition-all cursor-pointer text-center 
@@ -165,7 +166,91 @@ function BlogContent() {
               {cat}
             </button>
           ))}
-        </div>
+        </div> */}
+
+
+{/* --- CATEGORY NAVIGATION CAROUSEL (ABSOLUTE CONTAINMENT) --- */}
+<div className="relative mt-10 md:mt-12 z-20 w-full" style={{ height: '54px' }}>
+  <style dangerouslySetInnerHTML={{ __html: `
+    .nav-scroll-container::-webkit-scrollbar { display: none; }
+    .nav-scroll-container { -ms-overflow-style: none; scrollbar-width: none; }
+  `}} />
+
+  {/* <div
+    className="nav-scroll-container flex flex-nowrap overflow-x-auto md:flex-wrap gap-2 md:gap-2.5 pb-4 md:pb-0 -mb-4 md:mb-0 snap-x snap-mandatory touch-pan-x"
+    style={{
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      WebkitOverflowScrolling: 'touch',
+      display: 'flex',
+      width: '100%',
+    }}
+  > */}
+
+
+
+<div
+  className="nav-scroll-container 
+    /* Mobile Styles (Default) */
+    flex flex-nowrap overflow-x-auto snap-x snap-mandatory touch-pan-x w-full absolute left-0 right-0 top-0 pb-4 -mb-4 gap-2.5
+    
+    /* Desktop Styles (md: 768px and up) */
+    md:relative md:flex-wrap md:overflow-visible md:gap-2.5 md:pb-0 md:mb-0"
+  style={{
+    WebkitOverflowScrolling: 'touch',
+  }}
+>
+
+    {categories.map((cat) => {
+      const isActive = normalize(activeCategory) === normalize(cat);
+     
+      return (
+        <button
+          key={cat}
+          onClick={() => handleCategoryChange(cat)}
+          className={`
+            flex-shrink-0
+            px-5
+            md:px-6
+            py-3
+            md:py-2
+            rounded-full
+            border
+            transition-all
+            cursor-pointer
+            text-center
+            font-pop
+            text-sm
+            md:text-base
+            whitespace-nowrap
+          
+            ${isActive
+              ? 'bg-[#c5a36e]/10 border-[#c5a36e]/40 text-[#c5a36e]'
+              : 'border-white/5 text-zinc-500 hover:text-white'
+            }
+          `}
+            
+        >
+          {cat}
+        </button>
+      );
+    })}
+  </div>
+
+  <div
+    className="absolute right-0 top-0 bottom-0 w-12 pointer-events-none md:hidden"
+    style={{
+      background: 'linear-gradient(to left, black, transparent)',
+      zIndex: 30
+    }}
+  />
+</div>
+
+
+
+
 
         {/* Hero Card */}
         <div className="mt-8 md:mt-16 bg-[#0a0a0a] border border-white/5 rounded-[32px] md:rounded-[48px] p-6 md:p-8 lg:p-12 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start shadow-2xl">
@@ -298,7 +383,7 @@ function BlogContent() {
         </div>
       </section>
 
-      <section className="pb-20 relative z-10">
+      <section className="pb-20 relative z-10 ">
         <header className="mb-14">
           <h2 className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white font-bai">Stay Updated.</h2>
           <p className="desk-h3 !text-[1.25rem] md:!text-[var(--text-desk-h3)] text-white/50 mt-1 font-pop font-light">With industry insights.</p>
@@ -319,6 +404,8 @@ function BlogContent() {
           <Pagination currentPage={stayPage} totalPages={totalPagesStay} paramName="stayPage" />
         </div>
       </section>
+
+      <GetInTouch/>
     </main>
   );
 }

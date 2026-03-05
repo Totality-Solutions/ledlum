@@ -65,7 +65,7 @@ const Header = () => {
       <Container>
       {/* TOP BAR */}
       <div 
-        className="w-full  flex justify-between items-center backdrop-blur-lg text-white border-b border-white/5 will-change-filter" 
+        className="w-full  flex justify-between items-center backdrop-blur-lg text-white  will-change-filter" 
         style={{ 
           height: HEADER_HEIGHT,
           transform: 'translate3d(0, 0, 0)', 

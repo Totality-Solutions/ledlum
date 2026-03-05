@@ -36,7 +36,7 @@ export default function Team() {
   ];
 
   return (
-    <Section className="bg-black text-white py-16 md:py-32 overflow-hidden !px-0">
+    <Section className="bg-black text-white  overflow-hidden !px-0  !py-0" >
       <Container className="relative z-10 !max-w-none px-6 md:px-[8vw] py-16 overflow-hidden">
         
         {/* Background Decorative Box - Optimized */}

@@ -71,7 +71,7 @@ export default function AboutHero() {
       {/* CINEMATIC IMAGE - Using Priority for LCP optimization */}
       <div className="relative z-10 w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] 
                       h-[35vh] md:h-[60vh] lg:h-[70vh] 
-                      mb-20 md:mb-32 border-y border-white/10 overflow-hidden">
+                      mb-20 md:mb-32 overflow-hidden">
         <Image
           src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80"
           alt="LEDLUM Architectural Lighting"

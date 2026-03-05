@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -69,7 +70,6 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
 
   const handleSelect = (category: string, value: string) => {
     setError("");
-
     setSelections((prev) => {
       if (prev[category] === value) {
         const newState = { ...prev };
@@ -78,7 +78,6 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
       }
       return { ...prev, [category]: value };
     });
-
     setTouched((prev) => prev.filter((f) => f !== category));
   };
 
@@ -305,7 +304,6 @@ const ConfigColumn = ({ id, label, options = [], selected, onSelect, isDisabled,
       {options.map((opt: any) => {
         const val = typeof opt === 'string' ? opt : opt.label;
         const colorHex = typeof opt === 'string' ? opt.toLowerCase() : opt.hex;
-        const disabled = isDisabled ? isDisabled(val) : false;
         const active = selected === val;
         return (
           <button key={val} disabled={disabled} onClick={() => onSelect && onSelect(val)} className={`h-[45px] transition-all flex items-center justify-center border ${isColorType ? "w-12 rounded-full p-[2px]" : "px-6 rounded-full text-md"} ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active && isColorType ? "ring-4 ring-white scale-110 shadow-lg" : ""} ${active && !isColorType ? "bg-[#DBDCDD] border-[#DBDCDD]" : ""}`} title={val}>
@@ -316,3 +314,7 @@ const ConfigColumn = ({ id, label, options = [], selected, onSelect, isDisabled,
     </div>
   </div>
 );
+
+
+
+
