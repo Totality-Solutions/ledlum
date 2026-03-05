@@ -80,7 +80,8 @@ const nextConfig: NextConfig = {
    reactStrictMode: true,
    turbopack: {
     resolveAlias: {}
-  }
+  },
+  output: "standalone",
 };
 
 export default nextConfig;
