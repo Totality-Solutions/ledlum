@@ -2,11 +2,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Section from "@/components/layout/Section";
-import { jsPDF } from "jspdf";
 import ExcelJS from "exceljs";
 import saveAs from "file-saver";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineDownload } from "react-icons/hi";
+import { PdfFile } from "./Pdf";
 
 interface ProductInfoProps {
   config: any;
@@ -21,6 +21,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
   const [error, setError] = useState("");
   const [touched, setTouched] = useState<string[]>([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,7 +31,6 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
     setIsMenuOpen(false);
   }, [activeId]);
 
-  // Handle clicking outside the download menu to close it
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -55,10 +55,8 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
 
   const checkIsDisabled = (category: string, value: string): boolean => {
     if (!permutations || permutations.length === 0) return false;
-
     return !permutations.some((p: any) => {
       if (p[category] !== value) return false;
-
       return Object.entries(selections).every(([key, selectedVal]) => {
         if (!selectedVal || key === category) return true;
         if (!(key in p)) return true;
@@ -69,7 +67,6 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
 
   const handleSelect = (category: string, value: string) => {
     setError("");
-
     setSelections((prev) => {
       if (prev[category] === value) {
         const newState = { ...prev };
@@ -78,7 +75,6 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
       }
       return { ...prev, [category]: value };
     });
-
     setTouched((prev) => prev.filter((f) => f !== category));
   };
 
@@ -87,63 +83,50 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
     if (missing.length > 0) {
       setTouched(missing);
       setError(`Please complete the selection for: ${missing.join(", ")}`);
-      
-      // Auto-scroll to the first missing field
       const firstId = `field-${missing[0]}`;
       const element = document.getElementById(firstId);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "center" });
       }
-      
       setIsMenuOpen(false);
       return false;
     }
     return true;
   };
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
     if (!validateForm()) return;
-
-    const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text("Product Configuration Tech Pack", 20, 20);
-    doc.setFontSize(12);
-    doc.text(`Product ID: ${activeId}`, 20, 40);
-
-    let y = 60;
-    Object.entries(selections).forEach(([key, value]) => {
-      doc.text(`${key.toUpperCase()} : ${value}`, 20, y);
-      y += 10;
-    });
-
-    doc.save(`${activeId}-tech-pack.pdf`);
-    setIsMenuOpen(false);
+    setIsDownloading(true);
+    try {
+      // Passing config values that aren't in selections (IP and Cutout)
+      await PdfFile({ 
+        selections, 
+        activeId, 
+        ipRating: config.ipRating?.[0] || "IP20",
+        cutout: config.cutoutSizes?.[0] || "N/A"
+      });
+      setIsMenuOpen(false);
+    } catch (err) {
+      setError("PDF Generation failed.");
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const handleDownloadExcel = async () => {
     if (!validateForm()) return;
-
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Technical Specs");
-
     worksheet.columns = [
       { header: "SPECIFICATION", key: "spec", width: 25 },
       { header: "VALUE", key: "value", width: 35 },
     ];
-
     worksheet.addRow({ spec: "PRODUCT ID", value: activeId });
     Object.entries(selections).forEach(([key, value]) => {
       worksheet.addRow({ spec: key.toUpperCase(), value: value });
     });
-
-    // Style Header
     worksheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
-    worksheet.getRow(1).fill = { 
-      type: 'pattern', 
-      pattern: 'solid', 
-      fgColor: { argb: 'FF96865D' } 
-    };
-
+    worksheet.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF96865D' } };
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), `${activeId}-tech-pack.xlsx`);
     setIsMenuOpen(false);
@@ -160,21 +143,13 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
       <div className="max-w-[1420px] mx-auto">
         <h1 className="text-white text-4xl font-medium mb-12">Product Configuration</h1>
 
-        {/* Model Spectrum Grid */}
         <div className="mb-10">
           <p className="text-[#acacac] text-2xl font-normal tracking-wide mb-4">Model Spectrum</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {allModelIds.map((id) => {
               const isActive = activeId.toLowerCase() === id.toLowerCase();
               return (
-                <div
-                  key={id}
-                  onClick={() => onModelChange(id)}
-                  className={`h-[86px] flex items-center px-6 rounded-[12px] cursor-pointer transition-all border ${isActive
-                    ? "bg-white border-white"
-                    : "bg-transparent border-white/10 hover:border-white/30"
-                  }`}
-                >
+                <div key={id} onClick={() => onModelChange(id)} className={`h-[86px] flex items-center px-6 rounded-[12px] cursor-pointer transition-all border ${isActive ? "bg-white border-white" : "bg-transparent border-white/10 hover:border-white/30"}`}>
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-4 ${isActive ? "border-[#4A61AD]" : "border-white/20"}`}>
                     {isActive && <div className="w-2.5 h-2.5 rounded-full bg-[#4A61AD]" />}
                   </div>
@@ -190,7 +165,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
         </div>
 
         <div className="flex flex-col border-t border-white/10 pt-10">
-            <p className="text-[#acacac] text-2xl font-normal tracking-wide mb-4">Core Configuration</p>
+          <p className="text-[#acacac] text-2xl font-normal tracking-wide mb-4">Core Configuration</p>
           <ConfigRow id="field-voltage" label="Voltage :" options={config.voltage || []} selected={selections.voltage} onSelect={(val: string) => handleSelect("voltage", val)} isDisabled={(val: string) => checkIsDisabled("voltage", val)} isError={touched.includes("voltage")} />
           <ConfigRow id="field-dimensions" label="Dimensions :" options={config.dimensions || []} selected={selections.dimensions} onSelect={(val: string) => handleSelect("dimensions", val)} isDisabled={(val: string) => checkIsDisabled("dimensions", val)} isError={touched.includes("dimensions")} />
           <ConfigRow id="field-watts" label="Watts :" options={config.watts || []} selected={selections.watts} onSelect={(val: string) => handleSelect("watts", val)} isDisabled={(val: string) => checkIsDisabled("watts", val)} isError={touched.includes("watts")} />
@@ -231,7 +206,6 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
           {error && <p className="text-red-500 mt-6 font-medium animate-pulse">{error}</p>}
         </div>
 
-        {/* Footer Actions */}
         <div className="mt-12 flex flex-col md:flex-row justify-between items-end gap-6 pb-20">
           <div className="flex flex-col gap-1">
             <p className="text-white/40 text-sm font-light italic uppercase tracking-tighter">Product ID: {activeId}</p>
@@ -246,20 +220,15 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
             <div className="flex flex-col items-center">
               <AnimatePresence>
                 {isMenuOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute top-full mt-4 flex flex-col gap-2 w-fit left-35"
-                  >
+                  <motion.div initial={{ opacity: 0, y: 10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 10, scale: 0.95 }} className="absolute top-full mt-4 flex flex-col gap-2 w-fit left-35 z-50">
                     <button onClick={handleDownloadExcel} className="flex items-center justify-between gap-8 bg-[#96865D] hover:bg-[#85764d] text-white pl-10 pr-2 py-2 rounded-full transition-all w-full shadow-xl">
                       <span className="font-medium text-lg">Sheet Data</span>
                       <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center">
                         <HiOutlineDownload className="text-black text-xl" />
                       </div>
                     </button>
-                    <button onClick={handleDownloadPDF} className="flex items-center justify-between gap-8 bg-[#96865D] hover:bg-[#85764d] text-white pl-10 pr-2 py-2 rounded-full transition-all w-full shadow-xl">
-                      <span className="font-medium text-lg">PDF Tech Pack</span>
+                    <button onClick={handleDownloadPDF} disabled={isDownloading} className="flex items-center justify-between gap-8 bg-[#96865D] hover:bg-[#85764d] text-white pl-10 pr-2 py-2 rounded-full transition-all w-full shadow-xl">
+                      <span className="font-medium text-lg">{isDownloading ? "Generating..." : "PDF Tech Pack"}</span>
                       <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center">
                         <HiOutlineDownload className="text-black text-xl" />
                       </div>
@@ -268,10 +237,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
                 )}
               </AnimatePresence>
 
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="flex items-center justify-between gap-8 bg-[#96865D] hover:bg-[#85764d] text-white pl-10 pr-2 py-2 rounded-full transition-all min-w-[320px] group shadow-lg"
-              >
+              <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="flex items-center justify-between gap-8 bg-[#96865D] hover:bg-[#85764d] text-white pl-10 pr-2 py-2 rounded-full transition-all min-w-[320px] group shadow-lg">
                 <span className="font-medium text-xl">Download Technical Pack</span>
                 <div className="bg-[#FAF3E0] p-3 rounded-full flex items-center justify-center">
                   <HiOutlineDownload className="text-black text-2xl group-hover:scale-110 transition-transform" />
