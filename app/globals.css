@@ -1,7 +1,9 @@
-/* Remove Google Fonts imports - using Next.js font optimization instead */
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
-/* Tailwind v4 CSS */
 @import "tailwindcss";
+/* Tailwind */
 
 /* Performance Optimizations */
 * {
@@ -43,6 +45,7 @@ img {
 
 :root {
   /* Colors */
+  /* Colors */
   --background: #ffffff;
   --foreground: #171717;
   --primary-color: #CE3731;
@@ -50,12 +53,17 @@ img {
   --gray-color: #F0F0F0;
   --black-color: #000000;
   --white-color: #FFFFFF;
-  --text-txgray: #DBDCDD;
-  --bg-gray: #222222;
+  --primary-color: #CE3731;
+  --secondary-color: #EB5A4D;
+  --gray-color: #F0F0F0;
+  --black-color: #000000;
+  --white-color: #FFFFFF;
+  --text-gray: #DBDCDD;
+   --cardbackground: #222222;
 
-  /* Fonts - using Next.js font variables */
-  --primary-font: var(--font-bai);
-  --secondary-font: var(--font-pop);
+  /* Fonts */
+  --primary-font: 'Bai Jamjuree', sans-serif;
+  --secondary-font: 'Poppins', sans-serif;
 
   /* Font Aliases */
   /* Font Aliases */
@@ -63,9 +71,9 @@ img {
   --font-pop: var(--secondary-font);
 
   /* Text Sizes */
-  --text-desk-h1: 3.5rem;
-  --text-desk-h2: 3rem;
-  --text-desk-h3: 2rem;
+  --text-desk-h1: 3rem;
+  --text-desk-h2: 2.25rem;
+  --text-desk-h3: 1.5rem;
   --text-tab-h1: 3rem;
   --text-tab-h2: 1.5rem;
   --text-mob-h1: 1rem;
@@ -97,6 +105,15 @@ img {
   --secondary-bold: 700;
   --secondary-extrabold: 800;
   --secondary-black: 900;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-bai: var(--primary-font);
+  --font-pop: var(--secondary-font);
+  --text-gray:var(--text-gray);
+  --color-card: var(--cardbackground);
 }
 
 
@@ -132,8 +149,8 @@ body {
 
 
 .desk-h2 {
-  font-family: var(--secondary-font);
-  font-weight: var(--secondary-regular);
+  font-family: var(--secodary-font);
+  font-weight: var(--secondary-medium);
   font-size: var(--text-desk-h2);
   letter-spacing: -1.2px;
   line-height: 40px;
@@ -141,6 +158,8 @@ body {
 
 
 .desk-h3 {
+  font-family: var(--secondary-font);
+  font-weight: var(--secondary-regular);
   font-family: var(--secondary-font);
   font-weight: var(--secondary-regular);
   font-size: var(--text-desk-h3);
@@ -206,7 +225,7 @@ body {
 .button {
   font-family: var(--secondary-font);
   font-weight: var(--secondary-semibold);
-  font-size: var(--text-button);
+  font-size: var(--text-button-xs);
   line-height: auto;
 }
 
@@ -279,7 +298,7 @@ body.no-scroll {
   background-color: #000000; /* Light mode */
   opacity: 1;
   visibility: visible;
-  transition: opacity 0s ease, visibility 0s ease;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 .dark .loader-overlay {

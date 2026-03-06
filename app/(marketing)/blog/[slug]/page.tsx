@@ -146,7 +146,7 @@ export default async function BlogPost({ params }: PageProps) {
 
         {/* --- LATEST INSIGHTS SECTION --- */}
         <section className="pt-20 md:pt-24 pb-32 md:pb-48 border-t border-white/10">
-          <h2 className="desk-h3 !text-[1.75rem] md:!text-[var(--text-desk-h3)] capitalize mb-12 md:mb-16">
+          <h2 className="desk-h3 text-[1.75rem] capitalize mb-12 md:mb-16">
             Latest insights & innovations.
           </h2>
 

@@ -23,31 +23,31 @@ const ContactSection = memo(function ContactSection() {
   };
 
   return (
-    <Section className="relative min-h-full text-white bg-transparent font-pop selection:bg-[#8D794E] selection:text-black overflow-hidden">
+    <Section className="relative min-h-full bg-transparent font-pop selection:bg-[#8D794E] selection:text-black overflow-hidden">
 
-      <main className="relative z-10 mx-auto min-h-full py-8 flex items-center">
+      <main className="relative z-10 mx-auto min-h-full flex items-center">
 
         {/* GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-0 items-start w-full">
 
           {/* LEFT COLUMN */}
-          <div className="flex flex-col gap-4 px-4 sm:px-6 lg:px-5">
+          <div className="flex flex-col gap-8">
 
             <header className="space-y-6 md:space-y-8">
-              <h1 className=" tracking-wide">
+              <h1 className=" text-[#DBDCDD] tracking-wide font-pop">
 
-                <span className="desk-h1 block text-white font-pop">
+                <span className="text-4xl md:text-5xl lg:text-6xl block">
                   Get.
                 </span>
 
-                <span className="desk-h3 block text-white">
+                <span className="text-2xl md:text-3xl lg:text-4xl block text-gray">
                   in Touch.
                 </span>
 
               </h1>
             </header>
 
-            <p className="text-base md:text-lg font-[0.9rem] text-txgray max-w-sm leading-relaxed tracking-wider">
+            <p className="text-base md:text-lg font-[0.9rem] text-[#DBDCDD] max-w-sm leading-relaxed tracking-wider">
               A practical guide to selecting efficient, high-performance lighting systems for offices.
             </p>
 
@@ -86,21 +86,21 @@ const ContactSection = memo(function ContactSection() {
                   type="text"
                   placeholder="Name"
                   required
-                  className="w-full bg-white/5 border border-(--text-gray) rounded-full px-6 md:px-8 py-4 md:py-6 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-gray text-white"
+                  className="w-full bg-white/5 border border-[#DBDCDD] rounded-full px-6 md:px-8 py-4 md:py-6 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-[#DBDCDD] text-white"
                 />
 
                 <input
                   type="email"
                   placeholder="E-mail / Contact no."
                   required
-                  className="w-full bg-white/5 border border-(--text-gray) rounded-full px-6 md:px-8 py-4 md:py-6 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-gray text-white"
+                  className="w-full bg-white/5 border border-[#DBDCDD] rounded-full px-6 md:px-8 py-4 md:py-6 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-[#DBDCDD] text-white"
                 />
 
                 <textarea
                   placeholder="Message"
                   rows={5}
                   required
-                  className="w-full bg-white/5 border border-(--text-gray) rounded-[30px] md:rounded-[40px] px-6 md:px-8 py-5 md:py-8 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-gray text-white resize-none"
+                  className="w-full bg-white/5 border border-[#DBDCDD] rounded-[30px] md:rounded-[40px] px-6 md:px-8 py-5 md:py-8 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-[#DBDCDD] text-white resize-none"
                 />
 
               </div>
@@ -109,7 +109,7 @@ const ContactSection = memo(function ContactSection() {
               <div className="flex flex-row items-center justify-between gap-4 w-full">
                 <CTABtn
                   label="Reset"
-                  btnBg="var(--bg-gray)"
+                  btnBg="var(--bg-dark)"
                   btnHoverBg="black"
                   iconType="reset"
                   textColor="white"
@@ -153,7 +153,7 @@ const ContactLink = memo(function ContactLink({
   };
 
   return (
-    <div className="group flex items-center justify-between p-2 rounded-full border border-(--text-gray) bg-white/[0.03] hover:bg-white/[0.07] transition-all cursor-pointer font-pop w-full">
+    <div className="group flex items-center justify-between p-2 rounded-full border border-[#DBDCDD] bg-white/[0.03] hover:bg-white/[0.07] transition-all cursor-pointer font-pop w-full">
 
       <div className="flex items-center gap-4 md:gap-5 pl-1">
 
@@ -167,7 +167,7 @@ const ContactLink = memo(function ContactLink({
           <p className="button-xs text-white capitalize leading-none font-normal">
             {label}
           </p>
-          <p className="text-xs md:text-sm text-(--text-gray) font-extralight tracking-wide lowercase">
+          <p className="text-xs md:text-sm text-[#DBDCDD] font-extralight tracking-wide lowercase">
             {value}
           </p>
         </div>

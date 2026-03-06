@@ -149,10 +149,10 @@ function BlogContent() {
   return (
     <Section>
       <div className="mb-14 relative">
-        <h5 className="desk-h1 !text-[3.5rem] text-white leading-tight font-bai">
+        <h5 className="desk-h1 text-[3.5rem] text-white leading-tight font-pop">
           Insights.
         </h5>
-        <p className="desk-h3 !text-[1.5rem] text-white mt-2 font-pop font-bold">
+        <p className="desk-h3 text-[1.5rem] text-white mt-2 font-pop">
           That illuminate.
         </p>
 
@@ -174,7 +174,7 @@ function BlogContent() {
                   onClick={() => handleCategoryChange(cat)}
                   className={`flex-shrink-0 px-5 md:px-6 py-3 md:py-2 rounded-2xl border transition-all cursor-pointer text-center font-pop text-sm md:text-base whitespace-nowrap
                     ${isActive
-                      ? 'bg-[#8D794E] text-txgray border-[#8D794E]'
+                      ? 'bg-[#CFC08E] text-black border-[#8D794E] border-[2px]'
                       : 'border-black text-zinc-500 hover:text-white bg-black/15'
                     }`}
                 >
@@ -207,10 +207,10 @@ function BlogContent() {
 
           <div className="w-full lg:w-[42%] flex flex-col justify-center lg:pt-4">
             <div className="space-y-6 md:space-y-8">
-              <h2 className="desk-h3 !text-[1.75rem] text-gray-300 font-bai font-medium">
+              <h2 className="desk-h3 text-[1.75rem] text-gray-300 font-bai font-medium">
                 {heroPost?.category}
               </h2>
-              <p className="body-sm text-zinc-400 desk-h3 font-light leading-relaxed line-clamp-4 font-pop">
+              <p className="body-sm text-zinc-400 font-light leading-relaxed font-pop line-clamp-4">
                 {heroPost?.description}
               </p>
               <div className="pt-2">
@@ -339,7 +339,7 @@ function BlogContent() {
 
         <div className="relative">
           <div className="mb-12 pb-6 border-b border-white/5">
-            <h2 className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white font-bai">
+            <h2 className="text-[2rem] text-white font-pop">
               Latest insights & innovations.
             </h2>
           </div>
