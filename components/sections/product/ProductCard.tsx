@@ -4,10 +4,10 @@ export default function ProductCard({ title, category, image, onClick }: any) {
   return (
     <div 
       onClick={onClick}
-      className="group p-3 border border-[#444444] rounded-[25px] transition-all duration-500 cursor-pointer hover:border-white/30 hover:bg-[#444444]/20"
+      className="group p-2 lg:p-3 border border-[#444444] rounded-[16px] lg:rounded-[25px] transition-all duration-500 cursor-pointer hover:border-white/30 hover:bg-[#444444]/20"
     >
       {/* Image Container */}
-      <div className="aspect-square relative rounded-[18px] overflow-hidden border border-[#444444] mb-4">
+      <div className="aspect-square relative rounded-[12px] overflow-hidden border border-[#444444] mb-4">
         <Image 
           src={image} 
           alt={title} 
@@ -17,7 +17,7 @@ export default function ProductCard({ title, category, image, onClick }: any) {
       </div>
 
       {/* Content Area */}
-      <div className="flex justify-between items-center p-2 lg:p-4 lg:bg-[#111111] group-hover:bg-[#000000] rounded-[18px] transition-colors duration-500">
+      <div className="flex justify-between items-center p-1 lg:p-4 lg:bg-[#111111] group-hover:bg-[#000000] rounded-[18px] transition-colors duration-500">
         <div className="flex flex-col text-left">
           <span className="body text-white transition-colors duration-500 group-hover:text-[#888888]/80">
             {title}
@@ -25,7 +25,7 @@ export default function ProductCard({ title, category, image, onClick }: any) {
         </div>
 
         {/* Action Icon Section */}
-        <div className="hidden md:flex w-8 h-8 shrink-0 rounded-full items-center justify-center transition-all duration-500">
+        <div className="flex w-8 h-8 shrink-0 rounded-full items-center justify-center transition-all duration-500">
           <svg 
             width="12" 
             height="12" 

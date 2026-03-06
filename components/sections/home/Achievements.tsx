@@ -20,12 +20,14 @@ export default function AchievementsSection() {
   return (
     <Section
       className="relative py-12 lg:py-20 bg-cover bg-top bg-no-repeat overflow-hidden will-change-transform"
-      style={{ 
-        backgroundImage: `url(${BgImg.src})`,
-        transform: 'translate3d(0, 0, 0)',
-        backfaceVisibility: 'hidden'
-      }}
     >
+    <Image
+      src={BgImg}
+      alt="Background"
+      fill
+      priority
+      className="object-cover -z-[20]"
+    />
       <div className="absolute inset-0 z-0 pointer-events-none" />
 
       <Container className="relative z-10 ">
@@ -56,7 +58,6 @@ export default function AchievementsSection() {
                   alt={item.label}
                   fill
                   className="object-cover"
-                  unoptimized
                 />
               </div>
             ))}

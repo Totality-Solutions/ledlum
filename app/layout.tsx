@@ -5,8 +5,9 @@ import Image from "next/image";
 import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
 
-import Preloader from "@/components/layout/common/PreLoader";
-import PageLoader from "@/components/layout/common/PageLoader";
+// ❗ Import Preloader + PageLoader normally
+import Preloader from "@/app/PreLoader";
+import PageLoader from "@/app/PageLoader";
 
 import linearGradientBg from "@/public/lineargradient.png";
 import ledlumLineBg from "@/public/images/about/ledlumline.png";

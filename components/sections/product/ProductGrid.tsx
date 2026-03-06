@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation"
 import { useMemo } from "react"
 import ProductCard from "./ProductCard"
+import { Container } from "@/components/layout/Container"
 
 export default function ProductGrid({ filters, products, collection }: any) {
   const router = useRouter()
@@ -24,9 +25,9 @@ export default function ProductGrid({ filters, products, collection }: any) {
   }, [filters, products])
 
   return (
-    <div className="relative">
+    <Container className="relative">
       {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-8">
           {filteredProducts.map((product:any) => (
             <ProductCard
               key={product.id}
@@ -38,10 +39,10 @@ export default function ProductGrid({ filters, products, collection }: any) {
           ))}
         </div>
       ) : (
-        <div className="text-white/40 text-center py-32 border border-white/5 rounded-[30px] uppercase text-xs tracking-[0.2em]">
+        <div className="text-white/60 text-center py-20 lg:py-32 uppercase body ">
           No products match these specific filters
         </div>
       )}
-    </div>
+    </Container>
   )
 }

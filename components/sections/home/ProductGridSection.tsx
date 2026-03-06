@@ -53,13 +53,15 @@ const CombinedProductSection = memo(function CombinedProductSection() {
 
   return (
     <Section 
-      className="relative min-h-screen py-16 lg:py-24 flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat will-change-transform"
-      style={{ 
-        // backgroundImage: `url(${BgImg.src})`,
-        transform: 'translate3d(0, 0, 0)',
-        backfaceVisibility: 'hidden'
-      }}
+      className="relative min-h-screen flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat will-change-transform"
     >
+    <Image
+      src={BgImg}
+      alt="Background"
+      fill
+      priority
+      className="object-cover -z-[20]"
+    />
       {/* <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" /> */}
       {/* SECTION 1: BESTSELLERS GRID */}
       <Container className="relative z-10 ">
@@ -102,7 +104,6 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                     alt={product.title} 
                     fill 
                     className="object-cover transition-opacity duration-700 ease-in-out" 
-                    unoptimized 
                     sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw" />
                   
                   {/* INFO CONTAINER: Desktop Overlay Mode */}
@@ -184,7 +185,6 @@ const CombinedProductSection = memo(function CombinedProductSection() {
           fill 
           className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform rounded-[16px] " 
           style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
-          unoptimized 
           sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
         />
 

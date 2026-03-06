@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import ImageSliderCard from "@/components/layout/common/InfiniteCarousel";
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
@@ -30,13 +31,16 @@ const PARTNERS = [
 export default function CombinedLightingPartners() {
   return (
     <Section 
-      className="relative py-20 lg:py-32 flex flex-col gap-24 lg:gap-32 bg-cover bg-center bg-no-repeat will-change-transform"
-      style={{ 
-        backgroundImage: `url(${BgImg.src})`,
-        transform: 'translate3d(0, 0, 0)',
-        backfaceVisibility: 'hidden'
-      }} // Shared background applied here
+      className="relative  flex flex-col gap-24 lg:gap-32 bg-cover bg-center bg-no-repeat will-change-transform"
     >
+    <Image
+      src={BgImg}
+      alt="Background"
+      fill
+      priority
+      quality={100}
+      className="object-cover -z-[20]"
+    />
       {/* PART 1: TRUSTED PARTNERS SECTION */}
       <Container className="max-w-[1280px] 2xl:max-w-[1600px] ">
         {/* HEADING SECTION */}
@@ -50,7 +54,7 @@ export default function CombinedLightingPartners() {
         </div>
 
         {/* MARQUEE FLOW CAROUSEL */}
-        <MarqueeFlow
+        {/* <MarqueeFlow
           items={PARTNERS}
           gap={20}
           speed={2000}
@@ -63,7 +67,7 @@ export default function CombinedLightingPartners() {
               </div>
             </div>
           )}
-        />
+        /> */}
       </Container>
       {/* PART 2: LIGHTING SECTION */}
 <Container className="">

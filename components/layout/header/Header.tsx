@@ -61,7 +61,7 @@ const Header = () => {
   };
 
   return (
-    <header ref={headerRef} className="sticky top-0 left-0 w-full z-[60] bg-black px-12">
+    <header ref={headerRef} className="sticky top-0 left-0 w-full z-[60] bg-black lg:px-12 px-3">
        
       {/* TOP BAR */}
       <div 
