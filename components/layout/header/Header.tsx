@@ -9,6 +9,7 @@ import { primaryNavigation, sideNavigation } from "@/config/navigation";
 import LogoImg from "@/public/images/logo/LEDLUM_LOGO.svg";
 import MenuIcon from "@/public/images/icons/menu_icon.png";
 import { Container } from "../Container";
+import Section from "../Section";
 
 const HEADER_HEIGHT = "90px";
 
@@ -120,23 +121,23 @@ const Header = () => {
 
       {/* DESKTOP DROPDOWN */}
       <div
-        className={`hidden lg:block absolute left-1/2 -translate-x-1/2 w-max pt-4 transition-all duration-300 ease-in-out z-50 ${
+        className={` w-[90%] hidden lg:block absolute left-1/2 -translate-x-1/2 pt-4 transition-all duration-300 ease-in-out z-50 ${
           sideMenuOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-[-10px] pointer-events-none"
         }`}
         style={{ top: HEADER_HEIGHT }}
       >
-        <div
-          className="absolute top-2 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-b-[#111111] transition-all duration-300 ease-out"
+        {/* <div
+          className="absolute w-full top-2 w-auto h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-b-[#111111] transition-all duration-300 ease-out"
           style={{ left: `calc(${triangleLeft}px - (50vw - 50%))` }}
-        />
-        <div className="bg-[#111111] shadow-2xl border border-white/5 w-[1450px] 2xl:w-[1800px] overflow-hidden">
-          <div className="p-12 flex flex-wrap justify-center content-start gap-4">
+        /> */}
+        <div className="bg-[#111111] w-full shadow-2xl border border-white/5 overflow-hidden">
+          <div className="p-7 flex flex-wrap justify-center content-start gap-4">
             {sideNavigation.map((item, index) => (
               <Link
                 key={index}
                 href={item.href}
                 onClick={closeAll}
-                className="h-[75px] w-[200px] flex-shrink-0 bg-[#222222] border border-white/5 flex items-center justify-center px-6 hover:bg-[#AD9463]/20 hover:border-[#AD9463]/40 transition-all cursor-pointer group"
+                className="h-auto w-[150px] p-4 flex-shrink-0 bg-[#222222] border border-white/5 flex items-center justify-center px-6 hover:bg-[#AD9463]/20 hover:border-[#AD9463]/40 transition-all cursor-pointer group"
               >
                 <span className="text-[#DBDCDD] body-sm text-center group-hover:text-white whitespace-nowrap">
                   {item.title}
