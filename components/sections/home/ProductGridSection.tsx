@@ -52,173 +52,179 @@ const CombinedProductSection = memo(function CombinedProductSection() {
   };
 
   return (
-    <Section 
-      className="relative min-h-screen py-16 lg:py-24 flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat will-change-transform"
-      style={{ 
-        // backgroundImage: `url(${BgImg.src})`,
-        transform: 'translate3d(0, 0, 0)',
-        backfaceVisibility: 'hidden'
-      }}
-    >
-      {/* <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" /> */}
-      {/* SECTION 1: BESTSELLERS GRID */}
-      <Container className="relative z-10 ">
-        <div className="flex flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
-          <div className="max-w-xl">
-            <h2 className="desk-h2 text-white ">Designed In-House.</h2>
-            <p className="desk-h3 text-white mt-1 ">Built <span className="lowercase">to</span> Last.</p>
-          </div>
-          
-          <div className="flex flex-row md:flex-col items-end gap-6">
-            <div className="flex items-center gap-6 lg:gap-10">
-              {/* <div className="hidden lg:flex items-center gap-2">
-                {["Ceiling", "Table", "Wall", "Floor lights"].map((item, index, array) => (
-                  <React.Fragment key={item}>
-                    <span className="body-xs text-white/40 font-bai cursor-pointer hover:text-white transition-colors uppercase tracking-widest">{item}</span>
-                    {index !== array.length - 1 && <div className="w-8 h-[1px] bg-white opacity-20" />}
-                  </React.Fragment>
-                ))}
-              </div> */}
-              <span className="hidden md:block body-sm text-white">Bestsellers</span>
-            </div>
-              
-            <button onClick={toggleAll} className={cn("w-[40px] h-[20px] lg:w-[70px] lg:h-[36px] rounded-full p-1.5 flex items-center transition-colors duration-500 shadow-lg", isAllDark ? "bg-black" : "bg-white")}>
-              <div className={cn("w-4 h-4 lg:w-6 lg:h-6 rounded-full flex items-center justify-center transition-transform duration-500 ease-in-out", isAllDark ? "translate-x-4 lg:translate-x-8 bg-white" : "translate-x-0 bg-black")}>
-                <div className={cn("w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full border-[1.5px]", isAllDark ? "border-black" : "border-white")} />
-              </div>
-            </button>
-          </div>
-        </div>
+    <Section className="relative min-h-screen py-16 lg:py-24 overflow-hidden">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10 justify-items-center">
-          {BESTSELLERS.map((product) => {
-            const isDark = activeModes[product.id] ?? isAllDark;
-            return (
-              <div key={product.id} className="flex flex-col w-full max-w-[300px] lg:max-w-none group relative">
-                {/* IMAGE CONTAINER */}
-                <div className="relative w-full aspect-[3/4] rounded-[12px] lg:rounded-[25px] overflow-hidden shadow-2xl">
-                  <Image 
-                    src={isDark ? product.darkImg : product.lightImg} 
-                    alt={product.title} 
-                    fill 
-                    className="object-cover transition-opacity duration-700 ease-in-out" 
-                    unoptimized 
-                    sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw" />
-                  
-                  {/* INFO CONTAINER: Desktop Overlay Mode */}
-                  <div className={cn(
-                    "hidden lg:flex absolute bottom-0 left-0 w-full h-[110px] px-8 items-center justify-between transition-all",
-                    "bg-white/20 backdrop-blur-[20px] border-t border-white/20 will-change-filter rounded-b-[25px]"
-                  )}>
-                    <div className="flex flex-col">
-                      <span className="body font-semibold font-pop leading-tight text-black">{product.title}</span>
-                      <span className="body-xs font-pop mt-0.5 text-black/70">{product.sub}</span>
-                    </div>
-                    <button 
-                      onClick={() => toggleIndividual(product.id)} 
-                      className={cn(
-                        "w-[54px] h-[28px] rounded-full p-1 flex items-center transition-all duration-300", 
-                        isDark ? "bg-black" : "bg-white"
-                      )}
-                    >
-                      <div className={cn(
-                        "w-5 h-5 rounded-full flex items-center justify-center transition-transform duration-500", 
-                        isDark ? "translate-x-6 bg-white" : "translate-x-0 bg-black"
-                      )}>
-                        <div className={cn("w-1.5 h-1.5 rounded-full border", isDark ? "border-black" : "border-white")} />
-                      </div>
-                    </button>
-                  </div>
+  {/* Background Image */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style={{ backgroundImage: `url(${BgImg.src})` }}
+  />
+
+  {/* Transparency Layer to blend with main background */}
+  <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/80" />
+
+  {/* SECTION 1 */}
+  <Container className="relative z-10">
+
+    {/* Header */}
+    <div className="flex flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
+
+      <div className="max-w-xl font-pop">
+        <h2 className="desk-h2 text-white">
+          Designed In-House.
+        </h2>
+
+        <p className="desk-h3 text-white mt-1">
+          Built <span className="lowercase">to</span> Last.
+        </p>
+      </div>
+
+      {/* Toggle */}
+      <div className="flex flex-row md:flex-col items-end gap-6">
+
+        <span className="hidden md:block body-sm text-white">
+          Bestsellers
+        </span>
+
+        <button
+          onClick={toggleAll}
+          className={cn(
+            "w-[40px] h-[20px] lg:w-[70px] lg:h-[36px] rounded-full p-1.5 flex items-center transition-colors duration-500 shadow-lg",
+            isAllDark ? "bg-black" : "bg-white"
+          )}
+        >
+          <div
+            className={cn(
+              "w-4 h-4 lg:w-6 lg:h-6 rounded-full flex items-center justify-center transition-transform duration-500",
+              isAllDark
+                ? "translate-x-4 lg:translate-x-8 bg-white"
+                : "translate-x-0 bg-black"
+            )}
+          >
+            <div
+              className={cn(
+                "w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full border-[1.5px]",
+                isAllDark ? "border-black" : "border-white"
+              )}
+            />
+          </div>
+        </button>
+
+      </div>
+    </div>
+
+    {/* Products Grid */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
+
+      {BESTSELLERS.map((product) => {
+
+        const isDark = activeModes[product.id] ?? isAllDark;
+
+        return (
+
+          <div key={product.id} className="group relative">
+
+            {/* Image */}
+            <div className="relative aspect-[3/4] rounded-[18px] overflow-hidden shadow-2xl">
+
+              <Image
+                src={isDark ? product.darkImg : product.lightImg}
+                alt={product.title}
+                fill
+                priority={false}
+                sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 25vw"
+                className="object-cover transition-opacity duration-700"
+              />
+
+              {/* Desktop Info */}
+              <div className="hidden lg:flex absolute bottom-0 left-0 w-full h-[110px] px-8 items-center justify-between bg-white/20 backdrop-blur-xl border-t border-white/20">
+
+                <div className="flex flex-col">
+                  <span className="body font-semibold text-black">
+                    {product.title}
+                  </span>
+
+                  <span className="body-xs text-black/70">
+                    {product.sub}
+                  </span>
                 </div>
-                
-                {/* INFO CONTAINER: Mobile/Tablet Relative Mode */}
-                <div className="flex lg:hidden w-full justify-between items-center pt-4 px-1">
-                  <div className="flex flex-col">
-                    <span className="body font-semibold font-pop leading-tight text-white">{product.title}</span>
-                    <span className="body-xs font-pop mt-0.5 text-white/60">{product.sub}</span>
-                  </div>
-                  <button 
-                    onClick={() => toggleIndividual(product.id)} 
+
+                <button
+                  onClick={() => toggleIndividual(product.id)}
+                  className={cn(
+                    "w-[54px] h-[28px] rounded-full p-1 flex items-center transition-all duration-300",
+                    isDark ? "bg-black" : "bg-white"
+                  )}
+                >
+                  <div
                     className={cn(
-                      "w-[46px] h-[24px] rounded-full p-1 flex items-center transition-all duration-300", 
-                      isDark ? "bg-black" : "bg-white"
+                      "w-5 h-5 rounded-full flex items-center justify-center transition-transform duration-500",
+                      isDark
+                        ? "translate-x-6 bg-white"
+                        : "translate-x-0 bg-black"
                     )}
                   >
-                    <div className={cn(
-                      "w-3.5 h-3.5 rounded-full flex items-center justify-center transition-transform duration-500", 
-                      isDark ? "translate-x-5 bg-white" : "translate-x-0 bg-black"
-                    )}>
-                      <div className={cn("w-1 h-1 rounded-full border", isDark ? "border-black" : "border-white")} />
-                    </div>
-                  </button>
-                </div>
+                    <div
+                      className={cn(
+                        "w-1.5 h-1.5 rounded-full border",
+                        isDark ? "border-black" : "border-white"
+                      )}
+                    />
+                  </div>
+                </button>
+
               </div>
-            );
-          })}
-        </div>
-      </Container>
+            </div>
 
-      {/* SECTION 2: NEW ARRIVALS CAROUSEL */}
-      <Container className="relative z-10">
-  <div className="flex justify-between items-center mb-10">
-    <h2 className="body text-white flex items-center font-pop">
-      <span>New Arrivals</span>
-    </h2>
-    <p className="body text-white font-pop ">Experience the Fan’s</p>
-  </div>
+            {/* Mobile Info */}
+            <div className="flex lg:hidden justify-between items-center pt-4">
 
-  <MarqueeFlow
-    items={NEW_ARRIVALS}
-    gap={20}
-    speed={3000}
-    renderItem={(item) => (
-      /* Each card is now a Link providing unique navigation based on item data */
-      <Link 
-        href={item.href || "#"} 
-        className="relative block aspect-[3/4] w-full rounded-[12px] overflow-hidden group shadow-xl"
-      >
-        {/* The Image fills the entire card */}
-        <Image 
-          src={item.img} 
-          alt={item.title || "New Arrival"} 
-          fill 
-          className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform rounded-[16px] " 
-          style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
-          unoptimized 
-          sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
-        />
+              <div className="flex flex-col">
+                <span className="body font-semibold text-white">
+                  {product.title}
+                </span>
 
-        {/* The Overlay: Custom footer with left text and right arrow */}
-        <div className="absolute bottom-0 left-0 w-full bg-black p-4 flex items-center justify-between">
-          
-          {/* Left Side: Title */}
-          <span className="text-white font-pop text-sm md:text-base font-medium truncate pr-4">
-            {item.title}
-          </span>
+                <span className="body-xs text-white/60">
+                  {product.sub}
+                </span>
+              </div>
 
-          {/* Right Side: Normal Circle Button with Arrow */}
-          <div className="w-8 h-8 md:w-10 md:h-10 bg-[#9a8c66] rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-45">
-            <svg 
-              width="18" 
-              height="18" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="white" 
-              strokeWidth="2.5" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            >
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="7 7 17 7 17 17"></polyline>
-            </svg>
+              <button
+                onClick={() => toggleIndividual(product.id)}
+                className={cn(
+                  "w-[46px] h-[24px] rounded-full p-1 flex items-center transition-all",
+                  isDark ? "bg-black" : "bg-white"
+                )}
+              >
+                <div
+                  className={cn(
+                    "w-3.5 h-3.5 rounded-full flex items-center justify-center transition-transform duration-500",
+                    isDark
+                      ? "translate-x-5 bg-white"
+                      : "translate-x-0 bg-black"
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "w-1 h-1 rounded-full border",
+                      isDark ? "border-black" : "border-white"
+                    )}
+                  />
+                </div>
+              </button>
+
+            </div>
+
           </div>
-          
-        </div>
-      </Link>
-    )}
-  />
-</Container>
-    </Section>
+
+        );
+      })}
+
+    </div>
+
+  </Container>
+
+</Section>
   );
 });
 
