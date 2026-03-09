@@ -11,7 +11,7 @@ interface BlogCardProps {
 export default function BlogCard({ category, description, image, isFeatured }: BlogCardProps) {
   return (
     <div className={`group cursor-pointer flex flex-col h-full ${isFeatured ? 'lg:col-span-2' : 'col-span-1'} 
-      bg-[#0d0d0d] border border-white/5 rounded-[32px] p-4 transition-all duration-500 hover:bg-[#141414] hover:border-white/10`}>
+      bg-card border border-white/5 rounded-[32px] p-4 transition-all duration-500 hover:bg-[#141414] hover:border-white/10`}>
       
       {/* 1. Image Container */}
       <div className="relative flex-grow overflow-hidden rounded-[24px] bg-black mb-5 min-h-[220px]">

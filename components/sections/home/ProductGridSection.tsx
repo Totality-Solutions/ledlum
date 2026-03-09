@@ -153,20 +153,9 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                     </div>
                   </button>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </Container>
+              </button>
 
-      {/* SECTION 2: NEW ARRIVALS CAROUSEL */}
-      <Container className="relative z-10">
-  <div className="flex justify-between items-center mb-10">
-    <h2 className="body text-white flex items-center font-pop">
-      <span>New Arrivals</span>
-    </h2>
-    <p className="body text-white font-pop ">Experience the Fan’s</p>
-  </div>
+            </div>
 
   <MarqueeFlow
     items={NEW_ARRIVALS}
@@ -212,13 +201,15 @@ const CombinedProductSection = memo(function CombinedProductSection() {
               <polyline points="7 7 17 7 17 17"></polyline>
             </svg>
           </div>
-          
-        </div>
-      </Link>
-    )}
-  />
-</Container>
-    </Section>
+
+        );
+      })}
+
+    </div>
+
+  </Container>
+
+</Section>
   );
 });
 

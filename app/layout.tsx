@@ -54,6 +54,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         >
           {/* Layer 1 — glow-bg: iridescent arc atmosphere, base layer */}
+          <Image
+            src={glowBg}
+            alt=""
+            fill
+            priority
+            className="will-change-transform"
+            style={{
+              objectFit: "fill",
+              objectPosition: "bottom",
+              opacity: 0.8,
+              transform: 'translate3d(0, 0, 0)',
+              backfaceVisibility: 'hidden',
+              mixBlendMode: "screen",
+            }}
+          />
 
           {/* Layer 2 — lineargradient: soft light bleed from top-right */}
           <Image
@@ -84,21 +99,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               mixBlendMode: "screen",
             }}
           />
-            <Image
-              src={glowBg}
-              alt=""
-              fill
-              priority
-              className="will-change-transform"
-              style={{
-                objectFit: "fill",
-                objectPosition: "bottom",
-                opacity: 0.8,
-                transform: 'translate3d(0, 0, 0)',
-                backfaceVisibility: 'hidden',
-                mixBlendMode: "screen",
-              }}
-            />
 
           {/* Layer 4 — gradient overlay: darkens left→right for readability */}
           <div
