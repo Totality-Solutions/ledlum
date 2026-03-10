@@ -28,7 +28,7 @@ export default function AchievementsSection() {
       priority
       className="object-cover -z-[20]"
     />
-      <div className="absolute inset-0 z-0 pointer-events-none" />
+      {/* <div className="absolute inset-0 z-0 pointer-events-none" /> */}
 
       <Container className="relative z-10 ">
 

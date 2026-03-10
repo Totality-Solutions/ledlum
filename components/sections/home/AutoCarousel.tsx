@@ -39,8 +39,9 @@ export default function CombinedLightingPartners() {
       fill
       priority
       quality={100}
-      className="object-cover -z-[20]"
+      className="object-cover -z-[10]"
     />
+    
       {/* PART 1: TRUSTED PARTNERS SECTION */}
       <Container className="max-w-[1280px] 2xl:max-w-[1600px] ">
         {/* HEADING SECTION */}

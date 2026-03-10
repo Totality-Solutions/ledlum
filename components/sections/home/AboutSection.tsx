@@ -9,14 +9,14 @@ import CTABtn from "@/components/layout/common/CTABtn"; // Adjust this path base
 
 export default function WhoWeAreSection() {
   return (
-    <Section className="relative min-h-[400px] py-16 md:py-24 overflow-hidden flex items-center">
+    <Section className="relative min-h-[400px] overflow-hidden flex items-center">
       {/* Background Image Layer with Luminosity effect - Optimized */}
       <div className="absolute inset-0 z-0 will-change-transform">
         <Image
           src={BgImg}
           alt="Background Texture"
           fill
-          className="object-cover mix-blend-luminosity"
+          className="object-cover mix-blend-luminosity -z-10"
           priority
           style={{
             transform: 'translate3d(0, 0, 0)',

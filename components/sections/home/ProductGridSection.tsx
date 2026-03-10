@@ -60,8 +60,9 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       alt="Background"
       fill
       priority
-      className="object-cover "
+      className="object-cover relative -z-10 "
     />
+    
       {/* <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" /> */}
       {/* SECTION 1: BESTSELLERS GRID */}
       <Container className="relative z-20 ">
