@@ -74,14 +74,14 @@ export default function Footer() {
                   <Image
                     src={logo}
                     alt="Ledlum Logo"
-                    width={180}
-                    height={45}
+                    width={200}
+                    height={50}
                     className="object-contain"
                     priority
                   />
                 </Link>
 
-                <p className="body-sm leading-relaxed text-white font-pop font-light max-w-[320px]">
+                <p className="text-body-sm leading-relaxed text-white font-pop font-regular max-w-[320px]">
                   Enhancing environments through energy efficiency, aesthetic appeal,
                   and high-performance architectural lighting solutions.
                 </p>
@@ -90,7 +90,7 @@ export default function Footer() {
                 <div className="flex gap-6 mt-10">
                   {socialIcons.map((Icon, i) => (
                     <Link key={i} href="#" className="text-white hover:opacity-60 transition">
-                      <Icon className="w-5 h-5" strokeWidth={1.5} />
+                      <Icon className="w-6 h-6" strokeWidth={1.5} />
                     </Link>
                   ))}
                 </div>
@@ -98,7 +98,7 @@ export default function Footer() {
               </div>
 
               {/* Desktop Copyright */}
-              <p className="hidden lg:block mt-7 text-[10px] tracking-[0.3em] text-white/70 font-pop font-medium">
+              <p className="hidden lg:block mt-7 text-body-xxs tracking-wide text-white/70 font-pop font-medium">
                 © 2026 LEDLUM. All rights reserved.
               </p>
 
@@ -109,7 +109,7 @@ export default function Footer() {
 
               {footerColumns.map((column, i) => (
   <div key={i} className="min-w-[140px]">
-                  <h4 className="body-lg !text-sm font-medium mb-6 font-pop text-white tracking-wider">
+                  <h4 className="text-body font-medium mb-6 font-pop text-white tracking-wide font-pop font-regular">
                     {column.title}
                   </h4>
 
@@ -118,7 +118,7 @@ export default function Footer() {
                       <li key={link}>
                         <Link
                           href="#"
-                          className="body-sm text-white/70 hover:text-white transition-colors font-pop font-light"
+                          className="text-body-sm text-white/70 hover:text-white transition-colors font-pop font-regular"
                         >
                           {link}
                         </Link>
@@ -133,7 +133,7 @@ export default function Footer() {
 
             {/* Mobile Copyright */}
             <div className="lg:hidden w-full mt-4 pt-8 border-t border-white/10">
-              <p className="text-[10px] tracking-[0.3em] text-white/70 font-pop font-medium text-center">
+              <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">
                 © 2026 LEDLUM. Technical Brilliance.
               </p>
             </div>

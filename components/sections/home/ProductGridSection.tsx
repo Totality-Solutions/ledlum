@@ -53,22 +53,22 @@ const CombinedProductSection = memo(function CombinedProductSection() {
 
   return (
     <Section 
-      className="relative min-h-screen flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat will-change-transform"
+      className="relative min-h-screen bg-black flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat will-change-transform"
     >
     <Image
       src={BgImg}
       alt="Background"
       fill
       priority
-      className="object-cover -z-[20]"
+      className="object-cover "
     />
       {/* <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" /> */}
       {/* SECTION 1: BESTSELLERS GRID */}
-      <Container className="relative z-10 ">
-        <div className="flex flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
-          <div className="max-w-xl">
-            <h2 className="desk-h2 text-white ">Designed In-House.</h2>
-            <p className="desk-h3 text-white mt-1 ">Built <span className="lowercase">to</span> Last.</p>
+      <Container className="relative z-20 ">
+        <div className="flex flex-row-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
+          <div className="max-w-full md:max-w-xl">
+            <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white ">Designed In-House.</h2>
+            <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">Built <span className="lowercase">to</span> Last.</p>
           </div>
           
           <div className="flex flex-row md:flex-col items-end gap-6">
@@ -81,7 +81,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                   </React.Fragment>
                 ))}
               </div> */}
-              <span className="hidden md:block body-sm text-white">Bestsellers</span>
+              <span className="hidden md:block text-body-sm lg:text-body font-pop font-regular text-white">Bestsellers</span>
             </div>
               
             <button onClick={toggleAll} className={cn("w-[40px] h-[20px] lg:w-[70px] lg:h-[36px] rounded-full p-1.5 flex items-center transition-colors duration-500 shadow-lg", isAllDark ? "bg-black" : "bg-white")}>
@@ -135,8 +135,8 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                 {/* INFO CONTAINER: Mobile/Tablet Relative Mode */}
                 <div className="flex lg:hidden w-full justify-between items-center pt-4 px-1">
                   <div className="flex flex-col">
-                    <span className="body font-semibold font-pop leading-tight text-white">{product.title}</span>
-                    <span className="body-xs font-pop mt-0.5 text-white/60">{product.sub}</span>
+                    <span className="text-body-sm lg:text-body font-pop font-regular leading-tight text-white">{product.title}</span>
+                    <span className="text-body-xs lg:text-body-sm font-pop font-regular mt-0.5 text-white/60">{product.sub}</span>
                   </div>
                   <button 
                     onClick={() => toggleIndividual(product.id)} 
@@ -153,9 +153,20 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                     </div>
                   </button>
                 </div>
-              </button>
+              </div>
+            );
+          })}
+        </div>
+      </Container>
 
-            </div>
+      {/* SECTION 2: NEW ARRIVALS CAROUSEL */}
+      <Container className="relative z-20">
+  <div className="flex justify-between items-center mb-10">
+    <h2 className="text-body-sm lg:text-body font-pop font-regular text-white">
+      New Arrivals
+    </h2>
+    <p className="text-body-sm lg:text-body font-pop font-regular text-white">Experience the Fan’s</p>
+  </div>
 
   <MarqueeFlow
     items={NEW_ARRIVALS}
@@ -181,7 +192,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
         <div className="absolute bottom-0 left-0 w-full bg-black p-4 flex items-center justify-between">
           
           {/* Left Side: Title */}
-          <span className="text-white font-pop text-sm md:text-base font-medium truncate pr-4">
+          <span className="text-body-sm lg:text-body font-pop font-regular text-white truncate pr-4">
             {item.title}
           </span>
 
@@ -201,15 +212,13 @@ const CombinedProductSection = memo(function CombinedProductSection() {
               <polyline points="7 7 17 7 17 17"></polyline>
             </svg>
           </div>
-
-        );
-      })}
-
-    </div>
-
-  </Container>
-
-</Section>
+          
+        </div>
+      </Link>
+    )}
+  />
+</Container>
+    </Section>
   );
 });
 

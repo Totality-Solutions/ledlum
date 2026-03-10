@@ -36,20 +36,20 @@ const OurProjectsSection = memo(function OurProjectsSection() {
         {/* Header Row - Exactly as your original */}
         <div className="flex flex-col-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
           <div className="flex flex-col">
-            <h2 className="text-white desk-h2">
+            <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
               Our.
             </h2>
-            <p className="text-white mt-1 desk-h3">
+            <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
               Projects.
             </p>
           </div>
 
           <div className="flex flex-col items-start md:items-end gap-5">
-            <p className="hidden md:block text-white/60 body">
+            <p className="hidden md:block text-body-sm lg:text-body font-pop font-regular text-white">
               See how LEDLUM lives in real spaces.
             </p>
             
-            <div className="flex items-center gap-6 text-white/30">
+            <div className="flex items-center gap-6 text-white/60">
               <a href="#" className="hover:text-white transition-all hover:scale-110">
                 <Instagram size={22} strokeWidth={1.5} />
               </a>
@@ -91,7 +91,6 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                 fill
                 className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110 will-change-transform" 
                 style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}
-                unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>

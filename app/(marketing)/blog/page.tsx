@@ -5,8 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
-import BlogCard from "@/components/blog/BlogCard";
-import Pagination from '@/components/blog/Pagination';
+import BlogCard from "@/components/sections/blog/BlogCard";
+import Pagination from '@/components/sections/blog/Pagination';
 import { blogPosts } from "@/lib/blogData";
 import CTABtn from '@/components/layout/common/CTABtn';
 import { GetInTouch } from '@/components/layout/footer/GetInTouch';
@@ -149,10 +149,10 @@ function BlogContent() {
   return (
     <Section>
       <div className="mb-14 relative">
-        <h5 className="desk-h1 text-[3.5rem] text-white leading-tight font-pop">
+        <h5 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
           Insights.
         </h5>
-        <p className="desk-h3 text-[1.5rem] text-white mt-2 font-pop">
+        <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">
           That illuminate.
         </p>
 
@@ -241,7 +241,7 @@ function BlogContent() {
 
             <div className="overflow-y-auto h-full hide-scrollbar">
               {/* Modal hero image — fixed aspect ratio */}
-              <section className="relative w-full" style={{ aspectRatio: '21/9', minHeight: '240px' }}>
+              <section className="relative w-full" style={{ aspectRatio: '21/9', maxHeight: '400px' }}>
                 {heroPost?.image && (
                   <Image
                     src={heroPost.image}
@@ -257,22 +257,22 @@ function BlogContent() {
 
               <section className="py-12 md:py-16 px-6 md:px-12">
                 <div className="max-w-4xl">
-                  <span className="font-pop text-[#c5a36e] tracking-[0.4em] uppercase text-[10px] mb-4 block">
+                  {/* <span className="font-pop text-[#c5a36e] tracking-[0.4em] uppercase text-[10px] mb-4 block">
                     Detailed Insights
-                  </span>
-                  <h2 className="font-bai text-3xl md:text-7xl text-white font-medium tracking-tighter mb-8">
+                  </span> */}
+                  <h2 className="font-pop md:text-desk-h1 text-white font-medium tracking-tighter mb-8">
                     {heroPost?.category}.
                   </h2>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/10 pt-8 mt-12">
                     {[
-                      { label: 'Topic', value: heroPost?.category },
+                      // { label: 'Topic', value: heroPost?.category },
                       { label: 'Reading Time', value: '5 min read' },
                       { label: 'Released', value: 'Feb 2026' },
                       { label: 'Author', value: 'LedLum Team' },
                     ].map(({ label, value }) => (
                       <div key={label}>
-                        <div className="text-white/40 text-[10px] uppercase tracking-widest mb-2 font-pop">{label}</div>
-                        <div className="text-white/80 text-sm font-medium">{value}</div>
+                        <div className="text-white/40 text-body-xs capitalize mb-2 font-medium font-pop">{label}</div>
+                        <div className="text-white/80 text-body-xs font-medium font-pop">{value}</div>
                       </div>
                     ))}
                   </div>
@@ -286,10 +286,10 @@ function BlogContent() {
                     className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 items-center"
                   >
                     <div className={`${idx % 2 !== 0 ? 'lg:order-2' : 'lg:order-1'} space-y-6`}>
-                      <h3 className="font-bai text-2xl md:text-4xl text-[#c5a36e] lowercase leading-tight">
+                      <h3 className="font-pop text-desk-section text-logo">
                         {section.title}
                       </h3>
-                      <p className="font-pop text-lg text-white/60 leading-relaxed font-light">
+                      <p className="font-pop text-body text-white/60 font-regular">
                         {section.text}
                       </p>
                     </div>
@@ -309,14 +309,14 @@ function BlogContent() {
                   </section>
                 ))}
 
-                <div className="pt-20 text-center border-t border-white/10">
+                {/* <div className="pt-20 text-center border-t border-white/10">
                   <p className="font-bai text-3xl md:text-5xl text-white font-light leading-tight max-w-4xl mx-auto">
                     "Innovation is at the heart of everything we illuminate."
                   </p>
                   <div className="mt-12 flex justify-center">
                     <CTABtn label="Discuss a Project" onClick={() => setIsModalOpen(false)} />
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -337,9 +337,9 @@ function BlogContent() {
           <div className="absolute inset-0 bg-black/35" />
         </div>
 
-        <div className="relative">
-          <div className="mb-12 pb-6 border-b border-white/5">
-            <h2 className="text-[2rem] text-white font-pop">
+        <div className="relative pb-12">
+          <div className="pb-12">
+            <h2 className="text-desk-h3 text-white font-semibold font-pop">
               Latest insights & innovations.
             </h2>
           </div>
@@ -364,10 +364,10 @@ function BlogContent() {
       {/* Stay Updated — col-span applied on wrapper div (correct) */}
       <section className="pb-20 relative">
         <header className="mb-14">
-          <h2 className="desk-h3 !text-[1.5rem] md:!text-[var(--text-desk-h3)] text-white font-bai">
+          <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
             Stay Updated.
           </h2>
-          <p className="desk-h3 !text-[1.25rem] md:!text-[var(--text-desk-h3)] text-white/50 mt-1 font-pop font-light">
+          <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">
             With industry insights.
           </p>
         </header>

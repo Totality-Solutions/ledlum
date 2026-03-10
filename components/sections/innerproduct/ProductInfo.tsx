@@ -156,13 +156,13 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
   return (
     <Section className="w-full bg-black md:px-[50px] font-pop">
       <div className="">
-        <h1 className="text-white text-4xl font-medium mb-12">Product Configuration</h1>
+        <h1 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white mb-12">Product Configuration</h1>
 
         {/* STICKY WRAPPER: SET TO top-0 TO OVERLAP THE HEADER */}
 <div className="sticky top-0 z-[100] bg-black pt-6 pb-6 mb-10 -mx-4 px-4 md:-mx-[50px] md:px-[50px] border-b border-white/10 shadow-2xl">
   <div className="">
     <div className="flex flex-col gap-4">
-      <p className="text-[#acacac] text-sm md:text-xl font-normal tracking-wide uppercase">
+      <p className="text-white/70 text-body font-regular uppercase">
         Model Spectrum
       </p>
       
@@ -199,8 +199,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
                 <Image 
                   src={`https://placehold.co/100x100?text=${id}`} 
                   alt={id} 
-                  fill 
-                  unoptimized 
+                  fill  
                   className="object-contain" 
                 />
               </div>
@@ -213,7 +212,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
 </div>
 
         <div className="flex flex-col border-t border-white/10 pt-10">
-          <p className="text-[#acacac] text-2xl font-normal tracking-wide mb-4">Core Configuration</p>
+          <p className="text-white/70 text-body font-regular uppercase mb-4">Core Configuration</p>
           <ConfigRow id="field-voltage" label="Voltage :" options={config.voltage || []} selected={selections.voltage} onSelect={(val: string) => handleSelect("voltage", val)} isDisabled={(val: string) => checkIsDisabled("voltage", val)} isError={touched.includes("voltage")} />
           <ConfigRow id="field-dimensions" label="Dimensions :" options={config.dimensions || []} selected={selections.dimensions} onSelect={(val: string) => handleSelect("dimensions", val)} isDisabled={(val: string) => checkIsDisabled("dimensions", val)} isError={touched.includes("dimensions")} />
           <ConfigRow id="field-watts" label="Watts :" options={config.watts || []} selected={selections.watts} onSelect={(val: string) => handleSelect("watts", val)} isDisabled={(val: string) => checkIsDisabled("watts", val)} isError={touched.includes("watts")} />
@@ -225,7 +224,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
                 const disabled = checkIsDisabled("cct", item.label);
                 const active = selections.cct === item.label;
                 return (
-                  <button key={idx} disabled={disabled} onClick={() => handleSelect("cct", item.label)} className={`h-[50px] pl-6 pr-2 py-2 rounded-full border transition-all flex items-center gap-4 ${disabled ? "opacity-30 cursor-not-allowed grayscale pointer-events-none border-white/5" : "cursor-pointer"} ${active ? "bg-[#DBDCDD] border-[#DBDCDD]" : "border-white/20 hover:border-white"}`}>
+                  <button key={idx} disabled={disabled} onClick={() => handleSelect("cct", item.label)} className={`h-[50px] pl-6 pr-2 py-2 rounded-full border transition-all flex items-center gap-4 ${disabled ? "opacity-30 cursor-not-allowed grayscale pointer-events-none border-white/5" : "cursor-pointer"} ${active ? "bg-content border-content" : "border-white/20 hover:border-white"}`}>
                     <span className={active ? "text-black font-medium" : "text-[#EBEBEB]"}>{item.label}</span>
                     <div className="w-8 h-8 rounded-full border border-black/10" style={{ backgroundColor: item.color }} />
                   </button>
@@ -235,7 +234,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
           </div>
 
           <div className="mt-14 mb-4">
-            <h3 className="text-[#acacac] text-2xl font-normal tracking-wide">Technical Specifications & Finish</h3>
+            <h3 className="text-white/70 text-body font-regular uppercase">Technical Specifications & Finish</h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 py-8 border-b border-white/10">
@@ -256,8 +255,8 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
 
         <div className="mt-12 flex flex-col md:flex-row justify-between items-end gap-6 pb-20">
           <div className="flex flex-col gap-1">
-            <p className="text-white/40 text-sm font-light italic uppercase tracking-tighter">Product ID: {activeId}</p>
-            <p className="text-[#96865D] text-lg font-medium uppercase">
+            <p className="text-white/40 text-body font-regular uppercase tracking-tight">Product ID: {activeId}</p>
+            <p className="text-logo text-lg font-medium uppercase">
               {selections.watts || "---"} / {selections.luminous || "---"} / {selections.cri ? `CRI${selections.cri}` : "---"} / {selections.cct || "---"}
             </p>
           </div>
@@ -269,14 +268,14 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
               <AnimatePresence>
                 {isMenuOpen && (
                   <motion.div initial={{ opacity: 0, y: 10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 10, scale: 0.95 }} className="absolute top-full mt-4 flex flex-col gap-2 w-fit left-35 z-50">
-                    <button onClick={handleDownloadExcel} className="flex items-center justify-between gap-2 bg-[#96865D] hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all w-fit shadow-xl">
-                      <span className="font-medium text-md">Sheet Data</span>
+                    <button onClick={handleDownloadExcel} className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all w-fit shadow-xl">
+                      <span className="text-body font-regular">Sheet Data</span>
                       <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center">
                         <HiOutlineDownload className="text-black text-lg" />
                       </div>
                     </button>
-                    <button onClick={handleDownloadPDF} disabled={isDownloading} className="flex items-center justify-between gap-2 bg-[#96865D] hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all w-fit shadow-xl">
-                      <span className="font-medium text-md">{isDownloading ? "Generating..." : "PDF Tech Pack"}</span>
+                    <button onClick={handleDownloadPDF} disabled={isDownloading} className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all w-fit shadow-xl">
+                      <span className="text-body font-regular">{isDownloading ? "Generating..." : "PDF Tech Pack"}</span>
                       <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center">
                         <HiOutlineDownload className="text-black text-lg" />
                       </div>
@@ -288,9 +287,9 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
               <button
                 onClick={() => !isDownloading && setIsMenuOpen(!isMenuOpen)}
                 disabled={isDownloading}
-                className="flex items-center justify-between gap-4 bg-[#96865D] hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all max-w-[300px] group shadow-lg disabled:opacity-90 disabled:cursor-wait"
+                className="flex items-center justify-between gap-4 bg-logo hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all max-w-[300px] group shadow-lg disabled:opacity-90 disabled:cursor-wait"
               >
-                <span className="font-medium text-md">
+                <span className="text-body font-regular">
                   {isDownloading ? "Downloading....." : "Download Pack"}
                 </span>
 
@@ -351,7 +350,7 @@ const ConfigRow = ({ id, label, options, selected, onSelect, isDisabled, isError
     <span className="w-full lg:w-[300px] text-[#EBEBEB] text-lg font-normal">{label}</span>
     <div className="flex flex-wrap gap-3">
       {options?.map((opt: string) => (
-        <button key={opt} disabled={isDisabled(opt)} onClick={() => onSelect(opt)} className={`h-[50px] px-8 py-2 rounded-full border transition-all flex items-center text-lg ${isDisabled(opt) ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${selected === opt ? "bg-[#DBDCDD] text-black font-medium border-[#DBDCDD]" : "text-[#EBEBEB]/50"}`}>
+        <button key={opt} disabled={isDisabled(opt)} onClick={() => onSelect(opt)} className={`h-[50px] px-8 py-2 rounded-full border transition-all flex items-center text-lg ${isDisabled(opt) ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${selected === opt ? "bg-content text-black font-medium border-content" : "text-[#EBEBEB]/50"}`}>
           {opt}
         </button>
       ))}
@@ -361,7 +360,7 @@ const ConfigRow = ({ id, label, options, selected, onSelect, isDisabled, isError
 
 const ConfigColumn = ({ id, label, options = [], selected, onSelect, isDisabled, isColorType, isError }: any) => (
   <div id={id} className={`flex flex-col gap-4 p-3 rounded-xl transition-all ${isError ? "ring-2 ring-red-500 bg-red-500/5" : ""}`}>
-    <span className="text-[#EBEBEB] text-lg">{label}</span>
+    <span className="text-[#EBEBEB] text-body">{label}</span>
     <div className="flex flex-wrap gap-2">
       {options.map((opt: any) => {
         const val = typeof opt === 'string' ? opt : opt.label;
@@ -369,7 +368,7 @@ const ConfigColumn = ({ id, label, options = [], selected, onSelect, isDisabled,
         const disabled = isDisabled ? isDisabled(val) : false;
         const active = selected === val;
         return (
-          <button key={val} disabled={disabled} onClick={() => onSelect && onSelect(val)} className={`h-[45px] transition-all flex items-center justify-center border ${isColorType ? "w-12 rounded-full p-[2px]" : "px-6 rounded-full text-md"} ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active && isColorType ? "ring-4 ring-white scale-110 shadow-lg" : ""} ${active && !isColorType ? "bg-[#DBDCDD] border-[#DBDCDD]" : ""}`} title={val}>
+          <button key={val} disabled={disabled} onClick={() => onSelect && onSelect(val)} className={`h-[45px] transition-all flex items-center justify-center border ${isColorType ? "w-12 rounded-full p-[2px]" : "px-6 rounded-full text-md"} ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active && isColorType ? "ring-4 ring-white scale-110 shadow-lg" : ""} ${active && !isColorType ? "bg-content border-content" : ""}`} title={val}>
             {isColorType ? <div className="w-full h-full rounded-full" style={{ backgroundColor: colorHex }} /> : <span className={active ? "text-black font-medium" : "text-[#EBEBEB]/50"}>{val}</span>}
           </button>
         );

@@ -46,7 +46,7 @@ const InfiniteCarousel: React.FC<ImageSliderCardProps> = ({
             src={images[index]}
             alt={`Slide ${index}`}
             fill
-            className="object-contain" 
+            className="object-cover" 
             priority
           />
         </motion.div>

@@ -11,9 +11,9 @@ export function GetInTouch() {
 
   // 1. Theme now only controls the main footer background
   const theme: Record<string, { bg: string }> = {
-    '/': { bg: 'bg-black' },        // Home
-    '/about': { bg: 'bg-[#111111]' },   // About
-    '/blog': { bg: 'bg-black' },     // Contact
+    '/': { bg: '' },        // Home
+    '/about': { bg: '' },   // About
+    '/blog': { bg: '' },     // Contact
      
   }; 
 
@@ -37,12 +37,12 @@ export function GetInTouch() {
 
       <div className="relative z-10 flex flex-col items-center">
         {/* Title */}
-        <h2 className="font-pop font-medium text-[48px] md:text-[64px] leading-tight text-white mb-2 tracking-tight">
+        <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
           Get In Touch
         </h2>
         
         {/* Subtitle */}
-        <p className="font-pop font-light text-[24px] md:text-[42px] text-white opacity-95 mb-14">
+        <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-regular text-white opacity-95 mb-14">
           With Our Lighting Specialists.
         </p>
         

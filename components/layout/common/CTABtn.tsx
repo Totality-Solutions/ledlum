@@ -55,9 +55,9 @@ export default function CTABtn({
    * padding-top/bottom: 5px
    */
   const config = {
-    sm: { h: "h-10", circle: "w-8 h-8", text: "text-[14px]", px: "pl-4 pr-1", gap: "gap-3", iconSize: 14 },
-    md: { h: "h-[50px]", circle: "w-[40px] h-[40px]", text: "text-[18px]", px: "pl-6 pr-1.5", gap: "gap-6", iconSize: 20 },
-    lg: { h: "h-16", circle: "w-12 h-12", text: "text-[20px]", px: "pl-8 pr-2", gap: "gap-8", iconSize: 24 },
+    sm: { h: "h-10", circle: "w-8 h-8", text: "text-body-xs font-bai font-medium", px: "pl-4 pr-1", gap: "gap-3", iconSize: 14 },
+    md: { h: "h-[50px]", circle: "w-[40px] h-[40px]", text: "text-body font-bai font-medium", px: "pl-6 pr-1.5", gap: "gap-6", iconSize: 20 },
+    lg: { h: "h-16", circle: "w-12 h-12", text: "text-body-md font-bai font-medium", px: "pl-8 pr-2", gap: "gap-8", iconSize: 24 },
   };
   
   const cur = config[size];
@@ -65,7 +65,7 @@ export default function CTABtn({
   // MODULE: THE ICON
   const IconPart = showIcon && (
     <div 
-      className="flex items-center justify-center transition-transform duration-500 ease-in-out"
+      className="flex items-center justify-center transition-transform duration-400 ease-in-out"
       style={{ transform: hovered && (iconType === 'arrow' || iconType === 'reset') ? 'rotate(45deg)' : 'rotate(0deg)' }}
     >
       {iconType === 'x' ? <FiX size={cur.iconSize} color={iconColor} /> :
@@ -92,7 +92,7 @@ export default function CTABtn({
   // MODULE: THE TEXT LABEL
   const LabelModule = showLabel && label && (
     <span 
-      className={`font-pop font-normal z-10 whitespace-nowrap ${cur.text}`} 
+      className={`font-pop font-medium text-body z-10 whitespace-nowrap ${cur.text}`} 
       style={{ 
         color: textColor, 
         order: 1,

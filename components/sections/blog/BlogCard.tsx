@@ -27,7 +27,7 @@ export default function BlogCard({ category, description, image, isFeatured }: B
       <div className="flex-shrink-0 px-2 pb-2">
         <div className="flex items-center justify-between mb-3">
           {/* Category Title using Poppins from your CSS */}
-          <h4 className="font-pop text-white text-[15px] font-semibold  tracking-tight">
+          <h4 className="font-pop text-white text-body-md font-semibold ">
             {category}
           </h4>
 
@@ -50,7 +50,7 @@ export default function BlogCard({ category, description, image, isFeatured }: B
         </div>
 
         {/* Description using secondary font logic */}
-        <p className="body-xs text-zinc-300 leading-relaxed line-clamp-2 ">
+        <p className="text-body font-pop font-regular text-content line-clamp-2 ">
           {description}
         </p>
       </div>

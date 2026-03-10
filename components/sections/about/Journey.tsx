@@ -4,6 +4,7 @@
 
 import { useState } from "react";
 import { Container } from "@/components/layout/Container";
+import Section from "@/components/layout/Section";
 
 export default function Journey() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -18,16 +19,18 @@ export default function Journey() {
   ];
 
   return (
-    <section className="bg-black text-white py-20 md:py-32 overflow-hidden">
-      <Container className="!max-w-none px-6 md:px-[5vw] lg:px-[74px]">
+    <Section className="bg-black text-white overflow-hidden">
+      <Container className="">
         
         {/* HEADER SECTION */}
-        <div className="mb-16 md:mb-24">
-          <h2 className="desk-h1 !text-[2.5rem] md:!text-[var(--text-desk-h1)] text-white leading-[1.1] font-pop">
-            <span className="block opacity-50 !font-extralight mb-1 font-pop font-bold">Our </span>
-            <span className="block font-pop">Journey</span>
-          </h2>
-        </div>
+        <div className="mb-16">
+            <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
+              Our
+            </h2>
+            <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
+              Journey
+            </p>
+          </div>
 
         {/* TIMELINE CONTAINER - Restored gap-4 and gap-6 */}
         <div className="flex flex-col w-full gap-4 md:gap-6">
@@ -40,16 +43,16 @@ export default function Journey() {
               className="relative flex items-stretch group cursor-pointer transition-all duration-500 w-full"
             >
               {/* HOVER BACKGROUND */}
-              <div 
+              {/* <div 
                 className={`absolute inset-0 z-0 bg-white/[0.04] transition-opacity duration-500 rounded-2xl ${
                   hoveredIndex === i ? "opacity-100" : "opacity-0"
                 }`} 
-              />
+              /> */}
 
               {/* YEAR BLOCK */}
               <div className="relative z-10 w-24 sm:w-28 md:w-40 lg:w-48 flex-shrink-0 text-right py-8 md:py-12 pr-6 md:pr-12">
-                <span className={`desk-h3 !text-[36px] md:!text-[var(--text-desk-h3)] transition-all duration-500 block leading-none ${
-                  hoveredIndex === i ? "text-white scale-105" : "text-zinc-800"
+                <span className={`font-bai text-desk-outer font-bold transition-all duration-500 block  ${
+                  hoveredIndex === i ? "text-logo scale-105" : "text-[#555555]"
                 }`}>
                   {step.year}
                 </span>
@@ -58,14 +61,14 @@ export default function Journey() {
               {/* VERTICAL LINE - No Dot */}
               <div className="relative z-10 flex flex-col">
                 <div className={`w-[1px] h-full transition-all duration-700 ${
-                  hoveredIndex === i ? "bg-white/40" : "bg-white/10"
+                  hoveredIndex === i ? "bg-logo" : "bg-white/10"
                 }`} />
               </div>
 
               {/* CONTENT BLOCK */}
               <div className="relative z-10 flex-grow py-8 md:py-12 pl-6 md:pl-16 pr-4 flex flex-col justify-center">
-                <h3 className={`desk-h3 !text-[24px] md:!text-[var(--text-desk-h3)] transition-colors duration-500 tracking-tight leading-tight ${
-                  hoveredIndex === i ? "text-white" : "text-zinc-600"
+                <h3 className={`text-desk-section font-pop font-medium text-[#555555] transition-colors duration-500  ${
+                  hoveredIndex === i ? "text-white" : "text-[#555555]"
                 }`}>
                   {step.title}
                 </h3>
@@ -76,7 +79,7 @@ export default function Journey() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="body !text-[16px] md:!text-[var(--text-body)] !text-zinc-400 leading-relaxed max-w-xl">
+                    <p className="text-body font-pop font-regular leading-relaxed ">
                       {step.desc}
                     </p>
                   </div>
@@ -86,6 +89,6 @@ export default function Journey() {
           ))}
         </div>
       </Container>
-    </section>
+    </Section>
   );
 }

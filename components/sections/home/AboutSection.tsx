@@ -31,22 +31,22 @@ export default function WhoWeAreSection() {
       </div>
 
       {/* Laptop Optimized Container: max-w-[1280px] */}
-      <Container className="relative z-10 ">
-        <div className="flex flex-col gap-10">
+      <Container className="relative z-20 ">
+        <div className="flex flex-col gap-5">
           
           {/* Title Header - Optimized Typography */}
-          <div className="flex flex-col">
-            <h2 className="desk-h2 text-white font-pop">
+          <div className="">
+            <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
               Who.
             </h2>
-            <p className="desk-h3 text-white mt-1 opacity-90">
+            <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
               We Are.
             </p>
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
             {/* Description Text - Balanced for Laptop width */}
-            <p className="max-w-[750px] text-white text-[1rem] lg:text-[1.25rem] font-medium leading-[1.6] font-pop opacity-90">
+            <p className="max-w-[750px] text-white lg:text-desk-section font-medium leading-[1.6] font-pop ">
               LEDLUM creates refined lighting solutions that elevate spaces through design, 
               quality, and innovation. Each piece is crafted to balance aesthetics with performance.
             </p>

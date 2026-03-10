@@ -30,13 +30,27 @@ const ProductInnerHero = ({ data }: HeroProps) => {
         {/* BACK BUTTON */}
         <Link
           href={`/product/${collection}`}
-          className="absolute top-8 left-8 z-20 flex items-center gap-3 group text-[#DBDCDD]"
+          className="absolute top-8 left-8 z-20 flex items-center gap-3 group text-white"
         >
-          <div className="w-9 h-9 rounded-full bg-black/50 border border-white/10 flex items-center justify-center transition-transform group-hover:scale-110">
-            <span className="text-white text-lg">←</span>
+          <div className="w-9 h-9 rounded-full flex items-center justify-center transition-transform group-hover:scale-110">
+            <svg 
+            width="12" 
+            height="12" 
+            viewBox="0 0 12 12" 
+            fill="none" 
+            className="transition-transform duration-500 -rotate-135 "
+          >
+            <path 
+              d="M1 11L11 1M11 1H3M11 1V9" 
+              stroke="white" 
+              strokeWidth="2" 
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
           </div>
 
-          <span className="text-body-xs font-pop tracking-wide opacity-80 group-hover:opacity-100">
+          <span className="text-body-xs font-pop opacity-80 group-hover:opacity-100">
             Back to Product
           </span>
         </Link>
@@ -55,7 +69,6 @@ const ProductInnerHero = ({ data }: HeroProps) => {
               fill
               className="object-cover"
               priority
-              unoptimized
             />
           </motion.div>
         </div>
@@ -68,7 +81,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-[#96865D] text-mobile-h1 lg:text-[28px] font-medium font-pop"
+              className="text-logo text-mobile-h1 lg:text-tab-h2 font-medium font-pop"
             >
               {data.category}
             </motion.span>
@@ -77,7 +90,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-white text-4xl lg:text-[64px] font-bold font-bai uppercase leading-[0.9] tracking-tighter"
+              className="text-white text-tab-h2 lg:text-desk-h2 font-bold font-pop uppercase tracking-tight"
             >
               {data.name}
             </motion.h1>
@@ -89,11 +102,11 @@ const ProductInnerHero = ({ data }: HeroProps) => {
             transition={{ delay: 0.4 }}
             className="max-w-[512px] mb-12"
           >
-            <h3 className="text-[#EBEBEB] text-lg font-pop font-medium mb-3">
+            <h3 className="text-white text-body-sm lg:text-body font-pop font-medium mb-3">
               Product Overview :
             </h3>
 
-            <p className="text-[#EBEBEB]/60 text-base lg:text-lg leading-relaxed font-pop">
+            <p className="text-white/60 text-body-sm lg:text-body font-medium font-pop">
               {data.description}
             </p>
           </motion.div>

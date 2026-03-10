@@ -58,8 +58,10 @@ img {
   --gray-color: #F0F0F0;
   --black-color: #000000;
   --white-color: #FFFFFF;
-  --text-gray: #DBDCDD;
-   --cardbackground: #222222;
+  --content: #DBDCDD;
+  --cardbackground: #222222;
+  --logo: #96865D;
+  
 
   /* Fonts */
   --primary-font: 'Bai Jamjuree', sans-serif;
@@ -71,18 +73,25 @@ img {
   --font-pop: var(--secondary-font);
 
   /* Text Sizes */
-  --text-desk-h1: 3rem;
-  --text-desk-h2: 2.25rem;
-  --text-desk-h3: 1.5rem;
-  --text-tab-h1: 3rem;
-  --text-tab-h2: 1.5rem;
-  --text-mob-h1: 1rem;
-  --text-mob-h2: 1rem;
+  --text-desk-h1: 56px;
+  --text-desk-h2: 48px;
+  --text-desk-h3: 32px;
+  --text-tab-h1: 32px;
+  --text-tab-h2: 28px;
+  --text-mob-h1: 28px;
+  --text-mob-h2: 16px;
 
-  --text-body: 1.125rem;
-  --text-body-sm: 0.875rem;
-  --text-body-xs: 0.75rem;
-  --text-button: 1rem;
+  --text-desk-section: 24px;
+  --text-desk-outer: 36px;
+
+  --text-body-md: 20px ;
+  --text-body: 18px;
+  --text-body-sm: 16px;
+  --text-body-xs: 14px;
+  --text-body-xxs: 12px ;
+
+  --text-button-desk: 18px;
+  --text-button-mob: 14px;
 
   /* Primary font weights: Bai Jamjuree */
   /* Primary font weights: Bai Jamjuree */
@@ -112,8 +121,35 @@ img {
   --color-foreground: var(--foreground);
   --font-bai: var(--primary-font);
   --font-pop: var(--secondary-font);
-  --text-gray:var(--text-gray);
+  /* --text-gray: var(--textGray); */
   --color-card: var(--cardbackground);
+  --color-logo: var(--logo);
+  --color-content: var(--content);
+
+  --font-bai: var(--primary-font);
+  --font-pop: var(--secondary-font);
+
+  /* Text Sizes */
+  --text-desk-h1: 56px;
+  --text-desk-h2: 48px;
+  --text-desk-h3: 32px;
+  --text-tab-h1: 32px;
+  --text-tab-h2: 28px;
+  --text-mob-h1: 32px;
+  --text-mob-h2: 16px;
+
+
+  --text-desk-section: 24px;
+  --text-desk-outer: 36px;
+
+  --text-body-md: 20px ;
+  --text-body: 18px;
+  --text-body-sm: 16px;
+  --text-body-xs: 14px;
+  --text-body-xxs: 12px ;
+
+  --text-button-desk: 18px;
+  --text-button-mob: 14px;
 }
 
 

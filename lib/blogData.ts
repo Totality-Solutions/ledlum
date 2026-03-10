@@ -24,7 +24,7 @@ export const blogPosts: Post[] = [
     midSectionImage: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2070",
     midSectionList: ["Optimized Energy Performance", "Strategic Contrast", "Smart System Integration"],
     outcomeImage: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069",
-    outcomeDescription: "The implementation resulted in a 40% reduction in energy overhead.",
+    outcomeDescription: "The implementation resulted in a 40% reduction in energy overhead.The implementation resulted in a 40% reduction in energy overhead.The implementation resulted in a 40% reduction in energy overhead.The implementation resulted in a 40% reduction in energy overhead.The implementation resulted in a 40% reduction in energy overhead.The implementation resulted in a 40% reduction in energy overhead.The implementation resulted in a 40% reduction in energy overhead.",
     date: "Feb 15, 2026",
     isFeatured: true, 
   },

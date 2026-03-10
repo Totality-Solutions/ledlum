@@ -39,7 +39,7 @@ const Pagination = memo(function Pagination({
       {/* Left Arrow */}
       <button 
         onClick={() => handlePageChange(currentPage - 1)}
-        className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center hover:bg-white/20 transition-all text-zinc-500 hover:text-white disabled:opacity-10 disabled:cursor-not-allowed"
+        className="w-10 h-10 rounded-full border border-white/10 bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all text-white disabled:opacity-10 disabled:cursor-not-allowed"
         disabled={currentPage === 1}
       >
         <ChevronLeft size={18} strokeWidth={1.5} />

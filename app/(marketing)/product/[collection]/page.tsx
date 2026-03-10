@@ -52,7 +52,7 @@ export default function CollectionPage() {
 
       </div>
 
-      <div className="relative mx-auto px-6 lg:px-20 py-12">
+      <div className="relative mx-auto px-6 lg:px-12 py-12">
 
         <ProductGrid
           filters={filters}

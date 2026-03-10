@@ -4,6 +4,8 @@
 
 'use client';
 
+import { Container } from '@/components/layout/Container';
+import Section from '@/components/layout/Section';
 import Image from 'next/image';
 import React from 'react';
 
@@ -28,7 +30,8 @@ const stats = [
 
 export default function AboutHero() {
   return (
-    <section className="relative bg-black text-white pt-32 pb-20 md:pb-32 overflow-hidden px-6 md:px-[74px]">
+    <Section className="relative bg-black text-white overflow-hidden ">
+      <Container>
 
       {/* BACKGROUND DECORATIVE LAYER - Optimized with Next/Image */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
@@ -50,18 +53,18 @@ export default function AboutHero() {
       <div className="relative z-10 w-full mb-16 md:mb-24">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
           <div className="flex-1">
-            <h1 className="text-4xl md:desk-h1 text-white leading-[1.05]">
-              <span className="block opacity-50 font-extralight mb-2">
-                Illuminating Spaces –
+            <h1 className="max-w-xl leading-[1.05]">
+              <span className="lg:text-desk-h1 md:text-tab-h1 text-mob-h1 font-bai font-semibold text-white">
+                Illuminating Spaces 
               </span>
-              <span className="font-bold">
-                Inspiring Lives
+              <span className="lg:text-desk-h1 md:text-tab-h1 text-mob-h1 font-bai font-semibold text-white">
+                - Inspiring Lives
               </span>
             </h1>
           </div>
 
-          <div className="w-full md:w-[35%] lg:w-[25%]">
-            <p className="text-sm md:text-base text-zinc-500 text-left md:text-right font-light tracking-wide leading-relaxed">
+          <div className="w-full md:w-[35%] lg:w-[40%]">
+            <p className="lg:text-tab-h2 text-mob-h2  text-white/40 text-left md:text-right font-light ">
               Transforming architectural lighting through innovation, performance and design excellence.
             </p>
           </div>
@@ -85,7 +88,7 @@ export default function AboutHero() {
 
       {/* STAGGERED GRID SECTION */}
       <div className="relative z-10 w-full">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-start gap-y-0 sm:gap-y-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-start gap-y-0 sm:gap-y-6">
           {stats.map((item, i) => (
             <div
               key={item.title}
@@ -106,10 +109,10 @@ export default function AboutHero() {
               )}
 
               <div className="relative z-10">
-                <h3 className="text-2xl lg:text-3xl font-medium mb-6 tracking-tight leading-tight font-pop ">
+                <h3 className="lg:text-tab-h2 text-desk-section font-medium mb-6 tracking-tight leading-tight font-pop ">
                   {item.title}
                 </h3>
-                <p className="text-zinc-500 font-light leading-relaxed font-pop">
+                <p className="text-zinc-500 text-body font-light leading-relaxed font-pop">
                   {item.desc}
                 </p>
               </div>
@@ -117,6 +120,7 @@ export default function AboutHero() {
           ))}
         </div>
       </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

@@ -19,7 +19,7 @@ export default function ProductCard({ title, category, image, onClick }: any) {
       {/* Content Area */}
       <div className="flex justify-between items-center p-1 lg:p-4 lg:bg-[#111111] group-hover:bg-[#000000] rounded-[18px] transition-colors duration-500">
         <div className="flex flex-col text-left">
-          <span className="body text-white transition-colors duration-500 group-hover:text-[#888888]/80">
+          <span className="text-body-sm md:text-body font-pop font-regular text-white transition-colors duration-500 group-hover:text-[#888888]/80">
             {title}
           </span>
         </div>

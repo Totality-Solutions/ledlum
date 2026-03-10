@@ -158,21 +158,21 @@ import React from 'react';
 import Image from 'next/image';
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
-import CoreValues from '../home/CoreValues';
+import CoreValues from './CoreValues';
 
 interface ArrowCornerProps {
   className?: string;
 }
 
 export default function VisionMission() {
-  const ourStyle = "block !text-[48px] md:!text-[72px] lg:!text-[84px] text-white opacity-90 font-pop font-medium mb-0 leading-[0.8] tracking-tighter ";
-  const wordStyle = "block !text-[24px] md:!text-[32px] lg:!text-[40px] font-pop font-bold-300 leading-tight text-white tracking-tight ";
-  const bodyStyle = "body !text-[13px] md:!text-[14px] lg:!text-[15px] !text-zinc-500 mt-6 leading-relaxed font-pop font-light max-w-[280px] md:max-w-[320px] ";
-  const arrowStyle = "w-5 h-5 md:w-6 md:h-6 text-white mb-4" ;
+  const ourStyle = "block text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white ";
+  const wordStyle = "block text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white -mt-2 ";
+  const bodyStyle = "text-body font-regular leading-relaxed font-pop text-zinc-500 max-w-[280px] md:max-w-[320px] ";
+  const arrowStyle = "w-5 h-5 md:w-8 md:h-8 text-white mb-2" ;
 
   return (
-    <Section className="relative bg-black text-white py-24 md:py-32 lg:py-52 overflow-hidden font-bai !px-0">
-      
+    <Section className="relative bg-black text-white overflow-hidden ">
+      <Container>
       {/* 1. GLOBAL BACKGROUND LAYER */}
       <div className="absolute inset-0 z-0 opacity-30 pointer-events-none"
            style={{
@@ -262,7 +262,7 @@ export default function VisionMission() {
       <div className="relative z-10 w-full block">
         <CoreValues />
       </div>
-
+      </Container>
     </Section>
   );
 }

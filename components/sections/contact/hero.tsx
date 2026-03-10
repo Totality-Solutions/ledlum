@@ -4,6 +4,7 @@ import React, { memo, useState } from "react";
 import Image from "next/image";
 import Section from "@/components/layout/Section";
 import CTABtn from "@/components/layout/common/CTABtn";
+import { Container } from "@/components/layout/Container";
 
 /**
  * CONTACT PAGE
@@ -24,30 +25,25 @@ const ContactSection = memo(function ContactSection() {
 
   return (
     <Section className="relative min-h-full bg-transparent font-pop selection:bg-[#8D794E] selection:text-black overflow-hidden">
-
+      <Container>
       <main className="relative z-10 mx-auto min-h-full flex items-center">
 
         {/* GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-0 items-start w-full">
 
           {/* LEFT COLUMN */}
-          <div className="flex flex-col gap-8">
-
-            <header className="space-y-6 md:space-y-8">
-              <h1 className=" text-[#DBDCDD] tracking-wide font-pop">
-
-                <span className="text-4xl md:text-5xl lg:text-6xl block">
+          <div className="flex flex-col gap-6">
+            <div className="">
+              <h1>
+                <span className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white block">
                   Get.
                 </span>
-
-                <span className="text-2xl md:text-3xl lg:text-4xl block text-gray">
+                <span className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white -mt-4">
                   in Touch.
                 </span>
-
               </h1>
-            </header>
-
-            <p className="text-base md:text-lg font-[0.9rem] text-[#DBDCDD] max-w-sm leading-relaxed tracking-wider">
+            </div>
+            <p className="text-body-sm lg:text-body font-pop font-regular text-white/30 max-w-md">
               A practical guide to selecting efficient, high-performance lighting systems for offices.
             </p>
 
@@ -86,21 +82,21 @@ const ContactSection = memo(function ContactSection() {
                   type="text"
                   placeholder="Name"
                   required
-                  className="w-full bg-white/5 border border-[#DBDCDD] rounded-full px-6 md:px-8 py-4 md:py-6 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-[#DBDCDD] text-white"
+                  className="w-full bg-white/5 border border-content rounded-full px-6 md:px-8 py-4 md:py-6 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-content text-white"
                 />
 
                 <input
                   type="email"
                   placeholder="E-mail / Contact no."
                   required
-                  className="w-full bg-white/5 border border-[#DBDCDD] rounded-full px-6 md:px-8 py-4 md:py-6 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-[#DBDCDD] text-white"
+                  className="w-full bg-white/5 border border-content rounded-full px-6 md:px-8 py-4 md:py-6 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-content text-white"
                 />
 
                 <textarea
                   placeholder="Message"
                   rows={5}
                   required
-                  className="w-full bg-white/5 border border-[#DBDCDD] rounded-[30px] md:rounded-[40px] px-6 md:px-8 py-5 md:py-8 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-[#DBDCDD] text-white resize-none"
+                  className="w-full bg-white/5 border border-content rounded-[30px] md:rounded-[40px] px-6 md:px-8 py-5 md:py-8 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-content text-white resize-none"
                 />
 
               </div>
@@ -126,6 +122,7 @@ const ContactSection = memo(function ContactSection() {
           </div>
         </div>
       </main>
+      </Container>
     </Section>
   );
 });
@@ -153,7 +150,7 @@ const ContactLink = memo(function ContactLink({
   };
 
   return (
-    <div className="group flex items-center justify-between p-2 rounded-full border border-[#DBDCDD] bg-white/[0.03] hover:bg-white/[0.07] transition-all cursor-pointer font-pop w-full">
+    <div className="group flex items-center justify-between p-2 rounded-full border border-content bg-white/[0.03] hover:bg-white/[0.07] transition-all cursor-pointer font-pop w-full">
 
       <div className="flex items-center gap-4 md:gap-5 pl-1">
 
@@ -164,10 +161,10 @@ const ContactLink = memo(function ContactLink({
         </div>
 
         <div className="space-y-0.5 tracking-wider">
-          <p className="button-xs text-white capitalize leading-none font-normal">
+          <p className="text-body-sm lg:text-body font-pop font-regular text-white">
             {label}
           </p>
-          <p className="text-xs md:text-sm text-[#DBDCDD] font-extralight tracking-wide lowercase">
+          <p className="text-body-sm lg:text-body font-pop font-regular text-white/30 lowercase">
             {value}
           </p>
         </div>
@@ -177,13 +174,13 @@ const ContactLink = memo(function ContactLink({
       <div className="mr-2 md:mr-3 w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#8D794E] flex items-center justify-center text-white transition-colors">
 
         <svg
-          width="14"
-          height="14"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
-          className="group-hover:rotate-45 transition-transform"
+          className="group-hover:rotate-45 transition-transform duration-400"
         >
           <line x1="7" y1="17" x2="17" y2="7" />
           <polyline points="7 7 17 7 17 17" />

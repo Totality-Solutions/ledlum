@@ -1,4 +1,5 @@
 
+import { GetInTouch } from "@/components/layout/footer/GetInTouch";
 import AboutHero from "@/components/sections/about/AboutHero";
 import Journey from "@/components/sections/about/Journey";
 import Team from "@/components/sections/about/Team";
@@ -11,6 +12,7 @@ export default function AboutPage() {
       <VisionMission />
       <Journey />
       <Team />
+      <GetInTouch/>
     </div>
   );
 }

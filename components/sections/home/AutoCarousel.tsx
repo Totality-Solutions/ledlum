@@ -45,10 +45,10 @@ export default function CombinedLightingPartners() {
       <Container className="max-w-[1280px] 2xl:max-w-[1600px] ">
         {/* HEADING SECTION */}
         <div className="mb-12">
-          <h2 className="desk-h2 text-white">
+          <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
             Our.
           </h2>
-          <p className="desk-h3 mt-1 text-white">
+          <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
             Trusted Partners.
           </p>
         </div>
@@ -71,12 +71,12 @@ export default function CombinedLightingPartners() {
       </Container>
       {/* PART 2: LIGHTING SECTION */}
 <Container className="">
-  <div className="max-w-5xl mb-12">
-    <h2 className="desk-h2 text-white">
+  <div className=" mb-12">
+    <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
       Lighting.
     </h2>
-    <p className="desk-h3 mt-1 text-white">
-      That Defines the Space.
+    <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
+      that defines the space.
     </p>
   </div>
   
@@ -87,7 +87,7 @@ export default function CombinedLightingPartners() {
     <ImageSliderCard 
       images={LIGHTING_IMAGES} 
       interval={5000} 
-      className="w-full aspect-video md:aspect-[20/9] " 
+      className="w-full aspect-video md:aspect-[12/4] " 
     />
   </div>
 </Container>

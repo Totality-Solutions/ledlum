@@ -39,7 +39,7 @@ export default function ProductGrid({ filters, products, collection }: any) {
           ))}
         </div>
       ) : (
-        <div className="text-white/60 text-center py-20 lg:py-32 uppercase body ">
+        <div className="text-white/60 text-center py-20 lg:py-32 uppercase text-body font-pop font-regular ">
           No products match these specific filters
         </div>
       )}

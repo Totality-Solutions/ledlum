@@ -139,7 +139,7 @@ const Header = () => {
                 onClick={closeAll}
                 className="h-auto w-[150px] p-4 flex-shrink-0 bg-[#222222] border border-white/5 flex items-center justify-center px-6 hover:bg-[#AD9463]/20 hover:border-[#AD9463]/40 transition-all cursor-pointer group"
               >
-                <span className="text-[#DBDCDD] body-sm text-center group-hover:text-white whitespace-nowrap">
+                <span className="text-content body-sm text-center group-hover:text-white whitespace-nowrap">
                   {item.title}
                 </span>
               </Link>

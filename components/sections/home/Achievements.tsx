@@ -34,10 +34,10 @@ export default function AchievementsSection() {
 
         {/* HEADER (UNCHANGED DESKTOP STYLE) */}
         <div className="mb-20">
-          <h2 className="desk-h2 text-white ">
+          <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
             Our.
           </h2>
-          <p className="desk-h3 text-white mt-1">
+          <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
             Achievements.
           </p>
         </div>
@@ -91,10 +91,10 @@ export default function AchievementsSection() {
 
         {/* MOBILE + TABLET CONTENT (Always Visible) */}
         <div className="block lg:hidden px-4">
-          <span className="text-[48px] md:text-[56px] font-bai text-[#96865D] leading-none">
+          <span className="text-desk-h2 md:text-desk-h1 font-bai text-logo leading-none">
             {stat.value}
           </span>
-          <span className="block text-[14px] md:text-[16px] font-pop tracking-[0.2em] uppercase mt-4 text-white">
+          <span className="block text-tab-h2  md:text-desk-h3  font-pop tracking-[0.2em] uppercase mt-4 text-white">
             {stat.label}
           </span>
         </div>
@@ -113,17 +113,17 @@ export default function AchievementsSection() {
         >
           <div className="flex flex-col">
             <span
-              className={`text-[84px] font-bai font-bold leading-[0.8] transition-all duration-700 ${
+              className={`text-desk-h1 font-bai font-semibold uppercase transition-all duration-700 ${
                 isActive
-                  ? "text-[#96865D] opacity-100"
-                  : "text-[#96865D]/30 opacity-40"
+                  ? "text-logo opacity-100"
+                  : "text-logo/30 opacity-40"
               }`}
             >
               {stat.value}
             </span>
 
             <span
-              className={`text-[18px] font-pop tracking-[0.2em] uppercase transition-all duration-700 ${
+              className={`text-desk-h3 font-semibold font-pop uppercase transition-all duration-700 ${
                 isActive
                   ? "text-white opacity-100 mt-2 h-auto block"
                   : "text-white/0 opacity-0 h-0 overflow-hidden"
@@ -136,7 +136,7 @@ export default function AchievementsSection() {
 
         {/* DESKTOP UNDERLINE */}
         <div
-          className={`hidden lg:block absolute bottom-0 left-0 h-[1.5px] bg-[#96865D] transition-all duration-1000 z-10 ${
+          className={`hidden lg:block absolute bottom-0 left-0 h-[1.5px] bg-logo transition-all duration-1000 z-10 ${
             isActive ? "w-full opacity-100" : "w-0 opacity-0"
           }`}
         />
