@@ -187,12 +187,12 @@ export default async function BlogPost({ params }: PageProps) {
     .slice(0, 6);
 
   return (
-    <div className="relative min-h-screen text-white selection:bg-[#AD9463] selection:text-black font-bai overflow-x-hidden">
+    <div className="relative min-h-screen text-white overflow-x-hidden">
       
       <BackButton />
 
       {/* --- HERO SECTION --- */}
-      <section className="w-full pt-[80px] md:pt-[90px] relative">
+      <section className="w-full relative">
         <div className="w-full h-[40vh] md:h-[65vh] relative overflow-hidden">
           <Image src={post.image} fill priority sizes="100vw" className="object-cover" alt={post.title} />
         </div>
@@ -201,9 +201,9 @@ export default async function BlogPost({ params }: PageProps) {
       <Section>
         <Container>
           <main className="w-full mx-auto relative z-10">
-            <article className="pt-4 md:pt-32">
+            <article className=" ">
               <header className="mb-16 md:mb-24">
-                <h1 className="text-tab-h1 lg:text-desk-h1 font-pop font-semibold mb-2 md:mb-12 capitalize">
+                <h1 className="text-tab-h1 lg:text-desk-h1 font-pop font-semibold mb-4 capitalize">
                   {post.title}
                 </h1>
                 <p className="text-body-sm md:text-body font-pop font-regular text-content">
@@ -224,7 +224,7 @@ export default async function BlogPost({ params }: PageProps) {
             </article>
 
             {/* --- LATEST INSIGHTS SECTION --- */}
-            <section className="pt-16">
+            <section className="">
               <h2 className="text-desk-section md:text-tab-h1 font-pop font-semibold capitalize mb-12 md:mb-16">
                 Latest insights & innovations.
               </h2>

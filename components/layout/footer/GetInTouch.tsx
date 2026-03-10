@@ -23,7 +23,7 @@ export function GetInTouch() {
   const currentTheme = theme[pathname] || theme['/']; 
 
   return (
-    <section className={`relative z-10 w-full pt-20 pb-20 flex flex-col items-center text-center ${currentTheme.bg} overflow-hidden`}>
+    <section className={`relative z-10 w-full py-10 flex flex-col items-center text-center ${currentTheme.bg} overflow-hidden`}>
       
       {/* 1. GLOBAL BACKGROUND LAYER - Optimized */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">

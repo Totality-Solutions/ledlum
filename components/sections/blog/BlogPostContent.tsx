@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 // Sub-component for the Bullet Point List Section
 export const MidSection = ({ title, list, image }: { title: string, list: string[], image: string }) => (
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-32 items-center mb-24 md:mb-40">
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-32 items-center mb-24">
     <div className="space-y-8 md:space-y-10">
       <h3 className="font-pop text-body-md md:text-desk-section capitalize">
         {title}
@@ -31,7 +31,7 @@ export const MidSection = ({ title, list, image }: { title: string, list: string
 
 // Sub-component for the Outcome/Result Section
 export const OutcomeSection = ({ description, image }: { description: string, image: string }) => (
-  <div className="space-y-12 md:space-y-16 pb-16">
+  <div className="space-y-12 md:space-y-16 mb-24">
     <div className="space-y-6">
       <h5 className="text-body-xs text-content font-pop capitalize font-regular">The Outcome</h5>
       <p className="text-body-md md:text-desk-section text-content font-pop capitalize font-regular">
@@ -51,7 +51,7 @@ export const OutcomeSection = ({ description, image }: { description: string, im
 );
 
 export const BackButton = () => (
-  <div className="absolute top-[20px] md:top-[130px] min-w-[140px] left-1 md:left-12 lg:left-16 z-30 pointer-events-none font-pop">
+  <div className="absolute top-[20px] min-w-[140px] left-1 md:left-12 lg:left-16 z-30 pointer-events-none font-pop">
     <a
       href="/blog"
       className="pointer-events-auto group flex items-center gap-3 px-2 py-2 rounded-full border border-white/10 bg-[#111111]/30 backdrop-blur-md transition-all duration-500"

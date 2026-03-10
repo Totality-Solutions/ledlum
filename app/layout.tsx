@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased`}
+        className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black`}
       >
         {/* ── Fixed full-page background image layers ── */}
         <div
