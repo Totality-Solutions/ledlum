@@ -32,6 +32,15 @@ const OurProjectsSection = memo(function OurProjectsSection() {
   return (
     <Section className="bg-[#0A0A0A] text-white py-16 md:py-24 overflow-hidden">
       <Container className="relative z-10 ">
+
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+                          <Image 
+                            src="/images/about/ledlumline.png"
+                            alt="background texture"
+                            fill
+                            className="object-cover object-center"
+                          />
+        </div>
         
         {/* Header Row - Exactly as your original */}
         <div className="flex flex-col-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">

@@ -39,9 +39,16 @@ export default function CombinedLightingPartners() {
       fill
       priority
       quality={100}
-      className="object-cover -z-[10]"
+      className="object-cover -z-[20]"
     />
-    
+    <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+                      <Image 
+                        src="/images/about/ledlumline.png"
+                        alt="background texture"
+                        fill
+                        className="object-cover object-center"
+                      />
+          </div>
       {/* PART 1: TRUSTED PARTNERS SECTION */}
       <Container className="max-w-[1280px] 2xl:max-w-[1600px] ">
         {/* HEADING SECTION */}

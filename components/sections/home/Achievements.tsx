@@ -28,6 +28,14 @@ export default function AchievementsSection() {
       priority
       className="object-cover -z-[20]"
     />
+    <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+                  <Image 
+                    src="/images/about/ledlumline.png"
+                    alt="background texture"
+                    fill
+                    className="object-cover object-center"
+                  />
+      </div>
       {/* <div className="absolute inset-0 z-0 pointer-events-none" /> */}
 
       <Container className="relative z-10 ">

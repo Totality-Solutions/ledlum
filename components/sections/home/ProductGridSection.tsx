@@ -60,9 +60,16 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       alt="Background"
       fill
       priority
-      className="object-cover relative -z-10 "
+      className="object-cover relative -z-20 "
     />
-    
+    <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+                      <Image 
+                        src="/images/about/ledlumline.png"
+                        alt="background texture"
+                        fill
+                        className="object-cover object-center"
+                      />
+    </div>
       {/* <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" /> */}
       {/* SECTION 1: BESTSELLERS GRID */}
       <Container className="relative z-20 ">
