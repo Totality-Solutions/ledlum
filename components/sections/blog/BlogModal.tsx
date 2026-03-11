@@ -1,5 +1,5 @@
 "use client";
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import Image from 'next/image';
 import { X } from 'lucide-react';
 
@@ -11,6 +11,9 @@ interface BlogModalProps {
 }
 
 const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, heroPost, modalSections }) => {
+
+
+
   if (!isOpen) return null;
 
   return (

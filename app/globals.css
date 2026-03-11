@@ -24,6 +24,10 @@ body {
   contain: layout style paint;
 }
 
+
+
+
+
 /* Optimize images during scroll */
 img {
   will-change: transform;
