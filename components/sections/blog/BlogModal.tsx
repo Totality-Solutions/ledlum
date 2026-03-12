@@ -1,5 +1,5 @@
 "use client";
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { X } from 'lucide-react';
 
@@ -11,18 +11,63 @@ interface BlogModalProps {
 }
 
 const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, heroPost, modalSections }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (isOpen) {
+      // Store the current scroll position
+      const scrollY = window.scrollY;
+      
+      // Prevent body scroll
+      document.body.style.position = 'fixed';
+      // document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+      
+      // Reset modal scroll position to top when opening
+      if (modalRef.current) {
+        modalRef.current.scrollTop = 0;
+      }
+    } else {
+      // Restore body scroll
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
 
+    return () => {
+      // Cleanup
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-start justify-center p-4">
+    <div className="fixed inset-0 h-screen z-[9999] flex items-center justify-center p-4 overflow-hidden">
+      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/90 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-[1200px] max-h-[90vh] bg-[#0a0a0a] border border-white/10 shadow-2xl animate-in fade-in zoom-in duration-300 flex flex-col overflow-hidden rounded-2xl mt-8">
+      
+      {/* Modal Container - Centered regardless of page scroll */}
+      <div 
+        ref={modalRef}
+        className="relative w-full max-w-[1200px] max-h-[90vh] bg-[#0a0a0a] border border-white/10 shadow-2xl animate-in fade-in zoom-in duration-300 flex flex-col overflow-hidden rounded-2xl my-auto"
+        style={{
+          // This ensures the modal stays centered regardless of page scroll
+          marginTop: 'auto',
+          marginBottom: 'auto',
+        }}
+      >
         <div className="absolute top-6 right-6 z-50">
           <button
             onClick={onClose}

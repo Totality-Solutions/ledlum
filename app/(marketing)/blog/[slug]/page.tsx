@@ -49,6 +49,7 @@ export default async function BlogPost({ params }: PageProps) {
 
               <MidSection 
                 title={post.midSectionTitle} 
+                paragraph={post.paragraph}
                 list={post.midSectionList} 
                 image={post.midSectionImage} 
               />

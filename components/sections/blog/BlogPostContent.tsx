@@ -2,12 +2,18 @@ import React from 'react';
 import Image from 'next/image';
 
 // Sub-component for the Bullet Point List Section
-export const MidSection = ({ title, list, image }: { title: string, list: string[], image: string }) => (
+export const MidSection = ({ title, list, image,paragraph }: { title: string, list: string[], image: string,paragraph:string }) => (
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-32 items-center mb-24">
     <div className="space-y-8 md:space-y-10">
       <h3 className="font-pop text-body-md md:text-desk-section capitalize">
         {title}
       </h3>
+
+      <p>
+        {paragraph}
+      </p>
+
+
       <ul className="space-y-4 md:space-y-5">
         {list.map((item, i) => (
           <li key={i} className="flex items-start gap-4">
