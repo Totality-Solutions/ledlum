@@ -20,21 +20,33 @@ export default function CollectionPage() {
     dimming: "All"
   })
 
-  const products = useMemo(() => {
+// Inside CollectionPage component
+const products = useMemo(() => {
+  const seenSeries = new Set();
+  const uniqueProducts: any[] = [];
 
-    return Object.entries(PRODUCT_DATABASE)
-      .filter(([_, product]) => product.collection === collection)
-      .map(([id, product]) => ({
-        id,
-        title: product.hero.name,
-        image: product.hero.image,
-        collection: product.collection,
-        category: product.category,
-        group: product.group,
-        dimming: product.dimming
-      }))
+  Object.entries(PRODUCT_DATABASE).forEach(([id, product]: [string, any]) => {
+    // Only process products belonging to this collection
+    if (product.collection === collection) {
+      // If we haven't added this series yet, add the first instance found
+      if (!seenSeries.has(product.series)) {
+        seenSeries.add(product.series);
+        uniqueProducts.push({
+          id, // This ID will be used for the initial landing on the inner page
+          title: product.hero.name,
+          image: product.hero.image,
+          collection: product.collection,
+          category: product.category,
+          group: product.group,
+          dimming: product.dimming,
+          series: product.series, // Keep track of the series
+        });
+      }
+    }
+  });
 
-  }, [collection])
+  return uniqueProducts;
+}, [collection]);
 
   return (
     <main className="relative bg-transparent min-h-screen">
