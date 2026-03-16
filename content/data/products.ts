@@ -42,13 +42,13 @@ export const PRODUCT_DATABASE = {
     ]
   },
   "llf-104": {
-    category: "Recessed Downlight",
+    category: "LED COB Spotlight",
     series: "llf-100", 
     group: "Led Smd Concealed",
     dimming: "Non - Dimming",
     collection: "indoor",
     hero: {
-      category: "Recessed Downlight",
+      category: "LED COB Spotlight",
       name: "LLF-104",
       description: "The LLF-104 Series provides deep-recessed visual comfort with ultra-low UGR.",
       image: "https://placehold.co/800x800/1a1a1a/ffffff?text=LLF-104+Hero",

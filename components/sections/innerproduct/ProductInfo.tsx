@@ -122,6 +122,45 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
     }
   };
 
+  const ModelOption = ({ id, activeId, onClick }: { id: string, activeId: string, onClick: (id: string) => void }) => {
+  const isActive = activeId.toLowerCase() === id.toLowerCase();
+  return (
+    <div 
+      onClick={() => onClick(id)} 
+      className={`h-[60px] md:h-[90px] flex items-center px-6 rounded-[12px] cursor-pointer transition-all border shrink-0 ${
+        isActive 
+          ? "bg-white border-white" 
+          : "bg-[#0A0A0A] border-white/10 hover:border-white/30"
+      }`}
+    >
+      <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full border-2 flex items-center justify-center mr-4 ${
+        isActive ? "border-[#4A61AD]" : "border-white/20"
+      }`}>
+        {isActive && <div className="w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-[#4A61AD]" />}
+      </div>
+      
+      <span className={`text-sm md:text-lg font-normal uppercase flex-1 ${
+        isActive ? "text-black" : "text-[#888888]"
+      }`}>
+        {id}
+      </span>
+      
+      <div className={`h-8 md:h-10 w-[1px] mx-4 ${
+        isActive ? "bg-black/10" : "bg-white/10"
+      }`} />
+      
+      <div className="relative w-8 h-8 md:w-12 md:h-12">
+        <Image 
+          src={`https://placehold.co/100x100?text=${id}`} 
+          alt={id} 
+          fill  
+          className="object-contain" 
+        />
+      </div>
+    </div>
+  );
+};
+
   const handleDownloadExcel = async () => {
     if (!validateForm()) return;
     setIsDownloading(true);
@@ -158,56 +197,82 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
       <div className="">
         <h1 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white mb-12">Product Configuration</h1>
 
-        {/* STICKY WRAPPER: SET TO top-0 TO OVERLAP THE HEADER */}
-<div className="sticky top-0 z-100 bg-black pt-6 pb-6 mb-10 -mx-4 px-4 md:-mx-[50px] md:px-[50px] border-b border-white/10 shadow-2xl">
-  <div className="">
-    <div className="flex flex-col gap-4">
-      <p className="text-white/70 text-body font-regular uppercase">
-        Model Spectrum
-      </p>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {allModelIds.map((id) => {
-          const isActive = activeId.toLowerCase() === id.toLowerCase();
-          return (
+        {/* STICKY WRAPPER */}
+<div className="sticky top-0 z-[100] bg-black pt-6 pb-6 mb-10 -mx-4 px-4 md:-mx-[50px] md:px-[50px] border-b border-white/10 shadow-2xl">
+  <div className="flex flex-col gap-4">
+    <p className="text-white/70 text-body font-regular uppercase text-xs tracking-widest">
+      Model Spectrum
+    </p>
+
+    {/* MOBILE & TABLET VIEW: Dropdown Overlay (Visible < lg) */}
+    <div className="lg:hidden relative">
+      <button
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className={`w-full h-[70px] flex items-center px-6 rounded-[12px] bg-[#0A0A0A] border transition-all active:scale-[0.98] ${
+          isMenuOpen ? "border-white" : "border-white/20"
+        }`}
+      >
+        <div className="w-4 h-4 rounded-full border-2 border-[#4A61AD] flex items-center justify-center mr-4">
+          <div className="w-2 h-2 rounded-full bg-[#4A61AD]" />
+        </div>
+        <span className="flex-1 text-left uppercase font-medium text-white">
+          {activeId}
+        </span>
+        <motion.div 
+          animate={{ rotate: isMenuOpen ? 180 : 0 }}
+          className="text-white/40"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
+        </motion.div>
+      </button>
+
+      {/* The Dropdown Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            {/* Invisible Backdrop to close on outside click */}
             <div 
-              key={id} 
-              onClick={() => onModelChange(id)} 
-              className={`h-[70px] md:h-[86px] flex items-center px-6 rounded-[12px] cursor-pointer transition-all border ${
-                isActive 
-                  ? "bg-white border-white" 
-                  : "bg-[#0A0A0A] border-white/10 hover:border-white/30"
-              }`}
+              className="fixed inset-0 z-[-1]" 
+              onClick={() => setIsMenuOpen(false)} 
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 10 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute top-full left-0 right-0 bg-[#0A0A0A] border border-white/20 rounded-[12px] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden z-[110]"
             >
-              <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full border-2 flex items-center justify-center mr-4 ${
-                isActive ? "border-[#4A61AD]" : "border-white/20"
-              }`}>
-                {isActive && <div className="w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-[#4A61AD]" />}
+              <div className="flex flex-col max-h-[400px] overflow-y-auto p-2 gap-1 custom-scrollbar">
+                {allModelIds.map((id) => (
+                  <ModelOption 
+                    key={id} 
+                    id={id} 
+                    activeId={activeId} 
+                    onClick={(newId) => {
+                      onModelChange(newId);
+                      setIsMenuOpen(false);
+                    }} 
+                  />
+                ))}
               </div>
-              
-              <span className={`text-sm md:text-lg font-normal uppercase flex-1 ${
-                isActive ? "text-black" : "text-[#888888]"
-              }`}>
-                {id}
-              </span>
-              
-              <div className={`h-8 md:h-10 w-px mx-4 ${
-                isActive ? "bg-black/10" : "bg-white/10"
-              }`} />
-              
-              <div className="relative w-8 h-8 md:w-12 md:h-12">
-                <Image 
-                  src={`https://placehold.co/100x100?text=${id}`} 
-                  alt={id} 
-                  fill  
-                  className="object-contain" 
-                  unoptimized
-                />
-              </div>
-            </div>
-          );
-        })}
-      </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+
+    {/* DESKTOP VIEW: Original Grid (Hidden < lg) */}
+    <div className="hidden lg:grid grid-cols-4 gap-5">
+      {allModelIds.map((id) => (
+        <ModelOption 
+          key={id} 
+          id={id} 
+          activeId={activeId} 
+          onClick={onModelChange} 
+        />
+      ))}
     </div>
   </div>
 </div>
