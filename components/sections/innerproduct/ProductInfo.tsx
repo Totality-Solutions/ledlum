@@ -159,7 +159,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
         <h1 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white mb-12">Product Configuration</h1>
 
         {/* STICKY WRAPPER: SET TO top-0 TO OVERLAP THE HEADER */}
-<div className="sticky top-0 z-[100] bg-black pt-6 pb-6 mb-10 -mx-4 px-4 md:-mx-[50px] md:px-[50px] border-b border-white/10 shadow-2xl">
+<div className="sticky top-0 z-100 bg-black pt-6 pb-6 mb-10 -mx-4 px-4 md:-mx-[50px] md:px-[50px] border-b border-white/10 shadow-2xl">
   <div className="">
     <div className="flex flex-col gap-4">
       <p className="text-white/70 text-body font-regular uppercase">
@@ -191,7 +191,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
                 {id}
               </span>
               
-              <div className={`h-8 md:h-10 w-[1px] mx-4 ${
+              <div className={`h-8 md:h-10 w-px mx-4 ${
                 isActive ? "bg-black/10" : "bg-white/10"
               }`} />
               
@@ -201,6 +201,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
                   alt={id} 
                   fill  
                   className="object-contain" 
+                  unoptimized
                 />
               </div>
             </div>

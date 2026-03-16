@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
-export default function PageLoader() {
+export default function Loader() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);

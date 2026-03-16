@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 
 // ❗ Import Preloader + PageLoader normally
 import Preloader from "@/app/PreLoader";
-import Loader from "@/app/Loader";
+import Loader from "@/app/loader";
 
 import linearGradientBg from "@/public/lineargradient.png";
 import ledlumLineBg from "@/public/images/about/ledlumline.png";
@@ -58,7 +58,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             src={glowBg}
             alt=""
             fill
-            priority
             className="will-change-transform"
             style={{
               objectFit: "fill",
