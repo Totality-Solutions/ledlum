@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 
 // ❗ Import Preloader + PageLoader normally
 import Preloader from "@/app/PreLoader";
-import PageLoader from "@/app/PageLoader";
+import Loader from "@/app/Loader";
 
 import linearGradientBg from "@/public/lineargradient.png";
 import ledlumLineBg from "@/public/images/about/ledlumline.png";
@@ -115,7 +115,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Preloader />
 
           <Suspense fallback={null}>
-            <PageLoader />
+            <Loader />
           </Suspense>
 
           {children}

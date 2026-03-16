@@ -17,11 +17,13 @@ export default function MarqueeFlow<T>({
   renderItem,
   gap = 24,
   speed = 3500,
-  mobileCount = 2,
+  mobileCount = 2,     // ← was 1, now 2 so cards aren't full-width
   tabletCount = 3,
   desktopCount = 4
 }: MarqueeFlowProps<T>) {
-  const [visibleItems, setVisibleItems] = useState(desktopCount); // how many cards shown
+  const [visibleItems, setVisibleItems] = useState(desktopCount);
+  const [activeGap, setActiveGap] = useState(gap);      // ← new: responsive gap
+  const [activeSpeed, setActiveSpeed] = useState(speed); // ← new: responsive speed
   const [isVisible, setIsVisible] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,9 +32,8 @@ export default function MarqueeFlow<T>({
   const indexRef = useRef(0);
   const isResettingRef = useRef(false);
 
-  const scrollBy = 1; // ← always scroll 1 card at a time
-
-  const cloneCount = visibleItems; // clone enough to fill the visible area
+  const scrollBy = 1;
+  const cloneCount = visibleItems;
 
   const cloned = useMemo(() => {
     if (items.length === 0) return [];
@@ -43,9 +44,8 @@ export default function MarqueeFlow<T>({
 
   const realOffset = cloneCount;
 
-  // Card width is based on visibleItems (how many show at once)
   const getTransform = (idx: number) =>
-    `translateX(calc(${idx} * -1 * (100% + ${gap}px) / ${visibleItems}))`;
+    `translateX(calc(${idx} * -1 * (100% + ${activeGap}px) / ${visibleItems}))`;
 
   const jumpTo = (idx: number) => {
     const track = trackRef.current;
@@ -62,14 +62,23 @@ export default function MarqueeFlow<T>({
     track.style.transform = getTransform(idx);
   };
 
-  // Responsive — only affects how many cards are SHOWN, not scroll step
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     const update = () => {
       const w = window.innerWidth;
-      if (w < 640) setVisibleItems(mobileCount);       // mobile: show 2
-      else if (w < 1024) setVisibleItems(tabletCount); // tablet: show 3
-      else setVisibleItems(desktopCount);               // desktop: show 4
+      if (w < 640) {
+        setVisibleItems(mobileCount);
+        setActiveGap(Math.round(gap * 0.5));     // ← half gap on mobile
+        setActiveSpeed(Math.round(speed * 0.8)); // ← slightly faster on mobile
+      } else if (w < 1024) {
+        setVisibleItems(tabletCount);
+        setActiveGap(gap);
+        setActiveSpeed(speed);
+      } else {
+        setVisibleItems(desktopCount);
+        setActiveGap(gap);
+        setActiveSpeed(speed);
+      }
     };
     const handleResize = () => {
       clearTimeout(timeoutId);
@@ -81,15 +90,13 @@ export default function MarqueeFlow<T>({
       window.removeEventListener("resize", handleResize);
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [mobileCount, tabletCount, desktopCount, gap, speed]);
 
-  // Reset position when layout changes
   useEffect(() => {
     indexRef.current = realOffset;
     jumpTo(realOffset);
-  }, [visibleItems, realOffset]);
+  }, [visibleItems, realOffset, activeGap]);
 
-  // Intersection Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => setIsVisible(entries[0].isIntersecting),
@@ -99,7 +106,6 @@ export default function MarqueeFlow<T>({
     return () => observer.disconnect();
   }, []);
 
-  // Infinite slide engine — scrolls by 1 card each tick
   useEffect(() => {
     if (!isVisible || items.length === 0 || isPaused) {
       if (intervalRef.current) {
@@ -111,12 +117,10 @@ export default function MarqueeFlow<T>({
 
     intervalRef.current = setInterval(() => {
       if (isResettingRef.current) return;
-
-      const next = indexRef.current + scrollBy; // ← move 1 card
+      const next = indexRef.current + scrollBy;
       indexRef.current = next;
       slideTo(next);
 
-      // When we've scrolled through all real items → jump back seamlessly
       if (next >= realOffset + items.length) {
         isResettingRef.current = true;
         setTimeout(() => {
@@ -125,7 +129,7 @@ export default function MarqueeFlow<T>({
           isResettingRef.current = false;
         }, 720);
       }
-    }, speed);
+    }, activeSpeed); // ← uses activeSpeed now
 
     return () => {
       if (intervalRef.current) {
@@ -133,7 +137,7 @@ export default function MarqueeFlow<T>({
         intervalRef.current = null;
       }
     };
-  }, [speed, isVisible, items.length, visibleItems, realOffset, isPaused]);
+  }, [activeSpeed, isVisible, items.length, visibleItems, realOffset, isPaused]);
 
   if (items.length === 0) return null;
 
@@ -148,7 +152,7 @@ export default function MarqueeFlow<T>({
         ref={trackRef}
         className="flex"
         style={{
-          gap: `${gap}px`,
+          gap: `${activeGap}px`,  // ← uses activeGap now
           transform: getTransform(realOffset),
           willChange: "transform",
         }}
@@ -158,8 +162,7 @@ export default function MarqueeFlow<T>({
             key={i}
             className="flex-shrink-0"
             style={{
-              // Card size is always based on visibleItems
-              flex: `0 0 calc((100% - ${(visibleItems - 1) * gap}px) / ${visibleItems})`,
+              flex: `0 0 calc((100% - ${(visibleItems - 1) * activeGap}px) / ${visibleItems})`,
             }}
           >
             {renderItem(item, i % items.length)}

@@ -7,11 +7,16 @@ export default function Preloader() {
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
+    // Check if this is the first time visiting the site
     const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
-
+    
     if (!hasSeenIntro) {
+      // Show preloader immediately on first load
       setShowVideo(true);
-      document.documentElement.classList.add("no-scroll"); 
+      // Prevent scrolling during preloader
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
     }
   }, []);
 
@@ -19,16 +24,21 @@ export default function Preloader() {
     setIsExiting(true);
 
     setTimeout(() => {
+      // Mark that user has seen the intro
       sessionStorage.setItem("hasSeenIntro", "true");
       setShowVideo(false);
-      document.documentElement.classList.remove("no-scroll");
+      // Re-enable scrolling
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
     }, 800);
   };
 
+  // Don't render anything if preloader shouldn't show
   if (!showVideo) return null;
 
   return (
-    <div className={`preloader-video-container ${isExiting ? "exit-fade" : ""} overflow-y-none hide-scrollbar no-scroll`}>
+    <div className={`preloader-video-container ${isExiting ? "exit-fade" : ""}`}>
       <video
         autoPlay
         muted

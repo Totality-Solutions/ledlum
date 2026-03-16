@@ -62,7 +62,7 @@ export default function CombinedLightingPartners() {
         </div>
 
         {/* MARQUEE FLOW CAROUSEL */}
-        {/* <MarqueeFlow
+        <MarqueeFlow
           items={PARTNERS}
           gap={20}
           speed={2000}
@@ -75,7 +75,7 @@ export default function CombinedLightingPartners() {
               </div>
             </div>
           )}
-        /> */}
+        />
       </Container>
       {/* PART 2: LIGHTING SECTION */}
 <Container className="">
