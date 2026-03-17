@@ -1,0 +1,192 @@
+{
+    "category": "OUTDOOR WALL LIGHTS - GU10 / E27",
+    "products": [
+      {
+        "item_number": "LWL-041",
+        "feature": "WALL LITE Light Source : E27",
+        "material": "Aluminium+Glass",
+        "dimension": "220x220x82",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "cri": ">80",
+        "price": "Rs.5450.00"
+      },
+      {
+        "item_number": "LWL-042",
+        "feature": "WALL LITE Light Source : E27",
+        "material": "Aluminium+Glass",
+        "dimension": "256x86x88",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "cri": ">80",
+        "price": "Rs.3540.00"
+      },
+      {
+        "item_number": "LWL-043",
+        "feature": "WALL LITE Light Source : E27",
+        "material": "Aluminium+Glass",
+        "dimension": "265x95x90",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "cri": ">80",
+        "price": "Rs.4650.00"
+      },
+      {
+        "item_number": "LWL-044",
+        "feature": "WALL LITE Light Source : E27",
+        "material": "Aluminium+Glass",
+        "dimension": "256x86x88",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "cri": ">80",
+        "price": "Rs.3450.00"
+      },
+      {
+        "item_number": "LWL-045",
+        "feature": "SURFACE Light Source : GU-10",
+        "material": "Aluminium+Glass",
+        "dimension": "108x90",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "cri": ">80",
+        "price": "Rs.2575.00"
+      },
+      {
+        "item_number": "LWL-046",
+        "feature": "SURFACE Light Source : GU-10",
+        "material": "Aluminium+Glass",
+        "dimension": "108x85x85",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "cri": ">80",
+        "price": "Rs.2575.00"
+      },
+      {
+        "item_number": "LWL-047",
+        "feature": "WALL LITE 1 WAY Light Source : GU-10",
+        "material": "Aluminium+Glass",
+        "dimension": "108x120x90",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "cri": ">80",
+        "price": "Rs.3450.00"
+      },
+      {
+        "item_number": "LWL-048",
+        "feature": "WALL LITE 1 WAY Light Source : GU-10",
+        "material": "Aluminium+Glass",
+        "dimension": "108x115x85",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "cri": ">80",
+        "price": "Rs.3450.00"
+      },
+      {
+        "item_number": "LWL-049",
+        "feature": "WALL LITE UP / DOWN Light Source : GU-10",
+        "material": "Aluminium+Glass",
+        "dimension": "155x120x90",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "cri": ">80",
+        "price": "Rs.3855.00"
+      },
+      {
+        "item_number": "LWL-050",
+        "feature": "WALL LITE UP / DOWN Light Source : GU-10",
+        "material": "Aluminium+Glass",
+        "dimension": "155x115x85",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "cri": ">80",
+        "price": "Rs.3855.00"
+      },
+      {
+        "item_number": "LWL-051",
+        "feature": "WALL LITE Light Source : E27",
+        "material": "Die-cast Aluminium",
+        "dimension": "276x160x215",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP65",
+        "cri": ">80",
+        "price": "Rs.5670.00"
+      },
+      {
+        "item_number": "LWL-052",
+        "feature": "WALL LITE Light Source : E27",
+        "material": "Die-cast Aluminium",
+        "dimension": "276x145x215",
+        "body_color": "Black",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP65",
+        "cri": ">80",
+        "price": "Rs.5670.00"
+      },
+      {
+        "item_number": "LWL-061",
+        "feature": "WALL LITE",
+        "material": "Aluminium",
+        "dimension": "135x202x260",
+        "body_color": "Anthracite",
+        "beam_angle": "-\u00ba",
+        "ip_rating": "IP54",
+        "price": "Rs.4065.00"
+      },
+      {
+        "item_number": "LWL-062",
+        "watts": "E27 Max.60W",
+        "material": "Aluminium + PC",
+        "dimension": "292x230x308",
+        "body_color": "Dark Grey",
+        "ip_rating": "IP44",
+        "luminous": "70lm/w",
+        "price": "Rs.5000.00"
+      },
+      {
+        "item_number": "LWL-063",
+        "watts": "E27x2",
+        "material": "Aluminium + Glass",
+        "dimension": "\u00d8145x110x300",
+        "body_color": "Mat Black",
+        "cct_k": "3000",
+        "ip_rating": "IP65",
+        "luminous": "70lm/w",
+        "price": "Rs.6200.00"
+      },
+      {
+        "item_number": "LWL-064",
+        "feature": "SURFACE",
+        "watts": "E27x1",
+        "material": "Aluminium + Glass",
+        "dimension": "\u00d8110x220",
+        "body_color": "Mat Black",
+        "cct_k": "3000",
+        "ip_rating": "IP65",
+        "luminous": "70lm/w",
+        "price": "Rs.4440.00"
+      },
+      {
+        "item_number": "LWL-065",
+        "feature": "SUSPENDED",
+        "watts": "E27x1",
+        "material": "Aluminium + Glass",
+        "dimension": "\u00d8110xH1500",
+        "body_color": "Mat Black",
+        "cct_k": "3000",
+        "ip_rating": "IP65",
+        "luminous": "70lm/w",
+        "price": "Rs.5435.00"
+      }
+    ]
+  }
