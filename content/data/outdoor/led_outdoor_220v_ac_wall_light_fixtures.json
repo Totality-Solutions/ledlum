@@ -1,0 +1,91 @@
+  {
+    "category": "LED OUTDOOR 220V AC WALL LIGHT FIXTURES",
+    "products": [
+      {
+        "item_number": "LLO-100",
+        "watts": "2W",
+        "material": "Aluminium+PC",
+        "dimension": "90x38x60",
+        "body_color": "Dark Grey",
+        "cct_k": "3000",
+        "powered_by": "EVERLIGHT",
+        "beam_angle": "98\u00ba",
+        "ip_rating": "IP54",
+        "luminous": "130lm",
+        "cri": ">80",
+        "price": "Rs.2300.00"
+      },
+      {
+        "item_number": "LLO-101",
+        "watts": "3.6W",
+        "material": "Aluminium+PC",
+        "dimension": "150x38x70",
+        "body_color": "Dark Grey",
+        "cct_k": "3000",
+        "powered_by": "EVERLIGHT",
+        "beam_angle": "98\u00ba",
+        "ip_rating": "IP54",
+        "luminous": "234lm",
+        "cri": ">80",
+        "price": "Rs.3010.00"
+      },
+      {
+        "item_number": "LLO-102",
+        "watts": "10W",
+        "material": "Aluminium+PC",
+        "dimension": "240x120x45.5",
+        "body_color": "Dark Grey",
+        "cct_k": "3000",
+        "powered_by": "EPISTAR",
+        "beam_angle": "120\u00ba",
+        "ip_rating": "IP65",
+        "luminous": "450lm",
+        "cri": ">80",
+        "price": "Rs.4170.00"
+      },
+      {
+        "item_number": "LLO-103",
+        "watts": "10W",
+        "material": "Aluminium+PC",
+        "dimension": "230x72x56",
+        "body_color": "Dark Grey",
+        "cct_k": "3000",
+        "powered_by": "EPISTAR",
+        "beam_angle": "120\u00ba",
+        "ip_rating": "IP65",
+        "luminous": "275lm",
+        "cri": ">80",
+        "price": "Rs.3415.00"
+      },
+      {
+        "item_number": "LLO-104",
+        "feature": "UP/DOWN",
+        "watts": "1 X 7W",
+        "material": "Aluminium",
+        "dimension": "82x82x58",
+        "body_color": "Dark Grey",
+        "cct_k": "3000",
+        "powered_by": "PHILIPS AC LED",
+        "beam_angle": "93\u00ba",
+        "ip_rating": "IP54",
+        "luminous": "218lm",
+        "cri": ">80",
+        "price": "Rs.4700.00"
+      },
+      {
+        "item_number": "LLO-105",
+        "feature": "UP/DOWN",
+        "watts": "1 X 7W",
+        "material": "Aluminium",
+        "dimension": "122x82x59",
+        "body_color": "Dark Grey",
+        "cct_k": "3000",
+        "powered_by": "PHILIPS AC LED",
+        "beam_angle": "118\u00ba",
+        "ip_rating": "IP54",
+        "luminous": "261lm",
+        "cri": ">80",
+        "price": "Rs.5490.00"
+      }
+    ]
+  }

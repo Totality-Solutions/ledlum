@@ -1,16 +1,5 @@
-export const PRODUCT_DATABASE = {
+export const PRODUCT_CONFIGS = {
   "llf-103": {
-    category: "LED COB Spotlight",
-    series: "llf-100", 
-    group: "Led Cob Concealed",
-    dimming: "Dali",
-    collection: "indoor",
-    hero: {
-      category: "LED COB Spotlight",
-      name: "LLF-103",
-      description: "Experience the perfect blend of form and function with the LLF-103. Sleek, modern, and versatile.",
-      image: "https://placehold.co/800x800/1a1a1a/ffffff?text=LLF-103+Hero", 
-    },
     config: {
       models: ["LLF-103", "LLF-103-S", "LLF-103-M"],
       voltage: ["220-240V", "110-120V"],
@@ -34,25 +23,9 @@ export const PRODUCT_DATABASE = {
       { voltage: "220-240V", watts: "12W", dimensions: "Ø100x92mm", bodyColor: "Dark Gray", beamAngles: "24°", ledChip: "CREE COB", luminous: "1200lm", cri: "≥90", cct: "3000K" },
       { voltage: "110-120V", watts: "15W", dimensions: "Ø130x116mm", bodyColor: "White", beamAngles: "36°", ledChip: "CREE COB", luminous: "1500lm", cri: "≥90", cct: "4000K" },
       { voltage: "110-120V", watts: "7W", dimensions: "Ø100x92mm", bodyColor: "Dark Gray", beamAngles: "15°", ledChip: "CREE COB", luminous: "800lm", cri: "≥90", cct: "3000K" }
-    ],
-    gallery: [
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-103+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-103+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-103+Detail"
     ]
   },
   "llf-104": {
-    category: "LED COB Spotlight",
-    series: "llf-100", 
-    group: "Led Smd Concealed",
-    dimming: "Non - Dimming",
-    collection: "indoor",
-    hero: {
-      category: "LED COB Spotlight",
-      name: "LLF-104",
-      description: "The LLF-104 Series provides deep-recessed visual comfort with ultra-low UGR.",
-      image: "https://placehold.co/800x800/1a1a1a/ffffff?text=LLF-104+Hero",
-    },
     config: {
       models: ["LLF-104 Fixed", "LLF-104 Tilt"],
       voltage: ["220-240V"],
@@ -76,25 +49,9 @@ export const PRODUCT_DATABASE = {
       { voltage: "220-240V", watts: "20W", dimensions: "Ø85x110mm", bodyColor: "Dark Gray", beamAngles: "38°", ledChip: "Bridgelux", luminous: "2100lm", cri: "≥95", cct: "4000K" },
       { voltage: "220-240V", watts: "30W", dimensions: "Ø110x140mm", bodyColor: "White", beamAngles: "60°", ledChip: "Bridgelux", luminous: "3200lm", cri: "≥95", cct: "Dim-to-Warm" },
       { voltage: "220-240V", watts: "10W", dimensions: "Ø110x140mm", bodyColor: "Dark Gray", beamAngles: "24°", ledChip: "Bridgelux", luminous: "1000lm", cri: "≥80", cct: "4000K" }
-    ],
-    gallery: [
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-104+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-104+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-104+Detail"
     ]
   },
   "llf-205": {
-    category: "Track Light System",
-    series: "llf-200", 
-    group: "Premium Series",
-    dimming: "Dali",
-    collection: "indoor",
-    hero: {
-      category: "Track Light System",
-      name: "LLF-205",
-      description: "Professional-grade track-mounted luminaire for art galleries and retail.",
-      image: "https://placehold.co/800x800/1a1a1a/ffffff?text=LLF-205+Hero",
-    },
     config: {
       models: ["LLF-205 Narrow", "LLF-205 Wide"],
       voltage: ["24V DC", "48V DC"],
@@ -116,25 +73,9 @@ export const PRODUCT_DATABASE = {
       { voltage: "24V DC", watts: "15W", dimensions: "Ø60x150mm", bodyColor: "White", beamAngles: "10°", ledChip: "Citizen COB", luminous: "1350lm", cri: "≥97", cct: "3000K" },
       { voltage: "48V DC", watts: "25W", dimensions: "Ø60x150mm", bodyColor: "Dark Gray", beamAngles: "45°", ledChip: "Citizen COB", luminous: "2250lm", cri: "≥97", cct: "4000K" },
       { voltage: "48V DC", watts: "15W", dimensions: "Ø60x150mm", bodyColor: "White", beamAngles: "20°", ledChip: "Citizen COB", luminous: "1350lm", cri: "≥97", cct: "4000K" }
-    ],
-    gallery: [
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-205+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-205+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-205+Detail"
     ]
   },
   "llf-m20": {
-    category: "Magnetic Track System",
-    series: "llf-m20", 
-    group: "Premium Series",
-    dimming: "DP",
-    collection: "indoor",
-    hero: {
-      category: "Magnetic Track System",
-      name: "LLF-M20",
-      description: "Ultra-slim magnetic modules offering tool-free installation.",
-      image: "https://placehold.co/800x800/1a1a1a/ffffff?text=LLF-M20+Hero",
-    },
     config: {
       models: ["Linear-M20", "Dot-M20", "Adjust-M20"],
       voltage: ["48V DC"],
@@ -157,11 +98,6 @@ export const PRODUCT_DATABASE = {
       { voltage: "48V DC", watts: "10W", dimensions: "300x20x45mm", bodyColor: "White", beamAngles: "15°", ledChip: "Luminus", luminous: "900lm", cri: "≥90", cct: "3000K" },
       { voltage: "48V DC", watts: "20W", dimensions: "600x20x45mm", bodyColor: "Dark Gray", beamAngles: "Wall Wash", ledChip: "Luminus", luminous: "1800lm", cri: "≥90", cct: "Tunable" },
       { voltage: "48V DC", watts: "10W", dimensions: "600x20x45mm", bodyColor: "White", beamAngles: "30°", ledChip: "Luminus", luminous: "900lm", cri: "≥90", cct: "4000K" }
-    ],
-    gallery: [
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail",
-      "https://placehold.co/437x531/101010/ffffff?text=LLF-M20+Detail"
     ]
   }
 };
