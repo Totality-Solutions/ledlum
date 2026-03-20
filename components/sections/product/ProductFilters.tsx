@@ -190,7 +190,7 @@ export default function ProductFilters({
   );
 
   return (
-    <Section className="w-full px-6 lg:px-12 sticky top-0 z-[50]">
+    <Section className="w-full !py-0 sticky top-0 z-[50]">
       <Container>
       {/* DESKTOP NAVIGATION */}
       <div className="hidden lg:flex gap-10 items-center border-b border-white/10 overflow-x-auto no-scrollbar ">

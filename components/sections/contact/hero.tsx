@@ -105,7 +105,8 @@ const ContactSection = memo(function ContactSection() {
               <div className="flex flex-row items-center justify-between gap-4 w-full">
                 <CTABtn
                   label="Reset"
-                  btnBg="var(--bg-dark)"
+                  btnBg="black"
+                 
                   btnHoverBg="black"
                   iconType="reset"
                   textColor="white"

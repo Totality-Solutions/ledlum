@@ -3,6 +3,7 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 interface PaginationProps {
   currentPage: number;
@@ -17,12 +18,14 @@ const Pagination = memo(function Pagination({
 }: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
+const pathname = usePathname();
   const handlePageChange = useCallback((page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set(paramName, page.toString());
     router.push(`/blog?${params.toString()}`, { scroll: false });
   }, [searchParams, router, paramName]);
+
+
 
   if (totalPages <= 1) return null;
 
