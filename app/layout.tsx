@@ -6,7 +6,7 @@ import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
 
 import LayoutWrapper from "@/app/LayoutWrapper";
-import PageLoader from "@/app/PageLoader";
+import PageLoader from "@/app/Loader";
 
 import linearGradientBg from "@/public/lineargradient.png";
 import ledlumLineBg from "@/public/images/about/ledlumline.png";
@@ -34,8 +34,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black`} style={{ backgroundColor: '#000' }}>
+    <html lang="en" suppressHydrationWarning style={{ backgroundColor: '#000' }}>
+      <body style={{ backgroundColor: '#000' }} className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black`}>
         
         <LayoutWrapper 
           pageLoader={

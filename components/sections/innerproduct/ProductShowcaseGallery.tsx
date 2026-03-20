@@ -8,7 +8,7 @@ export default function ProductShowcaseGallery({ images }: { images: string[] })
       <div className="w-full flex flex-col md:flex-row justify-center items-center gap-4 lg:gap-5">
         {images.map((src, index) => (
           <div key={index} className="relative aspect-[4/5] w-full max-w-[400px] md:max-w-none md:flex-1 rounded-[10px] overflow-hidden">
-            <Image src={src} alt="Gallery" fill  className="object-cover grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer" />
+            <Image src={src} alt="Gallery" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer" unoptimized />
           </div>
         ))}
       </div>

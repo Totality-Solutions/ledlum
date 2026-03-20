@@ -35,7 +35,7 @@ const socialIcons = [Instagram, Send, Linkedin, Facebook];
 
 export default function Footer() {
   return (
-    <footer className="relative pt-6 md:pt-10 px-4 md:px-6 overflow-hidden flex flex-col min-h-screen lg:min-h-[90vh] transition-colors duration-500">
+    <footer className="rounded-[24px] relative pt-6 md:pt-10 px-4 md:px-6 overflow-hidden flex flex-col lg:min-h-[90vh] transition-colors duration-500">
 
       {/* Watermark Logo */}
       <div className="absolute bottom-0 left-0 w-full h-full pointer-events-none z-0">
@@ -52,7 +52,7 @@ export default function Footer() {
       <div className="relative z-10 w-full mx-auto rounded-[24px] max-w-[96%] overflow-hidden bg-[#9d9272] shadow-2xl mb-10 md:mb-20">
 
         {/* Texture Overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-80 mix-blend-multiply">
+        <div className="rounded-[24px] absolute inset-0 pointer-events-none opacity-80 mix-blend-multiply">
           <Image
             src="/images/about/footercard.png"
             alt="Texture"
@@ -98,9 +98,7 @@ export default function Footer() {
               </div>
 
               {/* Desktop Copyright */}
-              <p className="hidden lg:block mt-7 text-body-xxs tracking-wide text-white/70 font-pop font-medium">
-                © 2026 LEDLUM. All rights reserved.
-              </p>
+
 
             </div>
 
@@ -108,7 +106,7 @@ export default function Footer() {
             <div className="flex flex-wrap md:flex-nowrap gap-x-12 lg:gap-x-20 gap-y-12 w-full lg:w-auto">
 
               {footerColumns.map((column, i) => (
-  <div key={i} className="min-w-[140px]">
+                <div key={i} className="min-w-[140px]">
                   <h4 className="text-body font-medium mb-6 font-pop text-white tracking-wide font-pop font-regular">
                     {column.title}
                   </h4>
@@ -132,14 +130,30 @@ export default function Footer() {
             </div>
 
             {/* Mobile Copyright */}
-            <div className="lg:hidden w-full mt-4 pt-8 border-t border-white/10">
-              <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">
-                © 2026 LEDLUM. Technical Brilliance.
+            <div className="md:hidden w-full mt-4 pt-8 border-t border-white/10">
+              <div className="flex flex-col gap-5 items-center">
+              <p className=" text-body-xxs tracking-wide text-white/70 font-pop font-medium">
+                © 2026 LEDLUM. All rights reserved.
               </p>
+              <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">
+                Designed by <span className="text-white">Totality Solutions</span>
+              </p>
+              
+            </div>
             </div>
 
           </div>
-
+          <div className="hidden md:block ">
+            <div className="flex justify-between mt-7">
+              <p className=" text-body-xxs tracking-wide text-white/70 font-pop font-medium">
+                © 2026 LEDLUM. All rights reserved.
+              </p>
+              <p className="text-right text-body-xxs tracking-wide text-white/70 font-pop font-medium">
+                Designed by <span className="text-white">Totality Solutions</span>
+              </p>
+              
+            </div>
+          </div>
         </Container>
 
       </div>

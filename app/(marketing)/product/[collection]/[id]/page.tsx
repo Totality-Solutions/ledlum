@@ -5,8 +5,9 @@ import { PRODUCT_DATABASE } from "@/content/data/products";
 import ProductInnerHero from "@/components/sections/innerproduct/InnerProductHero";
 import ProductInfoSection from "@/components/sections/innerproduct/ProductInfo";
 import ProductShowcaseGallery from "@/components/sections/innerproduct/ProductShowcaseGallery";
+import { memo } from "react";
 
-export default function InnerProductPage() {
+const InnerProductPage = memo(function InnerProductPage() {
   const params = useParams();
   const router = useRouter();
 
@@ -48,4 +49,6 @@ export default function InnerProductPage() {
       <ProductShowcaseGallery images={product.gallery} />
     </main>
   );
-}
+});
+
+export default InnerProductPage;

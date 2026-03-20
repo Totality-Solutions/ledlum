@@ -66,6 +66,7 @@ export default function AchievementsSection() {
                   alt={item.label}
                   fill
                   className="object-cover"
+                  unoptimized
                 />
               </div>
             ))}

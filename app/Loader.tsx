@@ -1,41 +1,54 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
-export default function PageLoader() {
+export default function Loader() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
+  const previousPath = useRef(pathname);
+  const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const handleStart = () => {
+    // Only show loader when pathname actually changes (not on initial load)
+    if (pathname !== previousPath.current) {
+      // Start loading
       setIsLoading(true);
-
-      // Disable scroll
-        // Force page to top
-  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      
+      // Force page to top and disable scroll
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
       document.body.style.touchAction = "none";
-    };
 
-    const handleStop = () => {
-      setTimeout(() => {
+      // Clear any existing timeout
+      if (loadingTimeoutRef.current) {
+        clearTimeout(loadingTimeoutRef.current);
+      }
+
+      // Stop loading after a delay to simulate data loading
+      loadingTimeoutRef.current = setTimeout(() => {
         setIsLoading(false);
-
-        // Enable scroll again
+        
+        // Re-enable scroll
         document.body.style.overflow = "";
         document.documentElement.style.overflow = "";
         document.body.style.touchAction = "";
+        
+        // Update previous path
+        previousPath.current = pathname;
       }, 800);
-    };
-
-    handleStart();
-    handleStop();
+    }
 
     return () => {
+      // Cleanup timeout if component unmounts
+      if (loadingTimeoutRef.current) {
+        clearTimeout(loadingTimeoutRef.current);
+      }
+      
+      // Ensure scroll is re-enabled on cleanup
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
       document.body.style.touchAction = "";

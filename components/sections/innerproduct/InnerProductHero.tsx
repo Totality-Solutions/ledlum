@@ -69,6 +69,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
               fill
               className="object-cover"
               priority
+              unoptimized
             />
           </motion.div>
         </div>
