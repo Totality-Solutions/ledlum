@@ -6,7 +6,7 @@ import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
 
 import LayoutWrapper from "@/app/LayoutWrapper";
-import PageLoader from "@/app/loader";
+import Loader from "@/app/loader";
 
 import linearGradientBg from "@/public/lineargradient.png";
 import ledlumLineBg from "@/public/images/about/ledlumline.png";
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LayoutWrapper 
           pageLoader={
             <Suspense fallback={null}>
-              <PageLoader />
+              <Loader />
             </Suspense>
           }
         >
