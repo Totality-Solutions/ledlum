@@ -6,7 +6,7 @@ import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
 
 import LayoutWrapper from "@/app/LayoutWrapper";
-import PageLoader from "@/app/Loader";
+import PageLoader from "@/app/loader";
 
 import linearGradientBg from "@/public/lineargradient.png";
 import ledlumLineBg from "@/public/images/about/ledlumline.png";
