@@ -4,7 +4,6 @@ import Image from "next/image";
 import Section from "@/components/layout/Section";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineDownload } from "react-icons/hi";
-import { PdfFile } from "./Pdf";
 import { ExcelFile } from "./ExcelFile";
 
 interface ProductInfoProps {
@@ -98,6 +97,7 @@ export default function ProductInfoSection({ config, activeId, onModelChange, al
   const handleDownloadPDF = async () => {
     if (!validateForm()) return;
     setIsDownloading(true);
+    const { PdfFile } = await import("./Pdf"); 
     const startTime = Date.now();
 
     try {

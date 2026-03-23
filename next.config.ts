@@ -1,61 +1,3 @@
-// import type { NextConfig } from "next";
-
-// const nextConfig: NextConfig = {
-//   /* config options here */
-
-//   // uu
-
-//   images: {
-//     // remotePatterns: [
-//     //   {
-//     //     protocol: 'https',
-//     //     hostname: 'images.unsplash.com',
-//     //     pathname: '/**',
-//     //   },
-//     // ],
-    
-//     remotePatterns: [
-//       {
-//         protocol: 'https',
-//         hostname: 'placehold.co',
-//         port: '',
-//         pathname: '/**',
-//       },
-//     ],
-//   },
-
-//   // uu
-
-// };
-
-// export default nextConfig;
-
-
-
-
-
-// import type { NextConfig } from "next";
-
-// const nextConfig: NextConfig = {
-//   images: {
-//     remotePatterns: [
-//       {
-//         protocol: 'https',
-//         hostname: 'images.unsplash.com',
-//         pathname: '/**',
-//       },
-//       {
-//         protocol: 'https',
-//         hostname: 'placehold.co',
-//         pathname: '/**',
-//       },
-//     ],
-//   },
-// };
-
-// export default nextConfig;
-
-
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -74,15 +16,19 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Use "as any" to satisfy the TS compiler for experimental properties
-  // experimental: {
-  //   allowedDevOrigins: ["192.168.1.16"],
-  // } as any,
-   reactStrictMode: true,
-   turbopack: {
-    resolveAlias: {}
-  },
+  reactStrictMode: true,
   output: "standalone",
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        os: false,
+      };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;
