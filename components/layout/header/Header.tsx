@@ -109,9 +109,10 @@ const Header = () => {
             </div>
           </div>
         </div>
+      
       </header>
 
-      {/* 🔥 FIX: MobileMenu is now OUTSIDE the <header> tag */}
+        {/* 🔥 FIX: MobileMenu is now OUTSIDE the <header> tag */}
       <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
     </>
   );

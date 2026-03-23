@@ -2,43 +2,36 @@
 
 import { useEffect, useState } from "react";
 
-export default function Preloader() {
-  const [showVideo, setShowVideo] = useState(false);
+export default function Preloader({ onComplete }: { onComplete: () => void }) {
+  const [showVideo, setShowVideo] = useState<boolean | null>(null);
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    // Check if this is the first time visiting the site
     const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
-    
-    if (!hasSeenIntro) {
-      // Show preloader immediately on first load
+
+    if (hasSeenIntro) {
+      setShowVideo(false);
+      onComplete(); // Reveal site immediately
+    } else {
       setShowVideo(true);
-      // Prevent scrolling during preloader
-      document.documentElement.style.overflow = "hidden";
-      document.body.style.overflow = "hidden";
-      document.body.style.touchAction = "none";
+      document.documentElement.classList.add("no-scroll");
     }
-  }, []);
+  }, [onComplete]);
 
   const handleVideoEnd = () => {
     setIsExiting(true);
-
     setTimeout(() => {
-      // Mark that user has seen the intro
       sessionStorage.setItem("hasSeenIntro", "true");
       setShowVideo(false);
-      // Re-enable scrolling
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
-      document.body.style.touchAction = "";
+      document.documentElement.classList.remove("no-scroll");
+      onComplete(); // Reveal site after video
     }, 800);
   };
 
-  // Don't render anything if preloader shouldn't show
-  if (!showVideo) return null;
+  if (showVideo === null || showVideo === false) return null;
 
   return (
-    <div className={`preloader-video-container ${isExiting ? "exit-fade" : ""}`}>
+    <div className={`preloader-video-container ${isExiting ? "exit-fade" : ""}`} style={{ backgroundColor: '#000' }}>
       <video
         autoPlay
         muted

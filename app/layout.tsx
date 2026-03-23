@@ -5,30 +5,26 @@ import Image from "next/image";
 import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
 
-// ❗ Import Preloader + PageLoader normally
-import Preloader from "@/app/PreLoader";
-import Loader from "@/app/loader";
+import LayoutWrapper from "@/app/LayoutWrapper";
+import PageLoader from "@/app/Loader";
 
 import linearGradientBg from "@/public/lineargradient.png";
 import ledlumLineBg from "@/public/images/about/ledlumline.png";
-import glowBg from "@/public/glow-bg.png";;
+import glowBg from "@/public/glow-bg.png";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-pop",
-  style: "normal"
 });
 
 const baiJamjuree = Bai_Jamjuree({
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700"],
   variable: "--font-bai",
-  style: "normal"
 });
 
 export const metadata: Metadata = buildMetadata();
-
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
@@ -38,87 +34,49 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black`}
-      >
-        {/* ── Fixed full-page background image layers ── */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 0,
-            pointerEvents: "none",
-            overflow: "hidden",
-          }}
+    <html lang="en" suppressHydrationWarning style={{ backgroundColor: '#000' }}>
+      <body style={{ backgroundColor: '#000' }} className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black`}>
+        
+        <LayoutWrapper 
+          pageLoader={
+            <Suspense fallback={null}>
+              <PageLoader />
+            </Suspense>
+          }
         >
-          {/* Layer 1 — glow-bg: iridescent arc atmosphere, base layer */}
-          <Image
-            src={glowBg}
-            alt=""
-            fill
-            className="will-change-transform"
-            style={{
-              objectFit: "fill",
-              objectPosition: "bottom",
-              opacity: 0.8,
-              transform: 'translate3d(0, 0, 0)',
-              backfaceVisibility: 'hidden',
-              mixBlendMode: "screen",
-            }}
-          />
+          {/* ── Fixed Background Layers ── */}
+          <div aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
+            <Image 
+              src={glowBg} 
+              alt="" 
+              fill 
+              priority 
+              className="will-change-transform" 
+              style={{ objectFit: "fill", mixBlendMode: "screen", opacity: 0.8 }} 
+            />
+            <Image 
+              src={linearGradientBg} 
+              alt="" 
+              fill 
+              className="will-change-transform" 
+              style={{ objectFit: "cover", objectPosition: "top right", mixBlendMode: "screen" }} 
+            />
+            <Image 
+              src={ledlumLineBg} 
+              alt="" 
+              fill 
+              className="will-change-transform" 
+              style={{ objectFit: "cover", mixBlendMode: "screen" }} 
+            />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%)" }} />
+          </div>
 
-          {/* Layer 2 — lineargradient: soft light bleed from top-right */}
-          <Image
-            src={linearGradientBg}
-            alt=""
-            fill
-            className="will-change-transform"
-            style={{
-              objectFit: "cover",
-              objectPosition: "top right",
-              transform: 'translate3d(0, 0, 0)',
-              backfaceVisibility: 'hidden',
-              mixBlendMode: "screen",
-            }}
-          />
+          {/* ── Page Content ── */}
+          <div style={{ position: "relative", zIndex: 1 }}>
+            {children}
+          </div>
+        </LayoutWrapper>
 
-          {/* Layer 3 — ledlumline: geometric line grid on top */}
-          <Image
-            src={ledlumLineBg}
-            alt=""
-            fill
-            className="will-change-transform"
-            style={{
-              objectFit: "cover",
-              objectPosition: "center",
-              transform: 'translate3d(0, 0, 0)',
-              backfaceVisibility: 'hidden',
-              mixBlendMode: "screen",
-            }}
-          />
-
-          {/* Layer 4 — gradient overlay: darkens left→right for readability */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%)",
-            }}
-          />
-        </div>
-
-        {/* ── Page content sits above the background ── */}
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <Preloader />
-
-          <Suspense fallback={null}>
-            <Loader />
-          </Suspense>
-
-          {children}
-        </div>
       </body>
     </html>
   );
