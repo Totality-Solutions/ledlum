@@ -18,7 +18,6 @@ const nextConfig: NextConfig = {
     ],
   },
   reactStrictMode: true,
-  output: "standalone",
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
