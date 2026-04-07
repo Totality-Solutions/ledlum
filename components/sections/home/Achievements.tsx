@@ -8,10 +8,10 @@ import Section from "@/components/layout/Section";
 import BgImg from "@/public/images/home/home-bg4.png";
 
 const ACHIEVEMENTS = [
-  { id: "01", value: "23+", label: "YEARS OF EXPERIENCE", image: "https://placehold.co/492x615" },
-  { id: "02", value: "400+", label: "PARTNERS", image: "https://placehold.co/492x615" },
-  { id: "03", value: "1,100+", label: "PRODUCTS", image: "https://placehold.co/492x615" },
-  { id: "04", value: "30,000+", label: "BURNING HOURS", image: "https://placehold.co/492x615" },
+  { id: "01", value: "23+", label: "YEARS OF EXPERIENCE", image: "/images/home/achievment1.png" },
+  { id: "02", value: "400+", label: "PARTNERS", image: "/images/home/achievment2.png" },
+  { id: "03", value: "1,100+", label: "PRODUCTS", image: "/images/home/achievment3.png" },
+  { id: "04", value: "30,000+", label: "BURNING HOURS", image: "/images/home/achievment4.png" },
 ];
 
 export default function AchievementsSection() {

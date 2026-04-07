@@ -91,8 +91,8 @@ export default function Footer() {
                   <Image src={logo} alt="Ledlum Logo" width={200} height={50} className="object-contain" priority />
                 </Link>
                 <p className="text-body-sm leading-relaxed text-white font-pop font-regular max-w-[320px]">
-                  Enhancing environments through energy efficiency, aesthetic appeal,
-                  and high-performance architectural lighting solutions.
+                  Design that inspires. Spaces that come alive.
+                  Every project reflects precision, innovation, and a thoughtful touch
                 </p>
                 <div className="flex gap-6 mt-10">
                   {socialIcons.map((social, i) => (
@@ -175,3 +175,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+

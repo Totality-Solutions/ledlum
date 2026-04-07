@@ -31,7 +31,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   if (showVideo === null || showVideo === false) return null;
 
   return (
-    <div className={`preloader-video-container ${isExiting ? "exit-fade" : ""}`} style={{ backgroundColor: '#000' }}>
+    <div className={`preloader-video-container ${isExiting ? "exit-fade" : ""}`} style={{ backgroundColor: '#000'  }}>
       <video
         autoPlay
         muted
@@ -44,3 +44,5 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     </div>
   );
 }
+
+

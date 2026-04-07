@@ -24,7 +24,7 @@ export default async function BlogPost({ params }: PageProps) {
 
   return (
     <div className="relative min-h-screen text-white overflow-x-hidden">
-      
+
       <BackButton />
 
       {/* --- HERO SECTION --- */}
@@ -47,17 +47,24 @@ export default async function BlogPost({ params }: PageProps) {
                 </p>
               </header>
 
-              <MidSection 
-                title={post.midSectionTitle} 
+              {/* <MidSection
+                title={post.midSectionTitle}
                 paragraph={post.paragraph}
-                list={post.midSectionList} 
-                image={post.midSectionImage} 
+                list={post.midSectionList}
+                image={post.midSectionImage}
+              /> */}
+              <MidSection
+                title={post.midSectionTitle}
+                paragraph={post.paragraph} // This is now your string[] array
+                image={post.midSectionImage}
               />
 
-              <OutcomeSection 
-                description={post.outcomeDescription} 
-                image={post.outcomeImage} 
-              />
+              {/* <OutcomeSection
+                description={post.outcomeDescription}
+                image={post.outcomeImage}
+              /> */}
+
+              <OutcomeSection content={post.outcomeSections} />
             </article>
 
             {/* --- LATEST INSIGHTS SECTION --- */}
@@ -69,9 +76,11 @@ export default async function BlogPost({ params }: PageProps) {
                 {latestInsights.map((insight) => (
                   <Link key={insight.slug} href={`/blog/${insight.slug}`}>
                     <BlogCard
+                      title={insight.title}      // Ensure title is passed
                       category={insight.category}
                       description={insight.description}
                       image={insight.image}
+                      date={insight.date}        // Ensure date is passed
                     />
                   </Link>
                 ))}

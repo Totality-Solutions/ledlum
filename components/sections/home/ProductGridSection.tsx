@@ -10,17 +10,22 @@ import MarqueeFlow from "@/components/layout/common/MarqueeFlow";
 import BgImg from '@/public/images/home/home-bg1.png';
 import productImg1 from "@/public/images/home/product-1.png";
 import productImg2 from "@/public/images/home/product-2.png";
-import Arrival1 from "@/public/images/home/new-arrival.png";
+import Arrival1 from "@/public/images/home/ledlum-outdoor-thumb.png";
+import Arrival2 from "@/public/images/home/ledlum-indoor-thumb.png";
+import Arrival3 from "@/public/images/home/artizan-thumb.png";
+import Arrival4 from "@/public/images/home/astara-thumb.png";
+import Arrival5 from "@/public/images/home/volaris-thumb.png";
+import Arrival6 from "@/public/images/home/klewe-thumb.png";
 import CTABtn from '@/components/layout/common/CTABtn';
 
 // --- DATA ---
 const NEW_ARRIVALS = [
-  { id: 1, img: Arrival1, title: 'Simply Dummy', href:"#" },
-  { id: 2, img: Arrival1, title: 'Simply Dummy', href:"#" },
-  { id: 3, img: Arrival1, title: 'Simply Dummy', href:"#" },
-  { id: 4, img: Arrival1, title: 'Simply Dummy', href:"#" },
-  { id: 5, img: Arrival1, title: 'Simply Dummy', href:"#" },
-  { id: 6, img: Arrival1, title: 'Simply Dummy', href:"#" },
+  { id: 1, img: Arrival1, title: 'ledlum-outdoor-thumb', href:"/product/outdoor" },
+  { id: 2, img: Arrival2, title: 'ledlum-indoor-thumb', href:"/product/indoor" },
+  { id: 3, img: Arrival3, title: 'artizan-thumb', href:"/product/artizan" },
+  { id: 4, img: Arrival4, title: 'astara-thumb', href:"/product/astara" },
+  { id: 5, img: Arrival5, title: 'volaris-thumb', href:"/product/volaris" },
+  { id: 6, img: Arrival6, title: 'klewe-thumb', href:"/product/klewe" },
 ];
 
 const BESTSELLERS = [
@@ -180,6 +185,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
     items={NEW_ARRIVALS}
     gap={20}
     speed={3000}
+   
     renderItem={(item) => (
       /* Each card is now a Link providing unique navigation based on item data */
       <Link 
