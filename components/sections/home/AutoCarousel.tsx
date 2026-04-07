@@ -52,17 +52,17 @@ export default function CombinedLightingPartners() {
       {/* PART 1: TRUSTED PARTNERS SECTION */}
       <Container className="max-w-[1280px] 2xl:max-w-[1600px] ">
         {/* HEADING SECTION */}
-        <div className="mb-12">
+        {/* <div className="mb-12">
           <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
             Our.
           </h2>
           <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
             Trusted Partners.
           </p>
-        </div>
+        </div> */}
 
         {/* MARQUEE FLOW CAROUSEL */}
-        <MarqueeFlow
+        {/* <MarqueeFlow
           items={PARTNERS}
           gap={20}
           speed={2000}
@@ -75,7 +75,7 @@ export default function CombinedLightingPartners() {
               </div>
             </div>
           )}
-        />
+        /> */}
       </Container>
       {/* PART 2: LIGHTING SECTION */}
 <Container className="">
