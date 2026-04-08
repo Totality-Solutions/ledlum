@@ -9,36 +9,32 @@ import { Linkedin } from "lucide-react";
 import TeamBg from "@/public/images/about/ledlumbox.png";
 
 export default function Team() {
+
   const team = [
     {
       name: "Sumeet Malhotra",
       role: "Director & Founder - Ledlum",
-      image:
-        "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&h=400&fit=crop",
+      image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
     },
     {
       name: "Sumeet Malhotra",
       role: "Director & Founder - Ledlum",
-      image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&h=400&fit=crop",
+      image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
     },
     {
       name: "Sumeet Malhotra",
       role: "Director & Founder - Ledlum",
-      image:
-        "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&h=400&fit=crop",
+      image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
     },
     {
       name: "Sumeet Malhotra",
       role: "Director & Founder - Ledlum",
-      image:
-        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&h=400&fit=crop",
+      image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
     },
     {
       name: "Sumeet Malhotra",
       role: "Director & Founder - Ledlum",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=400&fit=crop",
+      image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
     },
   ];
 
@@ -106,7 +102,7 @@ export default function Team() {
                 </div>
 
                 {/* LINKEDIN */}
-                <a
+                {/* <a
                   href="#"
                   className="bg-[#0077B5] p-1.5 rounded-sm mb-1 hover:scale-110 transition-transform flex items-center justify-center"
                   target="_blank"
@@ -114,7 +110,7 @@ export default function Team() {
                   aria-label={`${member.name} LinkedIn Profile`}
                 >
                   <Linkedin className="w-3.5 h-3.5 text-white fill-current" />
-                </a>
+                </a> */}
               </div>
             </div>
           ))}
