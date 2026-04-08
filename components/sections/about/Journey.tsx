@@ -15,7 +15,8 @@ export default function Journey() {
     { year: "2017", title: "Enter Ledlum Lighting", desc: "Expanding with architectural designs and high-performance fixtures." },
     { year: "2020", title: "Artizan by Ledlum", desc: "Launching a curated collection focusing on artisanal craftsmanship." },
     { year: "2022", title: "Astara by Ledlum", desc: "Introducing innovative smart lighting solutions." },
-    { year: "2023", title: "Volaris by Ledlum", desc: "Sustainable, high-efficiency lighting for global markets." }
+    { year: "2023", title: "Volaris by Ledlum", desc: "Sustainable, high-efficiency lighting for global markets." },
+    { year: "2026", title: " AllHome Affiliation", desc: "Expanded through AllHome partnership." }
   ];
 
   return (

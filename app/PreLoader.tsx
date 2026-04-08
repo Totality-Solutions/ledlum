@@ -25,7 +25,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       setShowVideo(false);
       document.documentElement.classList.remove("no-scroll");
       onComplete(); // Reveal site after video
-    }, 800);
+    }, 500);
   };
 
   if (showVideo === null || showVideo === false) return null;

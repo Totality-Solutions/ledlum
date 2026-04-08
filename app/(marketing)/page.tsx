@@ -40,9 +40,10 @@ import ProjectSection from '@/components/sections/home/ProjectSection';
 import AutoCarousel from '@/components/sections/home/AutoCarousel';
 import Achievements from '@/components/sections/home/Achievements';
 import FirstVisitModal from "@/components/layout/common/FirstVisitModal";
+import heroImage from '@/public/images/home/home-hero.png'; 
 
 export const metadata = buildMetadata({
-  title: "LedLum | Futuristic LED Solutions",
+  title: "LEDLUM | Futuristic LED Solutions",
   description:
     "LedLum believes lighting is the ultimate intersection of technology and design. Our premium, futuristic LED solutions transform everyday experiences into moments of luxury, defining the mood, ambience, and personality of your space.",
   canonical: "/",
@@ -54,7 +55,9 @@ const Home = () => {
       {/* Logic to show contact form on first visit */}
 
 
-      <Hero />
+      <Hero type="image" src={heroImage}>
+        {/* <h1 className="text-4xl font-bold">We Build the Future</h1> */}
+      </Hero>
       <ProductSection />
       <AboutSection />
       <Achievements />

@@ -76,7 +76,7 @@ export default function VisionMission() {
                 <span className={wordStyle}>Vision.</span>
               </h2>
               <p className={bodyStyle}>
-                To support smarter, greener infrastructure through innovative LED solutions and expert service.
+To redefine architectural lighting through refined design, advanced technology, and meaningful spatial impact.
               </p>
             </div>
 
@@ -88,7 +88,7 @@ export default function VisionMission() {
                 <span className={wordStyle}>Mission.</span>
               </h2>
               <p className={bodyStyle}>
-                To deliver lighting systems that enhance environments through efficiency and design excellence.
+To collaborate with architects and designers in delivering lighting systems that balance aesthetics, performance, and longevity.
               </p>
             </div>
 

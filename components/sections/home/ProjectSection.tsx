@@ -14,15 +14,16 @@ import {
 // 1. Import your Carousel component
 import InfiniteCarousel from "@/components/layout/common/InfiniteCarousel"; 
 
-import productImg1 from "@/public/images/home/product-1.png";
-import productImg2 from "@/public/images/home/product-2.png";
-import Arrival1 from "@/public/images/home/new-arrival.png";
+import project1 from "@/public/images/home/project/project1.jpeg";
+import project2 from "@/public/images/home/project/project2.jpeg";
+import project3 from "@/public/images/home/project/project3.jpeg";
+import project4 from "@/public/images/home/project/project4.jpeg";
 
 const PROJECTS = [
-  { id: 1, img: productImg1 },
-  { id: 2, img: productImg2 },
-  { id: 3, img: Arrival1 },
-  { id: 4, img: productImg1 },
+  { id: 1, img: project1 },
+  { id: 2, img: project2 },
+  { id: 3, img: project3 },
+  { id: 4, img: project4 },
 ];
 
 const OurProjectsSection = memo(function OurProjectsSection() {
@@ -59,16 +60,16 @@ const OurProjectsSection = memo(function OurProjectsSection() {
             </p>
             
             <div className="flex items-center gap-6 text-white/60">
-              <a href="#" className="hover:text-white transition-all hover:scale-110">
+              <a href="https://www.instagram.com/ledlumlighting/" className="hover:text-white transition-all hover:scale-110">
                 <Instagram size={22} strokeWidth={1.5} />
               </a>
-              <a href="#" className="hover:text-white transition-all hover:scale-110">
+              {/* <a href="#" className="hover:text-white transition-all hover:scale-110">
                 <MessageCircle size={22} strokeWidth={1.5} />
-              </a>
-              <a href="#" className="hover:text-white transition-all hover:scale-110">
+              </a> */}
+              <a href="https://www.linkedin.com/company/95175675/admin/dashboard/" className="hover:text-white transition-all hover:scale-110">
                 <Linkedin size={22} strokeWidth={1.5} />
               </a>
-              <a href="#" className="hover:text-white transition-all hover:scale-110">
+              <a href="https://www.facebook.com/ledlumlightingsolutions" className="hover:text-white transition-all hover:scale-110">
                 <Facebook size={22} strokeWidth={1.5} />
               </a>
             </div>

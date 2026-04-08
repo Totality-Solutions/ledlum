@@ -50,27 +50,38 @@ export default function Team() {
         className="object-cover -z-[20]"
       />
 
-      <Container className="relative z-10 ">
+      <Container className="relative z-10 space-y-5 ">
 
         {/* GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="flex flex-col justify-start pt-10 pr-4 w-full">
+              <h2 className="font-bai leading-tight text-white mb-6">
+                <span className="block text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
+                  Meet Our.
+                </span>
+                <span className="block text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">
+                  Visionaries.
+                </span>
+              </h2>
+
+              <p className="text-white lg:text-desk-section font-regular tracking-none font-pop max-w-[380px]">
+                A multidisciplinary team of lighting specialists focused on delivering architectural lighting systems engineered for performance and design excellence.
+              </p>
+            </div>
+            <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover rounded-[25px]"
+          >
+            <source src="/videos/about.mp4" type="video/mp4" />
+          </video>
+
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
 
           {/* HEADER */}
-          <div className="flex flex-col justify-start pt-10 pr-4">
-            <h2 className="font-bai leading-tight text-white mb-6">
-              <span className="block text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
-                Meet Our.
-              </span>
-              <span className="block text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">
-                Visionaries.
-              </span>
-            </h2>
-
-            <p className="text-white lg:text-desk-section font-regular tracking-none font-pop max-w-[380px]">
-              To Deliver Lighting Systems That Enhance Environments Through
-              Energy Efficiency, Aesthetic Appeal, And Engineered Performance.
-            </p>
-          </div>
 
           {/* TEAM CARDS */}
           {team.map((member, index) => (
@@ -79,7 +90,7 @@ export default function Team() {
               className="group relative bg-[#111111] p-6 md:p-8 flex flex-col rounded-[25px]"
             >
               {/* IMAGE */}
-              <div className="relative aspect-square overflow-hidden mb-6 rounded-[24px]">
+              {/* <div className="relative aspect-square overflow-hidden mb-6 rounded-[24px]">
                 <Image
                   src={member.image}
                   alt={member.name}
@@ -87,7 +98,7 @@ export default function Team() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-              </div>
+              </div> */}
 
               {/* TEXT */}
               <div className="flex justify-between items-end">

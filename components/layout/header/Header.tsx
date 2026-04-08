@@ -7,7 +7,7 @@ import { primaryNavigation, sideNavigation } from "@/config/navigation";
 import MobileMenu from "./MobileMenu"; 
 
 // Local Image Imports
-import LogoImg from "@/public/images/logo/LEDLUM_LOGO.svg";
+import LogoImg from "@/public/images/logo/LEDLUM - Logo.webp";
 import MenuIcon from "@/public/images/icons/menu_icon.png";
 
 const HEADER_HEIGHT = "90px";
@@ -49,8 +49,8 @@ const Header = () => {
           }}
         >
           <Link href="/" onClick={closeAll} className="flex items-center gap-3">
-            <div className="relative w-30 h-30 lg:w-40 lg:h-40">
-              <Image src={LogoImg} alt="LEDLUM Logo" fill className="object-cover" priority />
+            <div className="relative w-30 h-10 lg:w-50 lg:h-16 ">
+              <Image src={LogoImg} alt="LEDLUM Logo" className="object-contain" fill priority />
             </div>
           </Link>
 

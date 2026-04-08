@@ -12,19 +12,19 @@ import React from 'react';
 const stats = [
   {
     title: "Who We Are",
-    desc: "A forward-thinking lighting solutions company focused on energy-efficient LED technologies."
+    desc: "LEDLUM develops architectural lighting systems tailored for modern design environments. Our solutions are created to enhance spatial experience while maintaining technical reliability."
   },
   {
     title: "Since When",
-    desc: "Founded with expertise in modern lighting design and technical innovation."
+    desc: "Built on years of lighting expertise, LEDLUM continues to evolve with changing architectural needs and emerging technologies."
   },
   {
     title: "What We Do",
-    desc: "Designs and delivers high-performance LED solutions for residential and commercial spaces."
+    desc: "We design and manufacture architectural luminaires that integrate seamlessly into contemporary spaces — delivering both visual comfort and performance."
   },
   {
     title: "Core Expertise",
-    desc: "Outdoor & indoor LED lighting, linear lighting, task lighting, customized systems."
+    desc: "Architectural lighting systems, optical engineering, custom project solutions, design-led product development."
   }
 ];
 
@@ -65,7 +65,7 @@ export default function AboutHero() {
 
             <div className="w-full md:w-[35%] lg:w-[40%]">
               <p className="lg:text-tab-h2 text-mob-h2  text-white/40 text-left md:text-right font-light ">
-                Transforming architectural lighting through innovation, performance and design excellence.
+                Advancing architectural lighting through thoughtful design, precision engineering, and forward-thinking innovation.
               </p>
             </div>
           </div>

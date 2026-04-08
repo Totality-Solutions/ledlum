@@ -8,8 +8,17 @@ import { Container } from "@/components/layout/Container";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow"; 
 
 import BgImg from '@/public/images/home/home-bg1.png';
-import productImg1 from "@/public/images/home/product-1.png";
-import productImg2 from "@/public/images/home/product-2.png";
+import productSeller1 from "@/public/images/home/bestseller/Indoor lights_1_off.png";
+import productSeller2 from "@/public/images/home/bestseller/Indoor lights_1_on.png";
+
+import productSeller3 from "@/public/images/home/bestseller/Indoor lights_2_off.png";
+import productSeller4 from "@/public/images/home/bestseller/Indoor lights_2_on.jpeg";
+
+import productSeller5 from "@/public/images/home/bestseller/Outdoor lights_1_off.png";
+import productSeller6 from "@/public/images/home/bestseller/Outdoor lights_1_on.png";
+
+import productSeller7 from "@/public/images/home/bestseller/outdoor lights_2_off.png";
+import productSeller8 from "@/public/images/home/bestseller/outdoor lights_2_on.png";
 import Arrival1 from "@/public/images/home/ledlum-outdoor-thumb.png";
 import Arrival2 from "@/public/images/home/ledlum-indoor-thumb.png";
 import Arrival3 from "@/public/images/home/artizan-thumb.png";
@@ -29,10 +38,10 @@ const NEW_ARRIVALS = [
 ];
 
 const BESTSELLERS = [
-  { id: 1, title: 'Simply Dummy', sub: 'Nordic Pendant', lightImg: productImg1, darkImg: productImg2 },
-  { id: 2, title: 'Simply Dummy', sub: 'Wooden Tier', lightImg: productImg1, darkImg: productImg2 },
-  { id: 3, title: 'Simply Dummy', sub: 'Globe Minimal', lightImg: productImg1, darkImg: productImg2 },
-  { id: 4, title: 'Simply Dummy', sub: 'Cone Classic', lightImg: productImg1, darkImg: productImg2 },
+  { id: 1, title: 'Indoor Lights', sub: 'Nordic Pendant', lightImg: productSeller1, darkImg: productSeller2 },
+  { id: 2, title: 'Indoor Lights', sub: 'Wooden Tier', lightImg: productSeller3, darkImg: productSeller4 },
+  { id: 3, title: 'Outdoor Lights', sub: 'Globe Minimal', lightImg: productSeller5, darkImg: productSeller6 },
+  { id: 4, title: 'Outdoor Lights', sub: 'Cone Classic', lightImg: productSeller7, darkImg: productSeller8 },
 ];
 
 function cn(...classes: (string | boolean | undefined)[]) {
@@ -176,9 +185,9 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       <Container className="relative z-20">
   <div className="flex justify-between items-center mb-10">
     <h2 className="text-body-sm lg:text-body font-pop font-regular text-white">
-      New Arrivals
+      Product Collection
     </h2>
-    <p className="text-body-sm lg:text-body font-pop font-regular text-white">Experience the Fan’s</p>
+    <p className="text-body-sm lg:text-body font-pop font-regular text-white">Product Catalog</p>
   </div>
 
   <MarqueeFlow

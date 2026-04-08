@@ -134,10 +134,10 @@ export default function CoreValues() {
       <VerticalLine leftPx={169} topPx={456} heightPx={90} direction="down" />
       <VerticalLine leftPx={814} topPx={388} heightPx={90} direction="down" />
 
-      <ValueLabel label={["Inspiration"]} leftPx={424} topPx={320} />
-      <ValueLabel label={["Quality"]} leftPx={1232} topPx={285} />
-      <ValueLabel label={["Impact"]} leftPx={169} topPx={560} />
-      <ValueLabel label={["Integrity"]} leftPx={814} topPx={495} />
+      <ValueLabel label={["Design-led Innovation"]} leftPx={424} topPx={320} />
+      <ValueLabel label={["Precision Engineering"]} leftPx={1232} topPx={285} />
+      <ValueLabel label={["Performance Reliability"]} leftPx={169} topPx={560} />
+      <ValueLabel label={["Architectural Harmony"]} leftPx={814} topPx={495} />
     </>
   );
 
