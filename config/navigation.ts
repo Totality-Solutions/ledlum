@@ -4,8 +4,8 @@ export type NavigationItem = {
 };
 
 export const primaryNavigation: NavigationItem[] = [
-  { title: "LED Lum Outdoor", href: "/product/outdoor" },
-  { title: "LED Lum Indoor", href: "/product/indoor" },
+  { title: "Outdoor", href: "/product/outdoor" },
+  { title: "Indoor", href: "/product/indoor" },
   { title: "Artizan", href: "/product/artizan" },
   { title: "Astara", href: "/product/astara" },
   { title: "Volaris", href: "/product/volaris" },

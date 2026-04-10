@@ -41,6 +41,7 @@ import AutoCarousel from '@/components/sections/home/AutoCarousel';
 import Achievements from '@/components/sections/home/Achievements';
 import FirstVisitModal from "@/components/layout/common/FirstVisitModal";
 import heroImage from '@/public/images/home/home-hero.png'; 
+import HomeClient from "@/components/sections/home/HomeClient";
 
 export const metadata = buildMetadata({
   title: "LEDLUM | Futuristic LED Solutions",
@@ -60,10 +61,7 @@ const Home = () => {
       </Hero>
       <ProductSection />
       <AboutSection />
-      <Achievements />
-      <ProjectSection />
-      <AutoCarousel />
-      <FirstVisitModal />
+      <HomeClient/>
     </div>
   )
 }

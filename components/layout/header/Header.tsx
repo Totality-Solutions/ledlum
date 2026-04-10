@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -8,6 +10,8 @@ import MobileMenu from "./MobileMenu";
 
 // Local Image Imports
 import LogoImg from "@/public/images/logo/LEDLUM - Logo.webp";
+// Replace with your actual second logo path
+import SecondaryLogoImg from "@/public/images/logo/SECONDARY_LOGO.png"; 
 import MenuIcon from "@/public/images/icons/menu_icon.png";
 
 const HEADER_HEIGHT = "90px";
@@ -36,7 +40,6 @@ const Header = () => {
   };
 
   return (
-    // 🔥 FIX: Wrap in a fragment <> ... </> 
     <>
       <header ref={headerRef} className="sticky top-0 left-0 w-full z-[60] bg-black lg:px-12 px-3">
         {/* TOP BAR */}
@@ -48,13 +51,25 @@ const Header = () => {
             backfaceVisibility: 'hidden' 
           }}
         >
-          <Link href="/" onClick={closeAll} className="flex items-center gap-3">
-            <div className="relative w-30 h-10 lg:w-50 lg:h-16 ">
-              <Image src={LogoImg} alt="LEDLUM Logo" className="object-contain" fill priority />
-            </div>
-          </Link>
+          {/* --- LOGO GROUP: Main Logo & Secondary Logo --- */}
+          <div className="flex items-center gap-4 lg:gap-8">
+            <Link href="/" onClick={closeAll} className="flex items-center">
+              <div className="relative w-32 h-10 lg:w-44 lg:h-12">
+                <Image src={LogoImg} alt="LEDLUM Logo" className="object-contain" fill priority />
+              </div>
+            </Link>
 
-          <nav className="hidden lg:flex items-center gap-14 h-full">
+            {/* Vertical Divider Line */}
+            <div className="h-6 w-[1.5px] bg-white/20 hidden sm:block" />
+
+            <Link href="https://allhome.in/"  target="_blank" onClick={closeAll} className="flex items-center group">
+              <div className="relative w-24 h-8 lg:w-32 lg:h-10 transition-opacity group-hover:opacity-80">
+                <Image src={SecondaryLogoImg} alt="Secondary Logo" className="object-contain" fill />
+              </div>
+            </Link>
+          </div>
+
+          <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-14 h-full">
             {primaryNavigation.map((link) => (
               <Link key={link.title} href={link.href} className="relative h-full flex items-center group">
                 <span className="body-sm transition-colors text-white hover:text-[#AD9463]">
@@ -112,7 +127,6 @@ const Header = () => {
       
       </header>
 
-        {/* 🔥 FIX: MobileMenu is now OUTSIDE the <header> tag */}
       <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
     </>
   );

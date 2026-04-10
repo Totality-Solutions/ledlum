@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { memo, useState } from 'react';
@@ -25,16 +26,15 @@ import Arrival3 from "@/public/images/home/artizan-thumb.png";
 import Arrival4 from "@/public/images/home/astara-thumb.png";
 import Arrival5 from "@/public/images/home/volaris-thumb.png";
 import Arrival6 from "@/public/images/home/klewe-thumb.png";
-import CTABtn from '@/components/layout/common/CTABtn';
 
 // --- DATA ---
 const NEW_ARRIVALS = [
-  { id: 1, img: Arrival1, title: 'ledlum-outdoor-thumb', href:"/product/outdoor" },
-  { id: 2, img: Arrival2, title: 'ledlum-indoor-thumb', href:"/product/indoor" },
-  { id: 3, img: Arrival3, title: 'artizan-thumb', href:"/product/artizan" },
-  { id: 4, img: Arrival4, title: 'astara-thumb', href:"/product/astara" },
-  { id: 5, img: Arrival5, title: 'volaris-thumb', href:"/product/volaris" },
-  { id: 6, img: Arrival6, title: 'klewe-thumb', href:"/product/klewe" },
+  { id: 1, img: Arrival1, title: 'Outdoor', href:"/product/outdoor" },
+  { id: 2, img: Arrival2, title: 'Indoor', href:"/product/indoor" },
+  { id: 3, img: Arrival3, title: 'Artizan', href:"/product/artizan" },
+  { id: 4, img: Arrival4, title: 'Astara', href:"/product/astara" },
+  { id: 5, img: Arrival5, title: 'Volaris', href:"/product/volaris" },
+  { id: 6, img: Arrival6, title: 'Klewe', href:"/product/klewe" },
 ];
 
 const BESTSELLERS = [
@@ -65,6 +65,20 @@ const CombinedProductSection = memo(function CombinedProductSection() {
     setActiveModes((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
+  // --- DOWNLOAD HANDLER ---
+  const handleDownload = (e: React.MouseEvent, imgSrc: any, fileName: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const link = document.createElement('a');
+    // Handle both StaticImageData objects and string paths
+    link.href = typeof imgSrc === 'string' ? imgSrc : imgSrc.src;
+    link.download = `${fileName.replace(/\s+/g, '-').toLowerCase()}-ledlum.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Section 
       className="relative min-h-screen bg-black flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat will-change-transform"
@@ -77,14 +91,14 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       className="object-cover relative -z-20 "
     />
     <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
-                      <Image 
-                        src="/images/about/ledlumline.png"
-                        alt="background texture"
-                        fill
-                        className="object-cover object-center"
-                      />
+                          <Image 
+                            src="/images/about/ledlumline.png"
+                            alt="background texture"
+                            fill
+                            className="object-cover object-center"
+                          />
     </div>
-      {/* <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" /> */}
+
       {/* SECTION 1: BESTSELLERS GRID */}
       <Container className="relative z-20 ">
         <div className="flex flex-row-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
@@ -95,14 +109,6 @@ const CombinedProductSection = memo(function CombinedProductSection() {
           
           <div className="flex flex-row md:flex-col items-end gap-6">
             <div className="flex items-center gap-6 lg:gap-10">
-              {/* <div className="hidden lg:flex items-center gap-2">
-                {["Ceiling", "Table", "Wall", "Floor lights"].map((item, index, array) => (
-                  <React.Fragment key={item}>
-                    <span className="body-xs text-white/40 font-bai cursor-pointer hover:text-white transition-colors uppercase tracking-widest">{item}</span>
-                    {index !== array.length - 1 && <div className="w-8 h-[1px] bg-white opacity-20" />}
-                  </React.Fragment>
-                ))}
-              </div> */}
               <span className="hidden md:block text-body-sm lg:text-body font-pop font-regular text-white">Bestsellers</span>
             </div>
               
@@ -183,64 +189,89 @@ const CombinedProductSection = memo(function CombinedProductSection() {
 
       {/* SECTION 2: NEW ARRIVALS CAROUSEL */}
       <Container className="relative z-20">
-  <div className="flex justify-between items-center mb-10">
-    <h2 className="text-body-sm lg:text-body font-pop font-regular text-white">
-      Product Collection
-    </h2>
-    <p className="text-body-sm lg:text-body font-pop font-regular text-white">Product Catalog</p>
-  </div>
-
-  <MarqueeFlow
-    items={NEW_ARRIVALS}
-    gap={20}
-    speed={3000}
-   
-    renderItem={(item) => (
-      /* Each card is now a Link providing unique navigation based on item data */
-      <Link 
-        href={item.href || "#"} 
-        className="relative block aspect-[3/4] w-full rounded-[12px] overflow-hidden group shadow-xl"
-      >
-        {/* The Image fills the entire card */}
-        <Image 
-          src={item.img} 
-          alt={item.title || "New Arrival"} 
-          fill 
-          className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform rounded-[16px] " 
-          style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
-          sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
-        />
-
-        {/* The Overlay: Custom footer with left text and right arrow */}
-        <div className="absolute bottom-0 left-0 w-full bg-black p-4 flex items-center justify-between">
-          
-          {/* Left Side: Title */}
-          <span className="text-body-sm lg:text-body font-pop font-regular text-white truncate pr-4">
-            {item.title}
-          </span>
-
-          {/* Right Side: Normal Circle Button with Arrow */}
-          <div className="w-8 h-8 md:w-10 md:h-10 bg-[#9a8c66] rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-45">
-            <svg 
-              width="18" 
-              height="18" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="white" 
-              strokeWidth="2.5" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            >
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="7 7 17 7 17 17"></polyline>
-            </svg>
-          </div>
-          
+        <div className="flex justify-between items-center mb-10">
+          <h2 className="text-body-sm lg:text-body font-pop font-regular text-white">
+            Product Collection
+          </h2>
+          <p className="text-body-sm lg:text-body font-pop font-regular text-white">Product Catalog</p>
         </div>
-      </Link>
-    )}
-  />
-</Container>
+
+        <MarqueeFlow
+          items={NEW_ARRIVALS}
+          gap={20}
+          speed={3000}
+          
+          renderItem={(item) => (
+            <Link 
+              href={item.href || "#"} 
+              className="relative block aspect-[3/4] w-full rounded-[12px] overflow-hidden group shadow-xl"
+            >
+              <Image 
+                src={item.img} 
+                alt={item.title || "New Arrival"} 
+                fill 
+                className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform rounded-[16px] " 
+                style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
+                sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
+              />
+
+              {/* The Overlay */}
+              <div className="absolute bottom-0 left-0 w-full bg-black/80 backdrop-blur-sm p-4 flex items-center justify-between">
+                
+                {/* Left Side: Title */}
+                <span className="text-body-sm lg:text-body font-pop font-regular text-white truncate pr-4">
+                  {item.title}
+                </span>
+
+                <div className="flex items-center gap-3">
+                  {/* DOWNLOAD ICON */}
+                  <button 
+                    onClick={(e) => handleDownload(e, item.img, item.title)}
+                    className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 hover:text-black transition-all cursor-pointer"
+                  >
+                   <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                  </button>
+
+                  {/*  */}
+
+
+                  {/*  */}
+
+                  {/* Arrow Side */}
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-[#9a8c66] rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-45">
+                    <svg 
+                      width="18" 
+                      height="18" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="white" 
+                      strokeWidth="2.5" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                    >
+                      <line x1="7" y1="17" x2="17" y2="7"></line>
+                      <polyline points="7 7 17 7 17 17"></polyline>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          )}
+        />
+      </Container>
     </Section>
   );
 });

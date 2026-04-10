@@ -38,7 +38,7 @@ const footerColumns = [
 
 const socialIcons = [
   { Icon: Instagram, href: "https://instagram.com/yourprofile" },
-  { Icon: Send, href: "mailto:hello@ledlum.com" },
+  // { Icon: Send, href: "mailto:hello@ledlum.com" },
   { Icon: Linkedin, href: "https://linkedin.com/company/yourprofile" },
   { Icon: Facebook, href: "https://facebook.com/yourprofile" },
 ];
