@@ -18,12 +18,27 @@ import project1 from "@/public/images/home/project/project1.jpeg";
 import project2 from "@/public/images/home/project/project2.jpeg";
 import project3 from "@/public/images/home/project/project3.jpeg";
 import project4 from "@/public/images/home/project/project4.jpeg";
+import project5 from "@/public/images/home/project/project5.jpeg";
+import project6 from "@/public/images/home/project/project6.jpeg";
+import project7 from "@/public/images/home/project/project7.jpeg";
+import project8 from "@/public/images/home/project/project8.jpeg";
+import project9 from "@/public/images/home/project/project9.jpeg";
+import project10 from "@/public/images/home/project/project10.jpeg";
+import project11 from "@/public/images/home/project/project11.jpeg";
+import MarqueeFlow from "@/components/layout/common/MarqueeFlow";
 
 const PROJECTS = [
   { id: 1, img: project1 },
   { id: 2, img: project2 },
   { id: 3, img: project3 },
   { id: 4, img: project4 },
+  { id: 5, img: project5 },
+  { id: 6, img: project6 },
+  { id: 7, img: project7 },
+  { id: 8, img: project8 },
+  { id: 9, img: project9 },
+  { id: 10, img: project10 },
+  { id: 11, img: project11 },
 ];
 
 const OurProjectsSection = memo(function OurProjectsSection() {
@@ -41,44 +56,44 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                             fill
                             className="object-cover object-center"
                           />
-        </div>
-        
-        {/* Header Row - Exactly as your original */}
-        <div className="flex flex-col-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
-          <div className="flex flex-col">
-            <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
-              Our.
-            </h2>
-            <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
-              Projects.
-            </p>
-          </div>
+                          </div>
+                          
+                          {/* Header Row - Exactly as your original */}
+                          <div className="flex flex-col-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
+                            <div className="flex flex-col">
+                              <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
+                                Our.
+                              </h2>
+                              <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
+                                Projects.
+                              </p>
+                            </div>
 
-          <div className="flex flex-col items-start md:items-end gap-5">
-            <p className="hidden md:block text-body-sm lg:text-body font-pop font-regular text-white">
-              See how LEDLUM lives in real spaces.
-            </p>
-            
-            <div className="flex items-center gap-6 text-white/60">
-              <a href="https://www.instagram.com/ledlumlighting/" className="hover:text-white transition-all hover:scale-110">
-                <Instagram size={22} strokeWidth={1.5} />
-              </a>
-              {/* <a href="#" className="hover:text-white transition-all hover:scale-110">
-                <MessageCircle size={22} strokeWidth={1.5} />
-              </a> */}
-              <a href="https://www.linkedin.com/company/95175675/admin/dashboard/" className="hover:text-white transition-all hover:scale-110">
-                <Linkedin size={22} strokeWidth={1.5} />
-              </a>
-              <a href="https://www.facebook.com/ledlumlightingsolutions" className="hover:text-white transition-all hover:scale-110">
-                <Facebook size={22} strokeWidth={1.5} />
-              </a>
-            </div>
-          </div>
-        </div>
+                            <div className="flex flex-col items-start md:items-end gap-5">
+                              <p className="hidden md:block text-body-sm lg:text-body font-pop font-regular text-white">
+                                See how LEDLUM lives in real spaces.
+                              </p>
+                              
+                              <div className="flex items-center gap-6 text-white/60">
+                                <a href="https://www.instagram.com/ledlumlighting/" className="hover:text-white transition-all hover:scale-110">
+                                  <Instagram size={22} strokeWidth={1.5} />
+                                </a>
+                                {/* <a href="#" className="hover:text-white transition-all hover:scale-110">
+                                  <MessageCircle size={22} strokeWidth={1.5} />
+                                </a> */}
+                                <a href="https://www.linkedin.com/company/95175675/admin/dashboard/" className="hover:text-white transition-all hover:scale-110">
+                                  <Linkedin size={22} strokeWidth={1.5} />
+                                </a>
+                                <a href="https://www.facebook.com/ledlumlightingsolutions" className="hover:text-white transition-all hover:scale-110">
+                                  <Facebook size={22} strokeWidth={1.5} />
+                                </a>
+                              </div>
+                            </div>
+                          </div>
 
         {/* 2. MOBILE & TABLET VIEW: Uses your InfiniteCarousel */}
         {/* 2. MOBILE & TABLET VIEW */}
-<div className="lg:hidden">
+{/* <div className="lg:hidden">
   <div className="mx-auto w-full max-w-[350px] md:max-w-[500px]">
     <InfiniteCarousel 
       className="w-full aspect-[1/1] rounded-[25px] overflow-hidden shadow-xl" 
@@ -86,25 +101,33 @@ const OurProjectsSection = memo(function OurProjectsSection() {
       interval={4000} 
     />
   </div>
-</div>
+</div> */}
 
         {/* 3. DESKTOP VIEW: Your original Gallery Grid */}
-        <div className="hidden lg:grid lg:grid-cols-4 gap-6 lg:gap-8">
-          {PROJECTS.map((project) => (
-            <div 
-              key={project.id}
-              className="relative aspect-[3/4] rounded-[25px] overflow-hidden group cursor-pointer shadow-2xl"
-            >
-              <Image 
-                src={project.img} 
-                alt="Our Projects"
-                fill
-                className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110 will-change-transform" 
-                style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </div>
-          ))}
+        <div className="">
+          <MarqueeFlow
+                    items={PROJECTS}
+                    gap={20}
+                    speed={3000}
+                    
+                    renderItem={(project) => (
+                      <div 
+                        key={project.id}
+                        className="relative aspect-3/4 w-full rounded-[25px] overflow-hidden group cursor-pointer shadow-2xl"
+                      >
+                        <Image 
+                          src={project.img} 
+                          alt="Our Projects"
+                          fill
+                         className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform rounded-[16px] " 
+                style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
+                sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      </div>
+                    )}
+                  />
+          
         </div>
         
       </Container>

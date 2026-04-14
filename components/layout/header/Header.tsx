@@ -41,67 +41,147 @@ const Header = () => {
 
   return (
     <>
-      <header ref={headerRef} className="sticky top-0 left-0 w-full z-[60] bg-black lg:px-12 px-3">
-        {/* TOP BAR */}
-        <div 
-          className="w-full flex justify-between items-center backdrop-blur-lg text-white will-change-filter relative z-50" 
-          style={{ 
-            height: HEADER_HEIGHT,
-            transform: 'translate3d(0, 0, 0)', 
-            backfaceVisibility: 'hidden' 
+      <header
+        ref={headerRef}
+        className="sticky top-0 left-0 w-full z-[60] bg-black border-b border-white/10"
+        style={{ height: HEADER_HEIGHT }}
+      >
+        {/* ============ MAIN HEADER CONTAINER - 3 PART LAYOUT ============ */}
+        <div
+          className="w-full h-full flex items-center px-4 sm:px-6 lg:px-12 gap-4 sm:gap-6 lg:gap-0"
+          style={{
+            transform: "translate3d(0, 0, 0)",
+            backfaceVisibility: "hidden",
           }}
         >
-          {/* --- LOGO GROUP: Main Logo & Secondary Logo --- */}
-          <div className="flex items-center gap-4 lg:gap-8">
-            <Link href="/" onClick={closeAll} className="flex items-center">
-              <div className="relative w-32 h-10 lg:w-44 lg:h-12">
-                <Image src={LogoImg} alt="LEDLUM Logo" className="object-contain" fill priority />
-              </div>
-            </Link>
-
-            {/* Vertical Divider Line */}
-            <div className="h-6 w-[1.5px] bg-white/20 hidden sm:block" />
-
-            <Link href="https://allhome.in/"  target="_blank" onClick={closeAll} className="flex items-center group">
-              <div className="relative w-24 h-8 lg:w-32 lg:h-10 transition-opacity group-hover:opacity-80">
-                <Image src={SecondaryLogoImg} alt="Secondary Logo" className="object-contain" fill />
+          {/* ============ LEFT SECTION: LOGO ============ */}
+          <div className="flex items-center flex-shrink-0">
+            <Link href="/" onClick={closeAll} className="flex items-center group">
+              <div className="relative w-32 h-10 sm:w-36 sm:h-11 lg:w-44 lg:h-12">
+                <Image
+                  src={LogoImg}
+                  alt="LEDLUM Logo"
+                  className="object-contain"
+                  fill
+                  priority
+                />
               </div>
             </Link>
           </div>
 
-          <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-14 h-full">
+          {/* Secondary Logo - Hidden on mobile (< 640px), visible on tablet+ */}
+            <div className="sm:flex items-center lg:ml-4">
+              {/* Vertical divider line */}
+              {/* <div className="h-5 sm:h-6 w-px bg-white/20 mr-4 sm:mr-5" /> */}
+
+              <Link
+                href="https://allhome.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={closeAll}
+                className="flex items-center group transition-opacity hover:opacity-80"
+              >
+                <div className="relative w-20 h-6 sm:w-24 sm:h-7 lg:w-32 lg:h-10">
+                  <Image
+                    src={SecondaryLogoImg}
+                    alt="Secondary Logo"
+                    className="object-contain"
+                    fill
+                  />
+                </div>
+              </Link>
+            </div>
+
+          {/* ============ CENTER SECTION: NAVIGATION (DESKTOP ONLY) ============ */}
+          <nav className="hidden lg:flex flex-1 justify-center items-center gap-8 xl:gap-14 mx-8">
             {primaryNavigation.map((link) => (
-              <Link key={link.title} href={link.href} className="relative h-full flex items-center group">
-                <span className="body-sm transition-colors text-white hover:text-[#AD9463]">
+              <Link
+                key={link.title}
+                href={link.href}
+                onClick={closeAll}
+                className="relative group transition-all duration-300"
+              >
+                <span className="body-sm font-medium text-white/80 group-hover:text-[#AD9463] transition-colors">
                   {link.title}
                 </span>
+                {/* Animated underline on hover */}
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#AD9463] to-transparent group-hover:w-full transition-all duration-300" />
               </Link>
             ))}
           </nav>
 
-          <div className="flex items-center gap-6">
+          {/* ============ RIGHT SECTION: SECONDARY LOGO + MENU BUTTONS ============ */}
+
+          <div className="flex items-center gap-4 sm:gap-5 lg:gap-6 ml-auto flex-shrink-0">
+            {/* Desktop Menu Button - Visible on lg+ */}
             <button
               ref={menuIconRef}
               onClick={() => setSideMenuOpen(!sideMenuOpen)}
-              className="hidden lg:block transition-transform hover:scale-110 active:scale-95"
+              className="hidden lg:flex items-center justify-center p-2 transition-all hover:bg-white/10 rounded-lg active:scale-95"
+              aria-label="Toggle menu"
             >
-              <Image src={MenuIcon} alt="Open Menu" width={28} height={28} className="brightness-0 invert" />
-            </button>
-
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden transition-transform active:scale-90 z-50">
-              {mobileOpen ? (
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
+              {sideMenuOpen ? (
+                // Close icon (X)
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  className="text-white"
+                >
+                  <path
+                    d="M18 6L6 18M6 6l12 12"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               ) : (
-                <Image src={MenuIcon} alt="Toggle Menu" width={28} height={28} className="brightness-0 invert" />
+                // Menu icon (hamburger)
+                <Image src={MenuIcon} alt="Open Menu" width={28} height={28} className="brightness-0 invert" />
+              )}
+            </button>
+
+            {/* Mobile Menu Button - Visible on mobile (< lg) */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="lg:hidden flex items-center justify-center p-2 transition-all hover:bg-white/10 rounded-lg active:scale-95"
+              aria-label="Toggle mobile menu"
+            >
+              {mobileOpen ? (
+                // Close icon (X)
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  className="text-white"
+                >
+                  <path
+                    d="M18 6L6 18M6 6l12 12"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              ) : (
+                // Menu icon (image)
+                <Image
+                  src={MenuIcon}
+                  alt="Menu Icon"
+                  width={24}
+                  height={24}
+                  className="brightness-0 invert"
+                />
               )}
             </button>
           </div>
         </div>
 
-        {/* DESKTOP DROPDOWN */}
-        <div
+        {/* ============ DESKTOP DROPDOWN MENU ============ */}
+         <div
           className={` w-[90%] hidden lg:block absolute left-1/2 -translate-x-1/2 pt-4 transition-all duration-300 ease-in-out z-50 ${
             sideMenuOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible translate-y-[-10px] pointer-events-none"
           }`}
@@ -124,7 +204,6 @@ const Header = () => {
             </div>
           </div>
         </div>
-      
       </header>
 
       <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />

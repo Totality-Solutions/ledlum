@@ -16,8 +16,7 @@ import BgImg from '@/public/images/home/home-bg3.png';
 // --- LIVE ASSETS (Unsplash Lighting Images) ---
 const LIGHTING_IMAGES = [
   "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=2070&auto=format&fit=crop", 
-  "https://images.unsplash.com/photo-1540932239986-30128078f3c5?q=80&w=1974&auto=format&fit=crop", 
-  "https://images.unsplash.com/photo-1565814636199-ae8133055c1c?q=80&w=2080&auto=format&fit=crop", 
+  "https://images.unsplash.com/photo-1540932239986-30128078f3c5?q=80&w=1974&auto=format&fit=crop",
 ];
 
 // --- DATA ---

@@ -56,7 +56,7 @@ const Home = () => {
       {/* Logic to show contact form on first visit */}
 
 
-      <Hero type="image" src={heroImage}>
+      <Hero type="video" src="/videos/home.mp4">
         {/* <h1 className="text-4xl font-bold">We Build the Future</h1> */}
       </Hero>
       <ProductSection />

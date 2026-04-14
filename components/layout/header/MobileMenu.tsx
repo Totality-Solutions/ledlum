@@ -56,14 +56,15 @@ export default function MobileMenu({
   };
 }, [isOpen]);
 
-  if (!mounted) return null;
+  if (!mounted || !isOpen) return null;
 
   return createPortal(
     <div
-      className={`lg:hidden fixed inset-0 w-full z-[9999] transition-all duration-300 ${isOpen
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 -translate-y-4 pointer-events-none"
-        }`}
+className={`lg:hidden fixed inset-0 w-full z-[9999] transition-all duration-300 ${
+  isOpen
+    ? "opacity-100 translate-y-0 pointer-events-auto"
+    : "opacity-0 -translate-y-4 pointer-events-none hidden"
+}`}
       style={{
         top: HEADER_HEIGHT,
         height: `calc(100dvh - ${HEADER_HEIGHT})`,
@@ -71,13 +72,13 @@ export default function MobileMenu({
     >
       {/* Semi-transparent Backdrop to prevent interaction with background */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm -z-10"
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm "
         onClick={onClose}
       />
 
       {/* Actual Menu Content */}
       
-      <div className="relative z-50 bg-black w-full h-full overflow-y-auto px-6 py-8 flex flex-col gap-6 rounded-b-3xl border-t border-white/10 shadow-2xl">
+      <div className="relative z-50 bg-black w-full h-full overflow-y-auto px-6 py-8 flex flex-col gap-6 rounded-b-3xl shadow-2xl">
         {[...sideNavigation, ...primaryNavigation].map((item, idx) => (
           <Link
             key={idx}

@@ -9,17 +9,17 @@ import { Container } from "@/components/layout/Container";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow"; 
 
 import BgImg from '@/public/images/home/home-bg1.png';
-import productSeller1 from "@/public/images/home/bestseller/Indoor lights_1_off.png";
-import productSeller2 from "@/public/images/home/bestseller/Indoor lights_1_on.png";
+import productSeller1 from "@/public/images/home/bestseller/Indoor1.jpeg";
+import productSeller2 from "@/public/images/home/bestseller/Indoor2.jpeg";
 
-import productSeller3 from "@/public/images/home/bestseller/Indoor lights_2_off.png";
-import productSeller4 from "@/public/images/home/bestseller/Indoor lights_2_on.jpeg";
+import productSeller3 from "@/public/images/home/bestseller/Klewe1.jpeg";
+import productSeller4 from "@/public/images/home/bestseller/Klewe2.jpeg";
 
-import productSeller5 from "@/public/images/home/bestseller/Outdoor lights_1_off.png";
-import productSeller6 from "@/public/images/home/bestseller/Outdoor lights_1_on.png";
+import productSeller5 from "@/public/images/home/bestseller/Outdoor1.jpeg";
+import productSeller6 from "@/public/images/home/bestseller/Outdoor2.jpeg";
 
-import productSeller7 from "@/public/images/home/bestseller/outdoor lights_2_off.png";
-import productSeller8 from "@/public/images/home/bestseller/outdoor lights_2_on.png";
+import productSeller7 from "@/public/images/home/bestseller/Volaris1.jpeg";
+import productSeller8 from "@/public/images/home/bestseller/Volaris2.jpeg";
 import Arrival1 from "@/public/images/home/ledlum-outdoor-thumb.png";
 import Arrival2 from "@/public/images/home/ledlum-indoor-thumb.png";
 import Arrival3 from "@/public/images/home/artizan-thumb.png";
@@ -38,10 +38,10 @@ const NEW_ARRIVALS = [
 ];
 
 const BESTSELLERS = [
-  { id: 1, title: 'Indoor Lights', sub: 'Nordic Pendant', lightImg: productSeller1, darkImg: productSeller2 },
-  { id: 2, title: 'Indoor Lights', sub: 'Wooden Tier', lightImg: productSeller3, darkImg: productSeller4 },
-  { id: 3, title: 'Outdoor Lights', sub: 'Globe Minimal', lightImg: productSeller5, darkImg: productSeller6 },
-  { id: 4, title: 'Outdoor Lights', sub: 'Cone Classic', lightImg: productSeller7, darkImg: productSeller8 },
+  { id: 1, title: 'Indoor Lights', sub: 'Nordic Pendant', lightImg: productSeller2, darkImg: productSeller1 },
+  { id: 3, title: 'Outdoor Lights', sub: 'Globe Minimal', lightImg: productSeller6, darkImg: productSeller5 },
+  { id: 4, title: 'Volaris Lights', sub: 'Cone Classic', lightImg: productSeller8, darkImg: productSeller7 },
+  { id: 2, title: 'Klewe Lights', sub: 'Wooden Tier', lightImg: productSeller4, darkImg: productSeller3 },
 ];
 
 function cn(...classes: (string | boolean | undefined)[]) {
