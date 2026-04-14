@@ -1,6 +1,7 @@
 export const PRODUCT_DATABASE = {
   "llf-103": {
     category: "LED COB Spotlight",
+    bannerImage: "/404.png",
     series: "llf-100", 
     group: "Led Cob Concealed",
     dimming: "Dali",

@@ -26,20 +26,23 @@ const products = useMemo(() => {
   const uniqueProducts: any[] = [];
 
   Object.entries(PRODUCT_DATABASE).forEach(([id, product]: [string, any]) => {
-    // Only process products belonging to this collection
     if (product.collection === collection) {
-      // If we haven't added this series yet, add the first instance found
       if (!seenSeries.has(product.series)) {
         seenSeries.add(product.series);
+
         uniqueProducts.push({
-          id, // This ID will be used for the initial landing on the inner page
+          id,
           title: product.hero.name,
           image: product.hero.image,
+
+          // ✅ ADD THIS
+          heroBannerImage: product.bannerImage,
+
           collection: product.collection,
           category: product.category,
           group: product.group,
           dimming: product.dimming,
-          series: product.series, // Keep track of the series
+          series: product.series,
         });
       }
     }
@@ -48,10 +51,42 @@ const products = useMemo(() => {
   return uniqueProducts;
 }, [collection]);
 
+const COLLECTION_HERO_DATA = {
+  indoor: {
+    name: "Indoor Collection",
+    image: "/images/home/product/Indoor.jpeg",
+  },
+  outdoor: {
+    name: "Outdoor Collection",
+    image: "/images/home/product/Outdoor.jpeg",
+  },
+  artizan: {
+    name: "Artizan Collection",
+    image: "/images/home/product/Artizan.jpeg",
+  },
+  astara: {
+    name: "Astara Collection",
+    image: "/images/home/product/Astara.jpeg",
+  },
+  klewe: {
+    name: "Klewe Collection",
+    image: "/images/home/product/Klewe.jpeg",
+  },
+  volaris: {
+    name: "Volaris Collection",
+    image: "/images/home/product/Volaris.jpeg",
+  },
+};
+
+console.log("products", collection)
+const heroData = COLLECTION_HERO_DATA[collection as keyof typeof COLLECTION_HERO_DATA];
+
   return (
     <main className="relative bg-transparent min-h-screen">
 
-      <Hero />
+      <Hero 
+        heroBannerImage={heroData?.image}
+      />
 
       <div className="">
 
