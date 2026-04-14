@@ -62,7 +62,7 @@ export default function ScrollToTop() {
           // Using both onClick and onPointerDown to ensure the event is caught
           onClick={forceScrollToTop}
           onPointerDown={(e) => e.stopPropagation()} 
-          className="fixed bottom-8 right-8 w-14 h-14 bg-[#8D794E] text-white rounded-full flex items-center justify-center shadow-2xl z-[100] cursor-pointer pointer-events-auto border-2 border-white/30"
+          className="fixed bottom-8 right-8 w-14 h-14 bg-[#8D794E] text-white rounded-full flex items-center justify-center shadow-2xl z-[60] cursor-pointer pointer-events-auto border-2 border-white/30"
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}

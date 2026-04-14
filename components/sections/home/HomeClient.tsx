@@ -24,15 +24,16 @@ const HomeClient = () => {
       <AutoCarousel />
 
       {/* FLOATING POPUP */}
-      <div className="fixed bottom-6 right-6 z-[2147483647] pointer-events-none">
-        <div className="pointer-events-auto">
-          <PopupForm 
-            isVisible={showForm} 
-            onClose={() => setShowForm(false)} 
-          />
-        </div>
-      </div>
-
+      {showForm && (
+  <div className="fixed bottom-6 right-6 z-[50] pointer-events-none">
+    <div className="pointer-events-auto">
+      <PopupForm 
+        isVisible={showForm} 
+        onClose={() => setShowForm(false)} 
+      />
+    </div>
+  </div>
+)}
       
     </div>
   );
