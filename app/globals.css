@@ -130,6 +130,7 @@ img {
   --color-card: var(--cardbackground);
   --color-logo: var(--logo);
   --color-content: var(--content);
+  --color-text: var(--logo);
 
   --font-bai: var(--primary-font);
   --font-pop: var(--secondary-font);
