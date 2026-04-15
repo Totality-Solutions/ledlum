@@ -26,8 +26,8 @@ const footerColumns = [
   {
     title: "Our Products",
     links: [
-      { name: "LED Lum Outdoor", href: "/product/outdoor" },
-      { name: "LED Lum Indoor", href: "/product/indoor" },
+      { name: "Outdoor", href: "/product/outdoor" },
+      { name: "Indoor", href: "/product/indoor" },
       { name: "Artizan", href: "/product/artizan" },
       { name: "Astara", href: "/product/astara" },
       { name: "Volaris", href: "/product/volaris" },

@@ -20,12 +20,12 @@ import productSeller6 from "@/public/images/home/bestseller/Outdoor2.jpeg";
 
 import productSeller7 from "@/public/images/home/bestseller/Volaris1.jpeg";
 import productSeller8 from "@/public/images/home/bestseller/Volaris2.jpeg";
-import Arrival1 from "@/public/images/home/ledlum-outdoor-thumb.png";
-import Arrival2 from "@/public/images/home/ledlum-indoor-thumb.png";
-import Arrival3 from "@/public/images/home/artizan-thumb.png";
-import Arrival4 from "@/public/images/home/astara-thumb.png";
-import Arrival5 from "@/public/images/home/volaris-thumb.png";
-import Arrival6 from "@/public/images/home/klewe-thumb.png";
+import Arrival1 from "@/public/images/home/product/Outdoor_Catalogue.jpg";
+import Arrival2 from "@/public/images/home/product/Indoor_Catalogue.jpg";
+import Arrival3 from "@/public/images/home/product/Artizan_Catalogue.jpg";
+import Arrival4 from "@/public/images/home/product/Astara_Catalogue.jpg";
+import Arrival5 from "@/public/images/home/product/Volaris_Catalogue.jpg";
+import Arrival6 from "@/public/images/home/product/Klewe_Catalogue.jpg";
 
 // --- DATA ---
 const NEW_ARRIVALS = [
@@ -40,7 +40,7 @@ const NEW_ARRIVALS = [
 const BESTSELLERS = [
   { id: 1, title: 'Indoor Lights', sub: 'Nordic Pendant', lightImg: productSeller2, darkImg: productSeller1 },
   { id: 3, title: 'Outdoor Lights', sub: 'Globe Minimal', lightImg: productSeller6, darkImg: productSeller5 },
-  { id: 4, title: 'Volaris Lights', sub: 'Cone Classic', lightImg: productSeller8, darkImg: productSeller7 },
+  { id: 4, title: 'Volaris Fans', sub: 'Cone Classic', lightImg: productSeller8, darkImg: productSeller7 },
   { id: 2, title: 'Klewe Lights', sub: 'Wooden Tier', lightImg: productSeller4, darkImg: productSeller3 },
 ];
 
@@ -131,7 +131,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                     src={isDark ? product.darkImg : product.lightImg} 
                     alt={product.title} 
                     fill 
-                    className="object-cover transition-opacity duration-700 ease-in-out" 
+                    className="object-contain transition-opacity duration-700 ease-in-out" 
                     sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw" />
                   
                   {/* INFO CONTAINER: Desktop Overlay Mode */}

@@ -247,7 +247,29 @@ function CollectionGrid({ collection }: { collection: string }) {
     
 },
 "klewe":{
-    
+    "1":"Radio Ground",
+    "2":"Radio Mega",
+    "3":"Radio Mini",
+    "4":"Radio Maxi",
+    "5":"Radio Moon Mini",
+    "6":"Radio Moon Maxi",
+    "7":"Milio Side",
+    "8":"Milio Full",
+    "9":"Ala Wall",
+    "10":"Ala Mini",
+    "11":"Ala Maxi",
+    "12":"Axis Mini",
+    "13":"Axis Maxi",
+    "14":"Heliostepper",
+    "15":"Scotty",
+    "16":"Keope Wall",
+    "17":"Keope Ground",
+    "18":"Planet B",
+    "19":"Link",
+    "20":"Sundress",
+    "21":"Alea",
+    "22":"Swing",
+    "23":"Ecostep"
 }}
 
   const items = data[collection as keyof typeof data] ? Object.values(data[collection as keyof typeof data]) : [];

@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -12,26 +10,23 @@ import CTABtn from "@/components/layout/common/CTABtn"; // Import your CTA compo
 
 // --- ASSETS ---
 import BgImg from '@/public/images/home/home-bg3.png';
+import { blogPosts } from "@/lib/blogData";
 
 // --- LIVE ASSETS (Unsplash Lighting Images) ---
-const LIGHTING_IMAGES = [
-  "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=2070&auto=format&fit=crop", 
-  "https://images.unsplash.com/photo-1540932239986-30128078f3c5?q=80&w=1974&auto=format&fit=crop",
-];
 
-// --- DATA ---
-const BLOG_LINKS = [
-  "/blog/redefining-ambience-mood",
-  "/blogs/wooden-tier-lighting",
-  "/blogs/modern-minimalist-trends",
-];
 
 const SLIDE_INTERVAL = 5000;
 
 export default function CombinedLightingPartners() {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  
+  const BLOG_DATA = blogPosts.map(post => ({
+   image: post.image,
+   link: `/blog/${post.slug}`,
+  }));
+  
+  const LIGHTING_IMAGES = BLOG_DATA.map(item => item.image);
   // Sync logic: Track which slide is active based on the interval
   useEffect(() => {
     const timer = setInterval(() => {
@@ -41,10 +36,11 @@ export default function CombinedLightingPartners() {
     return () => clearInterval(timer);
   }, []);
 
-  const handleSliderClick = () => {
-    const targetLink = BLOG_LINKS[currentIndex];
-    router.push(targetLink);
-  };
+
+const handleSliderClick = () => {
+  const targetLink = BLOG_DATA[currentIndex].link;
+  router.push(targetLink);
+};
 
   return (
     <Section 

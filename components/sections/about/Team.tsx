@@ -17,24 +17,24 @@ export default function Team() {
       image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
     },
     {
-      name: "Sumeet Malhotra",
-      role: "Director & Founder - Ledlum",
-      image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
+      name: "Abheek Malhotra",
+      role: "Director & Founder - Astara",
+      image: "https://placehold.co/400x400.png?text=Abheek+Malhotra",
     },
     {
-      name: "Sumeet Malhotra",
-      role: "Director & Founder - Ledlum",
-      image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
+      name: "Abhav Malhotra",
+      role: "Director & Founder - Volaris",
+      image: "https://placehold.co/400x400.png?text=Abhav+Malhotra",
     },
     {
-      name: "Sumeet Malhotra",
-      role: "Director & Founder - Ledlum",
-      image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
+      name: "Pooja Malhotra",
+      role: "Director & Founder - Ledlum/Artizan",
+      image: "https://placehold.co/400x400.png?text=Pooja+Malhotra",
     },
     {
-      name: "Sumeet Malhotra",
-      role: "Director & Founder - Ledlum",
-      image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
+      name: "Sanjay Sethi",
+      role: "",
+      image: "https://placehold.co/400x400.png?text=Sanjay+Sethi",
     },
   ];
 
