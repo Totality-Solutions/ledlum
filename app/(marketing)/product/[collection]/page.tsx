@@ -55,26 +55,32 @@ const COLLECTION_HERO_DATA = {
   indoor: {
     name: "Indoor Collection",
     image: "/images/home/product/Indoor.jpeg",
+    description: "The Indoor Series focuses on refined illumination for interiors—delivering ambient, task, and accent lighting that blends seamlessly into modern architectural spaces.",
   },
   outdoor: {
     name: "Outdoor Collection",
     image: "/images/home/product/Outdoor.jpeg",
+    description: "Designed to enhance exteriors, the Outdoor Series combines durability with design—offering weather-resistant lighting solutions that elevate facades, landscapes, and open spaces with precision illumination.",
   },
   artizan: {
     name: "Artizan Collection",
     image: "/images/home/product/Artizan.jpeg",
+    description: "Artizan represents bespoke, design-led lighting—where craftsmanship meets technology to create statement fixtures that enhance aesthetic storytelling.",
   },
   astara: {
     name: "Astara Collection",
     image: "/images/home/product/Astara.jpeg",
+    description: "Astara is LEDLUM’s precision-driven lighting range, built around sleek linear systems and high-performance fixtures for clean, contemporary visual experiences",
   },
   klewe: {
     name: "Klewe Collection",
     image: "/images/home/product/Klewe.jpeg",
+    description: "Klewe focuses on sustainability—delivering solar-powered and energy-efficient lighting solutions that reduce consumption while maintaining high performance.",
   },
   volaris: {
     name: "Volaris Collection",
     image: "/images/home/product/Volaris.jpeg",
+    description: "Volaris blends air movement with design offering premium fans that function as both performance driven appliances and elegant interior elements.",
   },
 }; 
 
@@ -96,7 +102,8 @@ const heroData = COLLECTION_HERO_DATA[collection as keyof typeof COLLECTION_HERO
           products={products}
           collection={collection}
         /> */}
-          <p className="text-white font-bold text-4xl capitalize"><span className="text-logo font-bold text-4xl uppercase">{collection}</span> Collection</p>
+          <p className="text-white font-bold text-4xl capitalize"><span className="text-logo font-bold text-4xl uppercase">{collection}</span> Series</p>
+          <p className="text-white font-normal pt-3 text-xl">{heroData?.description}</p>
 
       </div>
 
@@ -277,7 +284,7 @@ function CollectionGrid({ collection }: { collection: string }) {
   console.log("products", collection);
 
   return (
-    <div className="grid text-white grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="grid text-white grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {items.map((text, index) => (
         <div
           key={index}
