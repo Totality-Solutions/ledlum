@@ -76,7 +76,7 @@ const COLLECTION_HERO_DATA = {
     name: "Volaris Collection",
     image: "/images/home/product/Volaris.jpeg",
   },
-};
+}; 
 
 console.log("products", collection)
 const heroData = COLLECTION_HERO_DATA[collection as keyof typeof COLLECTION_HERO_DATA];
