@@ -18,8 +18,8 @@ import productSeller4 from "@/public/images/home/bestseller/Klewe2.jpeg";
 import productSeller5 from "@/public/images/home/bestseller/Outdoor1.jpeg";
 import productSeller6 from "@/public/images/home/bestseller/Outdoor2.jpeg";
 
-import productSeller7 from "@/public/images/home/bestseller/Volaris1.jpeg";
-import productSeller8 from "@/public/images/home/bestseller/Volaris2.jpeg";
+import productSeller7 from "@/public/images/home/bestseller/Volaris1.png";
+import productSeller8 from "@/public/images/home/bestseller/Volaris2.png";
 import Arrival1 from "@/public/images/home/product/Outdoor_Catalogue.jpg";
 import Arrival2 from "@/public/images/home/product/Indoor_Catalogue.jpg";
 import Arrival3 from "@/public/images/home/product/Artizan_Catalogue.jpg";
