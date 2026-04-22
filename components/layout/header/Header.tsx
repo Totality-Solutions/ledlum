@@ -23,16 +23,22 @@ const Header = () => {
   const headerRef = useRef<HTMLDivElement>(null);
   const menuIconRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
-        setSideMenuOpen(false);
-        setMobileOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+
+    // ✅ ignore clicks inside mobile menu
+    if (target.closest("[data-mobile-menu]")) return;
+
+    if (headerRef.current && !headerRef.current.contains(target)) {
+      setSideMenuOpen(false);
+      setMobileOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, []);
 
   const closeAll = () => {
     setSideMenuOpen(false);

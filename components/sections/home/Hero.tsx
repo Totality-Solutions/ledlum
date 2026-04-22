@@ -18,7 +18,7 @@ const Hero = memo(function Hero({
   children,
 }: HeroProps) {
   return (
-    <section className="relative w-full h-[70vh] sm:h-[80vh] lg:h-screen min-h-[450px] max-h-[700px] flex items-center justify-center bg-gray-900 overflow-hidden">
+    <section className="relative w-full h-[30vh] sm:h-[50vh] lg:h-screen min-h-[230px] max-h-[700px] flex items-center justify-center bg-gray-900 overflow-hidden">
       
       {/* 🎥 VIDEO BACKGROUND */}
       {type === "video" ? (

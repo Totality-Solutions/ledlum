@@ -131,7 +131,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                     src={isDark ? product.darkImg : product.lightImg} 
                     alt={product.title} 
                     fill 
-                    className="object-contain transition-opacity duration-700 ease-in-out" 
+                    className="object-cover transition-opacity duration-700 ease-in-out" 
                     sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw" />
                   
                   {/* INFO CONTAINER: Desktop Overlay Mode */}
