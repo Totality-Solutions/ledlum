@@ -46,7 +46,7 @@ useEffect(() => {
 }, [onTriggerForm]); // Added onTriggerForm to dependency array for best practice
 
   return (
-    <Section ref={sectionRef} className="relative py-12 lg:py-20 bg-cover bg-top bg-no-repeat overflow-visible min-h-screen">
+    <Section ref={sectionRef} className="relative pt-12 lg:py-20 bg-cover bg-top bg-no-repeat overflow-visible min-h-screen">
       <Image src={BgImg} alt="Background" fill priority className="object-cover -z-[20]" />
       
       <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
@@ -54,7 +54,7 @@ useEffect(() => {
       </div>
 
       <Container className="relative z-10">
-        <div className="mb-20">
+        <div className="md:mb-20 mb-5">
           <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">Our.</h2>
           <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">Achievements.</p>
         </div>
@@ -86,8 +86,8 @@ useEffect(() => {
                 >
                   <div className={`hidden lg:block transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isActive ? "flex-grow" : "h-0"}`} />
                   <div className="block lg:hidden px-4">
-                    <span className="text-desk-h2 md:text-desk-h1 font-bai text-logo leading-none">{stat.value}</span>
-                    <span className="block text-tab-h2 md:text-desk-h3 font-pop tracking-[0.2em] uppercase mt-4 text-white">{stat.label}</span>
+                    <span className="text-desk-h3 md:text-desk-h1 font-bai text-logo leading-none">{stat.value}</span>
+                    <span className="block text-tab-h3 md:text-desk-h3 font-pop tracking-[0.06em] md:tracking-[0.2em] uppercase mt-4 text-white">{stat.label}</span>
                   </div>
                   <div className={`hidden lg:block w-full px-8 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isActive ? "relative pb-3 translate-y-0" : "absolute top-10 left-0 translate-y-0"}`}>
                     <div className="flex flex-col">

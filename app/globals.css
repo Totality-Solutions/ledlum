@@ -345,6 +345,7 @@ body.no-scroll {
 
 .dark .loader-overlay {
   background-color: #000000;
+  height: 100%;
 }
 
 .hidden-loader {
