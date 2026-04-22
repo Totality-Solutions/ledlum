@@ -164,7 +164,6 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                 <div className="flex lg:hidden w-full justify-between items-center pt-4 px-1">
                   <div className="flex flex-col">
                     <span className="text-body-sm lg:text-body font-pop font-regular leading-tight text-white">{product.title}</span>
-                    <span className="text-body-xs lg:text-body-sm font-pop font-regular mt-0.5 text-white/60">{product.sub}</span>
                   </div>
                   <button 
                     onClick={() => toggleIndividual(product.id)} 

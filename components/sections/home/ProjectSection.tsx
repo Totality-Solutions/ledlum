@@ -46,7 +46,7 @@ const OurProjectsSection = memo(function OurProjectsSection() {
   const carouselImages = PROJECTS.map((p) => p.img);
 
   return (
-    <Section className="bg-[#0A0A0A] text-white py-16 md:py-24 overflow-hidden">
+    <Section className="bg-[#0A0A0A] text-white py-12 lg:py-16 px-3 lg:px-14">
       <Container className="relative z-10 ">
 
         <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">

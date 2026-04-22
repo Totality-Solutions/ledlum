@@ -44,7 +44,7 @@ const handleSliderClick = () => {
 
   return (
     <Section 
-      className="relative flex flex-col gap-24 lg:gap-32 bg-cover bg-center bg-no-repeat will-change-transform"
+      className="relative flex flex-col bg-cover bg-center bg-no-repeat will-change-transform"
     >
       <Image
         src={BgImg}
