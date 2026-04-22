@@ -68,14 +68,12 @@ const ContactSection = memo(function ContactSection() {
           </div>
 
           {/* RIGHT COLUMN */}
-          <div className="w-full h-full px-4 sm:px-6 lg:px-0">
+          {/* <div className="w-full h-full px-4 sm:px-6 lg:px-0">
 
             <form
               onSubmit={handleSubmit}
               className="flex flex-col justify-between h-full gap-8 lg:gap-6"
             >
-
-              {/* INPUTS */}
               <div className="space-y-4">
 
                 <input
@@ -101,7 +99,6 @@ const ContactSection = memo(function ContactSection() {
 
               </div>
 
-              {/* BUTTONS */}
               <div className="flex flex-row items-center justify-between gap-4 w-full">
                 <CTABtn
                   label="Reset"
@@ -120,7 +117,7 @@ const ContactSection = memo(function ContactSection() {
               </div>
 
             </form>
-          </div>
+          </div> */}
         </div>
       </main>
       </Container>

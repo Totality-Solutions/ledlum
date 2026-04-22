@@ -23,7 +23,7 @@ import productSeller8 from "@/public/images/home/bestseller/Volaris2.png";
 import Arrival1 from "@/public/images/home/product/Outdoor_Catalogue.jpg";
 import Arrival2 from "@/public/images/home/product/Indoor_Catalogue.jpg";
 import Arrival3 from "@/public/images/home/product/Artizan_Catalogue.jpg";
-import Arrival4 from "@/public/images/home/product/Astara_Catalogue.jpg";
+import Arrival4 from "@/public/images/home/product/Astara_Catalogue.jpg"; 
 import Arrival5 from "@/public/images/home/product/Volaris_Catalogue.jpg";
 import Arrival6 from "@/public/images/home/product/Klewe_Catalogue.jpg";
 
@@ -141,7 +141,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                   )}>
                     <div className="flex flex-col">
                       <span className="body font-semibold font-pop leading-tight text-black">{product.title}</span>
-                      <span className="body-xs font-pop mt-0.5 text-black/70">{product.sub}</span>
+                      {/* <span className="body-xs font-pop mt-0.5 text-black/70">{product.sub}</span> */}
                     </div>
                     <button 
                       onClick={() => toggleIndividual(product.id)} 
