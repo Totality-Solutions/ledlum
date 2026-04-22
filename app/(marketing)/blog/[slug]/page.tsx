@@ -38,8 +38,8 @@ export default async function BlogPost({ params }: PageProps) {
         <Container>
           <main className="w-full mx-auto relative z-10">
             <article className=" ">
-              <header className="mb-16 md:mb-24">
-                <h1 className="text-tab-h1 lg:text-desk-h1 font-pop font-semibold mb-4 capitalize">
+              <header className="mb-16 md:mb-20 lg:mb-24">
+                <h1 className=" text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-semibold mb-4 capitalize">
                   {post.title}
                 </h1>
                 <p className="text-body-sm md:text-body font-pop font-regular text-content">

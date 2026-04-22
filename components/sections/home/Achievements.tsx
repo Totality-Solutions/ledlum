@@ -46,7 +46,7 @@ useEffect(() => {
 }, [onTriggerForm]); // Added onTriggerForm to dependency array for best practice
 
   return (
-    <Section ref={sectionRef} className="relative pt-12 lg:py-20 bg-cover bg-top bg-no-repeat overflow-visible min-h-screen">
+    <Section ref={sectionRef} className="relative bg-cover bg-top bg-no-repeat overflow-visible lg:min-h-screen">
       <Image src={BgImg} alt="Background" fill priority className="object-cover -z-[20]" />
       
       <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
