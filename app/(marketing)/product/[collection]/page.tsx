@@ -102,7 +102,7 @@ const heroData = COLLECTION_HERO_DATA[collection as keyof typeof COLLECTION_HERO
           products={products}
           collection={collection}
         /> */}
-          <p className="text-white font-bold text-4xl capitalize"><span className="text-logo font-bold text-4xl uppercase">{collection}</span> Series</p>
+          <p className="text-white font-bold text-mob-h1 md:text-tab-h1 lg:text-desk-h2 capitalize"><span className="text-logo font-bold text-mob-h1 md:text-tab-h1 lg:text-desk-h2 uppercase">{collection}</span> Series</p>
           <p className="text-white font-normal pt-3 text-xl">{heroData?.description}</p>
 
       </div>
