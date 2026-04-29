@@ -9,7 +9,7 @@ import LayoutWrapper from "@/app/LayoutWrapper";
 import Loader from "@/components/common/Loader";
 
 import linearGradientBg from "@/public/lineargradient.png";
-import ledlumLineBg from "@/public/images/about/ledlumline.png";
+import ledlumLineBg from "@/public/images/about/ledlumline.webp";
 import glowBg from "@/public/glow-bg.png";
 
 const poppins = Poppins({
