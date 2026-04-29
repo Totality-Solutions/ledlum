@@ -9,7 +9,7 @@ import Section from "@/components/layout/Section";
 import CTABtn from "@/components/layout/common/CTABtn"; // Import your CTA component
 
 // --- ASSETS ---
-import BgImg from '@/public/images/home/home-bg3.png';
+import BgImg from '@/public/images/home/home-bg3.webp';
 import { blogPosts } from "@/lib/blogData";
 
 // --- LIVE ASSETS (Unsplash Lighting Images) ---
@@ -57,7 +57,7 @@ const handleSliderClick = () => {
       
       <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
         <Image 
-          src="/images/about/ledlumline.png"
+          src="/images/about/ledlumline.webp"
           alt="background texture"
           fill
           className="object-cover object-center"

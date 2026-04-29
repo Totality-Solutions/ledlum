@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
-import BgImg from '@/public/images/home/home-bg2.png';
+import BgImg from '@/public/images/home/home-bg2.webp';
 import CTABtn from "@/components/layout/common/CTABtn"; // Adjust this path based on your folder structure
 
 export default function WhoWeAreSection() {

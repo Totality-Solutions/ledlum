@@ -51,7 +51,7 @@ const OurProjectsSection = memo(function OurProjectsSection() {
 
         <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
                           <Image 
-                            src="/images/about/ledlumline.png"
+                            src="/images/about/ledlumline.webp"
                             alt="background texture"
                             fill
                             className="object-cover object-center"

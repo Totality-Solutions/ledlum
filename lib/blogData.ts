@@ -23,12 +23,12 @@ export const blogPosts: Post[] = [
     category: "Architectural lighting",
     title: "Architectural Lighting in Modern Architecture | LEDLUM",
     description: "Discover the importance of architectural lighting in modern architecture with LEDLUM lighting solutions for residential and commercial spaces.",
-    image: "/images/blog/blog1.1.jpg",
+    image: "/images/blog/blog1.1.webp",
     midSectionTitle: "Introduction to Architectural Lighting in Modern Design",
     paragraph: [
       "Architectural lighting has become an essential element in modern architecture, shaping how spaces are perceived, experienced, and utilized. No longer limited to basic illumination, lighting in architecture plays a critical role in enhancing spatial quality, highlighting design elements, and creating emotional connections within a space. From residential interiors to large-scale commercial environments, architectural lighting defines the visual identity of modern spaces. LEDLUM lighting solutions are designed to meet these evolving demands, offering advanced systems that integrate seamlessly with architectural concepts. This foundation sets the stage for understanding how lighting contributes to both functionality and aesthetics across all design disciplines."
     ],
-    midSectionImage: "/images/blog/blog1.2.jpg",
+    midSectionImage: "/images/blog/blog1.2.webp",
     outcomeSections: [
       { heading: "The Importance of Lighting in Architecture", text: "Lighting in architecture influences how materials, textures, and forms are perceived, making it a powerful tool for designers and architects. Properly planned architectural lighting enhances spatial clarity, improves usability, and creates visually engaging environments. Whether it is used to highlight structural features or to create subtle ambience, lighting plays a central role in defining the overall experience of a space. LEDLUM lighting systems are developed to support these objectives, ensuring that lighting enhances rather than overwhelms architectural design. This concept is closely related to our blog on lighting in interior architecture, where lighting is used to elevate spatial design and material interaction." },
       { heading: "Enhancing Spaces with Ambient and Layered Lighting", text: "Ambient lighting forms the base layer of any architectural lighting design, providing overall illumination that ensures comfort and visibility. However, modern lighting design goes beyond a single layer by incorporating layered lighting techniques that combine ambient, task, and accent lighting. This approach creates depth, flexibility, and a more dynamic visual experience. LEDLUM integrates layered lighting strategies into its solutions, enabling designers to achieve balanced and adaptable lighting environments. This methodology is further explored in our blog on creating ambience using layered lighting, where different lighting layers contribute to a cohesive design." },
@@ -66,7 +66,7 @@ export const blogPosts: Post[] = [
     paragraph: [
       "Choosing the right light manufacturer is one of the most critical decisions in any architectural project, as lighting defines both the functionality and the visual identity of a space. Whether it is residential lighting for homes or commercial lighting for large-scale developments, the quality of lighting directly impacts user experience and long-term performance. A trusted LED lighting manufacturer like LEDLUM lighting ensures that architects and designers have access to premium lighting solutions that align with modern lighting design principles, interior design lighting needs, and advanced architectural requirements."  
     ],
-    midSectionImage: "/images/blog/blog2.2.jpg",
+    midSectionImage: "/images/blog/blog2.2.webp",
     outcomeSections: [
       { heading: "Understanding Architectural Lighting Requirements", text: "Every project demands a tailored approach to architectural lighting, making it essential to work with a professional lighting supplier for architects who understands diverse design needs. Lighting in interior design involves more than just illumination—it includes creating ambience, enhancing spatial perception, and improving usability. From ambient lighting that provides general illumination to accent lighting that highlights design features, a reliable architectural lighting manufacturer delivers solutions that enhance both aesthetics and functionality across interior architecture lighting projects." },
       { heading: "Importance of Product Quality and Innovation", text: "A premium lighting brand distinguishes itself through innovation, durability, and consistent performance. High-quality LED lighting systems are essential for achieving energy efficiency and long-lasting results. LEDLUM lighting integrates advanced technology with modern lighting design, offering products such as linear lighting, track lighting, and downlights that meet the evolving needs of architects. Choosing a reliable LED lighting manufacturer ensures that projects benefit from cutting-edge lighting solutions that enhance both residential and commercial environments." },
@@ -133,13 +133,13 @@ export const blogPosts: Post[] = [
     category: "Residential systems",
     title: "Lighting in Interior Architecture",
     description: "The modern home is a symphony of design, technology, and lifestyle. Smart lighting is the thread that ties these elements together.",
-    image: "/images/blog/blog5.1.jpeg",
+    image: "/images/blog/blog5.1.webp",
     midSectionTitle: "Design Symphony",
     paragraph: [
       "The modern home is a symphony of design, technology, and lifestyle. Smart lighting is the thread that ties these elements together, creating harmony and enhancing functionality.",
       "In kitchens, adjustable task lighting ensures precision; in living rooms, dynamic ambient lighting complements architectural features. LedLum’s vision extends beyond mere illumination—our designs are statements of modern luxury."
     ],
-    midSectionImage: "/images/blog/blog5.2.jpeg",
+    midSectionImage: "/images/blog/blog5.2.webp",
     outcomeSections: [
       { heading: "Architectural Integration", text: "Smart lighting becomes part of the architecture itself, elevating spaces with subtle brilliance that feels intentional." },
       { heading: "Functional Harmony", text: "Adjustable task lighting in kitchens and circadian rhythms in bedrooms tie the modern home together." }
@@ -152,13 +152,13 @@ export const blogPosts: Post[] = [
     category: "Modern Architectural Lighting Trends",
     title: "Modern Architectural Lighting Trends",
     description: "Smart lighting is not confined to interiors. Outdoor environments can benefit from the transformative power of LedLum’s intelligent LEDs.",
-    image: "/images/blog/blog6.1.jpeg",
+    image: "/images/blog/blog6.1.webp",
     midSectionTitle: "Outdoor Allure",
     paragraph: [
       "Smart lighting is not confined to interiors. Outdoor environments, from terraces and patios to gardens and pathways, can benefit from the transformative power of LedLum’s intelligent LEDs.",
       "Sophisticated outdoor lighting enhances security while accentuating architectural details. Motion sensors and adaptive brightness enable you to craft experiences that extend beyond the walls of your home."
     ],
-    midSectionImage: "/images/blog/blog6.2.jpeg",
+    midSectionImage: "/images/blog/blog6.2.webp",
     outcomeSections: [
       { heading: "Seamless Transitions", text: "Sophisticated outdoor lighting accentuates architectural details and landscaping." },
       { heading: "Adaptive Environments", text: "Creating a seamless transition between indoor elegance and outdoor allure with motion sensors." }
@@ -171,13 +171,13 @@ export const blogPosts: Post[] = [
     category: "Product insights",
     title: "Creating Ambience Using Layered Lighting",
     description: "LedLum envisions a world where lighting is not just functional it is immersive, intelligent, and transformative.",
-    image: "/images/blog/blog7.1.jpeg",
+    image: "/images/blog/blog7.1.webp",
     midSectionTitle: "Immersive Transformation",
     paragraph: [
       "LedLum envisions a world where lighting is immersive, intelligent, and transformative. Our smart lighting solutions integrate effortlessly with home automation systems, enabling centralized control.",
       "Voice-activated commands, mobile apps, and programmable schedules allow homeowners to personalize their environment with precision. Every detail, from texture to tone, is curated to perfection."
     ],
-    midSectionImage: "/images/blog/blog7.2.jpeg",
+    midSectionImage: "/images/blog/blog7.2.webp",
     outcomeSections: [
       { heading: "Immersive Experiences", text: "Smart lighting transforms not just rooms but experiences—turning everyday life into something extraordinary." },
       { heading: "Personalized Precision", text: "Voice-activated commands and programmable schedules allow homeowners to personalize with precision." }
@@ -190,13 +190,13 @@ export const blogPosts: Post[] = [
     category: "Product insights",
     title: "Energy Efficient Architectural Lighting",
     description: "Lighting is no longer just about visibility it’s about creating experiences, moods, and moments that elevate everyday life.",
-    image: "/images/blog/blog8.1.jpeg",
+    image: "/images/blog/blog8.1.webp",
     midSectionTitle: "Experience Elevated",
     paragraph: [
       "Lighting is no longer just about visibility; it’s about creating experiences, moods, and moments that elevate everyday life. Step into a home where every glow and every hue responds to your lifestyle.",
       "Blending innovation, elegance, and sustainability, LedLum transforms your spaces into immersive environments. The future of living spaces is intelligent, luxurious, and unmistakably LedLum."
     ],
-    midSectionImage: "/images/blog/blog8.2.jpeg",
+    midSectionImage: "/images/blog/blog8.2.webp",
     outcomeSections: [
       { heading: "Intelligent Living", text: "The future of living spaces is intelligent, luxurious, and unmistakably LedLum." },
       { heading: "Beyond Visibility", text: "Blending innovation, elegance, and sustainability into immersive environments." }
@@ -209,13 +209,13 @@ export const blogPosts: Post[] = [
     category: "Residential systems",
     title: "Lighting Solutions for Architects",
     description: "Lighting is no longer just a supporting element in interior design, it is the very heartbeat of a space.",
-    image: "/images/blog/blog9.1.jpeg",
+    image: "/images/blog/blog9.1.webp",
     midSectionTitle: "The Heartbeat of a Space",
     paragraph: [
       "At LedLum, we believe that smart indoor lighting represents the perfect fusion of style, function, and technology. It creates environments as dynamic and intelligent as the people who inhabit them.",
       "From sophisticated living rooms to serene bedrooms, the right lighting transforms how a room feels. It is the heartbeat of the modern interior, providing both aesthetic beauty and technical performance."
     ],
-    midSectionImage: "/images/blog/blog9.2.jpeg",
+    midSectionImage: "/images/blog/blog9.2.webp",
     outcomeSections: [
       { heading: "Style and Tech Fusion", text: "From sophisticated living rooms to serene bedrooms, the right lighting transforms how a room feels." },
       { heading: "Dynamic Inhabitants", text: "Creating environments as dynamic and intelligent as the people who inhabit them." }
@@ -228,13 +228,13 @@ export const blogPosts: Post[] = [
     category: "Product insights",
     title: "Why LEDLUM is a Preferred Brand",
     description: "Traditional lighting was purely functional: a source of illumination to help us see. Today, however, it has evolved into an experience.",
-    image: "/images/blog/blog10.1.jpeg",
+    image: "/images/blog/blog10.1.webp",
     midSectionTitle: "An Experience in its Own Right",
     paragraph: [
       "Traditional lighting was purely functional: a source of illumination to help us see. Today, however, it has evolved into an experience in its own right using advanced technology.",
       "Smart indoor lighting leverages advanced LED technology, automation, and connectivity to provide complete control. Imagine entering your home to a warm, inviting glow that adjusts automatically."
     ],
-    midSectionImage: "/images/blog/blog10.2.jpeg",
+    midSectionImage: "/images/blog/blog10.2.webp",
     outcomeSections: [
       { heading: "Calibrated Precision", text: "LedLum’s futuristic LED solutions allow you to curate each environment with exacting precision." },
       { heading: "Immersive Evolutions", text: "Turning everyday spaces into intelligent, immersive experiences through connectivity." }

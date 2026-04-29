@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import heroImage from '@/public/images/home/home-hero.png'; // Make sure this path exists
+import heroImage from '@/public/images/home/home-hero.webp'; // Make sure this path exists
 
 export default function Hero({ heroBannerImage }: { heroBannerImage: string }) {
   return (

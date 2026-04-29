@@ -6,7 +6,7 @@ import { GetInTouch } from "@/components/layout/footer/GetInTouch";
 import Section from "@/components/layout/Section";
 import { Linkedin } from "lucide-react";
 
-import TeamBg from "@/public/images/about/ledlumbox.png";
+import TeamBg from "@/public/images/about/ledlumbox.webp";
 
 export default function Team() {
 

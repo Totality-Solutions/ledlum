@@ -8,7 +8,7 @@ import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow"; 
 
-import BgImg from '@/public/images/home/home-bg1.png';
+import BgImg from '@/public/images/home/home-bg1.webp';
 import productSeller1 from "@/public/images/home/bestseller/Indoor1.jpeg";
 import productSeller2 from "@/public/images/home/bestseller/Indoor2.jpeg";
 
@@ -92,7 +92,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
     />
     <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
                           <Image 
-                            src="/images/about/ledlumline.png"
+                            src="/images/about/ledlumline.webp"
                             alt="background texture"
                             fill
                             className="object-cover object-center"

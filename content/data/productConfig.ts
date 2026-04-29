@@ -100,4 +100,4 @@ export const PRODUCT_CONFIGS = {
       { voltage: "48V DC", watts: "10W", dimensions: "600x20x45mm", bodyColor: "White", beamAngles: "30°", ledChip: "Luminus", luminous: "900lm", cri: "≥90", cct: "4000K" }
     ]
   }
-};
+}; 

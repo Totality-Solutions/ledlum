@@ -79,7 +79,7 @@ export default function Footer() {
       {/* Footer Card */}
       <div className="relative z-10 w-full mx-auto rounded-[24px] max-w-[96%] overflow-hidden bg-[#9d9272] shadow-2xl mb-10 md:mb-20">
         <div className="rounded-[24px] absolute inset-0 pointer-events-none opacity-80 mix-blend-multiply">
-          <Image src="/images/about/footercard.png" alt="Texture" fill className="object-cover" />
+          <Image src="/images/about/footercard.webp" alt="Texture" fill className="object-cover" />
         </div>
 
         <Container className="relative z-20 py-12 md:py-16 lg:py-20 !max-w-none px-6 md:px-[6vw]">

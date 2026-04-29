@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 import { PopupForm } from "@/components/common/PopupForm";
-import BgImg from "@/public/images/home/home-bg4.png";
+import BgImg from "@/public/images/home/home-bg4.webp";
 
 interface Props {
   onTriggerForm: () => void;
@@ -14,9 +14,9 @@ interface Props {
 
 const ACHIEVEMENTS = [
   { id: "01", value: "23+", label: "YEARS OF EXPERIENCE", image: "/images/home/achievment1.png" },
-  { id: "02", value: "400+", label: "PARTNERS", image: "/images/home/achievment2.png" },
-  { id: "03", value: "1,100+", label: "PRODUCTS", image: "/images/home/achievment3.png" },
-  { id: "04", value: "30,000+", label: "BURNING HOURS", image: "/images/home/achievment4.png" },
+  { id: "02", value: "400+", label: "PARTNERS", image: "/images/home/achievment2.webp" },
+  { id: "03", value: "1,100+", label: "PRODUCTS", image: "/images/home/achievment3.webp" },
+  { id: "04", value: "30,000+", label: "BURNING HOURS", image: "/images/home/achievment4.webp" },
 ];
 
 export default function Achievements({ onTriggerForm }: Props) {
@@ -50,7 +50,7 @@ useEffect(() => {
       <Image src={BgImg} alt="Background" fill priority className="object-cover -z-[20]" />
       
       <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
-        <Image src="/images/about/ledlumline.png" alt="background" fill className="object-cover object-center" />
+        <Image src="/images/about/ledlumline.webp" alt="background" fill className="object-cover object-center" />
       </div>
 
       <Container className="relative z-10">
