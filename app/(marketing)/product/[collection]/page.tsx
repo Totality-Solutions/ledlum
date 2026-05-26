@@ -96,26 +96,26 @@ const heroData = COLLECTION_HERO_DATA[collection as keyof typeof COLLECTION_HERO
 
       <div className="mx-auto px-6 lg:px-12 pt-12">
 
-        {/* <ProductFilters
+        <ProductFilters
           filters={filters}
           setFilters={setFilters}
           products={products}
           collection={collection}
-        /> */}
-          <p className="text-white font-bold text-4xl capitalize"><span className="text-logo font-bold text-4xl uppercase">{collection}</span> Series</p>
-          <p className="text-white font-normal pt-3 text-xl">{heroData?.description}</p>
+        />
+          {/* <p className="text-white font-bold text-4xl capitalize"><span className="text-logo font-bold text-4xl uppercase">{collection}</span> Series</p>
+          <p className="text-white font-normal pt-3 text-xl">{heroData?.description}</p> */}
 
       </div>
 
       <div className="relative mx-auto px-6 lg:px-12 py-12">
 
-        {/* <ProductGrid
+        <ProductGrid
           filters={filters}
           products={products}
           collection={collection}
-        /> */}
+        />
 
-<CollectionGrid collection={collection} />
+{/* <CollectionGrid collection={collection} /> */}
 
       </div>
 
