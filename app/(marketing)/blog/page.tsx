@@ -205,6 +205,7 @@ export default async function BlogPage() {
 
   // 2. Pass the posts into your Client Component
   return (
+    
     <Suspense fallback={<div className="min-h-screen bg-black" />}>
       <BlogContent initialPosts={posts} />
     </Suspense>

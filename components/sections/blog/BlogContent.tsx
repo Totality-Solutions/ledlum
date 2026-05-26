@@ -80,7 +80,7 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
   const totalPagesStay = useMemo(() => Math.ceil(archiveBucket.length / 5), [archiveBucket]);
 
   return (
-    <Section>
+    <Section className="overflow-x-hidden">
       <div className="mb-14 relative">
         <h5 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">Insights.</h5>
         <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">That illuminate.</p>
