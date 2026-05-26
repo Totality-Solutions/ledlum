@@ -1,13 +1,13 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useState, useMemo } from "react"
 
 import Hero from "@/components/sections/product/Hero"
 import ProductFilters from "@/components/sections/product/ProductFilters"
 import ProductGrid from "@/components/sections/product/ProductGrid"
 
 import { PRODUCT_DATABASE } from "@/content/data/products"
+import { useMemo, useState } from "react"
 
 export default function CollectionPage() {
 
