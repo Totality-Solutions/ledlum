@@ -9,23 +9,23 @@ import { Container } from "@/components/layout/Container";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow"; 
 
 import BgImg from '@/public/images/home/home-bg1.webp';
-import productSeller1 from "@/public/images/home/bestseller/Indoor1.jpeg";
-import productSeller2 from "@/public/images/home/bestseller/Indoor2.jpeg";
+import productSeller1 from "@/public/images/home/bestseller/Indoor1.webp";
+import productSeller2 from "@/public/images/home/bestseller/Indoor2.webp";
 
-import productSeller3 from "@/public/images/home/bestseller/Klewe1.jpeg";
-import productSeller4 from "@/public/images/home/bestseller/Klewe2.jpeg";
+import productSeller3 from "@/public/images/home/bestseller/Klewe1.webp";
+import productSeller4 from "@/public/images/home/bestseller/Klewe2.webp";
 
-import productSeller5 from "@/public/images/home/bestseller/Outdoor1.jpeg";
-import productSeller6 from "@/public/images/home/bestseller/Outdoor2.jpeg";
+import productSeller5 from "@/public/images/home/bestseller/Outdoor1.webp";
+import productSeller6 from "@/public/images/home/bestseller/Outdoor2.webp";
 
-import productSeller7 from "@/public/images/home/bestseller/Volaris1.png";
-import productSeller8 from "@/public/images/home/bestseller/Volaris2.png";
-import Arrival1 from "@/public/images/home/product/Outdoor_Catalogue.jpg";
-import Arrival2 from "@/public/images/home/product/Indoor_Catalogue.jpg";
-import Arrival3 from "@/public/images/home/product/Artizan_Catalogue.jpg";
-import Arrival4 from "@/public/images/home/product/Astara_Catalogue.jpg"; 
-import Arrival5 from "@/public/images/home/product/Volaris_Catalogue.jpg";
-import Arrival6 from "@/public/images/home/product/Klewe_Catalogue.jpg";
+import productSeller7 from "@/public/images/home/bestseller/Volaris1.webp";
+import productSeller8 from "@/public/images/home/bestseller/Volaris2.webp";
+import Arrival1 from "@/public/images/home/product/Outdoor_Catalogue.webp";
+import Arrival2 from "@/public/images/home/product/Indoor_Catalogue.webp";
+import Arrival3 from "@/public/images/home/product/Artizan_Catalogue.webp";
+import Arrival4 from "@/public/images/home/product/Astara_Catalogue.webp"; 
+import Arrival5 from "@/public/images/home/product/Volaris_Catalogue.webp";
+import Arrival6 from "@/public/images/home/product/Klewe_Catalogue.webp";
 
 // --- DATA ---
 const NEW_ARRIVALS = [

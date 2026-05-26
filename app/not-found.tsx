@@ -47,7 +47,7 @@ export default function NotFound() {
             {/* 2. THE NOT-BG LAYER - Locked to center */}
             <div className="absolute z-0 pointer-events-none w-[100vw] h-[125vh] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 mix-blend-difference">
               <Image 
-                src="/images/blog/not-bg.jpg"
+                src="/images/blog/not-bg.webp"
                 alt="texture overlay"
                 fill
                 className="object-cover object-[center_38%]"

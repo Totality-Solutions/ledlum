@@ -61,7 +61,7 @@ export const blogPosts: Post[] = [
     category: "Product insights",
     title: "Choosing the Right Light Manufacturer for Architectural Projects",
     description: "Choosing the right light manufacturer is one of the most critical decisions in any architectural project, as lighting defines both the functionality and the visual identity of a space.",
-    image: "/images/blog/blog2.1.jpg",
+    image: "/images/blog/blog2.1.webp",
     midSectionTitle: "Introduction to Selecting the Right Lighting Partner",
     paragraph: [
       "Choosing the right light manufacturer is one of the most critical decisions in any architectural project, as lighting defines both the functionality and the visual identity of a space. Whether it is residential lighting for homes or commercial lighting for large-scale developments, the quality of lighting directly impacts user experience and long-term performance. A trusted LED lighting manufacturer like LEDLUM lighting ensures that architects and designers have access to premium lighting solutions that align with modern lighting design principles, interior design lighting needs, and advanced architectural requirements."  
@@ -95,13 +95,13 @@ export const blogPosts: Post[] = [
     category: "Product insights",
     title: "Residential Lighting Design",
     description: "Lighting has the power to influence perception, emotion, and even behavior. With smart lighting, this power is amplified.",
-    image: "/images/blog/blog3.1.jpg",
+    image: "/images/blog/blog3.1.webp",
     midSectionTitle: "Power of Perception",
     paragraph: [
       "Lighting has the power to influence perception, emotion, and even behavior. LedLum’s futuristic LED systems allow you to set scenes tailored to your lifestyle, using a calm, muted palette to transform a bedroom into a sanctuary of relaxation.",
       "Unlike traditional lighting, smart LEDs provide control over intensity, color temperature, and tone. Through intuitive apps or voice commands, you can craft multiple lighting moods within a single space, turning your home into a canvas of experiences."
     ],
-    midSectionImage: "/images/blog/blog3.2.jpg",
+    midSectionImage: "/images/blog/blog3.2.webp",
     outcomeSections: [
       { heading: "Emotional Influence", text: "Smart lighting adapts effortlessly to your vision, allowing you to craft multiple moods within a single space to match your psychological state." },
       { heading: "Sensory Design", text: "Turning your home into a canvas of experiences, adjusting seamlessly for quiet reading or vibrant social celebrations." }
@@ -114,13 +114,13 @@ export const blogPosts: Post[] = [
     category: "Energy efficiency",
     title: "Commercial Lighting Solutions",
     description: "Luxury does not have to compromise sustainability. LedLum’s advanced LED technology merges opulence with efficiency.",
-    image: "/images/blog/blog4.1.jpg",
+    image: "/images/blog/blog4.1.webp",
     midSectionTitle: "Mindful Living",
     paragraph: [
       "Luxury does not have to compromise sustainability. LedLum’s advanced LED technology merges opulence with efficiency, reducing energy consumption without sacrificing brilliance.",
       "Smart lighting solutions intelligently manage energy use—dimming when rooms are unoccupied or adjusting based on natural daylight. This seamless blend of sophistication ensures your home operates with a conscious approach to sustainability."
     ],
-    midSectionImage: "/images/blog/blog4.2.jpg",
+    midSectionImage: "/images/blog/blog4.2.webp",
     outcomeSections: [
       { heading: "Conscious Opulence", text: "In a world where mindful living is paramount, smart lighting allows homeowners to indulge in luxury responsibly." },
       { heading: "Automated Conservation", text: "Intelligently managing energy use by dimming when rooms are unoccupied or adjusting based on natural daylight." }

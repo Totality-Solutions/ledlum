@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ACHIEVEMENTS = [
-  { id: "01", value: "23+", label: "YEARS OF EXPERIENCE", image: "/images/home/achievment1.png" },
+  { id: "01", value: "23+", label: "YEARS OF EXPERIENCE", image: "/images/home/achievment1.webp" },
   { id: "02", value: "400+", label: "PARTNERS", image: "/images/home/achievment2.webp" },
   { id: "03", value: "1,100+", label: "PRODUCTS", image: "/images/home/achievment3.webp" },
   { id: "04", value: "30,000+", label: "BURNING HOURS", image: "/images/home/achievment4.webp" },

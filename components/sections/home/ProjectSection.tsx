@@ -14,17 +14,17 @@ import {
 // 1. Import your Carousel component
 import InfiniteCarousel from "@/components/layout/common/InfiniteCarousel"; 
 
-import project1 from "@/public/images/home/project/project1.jpeg";
-import project2 from "@/public/images/home/project/project2.jpeg";
-import project3 from "@/public/images/home/project/project3.jpeg";
-import project4 from "@/public/images/home/project/project4.jpeg";
-import project5 from "@/public/images/home/project/project5.jpeg";
-import project6 from "@/public/images/home/project/project6.jpeg";
-import project7 from "@/public/images/home/project/project7.jpeg";
-import project8 from "@/public/images/home/project/project8.jpeg";
-import project9 from "@/public/images/home/project/project9.jpeg";
-import project10 from "@/public/images/home/project/project10.jpeg";
-import project11 from "@/public/images/home/project/project11.jpeg";
+import project1 from "@/public/images/home/project/project1.webp";
+import project2 from "@/public/images/home/project/project2.webp";
+import project3 from "@/public/images/home/project/project3.webp";
+import project4 from "@/public/images/home/project/project4.webp";
+import project5 from "@/public/images/home/project/project5.webp";
+import project6 from "@/public/images/home/project/project6.webp";
+import project7 from "@/public/images/home/project/project7.webp";
+import project8 from "@/public/images/home/project/project8.webp";
+import project9 from "@/public/images/home/project/project9.webp";
+import project10 from "@/public/images/home/project/project10.webp";
+import project11 from "@/public/images/home/project/project11.webp";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow";
 
 const PROJECTS = [

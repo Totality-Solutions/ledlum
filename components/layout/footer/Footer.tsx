@@ -68,7 +68,7 @@ export default function Footer() {
       {/* Watermark Logo */}
       <div className="absolute bottom-0 left-0 w-full h-full pointer-events-none z-0">
         <Image
-          src="/images/about/footer-logo.png"
+          src="/images/about/footer-logo.webp"
           alt="Ledlum Watermark"
           fill
           className="object-contain object-bottom"
@@ -167,7 +167,7 @@ export default function Footer() {
         </Container>
       </div>
 
-      <div className="flex-grow min-h-[50px] lg:min-h-[100px]" />
+      <div className="flex-grow min-h-[50px] lg:min-h-[100px] " />
 
       {/* Modals */}
       <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
