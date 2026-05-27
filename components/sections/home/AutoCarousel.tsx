@@ -138,7 +138,15 @@ export default function CombinedLightingPartners({ posts }: { posts: any[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   
   // Transform the Sanity 'posts' prop into the format the carousel needs
-  const BLOG_DATA = posts.map(post => ({
+  // const BLOG_DATA = posts.map(post => ({
+  //   image: post.image,
+  //   link: `/blog/${post.slug}`,
+  // }));
+
+  // Filter out any posts that do not have an image
+const BLOG_DATA = posts
+  .filter((post) => post.image) // This removes any post where image is null/undefined
+  .map((post) => ({
     image: post.image,
     link: `/blog/${post.slug}`,
   }));
