@@ -282,15 +282,35 @@ body {
   .desk-h2 { font-size: var(--text-mob-h2); }
 }
 
+
 @layer utilities {
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
+  /* Apply to the whole document body hook */
+  ::-webkit-scrollbar {
+    width: 2px;
+    height: 8px;
   }
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+
+  ::-webkit-scrollbar-track {
+    background: #222222; /* --cardbackground */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #96865D; /* --logo */
+    border-radius: 100vh;
+    border: 1px solid #222222;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #CE3731; /* --primary-color */
+  }
+
+  /* Firefox matching fallback core layer */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: #96865D #222222;
   }
 }
+
 
 html.no-scroll,
 body.no-scroll {

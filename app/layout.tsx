@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins, Bai_Jamjuree } from "next/font/google";
-import { Suspense } from "react";
 import Image from "next/image";
 import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
@@ -9,8 +8,9 @@ import LayoutWrapper from "@/app/LayoutWrapper";
 import Loader from "@/components/common/Loader";
 
 import linearGradientBg from "@/public/lineargradient.png";
-import ledlumLineBg from "@/public/images/about/ledlumline.png";
+import ledlumLineBg from "@/public/images/about/ledlumline.webp";
 import glowBg from "@/public/glow-bg.png";
+import { Suspense } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],

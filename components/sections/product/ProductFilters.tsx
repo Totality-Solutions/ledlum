@@ -2,7 +2,7 @@
 import { useMemo, useState, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowDown, ArrowRight, X, Check } from "lucide-react"
+import { ArrowDown, ArrowRight, X } from "lucide-react"
 import Section from "@/components/layout/Section"
 import { Container } from "@/components/layout/Container"
 
@@ -41,7 +41,7 @@ export default function ProductFilters({
     }
   }, [isMobileMenuOpen])
 
-  /* CLICK OUTSIDE (Desktop) */
+  /* CLICK OUTSIDE (Desktop Dropdowns Close) */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (groupRef.current && !groupRef.current.contains(event.target as Node)) {
@@ -55,6 +55,7 @@ export default function ProductFilters({
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
+  // 1. DYNAMIC CATEGORIES: Reads uppercase header options seamlessly
   const categories = useMemo(() => {
     if (!collection) return ["All"]
     const base = collection.charAt(0).toUpperCase() + collection.slice(1)
@@ -67,12 +68,14 @@ export default function ProductFilters({
     Sensors: "Sensors"
   }
 
+  // 2. DYNAMIC GROUPS: Extracts unique options dynamically from database keys map
   const groups = useMemo(() => {
     const set = new Set<string>()
     products.forEach((p: any) => { if (p.group) set.add(p.group) })
     return ["All", ...Array.from(set)]
   }, [products])
 
+  // 3. DYNAMIC DIMMING METHODS
   const dimmings = useMemo(() => {
     const set = new Set<string>()
     products.forEach((p: any) => { if (p.dimming) set.add(p.dimming) })
@@ -99,30 +102,29 @@ export default function ProductFilters({
           animate={{ y: 0 }} 
           exit={{ y: '100%' }} 
           transition={{ type: 'tween', duration: 0.4, ease: "circOut" }} 
-          // fixed inset-0 ensures it is anchored to the viewport, not the document
           className="fixed inset-0 z-[9999] bg-black flex flex-col w-screen h-screen overflow-hidden"
         >
           {/* Mobile Header */}
           <div className="p-6 flex justify-between items-center border-b border-white/5 bg-[#050505] flex-shrink-0">
-              <span className="text-white text-body font-pop font-regular">Filters</span>
+            <span className="text-white text-body font-pop font-regular">Filters</span>
             <div className="flex items-center gap-4">
               <button 
                 onClick={() => updateFilters({ collection: "All", group: "All", dimming: "All" })} 
                 className="text-body-xs font-pop font-regular text-red-500 border border-red-500/30 px-2 py-1 rounded"
-                >
+              >
                 Clear All
               </button>
-            <button 
-              onClick={() => setIsMobileMenuOpen(false)} 
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-white"
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)} 
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-white"
               >
-              <X size={20} />
-            </button>
-              </div>
+                <X size={20} />
+              </button>
+            </div>
           </div>
 
           {/* Mobile Content (Internal Scroll Only) */}
-          <div className="flex-1 overflow-y-auto px-6 pt-4 pb-40 no-scrollbar">
+          <div className="flex-1 overflow-y-auto px-6 pt-4 pb-40 custom-scrollbar">
             <div className="mb-10">
               <label className="text-white text-body-sm font-pop font-regular uppercase tracking-wide mb-4 block">Collection</label>
               <div className="space-y-1">
@@ -144,20 +146,21 @@ export default function ProductFilters({
                 <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                   <div className="mb-10">
                     <label className="text-white font-body-sm uppercase font-pop font-regular mb-4 block">Product Group</label>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-col gap-1 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
                       {groups.map(g => (
                         <button 
                           key={g} 
                           onClick={() => updateFilters({ group: g })} 
-                          className={`px-4 py-2 rounded-full font-body-xs font-pop font-regular border transition-all ${filters.dimming === g ? 'bg-white text-black font-medium' : 'border-white/10 text-gray-400'}`}
+                          className={`w-full text-left py-3 text-body-xs font-pop border-b border-white/5 uppercase tracking-tight flex justify-between items-center ${filters.group === g ? 'text-white font-medium' : 'text-gray-500'}`}
                         >
                           {g}
+                          {filters.group === g && <div className="w-1 h-1 rounded-full bg-white" />}
                         </button>
                       ))}
                     </div>
                   </div>
                   <div className="mb-10">
-                    <label className="text-white font-body-sm uppercase font-pop font-regular mb-4 block ">Dimming Method</label>
+                    <label className="text-white font-body-sm uppercase font-pop font-regular mb-4 block">Dimming Method</label>
                     <div className="flex flex-wrap gap-2">
                       {dimmings.map(d => (
                         <button 
@@ -179,7 +182,7 @@ export default function ProductFilters({
           <div className="absolute bottom-0 left-0 w-full px-6 py-4 bg-black flex-shrink-0 justify-center">
             <button 
               onClick={() => setIsMobileMenuOpen(false)} 
-              className="w-full bg-white text-black font-pop text-body-sm font-medium py-2 px-2 rounded-[12px] uppercase "
+              className="w-full bg-white text-black font-pop text-body-sm font-medium py-2 px-2 rounded-[12px] uppercase"
             >
               Apply & Close
             </button>
@@ -192,137 +195,137 @@ export default function ProductFilters({
   return (
     <Section className="w-full !py-0 sticky top-0 z-[50]">
       <Container>
-      {/* DESKTOP NAVIGATION */}
-      <div className="hidden lg:flex gap-10 items-center border-b border-white/10 overflow-x-auto no-scrollbar ">
-        {categories.map((tab: string) => {
-          const label = labelMap[tab] || tab.toUpperCase()
-          return (
-            <button
-              key={tab}
-              onClick={() => updateFilters({ collection: tab })}
-              className={`text-body font-pop font-regular transition-all px-2 whitespace-nowrap pt-6 pb-6 relative uppercase ${
-                filters.collection === tab ? "text-white" : "text-white/40 hover:text-white/70"
-              }`}
-            >
-              {label}            
-              {filters.collection === tab && (
-                <motion.div
-                  layoutId="activeTabUnderline"
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-white z-20"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-            </button>
-          )
-        })}
-      </div>
-
-      {/* DESKTOP DROPDOWNS */}
-      <AnimatePresence>
-        {isSubFilterVisible && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="hidden lg:flex flex-col md:flex-row justify-between items-center py-4 gap-6 relative"
-          >
-            <div className="relative w-full md:w-auto" ref={groupRef}>
+        {/* DESKTOP NAVIGATION */}
+        <div className="hidden lg:flex gap-10 items-center border-b border-white/10 overflow-x-auto custom-scrollbar">
+          {categories.map((tab: string) => {
+            const label = labelMap[tab] || tab.toUpperCase()
+            return (
               <button
-                onClick={() => setShowGroupDropdown(!showGroupDropdown)}
-                className={`flex items-center justify-between gap-6 px-6 h-12 rounded-[8px] text-[14px] font-medium transition-all duration-300 w-full md:w-fit ${showGroupDropdown ? "bg-white text-black shadow-xl" : "bg-transparent border-b border-white/20 text-white hover:bg-white hover:text-black"}`}
+                key={tab}
+                onClick={() => updateFilters({ collection: tab })}
+                className={`text-body font-pop font-regular transition-all px-2 whitespace-nowrap pt-6 pb-6 relative uppercase ${
+                  filters.collection === tab ? "text-white" : "text-white/40 hover:text-white/70"
+                }`}
               >
-                <span className="text-body font-pop font-regular ">
-                  {filters.group === "All" ? "Product Groups" : filters.group}
-                </span>
-                <ArrowDown size={18} className={`transition-transform duration-300 ${showGroupDropdown ? "rotate-180" : ""}`} />
-              </button>
-
-              <AnimatePresence>
-                {showGroupDropdown && (
+                {label}            
+                {filters.collection === tab && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-[calc(100%+8px)] left-0 w-full md:min-w-[300px] bg-[#111111] border border-white/10 rounded-lg shadow-2xl z-[9999] overflow-hidden"
-                  >
-                    <div className="max-h-[300px] overflow-y-auto no-scrollbar">
-                      {groups.map((g: string) => (
-                        <button
-                          key={g}
-                          onClick={() => { updateFilters({ group: g }); setShowGroupDropdown(false); }}
-                          className="group w-full flex items-center justify-between px-6 py-4 text-left text-white/70 hover:text-white hover:bg-[#1A1A1A] border-b border-white/5 last:border-0 transition-all"
-                        >
-                          <span className="text-body-sm text-white font-regular font-pop">{g}</span>
-                          <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
+                    layoutId="activeTabUnderline"
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-white z-20"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
                 )}
-              </AnimatePresence>
-            </div>
-
-            <div className="relative w-full md:w-auto" ref={dimmingRef}>
-              <button
-                onClick={() => setShowDimmingDropdown(!showDimmingDropdown)}
-                className={`flex items-center justify-between gap-6 px-6 h-12 rounded-[8px] text-[14px] font-medium transition-all duration-300 w-full md:w-fit ${showDimmingDropdown ? "bg-white text-black shadow-xl" : "bg-transparent border-b border-white/20 text-white hover:bg-white hover:text-black"}`}
-              >
-                <span className="text-body font-pop font-regular">
-                  {filters.dimming === "All" ? "Dimming Method" : filters.dimming}
-                </span>
-                <ArrowDown size={18} className={`transition-transform duration-300 ${showDimmingDropdown ? "rotate-180" : ""}`} />
               </button>
-
-              <AnimatePresence>
-                {showDimmingDropdown && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-[calc(100%+8px)] right-0 w-full md:min-w-[220px] bg-[#111111] border border-white/10 rounded-lg shadow-2xl z-[9999] overflow-hidden"
-                  >
-                    <div className="max-h-[300px] overflow-y-auto no-scrollbar">
-                      {dimmings.map((d: string) => (
-                        <button
-                          key={d}
-                          onClick={() => { updateFilters({ dimming: d }); setShowDimmingDropdown(false); }}
-                          className="group w-full flex items-center justify-between px-6 py-4 text-left text-white/70 hover:text-white hover:bg-[#1A1A1A] border-b border-white/5 last:border-0 transition-all"
-                        >
-                          <span className="text-body-sm text-white font-regular font-pop">{d}</span>
-                          <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* MOBILE TRIGGER */}
-      <div className="lg:hidden flex justify-between items-center max-h-[150px] py-4">
-        <div className="flex flex-col">
-          <span className="text-white font-medium text-body-sm font-pop uppercase">{filters.collection}</span>
-          {(filters.group !== "All" || filters.dimming !== "All") && (
-            <span className="text-gray-500 text-body-xxs uppercase tracking-widest mt-0.5">
-              {filters.group !== "All" ? filters.group : ""}
-              {filters.group !== "All" && filters.dimming !== "All" ? " | " : ""}
-              {filters.dimming !== "All" ? filters.dimming : ""}
-            </span>
-          )}
+            )
+          })}
         </div>
-        <button 
-          onClick={() => setIsMobileMenuOpen(true)} 
-          className="w-11 h-11 bg-[#1a1a1a] rounded-full flex flex-col items-center justify-center gap-1 border border-white/5"
-        >
-          <div className="w-5 h-[1.5px] bg-white rounded-full"></div>
-          <div className="w-5 h-[1.5px] bg-white rounded-full"></div>
-        </button>
-      </div>
 
-      {mounted && createPortal(MobileMenu, document.body)}
+        {/* DESKTOP DROPDOWNS */}
+        <AnimatePresence>
+          {isSubFilterVisible && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="hidden lg:flex flex-col md:flex-row justify-between items-center py-4 relative custom-scrollbar"
+            >
+              <div className="relative w-full md:w-auto" ref={groupRef}>
+                <button
+                  onClick={() => setShowGroupDropdown(!showGroupDropdown)}
+                  className={`flex items-center justify-between gap-6 px-6 h-12 rounded-[8px] text-[14px] font-medium transition-all duration-300 w-full md:max-w-[400px] truncate ${showGroupDropdown ? "bg-white text-black shadow-xl" : "bg-transparent border-b border-white/20 text-white hover:bg-white hover:text-black"}`}
+                >
+                  <span className="text-body font-pop font-regular block truncate">
+                    {filters.group === "All" ? "Product Groups" : filters.group}
+                  </span>
+                  <ArrowDown size={18} className={`transition-transform duration-300 flex-shrink-0 ${showGroupDropdown ? "rotate-180" : ""}`} />
+                </button>
+
+                <AnimatePresence>
+                  {showGroupDropdown && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-[calc(100%+8px)] left-0 w-full md:min-w-[340px] bg-[#111111] border border-white/10 rounded-lg shadow-2xl z-[9999] overflow-hidden"
+                    >
+                      <div className="max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+                        {groups.map((g: string) => (
+                          <button
+                            key={g}
+                            onClick={() => { updateFilters({ group: g }); setShowGroupDropdown(false); }}
+                            className="group w-full flex items-center justify-between px-6 py-4 text-left text-white/70 hover:text-white hover:bg-[#1A1A1A] border-b border-white/5 last:border-0 transition-all"
+                          >
+                            <span className="text-body-sm text-white font-regular font-pop block pr-4">{g}</span>
+                            <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0 flex-shrink-0" />
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="relative w-full md:w-auto" ref={dimmingRef}>
+                <button
+                  onClick={() => setShowDimmingDropdown(!showDimmingDropdown)}
+                  className={`flex items-center justify-between gap-6 px-6 h-12 rounded-[8px] text-[14px] font-medium transition-all duration-300 w-full md:w-fit ${showDimmingDropdown ? "bg-white text-black shadow-xl" : "bg-transparent border-b border-white/20 text-white hover:bg-white hover:text-black"}`}
+                >
+                  <span className="text-body font-pop font-regular">
+                    {filters.dimming === "All" ? "Dimming Method" : filters.dimming}
+                  </span>
+                  <ArrowDown size={18} className={`transition-transform duration-300 ${showDimmingDropdown ? "rotate-180" : ""}`} />
+                </button>
+
+                <AnimatePresence>
+                  {showDimmingDropdown && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-[calc(100%+8px)] right-0 w-full md:min-w-[220px] bg-[#111111] border border-white/10 rounded-lg shadow-2xl z-[9999] overflow-hidden"
+                    >
+                      <div className="max-h-[300px] overflow-y-auto custom-scrollbar">
+                        {dimmings.map((d: string) => (
+                          <button
+                            key={d}
+                            onClick={() => { updateFilters({ dimming: d }); setShowDimmingDropdown(false); }}
+                            className="group w-full flex items-center justify-between px-6 py-4 text-left text-white/70 hover:text-white hover:bg-[#1A1A1A] border-b border-white/5 last:border-0 transition-all"
+                          >
+                            <span className="text-body-sm text-white font-regular font-pop">{d}</span>
+                            <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* MOBILE TRIGGER */}
+        <div className="lg:hidden flex justify-between items-center max-h-[150px] py-4">
+          <div className="flex flex-col pr-4 overflow-hidden">
+            <span className="text-white font-medium text-body-sm font-pop uppercase truncate">{filters.collection}</span>
+            {(filters.group !== "All" || filters.dimming !== "All") && (
+              <span className="text-gray-500 text-body-xxs uppercase tracking-widest mt-0.5 block truncate">
+                {filters.group !== "All" ? filters.group : ""}
+                {filters.group !== "All" && filters.dimming !== "All" ? " | " : ""}
+                {filters.dimming !== "All" ? filters.dimming : ""}
+              </span>
+            )}
+          </div>
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)} 
+            className="w-11 h-11 bg-[#1a1a1a] rounded-full flex flex-col items-center justify-center gap-1 border border-white/5 flex-shrink-0"
+          >
+            <div className="w-5 h-[1.5px] bg-white rounded-full"></div>
+            <div className="w-5 h-[1.5px] bg-white rounded-full"></div>
+          </button>
+        </div>
+
+        {mounted && createPortal(MobileMenu, document.body)}
       </Container>
     </Section>
   )
