@@ -40,7 +40,7 @@ import ProjectSection from '@/components/sections/home/ProjectSection';
 import AutoCarousel from '@/components/sections/home/AutoCarousel';
 import Achievements from '@/components/sections/home/Achievements';
 import FirstVisitModal from "@/components/layout/common/FirstVisitModal";
-import heroImage from '@/public/images/home/home-hero.png'; 
+import heroImage from '@/public/images/home/home-hero.webp'; 
 import HomeClient from "@/components/sections/home/HomeClient";
 
 export const metadata = buildMetadata({

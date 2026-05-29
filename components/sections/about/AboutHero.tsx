@@ -41,7 +41,7 @@ export default function AboutHero() {
           }}
         >
           <Image
-            src="/images/about/ledlumline.png"
+            src="/images/about/ledlumline.webp"
             alt="decorative line"
             fill
             className="object-cover object-center"
@@ -76,7 +76,7 @@ export default function AboutHero() {
                       h-[35vh] md:h-[60vh] lg:h-[70vh] 
                       mb-20 md:mb-32 overflow-hidden">
           <Image
-            src="/images/home/about-new.jpg"
+            src="/images/home/about-new.webp"
             alt="LEDLUM Architectural Lighting"
             fill
             priority

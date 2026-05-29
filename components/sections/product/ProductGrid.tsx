@@ -34,6 +34,8 @@ export default function ProductGrid({ filters, products, collection }: any) {
               title={product.title}
               category={product.category}
               image={product.image}
+              // ✅ Item count passed downstream safely
+              itemCount={product.itemCount}
               onClick={() => router.push(`/product/${collection}/${product.id}`)}
             />
           ))}

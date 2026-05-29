@@ -27,7 +27,7 @@ export default function VisionMission() {
             maskImage: 'linear-gradient(to bottom, transparent 0%, black 30%)'
           }}>
           <Image
-            src="/images/about/ledlumline.png"
+            src="/images/about/ledlumline.webp"
             alt="background texture"
             fill
             className="object-cover"
@@ -53,7 +53,7 @@ export default function VisionMission() {
               transform: 'scale(1.7)'
             }}>
             <Image
-              src="/images/about/mission2.png"
+              src="/images/about/mission2.webp"
               alt="Mission background"
               fill
               className="object-cover"
