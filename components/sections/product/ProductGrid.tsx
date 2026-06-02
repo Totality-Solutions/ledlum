@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation"
 import { useMemo } from "react"
 import ProductCard from "./ProductCard"
 import { Container } from "@/components/layout/Container"
+import { PRODUCT_IMAGES } from "@/content/data/productImages";
 
 export default function ProductGrid({ filters, products, collection }: any) {
   const router = useRouter()
@@ -33,7 +34,12 @@ export default function ProductGrid({ filters, products, collection }: any) {
               key={product.id}
               title={product.title}
               category={product.category}
-              image={product.image}
+              image={
+                PRODUCT_IMAGES[
+                  product.title?.toUpperCase()
+                ]?.heroCarousel?.[0] ??
+                "/images/fallback-product.webp"
+              }
               // ✅ Item count passed downstream safely
               itemCount={product.itemCount}
               onClick={() =>

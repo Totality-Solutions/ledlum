@@ -94,12 +94,12 @@ export default function AboutHero() {
       <div
         key={item.title}
         /* Logic and structure strictly preserved */
-        style={{ height: i === 1 ? '110%' : i === 2 ? '120%' : i === 3 ? '130%' : '100%' }}
+        style={{ height: i === 1 ? '100%' : i === 2 ? '100%' : i === 3 ? '100%' : '100%' }}
         /* - border-b: creates the bottom line for mobile 
            - sm:border-b-0: removes bottom line for desktop
            - sm:border-l: restores the side line for desktop
         */
-        className="relative flex flex-col justify-end p-10 min-h-[250px] sm:min-h-[320px] border-b sm:border-b-0 sm:border-l border-white/20"
+        className="relative flex flex-col justify-start p-10 min-h-[250px] sm:min-h-[320px] border-b sm:border-b-0 sm:border-l border-white/20"
       >
         {/* Removed the manual absolute separator div to prevent double lines */}
 

@@ -1,6 +1,6 @@
 "use client";
 import  jsPDF  from "jspdf";
-import photometricLocal from "@/public/images/product/Light-angle.png"; 
+import photometricLocal from "@/public/images/products/Light-angle.png"; 
 
 interface PdfFileProps {
   selections: any;

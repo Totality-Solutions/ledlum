@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useParams } from "next/navigation";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import CTABtn from "@/components/layout/common/CTABtn";
 import Section from "@/components/layout/Section";
@@ -14,14 +15,32 @@ interface HeroProps {
     category: string;
     name: string;
     description: string;
-    image: string;
+    images: string[];
   };
 }
 
 const ProductInnerHero = ({ data }: HeroProps) => {
-
   const params = useParams();
   const collection = params.collection as string;
+
+  const [activeImage, setActiveImage] = useState(0);
+
+  const images =
+    data.images && data.images.length > 0
+      ? data.images
+      : ["/placeholder.jpg"];
+
+  const nextImage = () => {
+    setActiveImage((prev) =>
+      prev === images.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const prevImage = () => {
+    setActiveImage((prev) =>
+      prev === 0 ? images.length - 1 : prev - 1
+    );
+  };
 
   return (
     <Section className="w-full min-h-screen bg-black flex items-center justify-center">
@@ -33,21 +52,21 @@ const ProductInnerHero = ({ data }: HeroProps) => {
           className="absolute top-8 left-8 z-20 flex items-center gap-3 group text-white"
         >
           <div className="w-9 h-9 rounded-full flex items-center justify-center transition-transform group-hover:scale-110">
-            <svg 
-            width="12" 
-            height="12" 
-            viewBox="0 0 12 12" 
-            fill="none" 
-            className="transition-transform duration-500 -rotate-135 "
-          >
-            <path 
-              d="M1 11L11 1M11 1H3M11 1V9" 
-              stroke="white" 
-              strokeWidth="2" 
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              className="transition-transform duration-500 -rotate-135"
+            >
+              <path
+                d="M1 11L11 1M11 1H3M11 1V9"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
 
           <span className="text-body-xs font-pop opacity-80 group-hover:opacity-100">
@@ -55,28 +74,68 @@ const ProductInnerHero = ({ data }: HeroProps) => {
           </span>
         </Link>
 
-        {/* LEFT SIDE IMAGE */}
+        {/* IMAGE CAROUSEL */}
         <div className="relative w-full lg:w-1/2 h-[50vh] md:h-[80vh] lg:h-[90vh] flex items-center justify-center p-4 mt-12 lg:p-12">
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative w-full h-full bg-[#1A1A1A] rounded-[18px] overflow-hidden flex items-center justify-center"
+            transition={{
+              duration: 0.8,
+              ease: "easeOut",
+            }}
+            className="relative w-full h-full bg-[#1A1A1A] rounded-[18px] overflow-hidden"
           >
             <Image
-              src={data.image}
+              src={images[activeImage]}
               alt={data.name}
               fill
-              className="object-cover"
               priority
               unoptimized
+              className="object-cover"
             />
+
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={prevImage}
+                  className="absolute left-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/80 transition-all"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+
+                <button
+                  onClick={nextImage}
+                  className="absolute right-1 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/80 transition-all"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </>
+            )}
           </motion.div>
+
+          {images.length > 1 && (
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() =>
+                    setActiveImage(index)
+                  }
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    activeImage === index
+                      ? "w-8 bg-white"
+                      : "w-2 bg-white/40"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* RIGHT CONTENT */}
         <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 lg:pl-16 lg:pr-24 py-12">
-          
+
           <div className="flex flex-col gap-2 mb-8">
             <motion.span
               initial={{ opacity: 0, x: 20 }}

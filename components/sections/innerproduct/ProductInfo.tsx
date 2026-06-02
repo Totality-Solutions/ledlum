@@ -5,6 +5,7 @@ import Section from "@/components/layout/Section";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineDownload } from "react-icons/hi";
 import { ExcelFile } from "./ExcelFile";
+import { PRODUCT_IMAGES } from "@/content/data/productImages";
 
 interface ProductInfoProps {
   config: any;
@@ -18,6 +19,12 @@ interface ProductInfoProps {
   permutations?: any[];
 }
 
+interface LoadingStates {
+  excel: boolean;
+  pdf: boolean;
+  ies: boolean;
+}
+
 // ─── Shared ModelCard ──────────────────────────────────────────────────────────
 const ModelCard = ({
   id,
@@ -27,29 +34,76 @@ const ModelCard = ({
   id: string;
   isActive: boolean;
   onClick: () => void;
-}) => (
-  <div
-    onClick={onClick}
-    className={`
-      h-fit flex items-center px-5 py-2  rounded-[12px] cursor-pointer
-      transition-all duration-200 border w-full
-      ${isActive
-        ? "bg-white border-white"
-        : "bg-[#0A0A0A] border-white/10 hover:border-white/30"}
-    `}
-  >
-    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mr-3 shrink-0 ${isActive ? "border-[#4A61AD]" : "border-white/20"}`}>
-      {isActive && <div className="w-2.5 h-2.5 rounded-full bg-[#4A61AD]" />}
+}) => {
+  const modelImage =
+    PRODUCT_IMAGES[id.toUpperCase()]?.heroCarousel?.[0] ??
+    "/images/fallback-product.webp";
+
+  return (
+    <div
+      onClick={onClick}
+      className={`
+        h-fit flex items-center px-5 py-2 rounded-[12px] cursor-pointer
+        transition-all duration-200 border w-full
+        ${
+          isActive
+            ? "bg-white border-white"
+            : "bg-[#0A0A0A] border-white/10 hover:border-white/30"
+        }
+      `}
+    >
+      <div
+        className={`
+          w-5 h-5 rounded-full border-2 flex items-center
+          justify-center mr-3 shrink-0
+          ${
+            isActive
+              ? "border-[#4A61AD]"
+              : "border-white/20"
+          }
+        `}
+      >
+        {isActive && (
+          <div className="w-2.5 h-2.5 rounded-full bg-[#4A61AD]" />
+        )}
+      </div>
+
+      <span
+        className={`
+          text-sm font-normal uppercase flex-1 truncate
+          ${
+            isActive
+              ? "text-black"
+              : "text-[#888888]"
+          }
+        `}
+      >
+        {id}
+      </span>
+
+      <div
+        className={`
+          h-10 w-[1px] mx-3 shrink-0
+          ${
+            isActive
+              ? "bg-black/10"
+              : "bg-white/10"
+          }
+        `}
+      />
+
+      <div className="relative w-15 h-15 shrink-0">
+        <Image
+          src={modelImage}
+          alt={id}
+          fill
+          unoptimized
+          className="object-contain"
+        />
+      </div>
     </div>
-    <span className={`text-sm font-normal uppercase flex-1 truncate ${isActive ? "text-black" : "text-[#888888]"}`}>
-      {id}
-    </span>
-    <div className={`h-10 w-[1px] mx-3 shrink-0 ${isActive ? "bg-black/10" : "bg-white/10"}`} />
-    <div className="relative w-10 h-10 shrink-0">
-      <Image src={`https://placehold.co/100x100?text=${id}`} alt={id} fill className="object-contain" />
-    </div>
-  </div>
-);
+  );
+};
 
 // ─── Carousel Arrow ────────────────────────────────────────────────────────────
 const CarouselArrow = ({
@@ -121,7 +175,25 @@ const ViewToggle = ({
   </div>
 );
 
-// ─── Main ──────────────────────────────────────────────────────────────────────
+// Helper function to extract initial selections where only a single option is present
+const getAutoSelections = (config: any) => {
+  const autoSelections: Record<string, string> = {};
+  if (!config) return autoSelections;
+
+  if (config.voltage?.length === 1) autoSelections.voltage = config.voltage[0];
+  if (config.dimensions?.length === 1) autoSelections.dimensions = config.dimensions[0];
+  if (config.watts?.length === 1) autoSelections.watts = config.watts[0];
+  if (config.bodyColors?.length === 1) autoSelections.bodyColor = config.bodyColors[0];
+  if (config.beamAngles?.length === 1) autoSelections.beamAngles = config.beamAngles[0];
+  if (config.ledChip?.length === 1) autoSelections.ledChip = config.ledChip[0];
+  if (config.luminous?.length === 1) autoSelections.luminous = config.luminous[0];
+  if (config.cri?.length === 1) autoSelections.cri = config.cri[0];
+  if (config.cct?.length === 1) autoSelections.cct = config.cct[0].label;
+
+  return autoSelections;
+};
+
+// ─── Main Component ────────────────────────────────────────────────────────────
 export default function ProductInfoSection({
   config,
   activeId,
@@ -134,8 +206,16 @@ export default function ProductInfoSection({
   const [error, setError] = useState("");
   const [touched, setTouched] = useState<string[]>([]);
   const [isDownloadMenuOpen, setIsDownloadMenuOpen] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
   const downloadMenuRef = useRef<HTMLDivElement>(null);
+
+  // Individual tracker loading flags
+  const [isDownloading, setIsDownloading] = useState<LoadingStates>({
+    excel: false,
+    pdf: false,
+    ies: false,
+  });
+
+  const isAnyFileDownloading = isDownloading.excel || isDownloading.pdf || isDownloading.ies;
 
   // Desktop view toggle
   const [desktopView, setDesktopView] = useState<"carousel" | "grid">("carousel");
@@ -150,7 +230,6 @@ export default function ProductInfoSection({
   const GRID_INITIAL = 4;
   const [gridExpanded, setGridExpanded] = useState(false);
   const hasMore = allModelIds.length > GRID_INITIAL;
-  const visibleGridIds = gridExpanded ? allModelIds : allModelIds.slice(0, GRID_INITIAL);
 
   // Mobile dropdown open/close
   const [mobileDropOpen, setMobileDropOpen] = useState(false);
@@ -163,16 +242,20 @@ export default function ProductInfoSection({
     const idx = allModelIds.findIndex(id => id.toLowerCase() === activeId.toLowerCase());
     if (idx < offset) setOffset(idx);
     else if (idx >= offset + VISIBLE) setOffset(Math.max(0, idx - VISIBLE + 1));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeId, desktopView]);
+  }, [activeId, desktopView, allModelIds, offset]);
+
+  // Sync auto-selections on configuration updates
+  useEffect(() => {
+    setSelections(getAutoSelections(config));
+  }, [config]);
 
   // Reset config selections on model change
   useEffect(() => {
-    setSelections({});
+    setSelections(getAutoSelections(config));
     setError("");
     setTouched([]);
     setMobileDropOpen(false);
-  }, [activeId]);
+  }, [activeId, config]);
 
   // Click outside: download menu
   useEffect(() => {
@@ -185,11 +268,21 @@ export default function ProductInfoSection({
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // ── Required fields / validation ────────────────────────────────────────────
-  const requiredFields = [
-    "voltage", "dimensions", "watts", "cct",
-    "bodyColor", "beamAngles", "ledChip", "luminous", "cri",
-  ];
+  // Map out dynamic option keys to evaluate configuration arrays accurately
+  const getMappedOptions = (key: string) => {
+    switch (key) {
+      case "voltage": return config.voltage;
+      case "dimensions": return config.dimensions;
+      case "watts": return config.watts;
+      case "cct": return config.cct;
+      case "bodyColor": return config.bodyColors;
+      case "beamAngles": return config.beamAngles;
+      case "ledChip": return config.ledChip;
+      case "luminous": return config.luminous;
+      case "cri": return config.cri;
+      default: return [];
+    }
+  };
 
   const checkIsDisabled = (category: string, value: string): boolean => {
     if (!permutations || permutations.length === 0) return false;
@@ -216,8 +309,21 @@ export default function ProductInfoSection({
     setTouched((prev) => prev.filter((f) => f !== category));
   };
 
+  // ── Validation logic based on selection data availability ──────────────────
   const validateForm = () => {
-    const missing = requiredFields.filter((f) => !selections[f]);
+    const potentialFields = [
+      "voltage", "dimensions", "watts", "cct",
+      "bodyColor", "beamAngles", "ledChip", "luminous", "cri",
+    ];
+
+    // Field is validation-critical ONLY if dynamic data options are available
+    const activeRequiredFields = potentialFields.filter((key) => {
+      const options = getMappedOptions(key);
+      return options && options.length > 0;
+    });
+
+    const missing = activeRequiredFields.filter((f) => !selections[f]);
+
     if (missing.length > 0) {
       setTouched(missing);
       setError(`Please complete the selection for: ${missing.join(", ")}`);
@@ -231,8 +337,8 @@ export default function ProductInfoSection({
 
   // ── Downloads ────────────────────────────────────────────────────────────────
   const handleDownloadPDF = async () => {
-    if (!validateForm()) return;
-    setIsDownloading(true);
+    if (!validateForm() || isAnyFileDownloading) return;
+    setIsDownloading((prev) => ({ ...prev, pdf: true }));
     const { PdfFile } = await import("./Pdf");
     const start = Date.now();
     try {
@@ -242,13 +348,13 @@ export default function ProductInfoSection({
     } catch {
       setError("PDF Generation failed.");
     } finally {
-      setIsDownloading(false);
+      setIsDownloading((prev) => ({ ...prev, pdf: false }));
     }
   };
 
   const handleDownloadExcel = async () => {
-    if (!validateForm()) return;
-    setIsDownloading(true);
+    if (!validateForm() || isAnyFileDownloading) return;
+    setIsDownloading((prev) => ({ ...prev, excel: true }));
     const start = Date.now();
     try {
       await ExcelFile({ selections, activeId, ipRating: config.ipRating?.[0] || "IP20", cutout: config.cutoutSizes?.[0] || "N/A" });
@@ -257,55 +363,43 @@ export default function ProductInfoSection({
     } catch {
       setError("Excel Generation failed.");
     } finally {
-      setIsDownloading(false);
+      setIsDownloading((prev) => ({ ...prev, excel: false }));
     }
   };
 
-  const resetAll = () => { setSelections({}); setError(""); setTouched([]); };
+  const handleDownloadIES = async () => {
+    if (!validateForm() || isAnyFileDownloading) return;
+    setIsDownloading((prev) => ({ ...prev, ies: true }));
+    
+    try {
+      // Dynamic import chunk splitter invocation
+      const { IesFile } = await import("./IesFile");
+      const start = Date.now();
+      
+      await IesFile({ 
+        selections, 
+        activeId, 
+        ipRating: config.ipRating?.[0] || "IP20", 
+        cutout: config.cutoutSizes?.[0] || "N/A" 
+      });
+      
+      // Keep loading active long enough to fulfill your standard linear animation requirements
+      await new Promise((r) => setTimeout(r, Math.max(0, ANIMATION_DURATION - (Date.now() - start))));
+      setIsDownloadMenuOpen(false);
+    } catch {
+      setError("IES File acquisition failed.");
+    } finally {
+      setIsDownloading((prev) => ({ ...prev, ies: false }));
+    }
+  };
 
-  useEffect(() => {
-  const autoSelections: Record<string, string> = {};
+  const resetAll = () => { 
+    setSelections(getAutoSelections(config)); 
+    setError(""); 
+    setTouched([]); 
+  };
 
-  if (config.voltage?.length === 1) {
-    autoSelections.voltage = config.voltage[0];
-  }
-
-  if (config.dimensions?.length === 1) {
-    autoSelections.dimensions = config.dimensions[0];
-  }
-
-  if (config.watts?.length === 1) {
-    autoSelections.watts = config.watts[0];
-  }
-
-  if (config.bodyColors?.length === 1) {
-    autoSelections.bodyColor = config.bodyColors[0];
-  }
-
-  if (config.beamAngles?.length === 1) {
-    autoSelections.beamAngles = config.beamAngles[0];
-  }
-
-  if (config.ledChip?.length === 1) {
-    autoSelections.ledChip = config.ledChip[0];
-  }
-
-  if (config.luminous?.length === 1) {
-    autoSelections.luminous = config.luminous[0];
-  }
-
-  if (config.cri?.length === 1) {
-    autoSelections.cri = config.cri[0];
-  }
-
-  if (config.cct?.length === 1) {
-    autoSelections.cct = config.cct[0].label;
-  }
-
-  setSelections(autoSelections);
-}, [config]);
-
-  // ── Config fields ────────────────────────────────────────────────────────────
+  // ── Config fields parsing layout array ─────────────────────────────────────────
   const allConfigFields = [
     { key: "voltage",     id: "field-voltage",     label: "Voltage :",     options: config.voltage     || [], type: "standard" },
     { key: "dimensions",  id: "field-dimensions",  label: "Dimensions :",  options: config.dimensions  || [], type: "standard" },
@@ -357,7 +451,6 @@ export default function ProductInfoSection({
     }
   };
 
-  // ─────────────────────────────────────────────────────────────────────────────
   return (
     <Section className="w-full bg-black md:px-[50px] font-pop">
       <div>
@@ -370,7 +463,7 @@ export default function ProductInfoSection({
           <div className="flex flex-col gap-6">
             <p className="text-white/70 text-body-md font-regular uppercase">Model Spectrum</p>
 
-            {/* ── MOBILE & TABLET: dropdown — toggles open/closed on click ── */}
+            {/* ── MOBILE & TABLET: dropdown ── */}
             <div className="lg:hidden relative">
               <button
                 onMouseDown={(e) => e.stopPropagation()}
@@ -415,8 +508,6 @@ export default function ProductInfoSection({
 
             {/* ── DESKTOP ────────────────────────────────────────────────────── */}
             <div className="hidden lg:flex lg:flex-col gap-4">
-
-              {/* View toggle — top right */}
               <div className="flex justify-end">
                 <ViewToggle
                   view={desktopView}
@@ -448,7 +539,6 @@ export default function ProductInfoSection({
               {/* ── GRID VIEW ────────────────────────────────────────────────── */}
               {desktopView === "grid" && (
                 <div className="flex flex-col gap-3">
-                  {/* Always-visible first 4 */}
                   <div className="grid grid-cols-4 gap-4">
                     {allModelIds.slice(0, GRID_INITIAL).map((id) => (
                       <ModelCard
@@ -459,9 +549,8 @@ export default function ProductInfoSection({
                     ))}
                   </div>
 
-                  {/* Expanded models — same grid layout, animated in */}
                   <AnimatePresence>
-                    {gridExpanded && hasMore && (
+                    {gridExpanded && allModelIds.length > GRID_INITIAL && (
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
@@ -482,7 +571,6 @@ export default function ProductInfoSection({
                     )}
                   </AnimatePresence>
 
-                  {/* Show more / Show less toggle button */}
                   {hasMore && (
                     <button
                       onClick={() => setGridExpanded((p) => !p)}
@@ -523,11 +611,11 @@ export default function ProductInfoSection({
         </div>
 
         {/* ── BOTTOM CONTROLS ───────────────────────────────────────────────── */}
-        <div className="mt-12 flex flex-col md:flex-row justify-between items-end gap-6 pb-20">
+        <div className="mt-12 flex flex-col md:flex-row justify-between items-end gap-6 pb-10">
           <div className="flex flex-col gap-1">
-            <p className="text-white/40 text-body font-regular uppercase tracking-tight">Product ID: {activeId}</p>
-            <p className="text-logo text-lg font-medium uppercase">
-              {selections.watts || "---"} / {selections.luminous || "---"} / {selections.cri ? `CRI${selections.cri}` : "---"} / {selections.cct || "---"}
+            <p className="text-white/40 text-body-sm font-regular uppercase tracking-tight">Product ID: {activeId}</p>
+            <p className="text-logo text-xs font-medium uppercase">
+              {selections.watts || "---"} / {selections.dimensions || "---"} / {selections.cri ? `CRI${selections.cri}` : "---"} / {selections.cct || "---"}
             </p>
           </div>
 
@@ -538,20 +626,40 @@ export default function ProductInfoSection({
               <AnimatePresence>
                 {isDownloadMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute top-full mt-4 flex flex-col gap-2 w-fit left-35 z-50"
+                    initial={{ opacity: 0, y: 180, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 220, scale: 1 }}
+                    exit={{ opacity: 0, y: 180, scale: 0.95 }}
+                    className="absolute bottom-full mb-4 flex flex-col gap-2 w-fit z-50"
                   >
-                    <button onClick={handleDownloadExcel} className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all w-fit shadow-xl">
-                      <span className="text-body font-regular">Sheet Data</span>
-                      <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center">
+                    <button 
+                      onClick={handleDownloadExcel} 
+                      disabled={isAnyFileDownloading}
+                      className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] disabled:bg-white/5 disabled:text-white/20 text-white pl-4 pr-1 py-1 rounded-full transition-all w-full shadow-xl disabled:cursor-not-allowed"
+                    >
+                      <span className="text-body font-regular">{isDownloading.excel ? "Generating..." : "Sheet"}</span>
+                      <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center shrink-0">
                         <HiOutlineDownload className="text-black text-lg" />
                       </div>
                     </button>
-                    <button onClick={handleDownloadPDF} disabled={isDownloading} className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all w-fit shadow-xl">
-                      <span className="text-body font-regular">{isDownloading ? "Generating..." : "PDF Tech Pack"}</span>
-                      <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center">
+                    
+                    <button 
+                      onClick={handleDownloadPDF} 
+                      disabled={isAnyFileDownloading}
+                      className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] disabled:bg-white/5 disabled:text-white/20 text-white pl-4 pr-1 py-1 rounded-full transition-all w-full shadow-xl disabled:cursor-not-allowed"
+                    >
+                      <span className="text-body font-regular">{isDownloading.pdf ? "Generating..." : "TDS"}</span>
+                      <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center shrink-0">
+                        <HiOutlineDownload className="text-black text-lg" />
+                      </div>
+                    </button>
+
+                    <button 
+                      onClick={handleDownloadIES} 
+                      disabled={isAnyFileDownloading}
+                      className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] disabled:bg-white/5 disabled:text-white/20 text-white pl-4 pr-1 py-1 rounded-full transition-all w-full shadow-xl disabled:cursor-not-allowed"
+                    >
+                      <span className="text-body font-regular">{isDownloading.ies ? "Generating..." : "IES File"}</span>
+                      <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center shrink-0">
                         <HiOutlineDownload className="text-black text-lg" />
                       </div>
                     </button>
@@ -560,14 +668,14 @@ export default function ProductInfoSection({
               </AnimatePresence>
 
               <button
-                onClick={() => !isDownloading && setIsDownloadMenuOpen((p) => !p)}
-                disabled={isDownloading}
+                onClick={() => !isAnyFileDownloading && setIsDownloadMenuOpen((p) => !p)}
+                disabled={isAnyFileDownloading}
                 className="flex items-center justify-between gap-4 bg-logo hover:bg-[#85764d] text-white pl-4 pr-1 py-1 rounded-full transition-all max-w-[300px] group shadow-lg disabled:opacity-90 disabled:cursor-wait"
               >
-                <span className="text-body font-regular">{isDownloading ? "Downloading....." : "Download Pack"}</span>
+                <span className="text-body font-regular">{isAnyFileDownloading ? "Downloading..." : "Download Pack"}</span>
                 <div className="relative bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center">
                   <AnimatePresence>
-                    {isDownloading && (
+                    {isAnyFileDownloading && (
                       <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
                         <circle cx="50" cy="50" r="42" fill="transparent" stroke="rgba(150,134,93,0.15)" strokeWidth="8" />
                         <motion.circle cx="50" cy="50" r="42" fill="transparent" stroke="#96865D" strokeWidth="8" strokeLinecap="round"
@@ -577,7 +685,7 @@ export default function ProductInfoSection({
                     )}
                   </AnimatePresence>
                   <div className="relative z-10">
-                    <HiOutlineDownload className={`text-black text-xl transition-all duration-300 ${isDownloading ? "opacity-50 scale-75" : "group-hover:scale-110"}`} />
+                    <HiOutlineDownload className={`text-black text-xl transition-all duration-300 ${isAnyFileDownloading ? "opacity-50 scale-75" : "group-hover:scale-110"}`} />
                   </div>
                 </div>
               </button>
@@ -589,8 +697,7 @@ export default function ProductInfoSection({
   );
 }
 
-// ─── Config Field Components (unchanged) ───────────────────────────────────────
-
+// ─── Config Row Sub-Component ──────────────────────────────────────────────────
 const ConfigRow = ({ id, label, options, selected, onSelect, isDisabled, isError, isColorType }: any) => (
   <div id={id} className={`py-5 border-b flex flex-col lg:flex-row lg:items-center gap-6 transition-all ${isError ? "border-red-500 bg-red-500/5" : "border-white/10"}`}>
     <span className="w-full lg:w-[300px] text-[#EBEBEB] text-lg font-normal">{label}</span>
@@ -612,6 +719,7 @@ const ConfigRow = ({ id, label, options, selected, onSelect, isDisabled, isError
   </div>
 );
 
+// ─── Config Column Sub-Component ───────────────────────────────────────────────
 const ConfigColumn = ({ id, label, options = [], selected, onSelect, isDisabled, isColorType, isCctType, isError }: any) => (
   <div id={id} className={`flex flex-col gap-4 rounded-xl transition-all ${isError ? "ring-2 ring-red-500 bg-red-500/5" : ""}`}>
     <span className="text-[#EBEBEB] text-body">{label}</span>
@@ -633,7 +741,7 @@ const ConfigColumn = ({ id, label, options = [], selected, onSelect, isDisabled,
         }
         return (
           <button key={val} disabled={disabled} onClick={() => onSelect && onSelect(val)}
-            className={` transition-all py-1 flex items-center justify-center border ${isColorType ? "w-8 h-8 rounded-full p-[3px]" : "px-6 rounded-full text-md"} ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active && isColorType ? "ring-2 ring-white scale-110 shadow-lg" : ""} ${active && !isColorType ? "bg-content border-content" : ""}`}
+            className={`transition-all py-1 flex items-center justify-center border ${isColorType ? "w-8 h-8 rounded-full p-[3px]" : "px-6 rounded-full text-md"} ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active && isColorType ? "ring-2 ring-white scale-110 shadow-lg" : ""} ${active && !isColorType ? "bg-content border-content" : ""}`}
             title={val}>
             {isColorType
               ? <div className="w-full h-full rounded-full" style={{ backgroundColor: colorHex }} />

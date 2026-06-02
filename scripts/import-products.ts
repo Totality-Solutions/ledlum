@@ -6,8 +6,6 @@ dotenv.config({
   path: ".env.local",
 });
 
-
-console.log(process.env.NEXT_PUBLIC_SUPABASE_URL);
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -25,6 +23,7 @@ async function importProducts() {
       XLSX.utils.sheet_to_json(sheet);
 
     let currentFamily = "";
+    let familyCounter = 0;
 
     const websiteRows = [];
 
@@ -37,7 +36,9 @@ async function importProducts() {
       }
 
       if (row.Family) {
-        currentFamily = row.Family;
+        familyCounter++;
+
+        currentFamily = `${sheetName}-F${familyCounter}`;
       }
 
       websiteRows.push({
@@ -46,74 +47,94 @@ async function importProducts() {
       });
     }
 
-    // Build family map
-    const familyMap = new Map();
-
-    for (const row of websiteRows) {
-      const key = row.familyCode;
-
-      if (!familyMap.has(key)) {
-        familyMap.set(key, []);
-      }
-
-      familyMap
-        .get(key)
-        .push(row["Item Number"]);
-    }
-
-    // Insert products
     for (const row of websiteRows) {
       const model =
         String(row["Item Number"]).trim();
 
-      await supabase
+      const galleryImages = [];
+
+      if (row["Gallery 1"])
+        galleryImages.push(row["Gallery 1"]);
+
+      if (row["Gallery 2"])
+        galleryImages.push(row["Gallery 2"]);
+
+      if (row["Gallery 3"])
+        galleryImages.push(row["Gallery 3"]);
+
+      const { error } = await supabase
         .from("products")
         .upsert({
           model,
 
           family: row.familyCode,
 
-          family_models:
-            familyMap.get(row.familyCode),
-
           category: row.Category,
-
-          series: model,
 
           group_name: sheetName,
 
           collection: "indoor",
 
-          watts: row.Watts,
+          hero_image:
+            row["Hero Image"] || null,
 
-          dimensions: row.Dimension,
+          hero_description:
+            row["Description"] || null,
 
-          cutout_size: row["Cutout Size"],
+          gallery_images: galleryImages,
+
+          watts:
+            row["Watts"]?.toString() || null,
+
+          dimensions:
+            row["Dimension"]?.toString() ||
+            null,
+
+          cutout_size:
+            row["Cutout Size"]?.toString() ||
+            null,
 
           body_colors: row["Body Color"]
             ? String(
                 row["Body Color"]
-              ).split("/")
+              )
+                .split("/")
+                .map((v) => v.trim())
             : [],
 
           cct: row["CCT (K)"]
-            ? String(
-                row["CCT (K)"]
-              ).split("/")
+            ? String(row["CCT (K)"])
+                .split("/")
+                .map((v) => v.trim())
             : [],
 
-          beam_angle: row["Beam Angle"],
+          beam_angle:
+            row["Beam Angle"]?.toString() ||
+            null,
 
-          ip_rating: row["IP Rating"],
+          ip_rating:
+            row["IP Rating"]?.toString() ||
+            null,
 
-          led_chip: row["Powered by"],
+          led_chip:
+            row["Powered by"]?.toString() ||
+            null,
 
-          luminous: row["Luminous"],
+          luminous:
+            row["Luminous"]?.toString() ||
+            null,
 
-          cri: row["CRI"],
+          cri:
+            row["CRI"]?.toString() || null,
 
-          website: row.Website,
+          website:
+            row["Website"]?.toString() ||
+            null,
         });
+
+      if (error) {
+        console.log(model, error);
+      }
     }
   }
 

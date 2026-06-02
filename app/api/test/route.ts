@@ -6,6 +6,7 @@ export async function GET() {
     await supabase
       .from("products")
       .select("*");
+      
 
   return NextResponse.json({
     success: !error,

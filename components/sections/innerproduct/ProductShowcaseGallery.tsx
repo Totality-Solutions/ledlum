@@ -1,14 +1,28 @@
 "use client";
+
 import React from "react";
 import Image from "next/image";
 
-export default function ProductShowcaseGallery({ images }: { images: string[] }) {
+export default function ProductShowcaseGallery({
+  images,
+}: {
+  images: string[];
+}) {
   return (
-    <div className="w-full bg-black mx-auto px-6 lg:px-[70px] py-10 lg:py-[60px] border-t border-white/10">
-      <div className="w-full flex flex-col md:flex-row justify-center items-center gap-4 lg:gap-5">
+    <div className="w-full bg-black mx-auto px-6 lg:px-[70px] py-10 lg:pb-[60px] border-t border-white/10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
         {images.map((src, index) => (
-          <div key={index} className="relative aspect-[3/2] w-full max-w-[400px] md:max-w-none md:flex-1 rounded-[10px] overflow-hidden">
-            <Image src={src} alt="Gallery" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer" unoptimized />
+          <div
+            key={index}
+            className="relative aspect-[6/5] w-full rounded-[10px] overflow-hidden"
+          >
+            <Image
+              src={src}
+              alt={`Gallery ${index + 1}`}
+              fill
+              unoptimized
+              className="object-cover grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer"
+            />
           </div>
         ))}
       </div>
