@@ -1,18 +1,19 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
+import { supabase } from "@/lib/supabase" // Adjust the path to your Supabase client configuration instance
 
 import Hero from "@/components/sections/product/Hero"
 import ProductFilters from "@/components/sections/product/ProductFilters"
 import ProductGrid from "@/components/sections/product/ProductGrid"
 
-// Master untouched dataset imported cleanly
-import { INDOOR_MODEL_DATABASE } from "@/content/data/indoorCategoryMap"
-
 export default function CollectionPage() {
   const params = useParams()
   const collection = params.collection as string
+
+  const [dbProducts, setDbProducts] = useState<any[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   const [filters, setFilters] = useState({
     collection: "All",
@@ -20,61 +21,102 @@ export default function CollectionPage() {
     dimming: "All"
   })
 
-  // Dynamic parser optimized to pull exactly 1 representative product per sub-category row
-  const products = useMemo(() => {
-    const uniqueProducts: any[] = [];
-
-    if (collection !== "indoor") return uniqueProducts;
-
-    // Outer layer sweep over the main categories
-    Object.entries(INDOOR_MODEL_DATABASE).forEach(([dbCategoryKey, subCategories]) => {
-      
-      // Inner layer sweep over sub-categories ("1", "2", "3"...)
-      Object.entries(subCategories).forEach(([subCategoryKey, modelsList]) => {
+  // 1. LIVE DATA CONNECTOR FETCH LAYER
+  useEffect(() => {
+    async function fetchLiveCatalogData() {
+      try {
+        setLoading(true)
         
-        // CRITICAL FIX: Har ek nested sub-category group array se hum sirf pehla model [0] pick karenge
-        const firstModelInSubCategory = modelsList[0];
+        // Pull down your entire dataset dynamically straight from your live production cluster
+        const { data, error } = await supabase
+          .from("products")
+          .select("*")
+          .order("model");
 
-        if (firstModelInSubCategory) {
-          const cleanId = firstModelInSubCategory.toLowerCase().replace(/[^a-z0-9]/g, "-");
-          const computedSeries = firstModelInSubCategory.split("-")[0] || "General";
-
-          // Dynamic rule evaluations to assign dimming types parsed straight from keys
-          let assignedDimming = "Non - Dimming";
-          if (
-            firstModelInSubCategory.includes("A") || 
-            firstModelInSubCategory.includes("TR") || 
-            dbCategoryKey.includes("IP54") || 
-            dbCategoryKey.includes("Vision")
-          ) {
-            assignedDimming = "Dali";
-          } else if (
-            dbCategoryKey.includes("Magnetic") || 
-            firstModelInSubCategory.startsWith("LMT") || 
-            firstModelInSubCategory.startsWith("LRT")
-          ) {
-            assignedDimming = "DP";
-          }
-
-          // Push exactly ONE single item per dynamic sub-category group block sequence
-          uniqueProducts.push({
-            id: cleanId,
-            title: firstModelInSubCategory, // Will output just "LLF-216" instead of generating duplicates for 217, 218, etc.
-            image: `https://placehold.co/800x800/1a1a1a/ffffff?text=${encodeURIComponent(firstModelInSubCategory)}`,
-            heroBannerImage: "/images/home/product/Indoor.jpeg",
-            collection: "indoor",
-            category: dbCategoryKey,
-            group: dbCategoryKey, // Dynamic mapping to match multi-level categories filter selection
-            dimming: assignedDimming,
-            series: computedSeries,
-            itemCount: modelsList.length,
-          });
+        if (error) {
+          console.error("Supabase catalog sync error:", error)
+          return
         }
-      });
-    });
 
-    return uniqueProducts;
-  }, [collection]);
+        if (data) {
+          setDbProducts(data)
+        }
+      } catch (err) {
+        console.error("Uncaught exception processing database payload:", err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchLiveCatalogData()
+  }, [])
+
+  // Updated Data Normalizer: Now grouping strictly by UNIQUE FAMILY strings
+  const products = useMemo(() => {
+    const uniqueProductsMap = new Map<string, any>()
+
+    if (collection !== "indoor") return []
+
+    dbProducts.forEach((item: any) => {
+      // 1. CRITICAL CHANGE: Group by 'family' column instead of 'group_name'
+      const familyKey = item.family || `${item.group_name}-fallback`
+
+      // If this family block already has a representative item, increment its child item count
+      if (uniqueProductsMap.has(familyKey)) {
+        const existingRecord = uniqueProductsMap.get(familyKey)
+        existingRecord.itemCount += 1
+        return
+      }
+
+      // Compute formatting tags for the first representative of this family
+      const firstModelCode = String(item.model || "").trim()
+      const cleanId = firstModelCode.toLowerCase().replace(/[^a-z0-9]/g, "-")
+      const computedSeries = firstModelCode.split("-")[0] || "General"
+
+      // Dynamic rule evaluations to assign dimming types parsed from codes and category fields
+      let assignedDimming = "Non - Dimming"
+      const categoryString = String(item.category || "")
+      
+      if (
+        firstModelCode.includes("A") || 
+        firstModelCode.includes("TR") || 
+        categoryString.includes("IP54") || 
+        categoryString.includes("Vision")
+      ) {
+        assignedDimming = "Dali"
+      } else if (
+        categoryString.includes("Magnetic") || 
+        firstModelCode.startsWith("LMT") || 
+        firstModelCode.startsWith("LRT")
+      ) {
+        assignedDimming = "DP"
+      }
+
+      const displayCollection = item.collection || "indoor"
+      const fallbackPlaceholderImage = `https://placehold.co/800x800/1a1a1a/ffffff?text=${encodeURIComponent(firstModelCode)}`
+
+      // Push exactly ONE single item per dynamic Family sequence block
+      uniqueProductsMap.set(familyKey, {
+        id: cleanId,
+        title: firstModelCode, 
+        image: item.hero_image || fallbackPlaceholderImage,
+        heroBannerImage: "/images/home/product/Indoor.jpeg",
+        collection: displayCollection,
+        isNewLaunch: !!item.is_new_launch, 
+        category: item.category,
+        
+        // Keep group tracking for dropdown filtering consistency
+        group: item.group_name || "General", 
+        family: familyKey, // Pass family context onwards to grid routing
+        
+        dimming: assignedDimming,
+        series: computedSeries,
+        itemCount: 1, 
+      })
+    })
+
+    return Array.from(uniqueProductsMap.values())
+  }, [collection, dbProducts])
 
   const COLLECTION_HERO_DATA = {
     indoor: {
@@ -107,16 +149,21 @@ export default function CollectionPage() {
       image: "/images/home/product/Volaris.jpeg",
       description: "Volaris blends air movement with design offering premium fans that function as both performance driven appliances and elegant interior elements.",
     },
-  }; 
+  }
 
-  console.log("Total unique sub-category breakout items loaded:", products.length);
-  const heroData = COLLECTION_HERO_DATA[collection as keyof typeof COLLECTION_HERO_DATA];
+  const heroData = COLLECTION_HERO_DATA[collection as keyof typeof COLLECTION_HERO_DATA]
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-t-white border-white/10 rounded-full animate-spin" />
+      </div>
+    )
+  }
 
   return (
     <main className="relative bg-transparent min-h-screen">
-      <Hero 
-        heroBannerImage={heroData?.image}
-      />
+      <Hero heroBannerImage={heroData?.image} />
 
       <div className="mx-auto px-6 lg:px-12 pt-12">
         <ProductFilters

@@ -53,3 +53,18 @@ export async function getCategoryFamilies(
 
   return data || [];
 }
+
+// Add this to your existing Supabase actions file
+export async function getAllProductsForCatalog() {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .order("model"); // Alphabetical sorting by model code
+
+  if (error) {
+    console.error("Error fetching catalog database records:", error);
+    return [];
+  }
+
+  return data || [];
+}
