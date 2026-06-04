@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation"
 import { useMemo, useState, useEffect } from "react"
-import { supabase } from "@/lib/supabase" // Adjust the path to your Supabase client configuration instance
+import { supabase } from "@/lib/supabase"
 
 import Hero from "@/components/sections/product/Hero"
 import ProductFilters from "@/components/sections/product/ProductFilters"
@@ -27,9 +27,9 @@ export default function CollectionPage() {
       try {
         setLoading(true)
         
-        // Pull down your entire dataset dynamically straight from your live production cluster
+        // ✅ UPDATED: Target table name changed from 'products' to 'product'
         const { data, error } = await supabase
-          .from("products")
+          .from("product")
           .select("*")
           .order("model");
 
@@ -51,24 +51,26 @@ export default function CollectionPage() {
     fetchLiveCatalogData()
   }, [])
 
-  // Updated Data Normalizer: Now grouping strictly by UNIQUE FAMILY strings
+  // Data Normalizer: Grouping strictly by UNIQUE FAMILY strings
   const products = useMemo(() => {
     const uniqueProductsMap = new Map<string, any>()
 
     if (collection !== "indoor") return []
 
     dbProducts.forEach((item: any) => {
-      // 1. CRITICAL CHANGE: Group by 'family' column instead of 'group_name'
       const familyKey = item.family || `${item.group_name}-fallback`
 
       // If this family block already has a representative item, increment its child item count
       if (uniqueProductsMap.has(familyKey)) {
         const existingRecord = uniqueProductsMap.get(familyKey)
         existingRecord.itemCount += 1
+        
+        if (item.product_type?.toLowerCase() === "new") {
+          existingRecord.isNewLaunch = true
+        }
         return
       }
 
-      // Compute formatting tags for the first representative of this family
       const firstModelCode = String(item.model || "").trim()
       const cleanId = firstModelCode.toLowerCase().replace(/[^a-z0-9]/g, "-")
       const computedSeries = firstModelCode.split("-")[0] || "General"
@@ -94,21 +96,18 @@ export default function CollectionPage() {
 
       const displayCollection = item.collection || "indoor"
       const fallbackPlaceholderImage = `https://placehold.co/800x800/1a1a1a/ffffff?text=${encodeURIComponent(firstModelCode)}`
+      const isNewLaunch = item.product_type?.toLowerCase() === "new"
 
-      // Push exactly ONE single item per dynamic Family sequence block
       uniqueProductsMap.set(familyKey, {
         id: cleanId,
         title: firstModelCode, 
         image: item.hero_image || fallbackPlaceholderImage,
         heroBannerImage: "/images/home/product/Indoor.jpeg",
         collection: displayCollection,
-        isNewLaunch: !!item.is_new_launch, 
+        isNewLaunch: isNewLaunch,
         category: item.category,
-        
-        // Keep group tracking for dropdown filtering consistency
         group: item.group_name || "General", 
-        family: familyKey, // Pass family context onwards to grid routing
-        
+        family: familyKey,
         dimming: assignedDimming,
         series: computedSeries,
         itemCount: 1, 
