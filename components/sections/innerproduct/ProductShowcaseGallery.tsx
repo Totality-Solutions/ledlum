@@ -9,7 +9,7 @@ export default function ProductShowcaseGallery({
   images: string[];
 }) {
   return (
-    <div className="w-full bg-black mx-auto px-6 lg:px-[70px] py-10 lg:pb-[60px] border-t border-white/10">
+    <div className="w-full bg-black mx-auto px-6 lg:px-[70px] py-10 border-t border-white/10">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
         {images.map((src, index) => (
           <div

@@ -9,7 +9,7 @@ import { Container } from "@/components/layout/Container"
 export default function ProductFilters({
   filters,
   setFilters,
-  products = [],
+  products = [], // ✅ FIXED: Parameter renamed to match parent prop injection cleanly
 }: any) {
   const [showGroupDropdown, setShowGroupDropdown] = useState(false)
   const [showDimmingDropdown, setShowDimmingDropdown] = useState(false)
@@ -23,11 +23,9 @@ export default function ProductFilters({
     setMounted(true)
     
     if (isMobileMenuOpen) {
-      // 1. Lock the body height to exactly the viewport height
       document.body.style.overflow = 'hidden'
       document.body.style.height = '100vh'
-      // 2. Prevent mobile touch-scrolling of the background
-      document.body.style.touchAction = 'none' 
+      document.body.style.touchAction = 'none'
     } else {
       document.body.style.overflow = 'unset'
       document.body.style.height = 'auto'
@@ -40,7 +38,7 @@ export default function ProductFilters({
     }
   }, [isMobileMenuOpen])
 
-  /* CLICK OUTSIDE (Desktop Dropdowns Close) */
+  /* CLICK OUTSIDE */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (groupRef.current && !groupRef.current.contains(event.target as Node)) {
@@ -54,7 +52,6 @@ export default function ProductFilters({
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  // 1. FIXED CATEGORIES: "Indoor" removed, "New Launch" added
   const categories = ["All", "New Launch", "Tracks", "Sensors"]
 
   const labelMap: any = {
@@ -64,14 +61,21 @@ export default function ProductFilters({
     Sensors: "Sensors"
   }
 
-  // 2. DYNAMIC GROUPS: Extracts unique options dynamically from database keys map
+  // ✅ DYNAMICALLY FILTERED GROUPS DROPDOWN: 
   const groups = useMemo(() => {
     const set = new Set<string>()
-    products.forEach((p: any) => { if (p.group) set.add(p.group) })
+    
+    products.forEach((p: any) => {
+      if (filters.collection === "New Launch") {
+        if (p.isNewLaunch && p.group) set.add(p.group)
+      } else {
+        if (p.group) set.add(p.group)
+      }
+    })
+    
     return ["All", ...Array.from(set)]
-  }, [products])
+  }, [products, filters.collection])
 
-  // 3. DYNAMIC DIMMING METHODS
   const dimmings = useMemo(() => {
     const set = new Set<string>()
     products.forEach((p: any) => { if (p.dimming) set.add(p.dimming) })
@@ -80,7 +84,13 @@ export default function ProductFilters({
 
   const updateFilters = (newVal: any) => {
     const updated = { ...filters, ...newVal }
-    if (newVal.collection === "All") {
+    
+    if (newVal.collection && newVal.collection !== filters.collection) {
+      updated.group = "All"
+      updated.dimming = "All"
+    }
+    
+    if (updated.collection === "All") {
       updated.group = "All"
       updated.dimming = "All"
     }
@@ -117,7 +127,7 @@ export default function ProductFilters({
             </div>
           </div>
 
-          {/* Mobile Content (Internal Scroll Only) */}
+          {/* Mobile Content */}
           <div className="flex-1 overflow-y-auto px-6 pt-4 pb-10 custom-scrollbar">
             <div className="mb-10">
               <label className="text-white text-body-sm font-pop font-regular uppercase tracking-wide mb-4 block">Collection</label>
@@ -135,7 +145,6 @@ export default function ProductFilters({
               </div>
             </div>
 
-            {/* Dropdown groups are now always visible on Mobile */}
             <div className="mb-10">
               <label className="text-white font-body-sm uppercase font-pop font-regular mb-4 block">Product Group</label>
               <div className="flex flex-col gap-1 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
@@ -151,21 +160,6 @@ export default function ProductFilters({
                 ))}
               </div>
             </div>
-            
-            {/* <div className="mb-10">
-              <label className="text-white font-body-sm uppercase font-pop font-regular mb-4 block">Dimming Method</label>
-              <div className="flex flex-wrap gap-2">
-                {dimmings.map(d => (
-                  <button 
-                    key={d} 
-                    onClick={() => updateFilters({ dimming: d })} 
-                    className={`px-4 py-2 rounded-full font-body-xs font-pop font-regular border transition-all ${filters.dimming === d ? 'bg-white text-black font-medium' : 'border-white/10 text-gray-400'}`}
-                  >
-                    {d}
-                  </button>
-                ))}
-              </div>
-            </div> */}
           </div>
 
           {/* Fixed Footer */}
@@ -210,7 +204,7 @@ export default function ProductFilters({
           })}
         </div>
 
-        {/* DESKTOP DROPDOWNS (Always visible, AnimatePresence wrapper removed) */}
+        {/* DESKTOP DROPDOWNS */}
         <div className="hidden lg:flex flex-col md:flex-row justify-between items-center py-4 relative custom-scrollbar">
           <div className="relative w-full md:w-auto" ref={groupRef}>
             <button
@@ -247,42 +241,6 @@ export default function ProductFilters({
               )}
             </AnimatePresence>
           </div>
-
-          {/* <div className="relative w-full md:w-auto" ref={dimmingRef}>
-            <button
-              onClick={() => setShowDimmingDropdown(!showDimmingDropdown)}
-              className={`flex items-center justify-between gap-6 px-6 h-12 rounded-[8px] text-[14px] font-medium transition-all duration-300 w-full md:w-fit ${showDimmingDropdown ? "bg-white text-black shadow-xl" : "bg-transparent border-b border-white/20 text-white hover:bg-white hover:text-black"}`}
-            >
-              <span className="text-body font-pop font-regular">
-                {filters.dimming === "All" ? "Dimming Method" : filters.dimming}
-              </span>
-              <ArrowDown size={18} className={`transition-transform duration-300 ${showDimmingDropdown ? "rotate-180" : ""}`} />
-            </button>
-
-            <AnimatePresence>
-              {showDimmingDropdown && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-[calc(100%+8px)] right-0 w-full md:min-w-[220px] bg-[#111111] border border-white/10 rounded-lg shadow-2xl z-[9999] overflow-hidden"
-                >
-                  <div className="max-h-[300px] overflow-y-auto custom-scrollbar">
-                    {dimmings.map((d: string) => (
-                      <button
-                        key={d}
-                        onClick={() => { updateFilters({ dimming: d }); setShowDimmingDropdown(false); }}
-                        className="group w-full flex items-center justify-between px-6 py-4 text-left text-white/70 hover:text-white hover:bg-[#1A1A1A] border-b border-white/5 last:border-0 transition-all"
-                      >
-                        <span className="text-body-sm text-white font-regular font-pop">{d}</span>
-                        <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div> */}
         </div>
 
         {/* MOBILE TRIGGER */}
@@ -291,9 +249,7 @@ export default function ProductFilters({
             <span className="text-white font-medium text-body-sm font-pop uppercase truncate">{filters.collection}</span>
             {(filters.group !== "All") && (
               <span className="text-gray-500 text-body-xxs uppercase tracking-widest mt-0.5 block truncate">
-                {filters.group !== "All" ? filters.group : ""}
-                {/* {filters.group !== "All" && filters.dimming !== "All" ? " | " : ""}
-                {filters.dimming !== "All" ? filters.dimming : ""} */}
+                {filters.group}
               </span>
             )}
           </div>

@@ -124,7 +124,7 @@ const CarouselArrow = ({
       transition-all duration-200 shrink-0
       ${disabled
         ? "border-white/10 text-white/20 cursor-not-allowed"
-        : "border-white/20 text-white hover:border-white hover:bg-white/5 active:scale-95"}
+        : "border-white/20 text-white bg-logo hover:border-white  active:scale-95"}
     `}
   >
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -238,11 +238,22 @@ export default function ProductInfoSection({
 
   // Sync carousel window when activeId changes
   useEffect(() => {
-    if (desktopView !== "carousel") return;
-    const idx = allModelIds.findIndex(id => id.toLowerCase() === activeId.toLowerCase());
-    if (idx < offset) setOffset(idx);
-    else if (idx >= offset + VISIBLE) setOffset(Math.max(0, idx - VISIBLE + 1));
-  }, [activeId, desktopView, allModelIds, offset]);
+  if (desktopView !== "carousel") return;
+
+  const idx = allModelIds.findIndex(
+    id => id.toLowerCase() === activeId.toLowerCase()
+  );
+
+  setOffset(prev => {
+    if (idx < prev) return idx;
+
+    if (idx >= prev + VISIBLE) {
+      return Math.max(0, idx - VISIBLE + 1);
+    }
+
+    return prev;
+  });
+}, [activeId, desktopView, allModelIds]);
 
   // Sync auto-selections on configuration updates
   useEffect(() => {
@@ -452,16 +463,28 @@ export default function ProductInfoSection({
   };
 
   return (
-    <Section className="w-full bg-black md:px-[50px] font-pop">
+    <Section className="!py-6 w-full bg-black md:px-[50px] font-pop">
       <div>
-        <h1 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white mb-12">
+        <h1 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white mb-6">
           Product Configuration
         </h1>
 
         {/* ── STICKY HEADER ─────────────────────────────────────────────────── */}
-        <div className="sticky top-0 z-[100] bg-black pt-6 pb-6 mb-10 -mx-4 px-4 md:-mx-[50px] md:px-[50px] border-b border-white/10 shadow-2xl">
+        <div className="sticky top-0 z-[100] bg-black pt-6 pb-6 mb-6 -mx-4 px-4 md:-mx-[50px] md:px-[50px] border-b border-white/10 shadow-2xl">
           <div className="flex flex-col gap-6">
+            <div className="flex items-center justify-between gap-4">
             <p className="text-white/70 text-body-md font-regular uppercase">Model Spectrum</p>
+            <div className="hidden lg:block">
+              <ViewToggle
+                view={desktopView}
+                onChange={(v) => {
+                  setDesktopView(v);
+                  setOffset(0);
+                  setGridExpanded(false);
+                }}
+              />
+            </div>
+            </div>
 
             {/* ── MOBILE & TABLET: dropdown ── */}
             <div className="lg:hidden relative">
@@ -506,33 +529,54 @@ export default function ProductInfoSection({
               </AnimatePresence>
             </div>
 
+
             {/* ── DESKTOP ────────────────────────────────────────────────────── */}
             <div className="hidden lg:flex lg:flex-col gap-4">
-              <div className="flex justify-end">
-                <ViewToggle
-                  view={desktopView}
-                  onChange={(v) => {
-                    setDesktopView(v);
-                    setOffset(0);
-                    setGridExpanded(false);
-                  }}
-                />
-              </div>
 
               {/* ── CAROUSEL ─────────────────────────────────────────────────── */}
               {desktopView === "carousel" && (
                 <div className="flex items-center gap-4">
-                  <CarouselArrow direction="left" onClick={() => setOffset((p) => Math.max(0, p - 1))} disabled={!canPrev} />
-                  <div className="flex-1 grid gap-4" style={{ gridTemplateColumns: `repeat(${VISIBLE}, minmax(0, 1fr))` }}>
-                    {allModelIds.slice(offset, offset + VISIBLE).map((id) => (
-                      <ModelCard
-                        key={id} id={id}
-                        isActive={activeId.toLowerCase() === id.toLowerCase()}
-                        onClick={() => onModelChange(id)}
-                      />
-                    ))}
+                  <CarouselArrow
+                    direction="left"
+                    onClick={() =>
+                      setOffset((prev) => Math.max(0, prev - 1))
+                    }
+                    disabled={!canPrev}
+                  />
+
+                  <div
+                    className="flex-1 grid gap-4"
+                    style={{
+                      gridTemplateColumns: `repeat(${VISIBLE}, minmax(0, 1fr))`,
+                    }}
+                  >
+                    {allModelIds
+                      .slice(offset, offset + VISIBLE)
+                      .map((id) => (
+                        <ModelCard
+                          key={id}
+                          id={id}
+                          isActive={
+                            activeId.toLowerCase() ===
+                            id.toLowerCase()
+                          }
+                          onClick={() => onModelChange(id)}
+                        />
+                      ))}
                   </div>
-                  <CarouselArrow direction="right" onClick={() => setOffset((p) => p + 1)} disabled={!canNext} />
+                    
+                  <CarouselArrow
+                    direction="right"
+                    onClick={() =>
+                      setOffset((prev) =>
+                        Math.min(
+                          allModelIds.length - VISIBLE,
+                          prev + 1
+                        )
+                      )
+                    }
+                    disabled={!canNext}
+                  />
                 </div>
               )}
 
@@ -542,47 +586,87 @@ export default function ProductInfoSection({
                   <div className="grid grid-cols-4 gap-4">
                     {allModelIds.slice(0, GRID_INITIAL).map((id) => (
                       <ModelCard
-                        key={id} id={id}
-                        isActive={activeId.toLowerCase() === id.toLowerCase()}
+                        key={id}
+                        id={id}
+                        isActive={
+                          activeId.toLowerCase() ===
+                          id.toLowerCase()
+                        }
                         onClick={() => onModelChange(id)}
                       />
                     ))}
                   </div>
-
+                  
                   <AnimatePresence>
-                    {gridExpanded && allModelIds.length > GRID_INITIAL && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="overflow-hidden"
-                      >
-                        <div className="grid grid-cols-4 gap-4 pt-1">
-                          {allModelIds.slice(GRID_INITIAL).map((id) => (
-                            <ModelCard
-                              key={id} id={id}
-                              isActive={activeId.toLowerCase() === id.toLowerCase()}
-                              onClick={() => onModelChange(id)}
-                            />
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
+                    {gridExpanded &&
+                      allModelIds.length > GRID_INITIAL && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{
+                            opacity: 1,
+                            height: "auto",
+                          }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{
+                            duration: 0.25,
+                            ease: "easeOut",
+                          }}
+                          className="overflow-hidden"
+                        >
+                          <div className="grid grid-cols-4 gap-4 pt-1">
+                            {allModelIds
+                              .slice(GRID_INITIAL)
+                              .map((id) => (
+                                <ModelCard
+                                  key={id}
+                                  id={id}
+                                  isActive={
+                                    activeId.toLowerCase() ===
+                                    id.toLowerCase()
+                                  }
+                                  onClick={() =>
+                                    onModelChange(id)
+                                  }
+                                />
+                              ))}
+                          </div>
+                        </motion.div>
+                      )}
                   </AnimatePresence>
-
+                    
                   {hasMore && (
                     <button
-                      onClick={() => setGridExpanded((p) => !p)}
+                      onClick={() =>
+                        setGridExpanded((p) => !p)
+                      }
                       className="self-end flex items-center gap-2 text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all duration-200 mt-1 group"
                     >
-                      <span>{gridExpanded ? "Show less" : `+${allModelIds.length - GRID_INITIAL} more models`}</span>
+                      <span>
+                        {gridExpanded
+                          ? "Show less"
+                          : `+${
+                              allModelIds.length -
+                              GRID_INITIAL
+                            } more models`}
+                      </span>
+                          
                       <motion.div
-                        animate={{ rotate: gridExpanded ? 180 : 0 }}
+                        animate={{
+                          rotate: gridExpanded ? 180 : 0,
+                        }}
                         transition={{ duration: 0.2 }}
                         className="text-white/30 group-hover:text-white/60 transition-colors"
                       >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
                           <path d="m6 9 6 6 6-6" />
                         </svg>
                       </motion.div>
@@ -595,7 +679,7 @@ export default function ProductInfoSection({
         </div>
 
         {/* ── CONFIG FIELDS ─────────────────────────────────────────────────── */}
-        <div className="flex flex-col border-t border-white/10 pt-10">
+        <div className="flex flex-col ">
           {rowFields.length > 0 && (
             <>
               <p className="text-white/70 text-body-md font-regular uppercase mb-4">Core Configuration</p>
@@ -653,16 +737,56 @@ export default function ProductInfoSection({
                       </div>
                     </button>
 
-                    <button 
-                      onClick={handleDownloadIES} 
-                      disabled={isAnyFileDownloading}
-                      className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] disabled:bg-white/5 disabled:text-white/20 text-white pl-4 pr-1 py-1 rounded-full transition-all w-full shadow-xl disabled:cursor-not-allowed"
-                    >
-                      <span className="text-body font-regular">{isDownloading.ies ? "Generating..." : "IES File"}</span>
-                      <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center shrink-0">
-                        <HiOutlineDownload className="text-black text-lg" />
-                      </div>
-                    </button>
+                    <div className="relative group w-full">
+                      <button
+                        onClick={handleDownloadIES}
+                        disabled={isAnyFileDownloading || !config?.iesFile}
+                        className={`
+                          flex items-center justify-between gap-2
+                          text-white pl-4 pr-1 py-1 rounded-full transition-all w-full shadow-xl
+                        
+                          ${
+                            config?.iesFile
+                              ? "bg-logo hover:bg-[#85764d]"
+                              : "bg-white/5 text-white/30 cursor-not-allowed"
+                          }
+                        `}
+                      >
+                        <span className="text-body font-regular">
+                          {isDownloading.ies ? "Generating..." : "IES File"}
+                        </span>
+                        
+                        <div
+                          className={`
+                            p-2 rounded-full flex items-center justify-center shrink-0 transition-all
+                            ${
+                              config?.iesFile
+                                ? "bg-[#FAF3E0]"
+                                : "bg-white/10"
+                            }
+                          `}
+                        >
+                          <HiOutlineDownload
+                            className={`
+                              text-lg transition-all
+                              ${
+                                config?.iesFile
+                                  ? "text-black"
+                                  : "text-white/30"
+                              }
+                            `}
+                          />
+                        </div>
+                      </button>
+                        
+                      {!config?.iesFile && (
+                        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 z-50">
+                          <div className="px-3 py-2 text-xs text-white bg-black border border-white/20 rounded-md whitespace-nowrap">
+                            File download not available
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
