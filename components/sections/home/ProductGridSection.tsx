@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { memo, useState } from 'react';
@@ -71,7 +70,6 @@ const CombinedProductSection = memo(function CombinedProductSection() {
     e.stopPropagation();
     
     const link = document.createElement('a');
-    // Handle both StaticImageData objects and string paths
     link.href = typeof imgSrc === 'string' ? imgSrc : imgSrc.src;
     link.download = `${fileName.replace(/\s+/g, '-').toLowerCase()}-ledlum.png`;
     document.body.appendChild(link);
@@ -81,14 +79,15 @@ const CombinedProductSection = memo(function CombinedProductSection() {
 
   return (
     <Section 
-      className="relative min-h-screen bg-black flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat will-change-transform"
+      className="relative min-h-screen bg-black flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat"
     >
     <Image
       src={BgImg}
       alt="Background"
       fill
       priority
-      className="object-cover relative -z-20 "
+      className="object-cover relative -z-20 pointer-events-none select-none"
+      sizes="100vw"
     />
     <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
                           <Image 
@@ -96,11 +95,12 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                             alt="background texture"
                             fill
                             className="object-cover object-center"
+                            sizes="100vw"
                           />
     </div>
 
       {/* SECTION 1: BESTSELLERS GRID */}
-      <Container className="relative z-20 ">
+      <Container className="relative z-20">
         <div className="flex flex-row-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
           <div className="max-w-full md:max-w-xl">
             <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white ">Designed In-House.</h2>
@@ -124,24 +124,39 @@ const CombinedProductSection = memo(function CombinedProductSection() {
           {BESTSELLERS.map((product) => {
             const isDark = activeModes[product.id] ?? isAllDark;
             return (
-              <div key={product.id} className="flex flex-col w-full max-w-[300px] lg:max-w-none group relative">
+              <div key={product.id} className="flex flex-col w-full max-w-[300px] lg:max-w-none group relative transform-gpu">
                 {/* IMAGE CONTAINER */}
-                <div className="relative w-full aspect-[3/4] rounded-[12px] lg:rounded-[25px] overflow-hidden shadow-2xl">
+                <div className="relative w-full aspect-[3/4] rounded-[12px] lg:rounded-[25px] overflow-hidden shadow-2xl bg-zinc-950">
+                  {/* Light Image Layer */}
                   <Image 
-                    src={isDark ? product.darkImg : product.lightImg} 
+                    src={product.lightImg} 
                     alt={product.title} 
                     fill 
-                    className="object-cover transition-opacity duration-700 ease-in-out" 
-                    sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw" />
+                    className={cn(
+                      "object-cover transition-opacity duration-500 ease-in-out transform-gpu absolute inset-0", 
+                      isDark ? "opacity-0 pointer-events-none" : "opacity-100"
+                    )}
+                    sizes="(max-width: 768px) 300px, (max-width: 1024px) 50vw, 25vw" 
+                  />
+                  {/* Dark Image Layer */}
+                  <Image 
+                    src={product.darkImg} 
+                    alt={product.title} 
+                    fill 
+                    className={cn(
+                      "object-cover transition-opacity duration-500 ease-in-out transform-gpu absolute inset-0", 
+                      isDark ? "opacity-100" : "opacity-0 pointer-events-none"
+                    )}
+                    sizes="(max-width: 768px) 300px, (max-width: 1024px) 50vw, 25vw" 
+                  />
                   
                   {/* INFO CONTAINER: Desktop Overlay Mode */}
                   <div className={cn(
-                    "hidden lg:flex absolute bottom-0 left-0 w-full h-[110px] px-8 items-center justify-between transition-all",
-                    "bg-white/20 backdrop-blur-[20px] border-t border-white/20 will-change-filter rounded-b-[25px]"
+                    "hidden lg:flex absolute bottom-0 left-0 w-full h-[110px] px-8 items-center justify-between transition-all transform-gpu",
+                    "bg-white/20 backdrop-blur-[20px] border-t border-white/20 rounded-b-[25px]"
                   )}>
                     <div className="flex flex-col">
                       <span className="body font-semibold font-pop leading-tight text-black">{product.title}</span>
-                      {/* <span className="body-xs font-pop mt-0.5 text-black/70">{product.sub}</span> */}
                     </div>
                     <button 
                       onClick={() => toggleIndividual(product.id)} 
@@ -203,19 +218,19 @@ const CombinedProductSection = memo(function CombinedProductSection() {
           renderItem={(item) => (
             <Link 
               href={item.href || "#"} 
-              className="relative block aspect-[3/4] w-full rounded-[12px] overflow-hidden group shadow-xl"
+              className="relative block aspect-[3/4] w-full rounded-[12px] overflow-hidden group shadow-xl transform-gpu"
             >
               <Image 
                 src={item.img} 
                 alt={item.title || "New Arrival"} 
                 fill 
-                className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform rounded-[16px] " 
+                className="object-cover transition-transform duration-500 group-hover:scale-110 rounded-[16px]" 
                 style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
-                sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
+                sizes="(max-width: 640px) 50vw, 25vw" 
               />
 
               {/* The Overlay */}
-              <div className="absolute bottom-0 left-0 w-full bg-black/80 backdrop-blur-sm p-4 flex items-center justify-between">
+              <div className="absolute bottom-0 left-0 w-full bg-black/80 backdrop-blur-sm p-4 flex items-center justify-between transform-gpu">
                 
                 {/* Left Side: Title */}
                 <span className="text-body-sm lg:text-body font-pop font-regular text-white truncate pr-4">
@@ -243,11 +258,6 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                       <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
                   </button>
-
-                  {/*  */}
-
-
-                  {/*  */}
 
                   {/* Arrow Side */}
                   <div className="w-8 h-8 md:w-10 md:h-10 bg-[#9a8c66] rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-45">

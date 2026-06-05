@@ -9,7 +9,7 @@ import { Container } from "@/components/layout/Container"
 export default function ProductFilters({
   filters,
   setFilters,
-  products = [], // ✅ FIXED: Parameter renamed to match parent prop injection cleanly
+  products = [], 
 }: any) {
   const [showGroupDropdown, setShowGroupDropdown] = useState(false)
   const [showDimmingDropdown, setShowDimmingDropdown] = useState(false)
@@ -82,19 +82,18 @@ export default function ProductFilters({
     return ["All", ...Array.from(set)]
   }, [products])
 
+  // ✅ FIXED RESET MATRIX: Only resets dropdowns if the active collection tab explicitly changes
   const updateFilters = (newVal: any) => {
-    const updated = { ...filters, ...newVal }
-    
-    if (newVal.collection && newVal.collection !== filters.collection) {
-      updated.group = "All"
-      updated.dimming = "All"
-    }
-    
-    if (updated.collection === "All") {
-      updated.group = "All"
-      updated.dimming = "All"
-    }
-    setFilters(updated)
+    setFilters((prev: any) => {
+      const updated = { ...prev, ...newVal }
+      
+      if (newVal.collection && newVal.collection !== prev.collection) {
+        updated.group = "All"
+        updated.dimming = "All"
+      }
+      
+      return updated
+    })
   }
 
   // FULL SCREEN MOBILE DRAWER PORTAL
