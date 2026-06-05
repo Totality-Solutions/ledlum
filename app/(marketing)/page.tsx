@@ -42,6 +42,7 @@ import Achievements from '@/components/sections/home/Achievements';
 import FirstVisitModal from "@/components/layout/common/FirstVisitModal";
 import heroImage from '@/public/images/home/home-hero.webp'; 
 import HomeClient from "@/components/sections/home/HomeClient";
+import TestimonialSection from "@/components/sections/home/TesimonialSection";
 
 export const metadata = buildMetadata({
   title: "LEDLUM | Futuristic LED Solutions",
@@ -62,6 +63,7 @@ const Home = () => {
       <ProductSection />
       <AboutSection />
       <HomeClient/>
+      
     </div>
   )
 }

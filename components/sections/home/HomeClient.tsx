@@ -9,6 +9,7 @@ import { PopupForm } from "@/components/common/PopupForm";
 
 // --- ASSETS ---
 import BgImg from '@/public/images/home/home-bg3.png';
+import TestimonialSection from "./TesimonialSection";
 
 const HomeClient = () => {
   const [showForm, setShowForm] = useState(false);
@@ -47,6 +48,7 @@ const HomeClient = () => {
         <Achievements onTriggerForm={handleTriggerForm} />
         <ProjectSection />
         <AutoCarousel />
+        <TestimonialSection />
       </div>
 
       {/* FLOATING POPUP */}

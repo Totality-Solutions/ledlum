@@ -64,10 +64,6 @@ const handleSliderClick = () => {
         />
       </div>
 
-      <Container className="max-w-[1280px] 2xl:max-w-[1600px] ">
-        {/* Partners content placeholder */}
-      </Container>
-
       <Container className="">
         <div className="mb-12">
           <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
