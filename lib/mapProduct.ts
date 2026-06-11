@@ -1,4 +1,5 @@
 import { PRODUCT_IMAGES } from "@/content/data/productImages";
+import { cctToColor, bodyColorToHex } from "@/lib/productColors";
 
 export function mapProduct(product: any, familyProducts: any[]) {
   const images = PRODUCT_IMAGES[product.model.toUpperCase()];
@@ -34,14 +35,12 @@ export function mapProduct(product: any, familyProducts: any[]) {
       watts: product.watts ? [product.watts] : [],
       cct: (product.cct || []).map((item: string) => ({
         label: item,
-        color:
-          item === "3000K"
-            ? "#F5D68C"
-            : item === "4000K"
-            ? "#F5F5F5"
-            : "#D6E4F0",
+        color: cctToColor(item),
       })),
-      bodyColors: product.body_colors || [],
+      bodyColors: (product.body_colors || []).map((item: string) => ({
+        label: item,
+        hex: bodyColorToHex(item),
+      })),
       beamAngles: product.beam_angle ? [product.beam_angle] : [],
       ipRating: product.ip_rating ? [product.ip_rating] : [],
       cutoutSizes: product.cutout_size ? [product.cutout_size] : [],

@@ -183,7 +183,7 @@ const getAutoSelections = (config: any) => {
   if (config.voltage?.length === 1) autoSelections.voltage = config.voltage[0];
   if (config.dimensions?.length === 1) autoSelections.dimensions = config.dimensions[0];
   if (config.watts?.length === 1) autoSelections.watts = config.watts[0];
-  if (config.bodyColors?.length === 1) autoSelections.bodyColor = config.bodyColors[0];
+  if (config.bodyColors?.length === 1) autoSelections.bodyColor = typeof config.bodyColors[0] === "string" ? config.bodyColors[0] : config.bodyColors[0].label;
   if (config.beamAngles?.length === 1) autoSelections.beamAngles = config.beamAngles[0];
   if (config.ledChip?.length === 1) autoSelections.ledChip = config.ledChip[0];
   if (config.luminous?.length === 1) autoSelections.luminous = config.luminous[0];
@@ -713,7 +713,7 @@ export default function ProductInfoSection({
                     initial={{ opacity: 0, y: 180, scale: 0.95 }}
                     animate={{ opacity: 1, y: 220, scale: 1 }}
                     exit={{ opacity: 0, y: 180, scale: 0.95 }}
-                    className="absolute bottom-full mb-4 flex flex-col gap-2 w-fit z-50"
+                    className="absolute bottom-full mb-4 flex flex-col gap-2 w-fit z-50 bg-black rounded-2xl p-2 border border-white/10 shadow-2xl"
                   >
                     <button 
                       onClick={handleDownloadExcel} 
@@ -737,56 +737,18 @@ export default function ProductInfoSection({
                       </div>
                     </button>
 
-                    <div className="relative group w-full">
+                    {/* {config?.iesFile && ( */}
                       <button
                         onClick={handleDownloadIES}
-                        disabled={isAnyFileDownloading || !config?.iesFile}
-                        className={`
-                          flex items-center justify-between gap-2
-                          text-white pl-4 pr-1 py-1 rounded-full transition-all w-full shadow-xl
-                        
-                          ${
-                            config?.iesFile
-                              ? "bg-logo hover:bg-[#85764d]"
-                              : "bg-white/5 text-white/30 cursor-not-allowed"
-                          }
-                        `}
+                        disabled={isAnyFileDownloading}
+                        className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] disabled:bg-white/5 disabled:text-white/20 text-white pl-4 pr-1 py-1 rounded-full transition-all w-full shadow-xl disabled:cursor-not-allowed"
                       >
-                        <span className="text-body font-regular">
-                          {isDownloading.ies ? "Generating..." : "IES File"}
-                        </span>
-                        
-                        <div
-                          className={`
-                            p-2 rounded-full flex items-center justify-center shrink-0 transition-all
-                            ${
-                              config?.iesFile
-                                ? "bg-[#FAF3E0]"
-                                : "bg-white/10"
-                            }
-                          `}
-                        >
-                          <HiOutlineDownload
-                            className={`
-                              text-lg transition-all
-                              ${
-                                config?.iesFile
-                                  ? "text-black"
-                                  : "text-white/30"
-                              }
-                            `}
-                          />
+                        <span className="text-body font-regular">{isDownloading.ies ? "Generating..." : "IES File"}</span>
+                        <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center shrink-0">
+                          <HiOutlineDownload className="text-black text-lg" />
                         </div>
                       </button>
-                        
-                      {!config?.iesFile && (
-                        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 z-50">
-                          <div className="px-3 py-2 text-xs text-white bg-black border border-white/20 rounded-md whitespace-nowrap">
-                            File download not available
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    {/* )} */}
                   </motion.div>
                 )}
               </AnimatePresence>

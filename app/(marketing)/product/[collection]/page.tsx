@@ -2,11 +2,11 @@
 
 import { useParams } from "next/navigation"
 import { useMemo, useState, useEffect } from "react"
-import { supabase } from "@/lib/supabase"
 
 import Hero from "@/components/sections/product/Hero"
 import ProductFilters from "@/components/sections/product/ProductFilters"
 import ProductGrid from "@/components/sections/product/ProductGrid"
+import { getAllProductsForCatalog } from "@/lib/products"
 
 export default function CollectionPage() {
   const params = useParams()
@@ -21,34 +21,25 @@ export default function CollectionPage() {
     dimming: "All"
   })
 
-  // 1. LIVE DATA CONNECTOR FETCH LAYER
   useEffect(() => {
+    let cancelled = false
+
     async function fetchLiveCatalogData() {
       try {
         setLoading(true)
-        
-        // ✅ UPDATED: Target table name changed from 'products' to 'product'
-        const { data, error } = await supabase
-          .from("product")
-          .select("*")
-          .order("model");
-
-        if (error) {
-          console.error("Supabase catalog sync error:", error)
-          return
-        }
-
-        if (data) {
+        const data = await getAllProductsForCatalog()
+        if (!cancelled && data) {
           setDbProducts(data)
         }
       } catch (err) {
-        console.error("Uncaught exception processing database payload:", err)
+        console.error("Catalog fetch error:", err)
       } finally {
-        setLoading(false)
+        if (!cancelled) setLoading(false)
       }
     }
 
     fetchLiveCatalogData()
+    return () => { cancelled = true }
   }, [])
 
   // Data Normalizer: Grouping strictly by UNIQUE FAMILY strings
