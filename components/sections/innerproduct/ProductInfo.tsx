@@ -176,6 +176,8 @@ const ViewToggle = ({
 );
 
 // Helper function to extract initial selections where only a single option is present
+const normalizeId = (s: string) => s.replace(/\s+/g, "+").trim().toUpperCase();
+
 const getAutoSelections = (config: any) => {
   const autoSelections: Record<string, string> = {};
   if (!config) return autoSelections;
@@ -241,7 +243,7 @@ export default function ProductInfoSection({
   if (desktopView !== "carousel") return;
 
   const idx = allModelIds.findIndex(
-    id => id.toLowerCase() === activeId.toLowerCase()
+    id => normalizeId(id) === normalizeId(activeId)
   );
 
   setOffset(prev => {
@@ -516,7 +518,7 @@ export default function ProductInfoSection({
                       {allModelIds.map((id) => (
                         <ModelCard
                           key={id} id={id}
-                          isActive={activeId.toLowerCase() === id.toLowerCase()}
+                          isActive={normalizeId(activeId) === normalizeId(id)}
                           onClick={() => {
                             onModelChange(id);
                             setMobileDropOpen(false);
