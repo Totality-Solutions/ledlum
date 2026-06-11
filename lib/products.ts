@@ -1,70 +1,53 @@
 import { supabase } from "@/lib/supabase";
+import { getCached, setCached } from "@/lib/queryCache";
 
-export async function getProduct(model?: string) {
-  if (!model) return null;
+const ALL_PRODUCTS_KEY = "all_products";
 
-  const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .eq("model", model.trim().toUpperCase())
-    .maybeSingle();
-
-  if (error) {
-    console.log(error);
-    return null;
-  }
-
-  return data;
+function normalizeModel(s: string): string {
+  return s.replace(/\s+/g, "+").trim().toUpperCase();
 }
 
-export async function getFamilyProducts(
-  family?: string
-) {
-  if (!family) return [];
+export async function getAllProducts(): Promise<any[]> {
+  const cached = getCached<any[]>(ALL_PRODUCTS_KEY);
+  if (cached !== null) return cached;
 
   const { data, error } = await supabase
-    .from("products")
+    .from("product")
     .select("*")
-    .eq("family", family)
     .order("model");
 
   if (error) {
-    console.log(error);
+    console.error("getAllProducts error:", error);
     return [];
   }
 
-  return data || [];
+  const result = data || [];
+  if (result.length > 0) setCached(ALL_PRODUCTS_KEY, result);
+  return result;
 }
 
-export async function getCategoryFamilies(
-  category?: string
-) {
+export async function getProduct(model?: string): Promise<any> {
+  if (!model) return null;
+
+  const all = await getAllProducts();
+  const normalized = normalizeModel(model);
+  return all.find((p: any) => normalizeModel(p.model || "") === normalized) || null;
+}
+
+export async function getFamilyProducts(family?: string): Promise<any[]> {
+  if (!family) return [];
+
+  const all = await getAllProducts();
+  return all.filter((p: any) => p.family === family).sort((a: any, b: any) => (a.model || "").localeCompare(b.model || ""));
+}
+
+export async function getCategoryFamilies(category?: string): Promise<any[]> {
   if (!category) return [];
 
-  const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .eq("category", category);
-
-  if (error) {
-    console.log(error);
-    return [];
-  }
-
-  return data || [];
+  const all = await getAllProducts();
+  return all.filter((p: any) => p.category === category);
 }
 
-// Add this to your existing Supabase actions file
-export async function getAllProductsForCatalog() {
-  const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .order("model"); // Alphabetical sorting by model code
-
-  if (error) {
-    console.error("Error fetching catalog database records:", error);
-    return [];
-  }
-
-  return data || [];
+export async function getAllProductsForCatalog(): Promise<any[]> {
+  return getAllProducts();
 }
