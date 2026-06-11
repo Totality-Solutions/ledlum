@@ -37,14 +37,13 @@ const InnerProductPage = memo(function InnerProductPage() {
 
   const [activeModel, setActiveModel] =
     useState(
-      searchParams.get("model")?.toUpperCase() ||
-      familyId.toUpperCase()
+      (searchParams.get("model") || familyId).replace(/\s+/g, "+").toUpperCase()
     );
 
   useEffect(() => {
-    const modelFromUrl = searchParams.get("model")?.toUpperCase();
+    const modelFromUrl = searchParams.get("model");
     if (modelFromUrl) {
-      setActiveModel(modelFromUrl);
+      setActiveModel(modelFromUrl.replace(/\s+/g, "+").toUpperCase());
     }
   }, [searchParams]);
 
