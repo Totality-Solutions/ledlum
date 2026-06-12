@@ -42,106 +42,74 @@ export default function CollectionPage() {
     return () => { cancelled = true }
   }, [])
 
-  // Data Normalizer: Grouping strictly by UNIQUE FAMILY strings
   const products = useMemo(() => {
-    const uniqueProductsMap = new Map<string, any>()
+    const familyMap = new Map<string, any>()
 
     if (collection !== "indoor") return []
 
     dbProducts.forEach((item: any) => {
       const familyKey = item.family || `${item.group_name}-fallback`
 
-      // If this family block already has a representative item, increment its child item count
-      if (uniqueProductsMap.has(familyKey)) {
-        const existingRecord = uniqueProductsMap.get(familyKey)
-        existingRecord.itemCount += 1
-        
+      if (familyMap.has(familyKey)) {
+        const existing = familyMap.get(familyKey)
+        existing.itemCount += 1
         if (item.product_type?.toLowerCase() === "new") {
-          existingRecord.isNewLaunch = true
+          existing.isNewLaunch = true
         }
         return
       }
 
       const firstModelCode = String(item.model || "").trim()
       const cleanId = firstModelCode.toLowerCase().replace(/[^a-z0-9]/g, "-")
-      const computedSeries = firstModelCode.split("-")[0] || "General"
 
-      // Dynamic rule evaluations to assign dimming types parsed from codes and category fields
       let assignedDimming = "Non - Dimming"
       const categoryString = String(item.category || "")
-      
       if (
-        firstModelCode.includes("A") || 
-        firstModelCode.includes("TR") || 
-        categoryString.includes("IP54") || 
+        firstModelCode.includes("A") ||
+        firstModelCode.includes("TR") ||
+        categoryString.includes("IP54") ||
         categoryString.includes("Vision")
       ) {
         assignedDimming = "Dali"
       } else if (
-        categoryString.includes("Magnetic") || 
-        firstModelCode.startsWith("LMT") || 
+        categoryString.includes("Magnetic") ||
+        firstModelCode.startsWith("LMT") ||
         firstModelCode.startsWith("LRT")
       ) {
         assignedDimming = "DP"
       }
 
-      const displayCollection = item.collection || "indoor"
-      const fallbackPlaceholderImage = `https://placehold.co/800x800/1a1a1a/ffffff?text=${encodeURIComponent(firstModelCode)}`
       const isNewLaunch = item.product_type?.toLowerCase() === "new"
+      const fallbackPlaceholderImage = `https://placehold.co/800x800/1a1a1a/ffffff?text=${encodeURIComponent(firstModelCode)}`
 
-      uniqueProductsMap.set(familyKey, {
+      familyMap.set(familyKey, {
         id: cleanId,
-        title: firstModelCode, 
+        title: firstModelCode,
         image: item.hero_image || fallbackPlaceholderImage,
         heroBannerImage: "/images/home/product/Indoor.jpeg",
-        collection: displayCollection,
-        isNewLaunch: isNewLaunch,
+        collection: item.collection || "indoor",
+        isNewLaunch,
         category: item.category,
-        group: item.group_name || "General", 
+        group: item.group_name || "General",
         family: familyKey,
         dimming: assignedDimming,
-        series: computedSeries,
-        itemCount: 1, 
+        series: firstModelCode.split("-")[0] || "General",
+        itemCount: 1,
       })
     })
 
-    return Array.from(uniqueProductsMap.values())
+    return Array.from(familyMap.values())
   }, [collection, dbProducts])
 
-  const COLLECTION_HERO_DATA = {
+  const COLLECTION_HERO_DATA: Record<string, { name: string; image: string; description: string }> = {
     indoor: {
       name: "Indoor Collection",
       image: "/images/home/product/Indoor.jpeg",
       description: "The Indoor Series focuses on refined illumination for interiors—delivering ambient, task, and accent lighting that blends seamlessly into modern architectural spaces.",
     },
-    outdoor: {
-      name: "Outdoor Collection",
-      image: "/images/home/product/Outdoor.jpeg",
-      description: "Designed to enhance exteriors, the Outdoor Series combines durability with design—offering weather-resistant lighting solutions that elevate facades, landscapes, and open spaces with precision illumination.",
-    },
-    artizan: {
-      name: "Artizan Collection",
-      image: "/images/home/product/Artizan.jpeg",
-      description: "Artizan represents bespoke, design-led lighting—where craftsmanship meets technology to create statement fixtures that enhance aesthetic storytelling.",
-    },
-    astara: {
-      name: "Astara Collection",
-      image: "/images/home/product/Astara.jpeg",
-      description: "Astara is LEDLUM’s precision-driven lighting range, built around sleek linear systems and high-performance fixtures for clean, contemporary visual experiences",
-    },
-    klewe: {
-      name: "Klewe Collection",
-      image: "/images/home/product/Klewe.jpeg",
-      description: "Klewe focuses on sustainability—delivering solar-powered and energy-efficient lighting solutions that reduce consumption while maintaining high performance.",
-    },
-    volaris: {
-      name: "Volaris Collection",
-      image: "/images/home/product/Volaris.jpeg",
-      description: "Volaris blends air movement with design offering premium fans that function as both performance driven appliances and elegant interior elements.",
-    },
   }
 
-  const heroData = COLLECTION_HERO_DATA[collection as keyof typeof COLLECTION_HERO_DATA]
+  const heroData = COLLECTION_HERO_DATA[collection]
 
   if (loading) {
     return (
