@@ -18,7 +18,7 @@ import ProductShowcaseGallery from "@/components/sections/innerproduct/ProductSh
 import {
   getProduct,
   getFamilyProducts,
-  getCategoryFamilies,
+  getCategoryProducts,
 } from "@/lib/products";
 
 import { mapProduct } from "@/lib/mapProduct";
@@ -58,7 +58,7 @@ const InnerProductPage = memo(function InnerProductPage() {
 
       const [familyProducts, categoryProducts] = await Promise.all([
         getFamilyProducts(rawProduct.family),
-        getCategoryFamilies(rawProduct.category),
+        getCategoryProducts(rawProduct.category),
       ]);
 
       if (cancelled) return;
