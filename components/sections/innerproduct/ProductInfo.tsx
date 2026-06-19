@@ -584,96 +584,18 @@ export default function ProductInfoSection({
 
               {/* ── GRID VIEW ────────────────────────────────────────────────── */}
               {desktopView === "grid" && (
-                <div className="flex flex-col gap-3">
-                  <div className="grid grid-cols-4 gap-4">
-                    {allModelIds.slice(0, GRID_INITIAL).map((id) => (
-                      <ModelCard
-                        key={id}
-                        id={id}
-                        isActive={
-                          activeId.toLowerCase() ===
-                          id.toLowerCase()
-                        }
-                        onClick={() => onModelChange(id)}
-                      />
-                    ))}
-                  </div>
-                  
-                  <AnimatePresence>
-                    {gridExpanded &&
-                      allModelIds.length > GRID_INITIAL && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{
-                            opacity: 1,
-                            height: "auto",
-                          }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{
-                            duration: 0.25,
-                            ease: "easeOut",
-                          }}
-                          className="overflow-hidden"
-                        >
-                          <div className="grid grid-cols-4 gap-4 pt-1">
-                            {allModelIds
-                              .slice(GRID_INITIAL)
-                              .map((id) => (
-                                <ModelCard
-                                  key={id}
-                                  id={id}
-                                  isActive={
-                                    activeId.toLowerCase() ===
-                                    id.toLowerCase()
-                                  }
-                                  onClick={() =>
-                                    onModelChange(id)
-                                  }
-                                />
-                              ))}
-                          </div>
-                        </motion.div>
-                      )}
-                  </AnimatePresence>
-                    
-                  {hasMore && (
-                    <button
-                      onClick={() =>
-                        setGridExpanded((p) => !p)
+                <div className="grid grid-cols-4 gap-4 max-h-[180px] px-4 overflow-y-auto custom-scrollbar">
+                  {allModelIds.map((id) => (
+                    <ModelCard
+                      key={id}
+                      id={id}
+                      isActive={
+                        activeId.toLowerCase() ===
+                        id.toLowerCase()
                       }
-                      className="self-end flex items-center gap-2 text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all duration-200 mt-1 group"
-                    >
-                      <span>
-                        {gridExpanded
-                          ? "Show less"
-                          : `+${
-                              allModelIds.length -
-                              GRID_INITIAL
-                            } more models`}
-                      </span>
-                          
-                      <motion.div
-                        animate={{
-                          rotate: gridExpanded ? 180 : 0,
-                        }}
-                        transition={{ duration: 0.2 }}
-                        className="text-white/30 group-hover:text-white/60 transition-colors"
-                      >
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="m6 9 6 6 6-6" />
-                        </svg>
-                      </motion.div>
-                    </button>
-                  )}
+                      onClick={() => onModelChange(id)}
+                    />
+                  ))}
                 </div>
               )}
             </div>

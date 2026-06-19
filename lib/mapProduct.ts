@@ -7,23 +7,18 @@ export function mapProduct(product: any, familyProducts: any[]) {
   // Check if product is flagged as a new launch
   const isNewLaunch = product.product_type?.toLowerCase() === "new";
 
-  return {
-    // Keeps original main category, but flags if it belongs to New Launches
-    category: product.category, 
-    
-    // Explicit tag for routing or badge rendering on the indoor/outdoor grid
-    isNewLaunch, 
-    
-    // Alternative approach: If your frontend routing expects an array of categories:
-    // categories: isNewLaunch ? [product.category, "New Launch"] : [product.category],
+  const categoryLabel = product.category || product.group_name || "General";
 
+  return {
+    category: categoryLabel,
+    isNewLaunch, 
     series: product.model,
     group: product.group_name,
-    collection: "indoor",
+    collection: product.collection || "indoor",
     dimming: "Non - Dimming",
 
     hero: {
-      category: product.category,
+      category: categoryLabel,
       name: product.model,
       description: product.hero_description || "",
       images: images?.heroCarousel || [],
