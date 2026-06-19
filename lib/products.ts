@@ -7,22 +7,40 @@ export async function getAllProducts(): Promise<any[]> {
   const cached = getCached<any[]>(ALL_PRODUCTS_KEY);
   if (cached !== null) return cached;
 
-  const { data, error } = await supabase
-    .from("ledlum_products")
-    .select("*")
-    .not("website", "is", null)
-    .neq("website", "")
-    .ilike("website", "W")
-    .order("model");
+  let allData: any[] = [];
+  let page = 0;
+  const pageSize = 1000;
+  let hasMore = true;
 
-  if (error) {
-    console.error("getAllProducts error:", error);
-    return [];
+  while (hasMore) {
+    const from = page * pageSize;
+    const to = from + pageSize - 1;
+
+    const { data, error } = await supabase
+      .from("ledlum_products")
+      .select("*")
+      .not("website", "is", null)
+      .neq("website", "")
+      .ilike("website", "W")
+      .order("model")
+      .range(from, to);
+
+    if (error) {
+      console.error("getAllProducts error:", error);
+      return allData.length > 0 ? allData : [];
+    }
+
+    if (!data || data.length === 0) {
+      hasMore = false;
+    } else {
+      allData = allData.concat(data);
+      page++;
+      if (data.length < pageSize) hasMore = false;
+    }
   }
 
-  const result = data || [];
-  if (result.length > 0) setCached(ALL_PRODUCTS_KEY, result);
-  return result;
+  if (allData.length > 0) setCached(ALL_PRODUCTS_KEY, allData);
+  return allData;
 }
 
 export async function getProduct(model?: string): Promise<any> {

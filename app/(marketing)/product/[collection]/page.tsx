@@ -45,9 +45,8 @@ export default function CollectionPage() {
   const products = useMemo(() => {
     const familyMap = new Map<string, any>()
 
-    if (collection !== "indoor") return []
-
     dbProducts.forEach((item: any) => {
+      if (item.collection !== collection) return
       const familyKey = item.family || `${item.group_name}-fallback`
 
       if (familyMap.has(familyKey)) {
@@ -86,10 +85,10 @@ export default function CollectionPage() {
         id: cleanId,
         title: firstModelCode,
         image: item.hero_image || fallbackPlaceholderImage,
-        heroBannerImage: "/images/home/product/Indoor.jpeg",
+        heroBannerImage: item.collection === "outdoor" ? "/images/home/product/Outdoor.jpeg" : "/images/home/product/Indoor.jpeg",
         collection: item.collection || "indoor",
         isNewLaunch,
-        category: item.category,
+        category: item.category || item.group_name || "General",
         group: item.group_name || "General",
         family: familyKey,
         dimming: assignedDimming,
@@ -107,9 +106,18 @@ export default function CollectionPage() {
       image: "/images/home/product/Indoor.jpeg",
       description: "The Indoor Series focuses on refined illumination for interiors—delivering ambient, task, and accent lighting that blends seamlessly into modern architectural spaces.",
     },
+    outdoor: {
+      name: "Outdoor Collection",
+      image: "/images/home/product/Outdoor.jpeg",
+      description: "The Outdoor Collection delivers rugged, weather-resistant lighting solutions—from bollards and wall lites to floodlights and underground fixtures—built for durability and architectural elegance.",
+    },
   }
 
-  const heroData = COLLECTION_HERO_DATA[collection]
+  const heroData = COLLECTION_HERO_DATA[collection] || {
+    name: `${collection.charAt(0).toUpperCase() + collection.slice(1)} Collection`,
+    image: "/images/home/product/Indoor.jpeg",
+    description: `Explore our ${collection} lighting collection — designed for quality and performance.`,
+  }
 
   if (loading) {
     return (

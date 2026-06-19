@@ -1,29 +1,63 @@
 const BODY_COLOR_MAP: Record<string, string> = {
+  // Black & White
   "black":            "#1A1A1A",
-  "matte black":      "#282828",
-  "soft touch black": "#1E1E1E",
   "white":            "#F5F5F5",
-  "warm white":       "#FAF0E1",
-  "silver":           "#C0C0C0",
+  "matt black":       "#282828",
+  "matt white":       "#F0F0F0",
+  "matte black":      "#282828",
+  "mat black":        "#282828",
+  "soft touch black": "#1E1E1E",
+  "mattblack":        "#282828",
+  "black body":       "#1A1A1A",
+  "sand black":       "#3C3733",
+  "sand white":       "#E8DEC9",
+  "graphite black":   "#2D2D2D",
+  "anthracite":       "#383838",
+
+  // Grey
   "grey":             "#808080",
   "gray":             "#808080",
-  "anthracite":       "#383838",
   "dark grey":        "#4A4A4A",
   "dark gray":        "#4A4A4A",
+  "drak grey":        "#4A4A4A",
   "light grey":       "#B0B0B0",
   "light gray":       "#B0B0B0",
+  "silver grey":      "#A8A9AD",
+  "premium grey":     "#808080",
+  "sand grey":        "#C4BBAF",
+  "silver":           "#C0C0C0",
+  "satin":            "#C8C8C8",
+  "satin black":      "#2A2A2A",
+
+  // Warm tones
   "gold":             "#D4AF37",
   "brushed gold":     "#C5A55A",
+  "matt gold":        "#C5A55A",
+  "rose gold":        "#B76E79",
   "bronze":           "#CD7F32",
   "copper":           "#B87333",
+  "brass":            "#B5A642",
+  "antique brass":    "#C88A65",
+  "red bronze":       "#A0522D",
+  "orange":           "#FF7D33",
+  "light coffee":     "#C4A882",
+
+  // Chrome & metallic
   "chrome":           "#DBE4EB",
+  "black chrome":     "#1E1E1E",
   "brushed nickel":   "#B0B0B0",
   "brushed chrome":   "#C8C8C8",
+  "gun black":        "#2D2D2D",
+  "s.s":              "#C8C8C8",
+  "stainless steel":  "#C8C8C8",
+  "stainless steel 304": "#C0C0C0",
+  "stainless steel 316": "#B8B8B8",
+
+  // Natural / Organic
   "natural aluminium":"#A8A9AD",
   "natural aluminum": "#A8A9AD",
   "anodised aluminium":"#8C8C8C",
   "anodized aluminum": "#8C8C8C",
-  "stainless steel":  "#C8C8C8",
   "wood":             "#8B6914",
   "oak":              "#C4A35A",
   "walnut":           "#5C4033",
@@ -33,6 +67,15 @@ const BODY_COLOR_MAP: Record<string, string> = {
   "brown":            "#6B3A2A",
   "dark brown":       "#3E2723",
   "red":              "#CC2936",
+
+  // Specialty
+  "all black":        "#1A1A1A",
+  "all gold":         "#D4AF37",
+  "gold marble":      "#D4AF37",
+  "print ball":       "#CFB095",
+  "white warm":       "#FAF0E1",
+
+  // RAL
   "ral 9005":         "#1A1A1A",
   "ral 9003":         "#F4F4F4",
   "ral 9010":         "#FAFAFA",
@@ -100,6 +143,20 @@ export function bodyColorToHex(colorName: string): string {
   if (lower.startsWith("ral ")) {
     const ralMatch = BODY_COLOR_MAP[lower];
     if (ralMatch) return ralMatch;
+  }
+
+  // Handle composite colors: "White/Black", "Matt White / Dark Grey", etc.
+  const parts = lower.split(/\/|\+| & | with /).map(p => p.trim()).filter(Boolean);
+  if (parts.length > 1) {
+    for (const part of parts) {
+      if (BODY_COLOR_MAP[part]) return BODY_COLOR_MAP[part];
+    }
+    // Try matching partial names (e.g. "black with black reflector" → "black")
+    for (const part of parts) {
+      for (const [key, hex] of Object.entries(BODY_COLOR_MAP)) {
+        if (part.includes(key)) return hex;
+      }
+    }
   }
 
   if (/^#[0-9a-f]{3,8}$/.test(lower)) return lower;

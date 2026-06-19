@@ -10,16 +10,13 @@ export default function ProductGrid({ filters, products, collection }: any) {
   
   const filteredProducts = useMemo(() => {
     return products.filter((p: any) => {
-      
-      // ✅ FIXED FILTER LOGIC BLOCK:
-      // If "All" is active, return everything.
-      // If "New Launch" tab is selected, evaluate the boolean flag.
-      // Otherwise, filter by specific category mapping name string logic.
       let matchCollection = false;
       if (filters.collection === "All") {
         matchCollection = true;
       } else if (filters.collection === "New Launch") {
         matchCollection = p.isNewLaunch === true;
+      } else if (collection === "outdoor") {
+        matchCollection = p.group === filters.collection;
       } else {
         matchCollection = p.collection === filters.collection.toLowerCase();
       }
@@ -34,7 +31,7 @@ export default function ProductGrid({ filters, products, collection }: any) {
 
       return matchCollection && matchGroup && matchDimming
     })
-  }, [filters, products])
+  }, [filters, products, collection])
 
   return (
     <Container className="relative">

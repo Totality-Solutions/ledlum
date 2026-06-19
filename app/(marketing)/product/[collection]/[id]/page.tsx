@@ -19,6 +19,7 @@ import {
   getProduct,
   getFamilyProducts,
   getCategoryProducts,
+  getAllProducts,
 } from "@/lib/products";
 
 import { mapProduct } from "@/lib/mapProduct";
@@ -57,24 +58,37 @@ const InnerProductPage = memo(function InnerProductPage() {
       if (!rawProduct || cancelled) return;
 
       const [familyProducts, categoryProducts] = await Promise.all([
-        getFamilyProducts(rawProduct.family),
-        getCategoryProducts(rawProduct.category),
+        rawProduct.family ? getFamilyProducts(rawProduct.family) : Promise.resolve([]),
+        rawProduct.category
+          ? getCategoryProducts(rawProduct.category)
+          : getAllProducts().then(all => all.filter((p: any) => p.group_name === rawProduct.group_name)),
       ]);
 
       if (cancelled) return;
 
-      setRelatedModelIds(familyProducts.map((p: any) => p.model));
+      const relatedModels = familyProducts.length > 0 ? familyProducts : categoryProducts;
+      setRelatedModelIds(relatedModels.map((p: any) => p.model));
 
       const familyMap: any = {};
-      categoryProducts.forEach((item: any) => {
-        if (!familyMap[item.family]) {
-          familyMap[item.family] = { familyName: item.family, models: [] };
-        }
-        familyMap[item.family].models.push(item.model);
-      });
+      if (familyProducts.length > 0) {
+        categoryProducts.forEach((item: any) => {
+          if (!familyMap[item.family]) {
+            familyMap[item.family] = { familyName: item.family, models: [] };
+          }
+          familyMap[item.family].models.push(item.model);
+        });
+      } else {
+        categoryProducts.forEach((item: any) => {
+          const key = item.group_name || "General";
+          if (!familyMap[key]) {
+            familyMap[key] = { familyName: key, models: [] };
+          }
+          familyMap[key].models.push(item.model);
+        });
+      }
 
       setModelFamilies(Object.values(familyMap));
-      setProduct(mapProduct(rawProduct, familyProducts));
+      setProduct(mapProduct(rawProduct, familyProducts.length > 0 ? familyProducts : categoryProducts));
     }
 
     loadProduct();
