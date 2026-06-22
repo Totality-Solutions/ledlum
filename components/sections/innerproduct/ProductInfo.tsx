@@ -742,7 +742,7 @@ const ConfigColumn = ({ id, label, options = [], selected, onSelect, isDisabled,
         if (isCctType) {
           return (
             <button key={val} disabled={disabled} onClick={() => onSelect && onSelect(val)}
-              className={`h-fit pl-4 pr-1 rounded-full border transition-all flex items-center gap-3 ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active ? "bg-content border-content text-black" : "text-[#EBEBEB]"}`}
+              className={`h-fit pl-3 pr-1 py-1 rounded-full border transition-all flex items-center gap-3 ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active ? "bg-content border-content text-black" : "text-[#EBEBEB]"}`}
               title={val}>
               <span className={active ? "text-black font-medium" : "text-[#EBEBEB]"}>{val}</span>
               <div className="w-6 h-6 rounded-full border border-black/10" style={{ backgroundColor: colorHex }} />
@@ -751,7 +751,7 @@ const ConfigColumn = ({ id, label, options = [], selected, onSelect, isDisabled,
         }
         return (
           <button key={val} disabled={disabled} onClick={() => onSelect && onSelect(val)}
-            className={`transition-all py-1 flex items-center justify-center border ${isColorType ? "w-8 h-8 rounded-full p-[3px]" : "px-6 rounded-full text-md"} ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active && isColorType ? "ring-2 ring-white scale-110 shadow-lg" : ""} ${active && !isColorType ? "bg-content border-content" : ""}`}
+            className={`transition-all py-1 flex items-center justify-center border ${isColorType ? "w-8 h-8 rounded-full p-0.75" : "px-6 rounded-full text-md"} ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active && isColorType ? "ring-2 ring-white scale-110 shadow-lg" : ""} ${active && !isColorType ? "bg-content border-content" : ""}`}
             title={val}>
             {isColorType
               ? <div className="w-full h-full rounded-full" style={{ backgroundColor: colorHex }} />

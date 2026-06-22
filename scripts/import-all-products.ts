@@ -73,7 +73,7 @@ function parseExcelSource(source: CollectionSource): any[] {
 
   for (const sheetName of workbook.SheetNames) {
     const sheet = workbook.Sheets[sheetName];
-    const sheetRows: any[] = XLSX.utils.sheet_to_json(sheet);
+    const sheetRows: any[] = XLSX.utils.sheet_to_json(sheet, { defval: null });
     if (sheetRows.length === 0) continue;
 
     const cols = Object.keys(sheetRows[0]);

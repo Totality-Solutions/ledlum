@@ -14,6 +14,7 @@ import {
 import ProductInnerHero from "@/components/sections/innerproduct/InnerProductHero";
 import ProductInfoSection from "@/components/sections/innerproduct/ProductInfo";
 import ProductShowcaseGallery from "@/components/sections/innerproduct/ProductShowcaseGallery";
+import InnerProductSkeleton from "@/components/sections/innerproduct/InnerProductSkeleton";
 
 import {
   getProduct,
@@ -97,11 +98,7 @@ const InnerProductPage = memo(function InnerProductPage() {
   }, [activeModel]);
 
   if (!product) {
-    return (
-      <div className="text-white bg-black h-screen flex items-center justify-center">
-        Loading Product...
-      </div>
-    );
+    return <InnerProductSkeleton />;
   }
 
   const handleModelChange = (newId: string) => {
