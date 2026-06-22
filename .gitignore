@@ -39,5 +39,6 @@ yarn-error.log*
 
 # --- OS / Miscellaneous ---
 *.pem
+/dev.ps1
 
 .env.local

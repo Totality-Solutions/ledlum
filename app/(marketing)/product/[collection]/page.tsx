@@ -6,6 +6,7 @@ import { useMemo, useState, useEffect } from "react"
 import Hero from "@/components/sections/product/Hero"
 import ProductFilters from "@/components/sections/product/ProductFilters"
 import ProductGrid from "@/components/sections/product/ProductGrid"
+import ProductGridSkeleton from "@/components/sections/product/ProductGridSkeleton"
 import { getAllProductsForCatalog } from "@/lib/products"
 
 export default function CollectionPage() {
@@ -121,9 +122,10 @@ export default function CollectionPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-t-white border-white/10 rounded-full animate-spin" />
-      </div>
+      <main className="relative bg-transparent min-h-screen">
+        <Hero heroBannerImage={heroData?.image} />
+        <ProductGridSkeleton />
+      </main>
     )
   }
 
