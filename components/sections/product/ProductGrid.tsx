@@ -13,12 +13,13 @@ export default function ProductGrid({ filters, products, collection }: any) {
   
   const filteredProducts = useMemo(() => {
     return products.filter((p: any) => {
-      
       let matchCollection = false;
       if (filters.collection === "All") {
         matchCollection = true;
       } else if (filters.collection === "New Launch") {
         matchCollection = p.isNewLaunch === true;
+      } else if (collection === "outdoor") {
+        matchCollection = p.group === filters.collection;
       } else {
         matchCollection = p.collection === filters.collection.toLowerCase();
       }
@@ -33,7 +34,7 @@ export default function ProductGrid({ filters, products, collection }: any) {
 
       return matchCollection && matchGroup && matchDimming
     })
-  }, [filters, products])
+  }, [filters, products, collection])
 
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE)
   const paginatedProducts = filteredProducts.slice(

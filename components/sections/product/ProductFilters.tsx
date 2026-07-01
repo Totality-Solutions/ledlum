@@ -9,7 +9,8 @@ import { Container } from "@/components/layout/Container"
 export default function ProductFilters({
   filters,
   setFilters,
-  products = [], // ✅ FIXED: Parameter renamed to match parent prop injection cleanly
+  products = [],
+  collection,
 }: any) {
   const [showGroupDropdown, setShowGroupDropdown] = useState(false)
   const [showDimmingDropdown, setShowDimmingDropdown] = useState(false)
@@ -52,14 +53,26 @@ export default function ProductFilters({
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  const categories = ["All", "New Launch", "Tracks", "Sensors"]
+  const categories = useMemo(() => {
+    const base = ["All", "New Launch"]
+    if (collection === "outdoor") {
+      const groupSet = new Set<string>()
+      products.forEach((p: any) => { if (p.group && p.group !== "General") groupSet.add(p.group) })
+      return [...base,  "Tracks", "Sensors"]
+    }
+    return [...base, "Tracks", "Sensors"]
+  }, [collection, products])
 
-  const labelMap: any = {
-    All: "All",
-    "New Launch": "New Launch",
-    Tracks: "Tracks / Magnetic Tracks",
-    Sensors: "Sensors"
-  }
+  const labelMap: any = useMemo(() => {
+    const map: any = { All: "All", "New Launch": "New Launch" }
+    if (collection === "outdoor") {
+      products.forEach((p: any) => { if (p.group) map[p.group] = p.group })
+    } else {
+      map.Tracks = "Tracks / Magnetic Tracks"
+      map.Sensors = "Sensors"
+    }
+    return map
+  }, [collection, products])
 
   // ✅ DYNAMICALLY FILTERED GROUPS DROPDOWN: 
   const groups = useMemo(() => {
@@ -82,19 +95,18 @@ export default function ProductFilters({
     return ["All", ...Array.from(set)]
   }, [products])
 
+  // ✅ FIXED RESET MATRIX: Only resets dropdowns if the active collection tab explicitly changes
   const updateFilters = (newVal: any) => {
-    const updated = { ...filters, ...newVal }
-    
-    if (newVal.collection && newVal.collection !== filters.collection) {
-      updated.group = "All"
-      updated.dimming = "All"
-    }
-    
-    if (updated.collection === "All") {
-      updated.group = "All"
-      updated.dimming = "All"
-    }
-    setFilters(updated)
+    setFilters((prev: any) => {
+      const updated = { ...prev, ...newVal }
+      
+      if (newVal.collection && newVal.collection !== prev.collection) {
+        updated.group = "All"
+        updated.dimming = "All"
+      }
+      
+      return updated
+    })
   }
 
   // FULL SCREEN MOBILE DRAWER PORTAL

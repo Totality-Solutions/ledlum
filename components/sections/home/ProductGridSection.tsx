@@ -81,7 +81,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
 
   return (
 <Section 
-        className="relative min-h-screen  flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat"
+        className="relative min-h-screen bg-black flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat"
       >
       <Image
         src={BgImg}

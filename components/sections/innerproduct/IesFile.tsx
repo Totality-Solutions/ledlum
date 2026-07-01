@@ -3,82 +3,135 @@ interface IesFileProps {
   activeId: string;
   ipRating: string;
   cutout: string;
-  category?: string;
-  name?: string;
 }
 
-export const IesFile = async ({ selections, activeId, ipRating, cutout, category, name }: IesFileProps) => {
-  // ─── 1. PARSE & CLEAN USER CONFIG DATA ───────────────────────────────
-  
-  // Extract numeric digits safely from configuration strings (e.g., "15W" -> 15)
-  const parseNumeric = (value: string | undefined, fallback: number): number => {
-    if (!value) return fallback;
-    const match = value.match(/[\d.]+/);
-    return match ? parseFloat(match[0]) : fallback;
-  };
+function parseNumeric(value: string | undefined, fallback: number): number {
+  if (!value) return fallback;
+  const match = value.match(/[\d.]+/);
+  return match ? parseFloat(match[0]) : fallback;
+}
 
-  const inputWatts = parseNumeric(selections.watts, 10.0);
-  const luminousFlux = parseNumeric(selections.luminous, 1000);
-  const beamAngle = parseNumeric(selections.beamAngles, 36.0);
+function generateCandelaDistribution(
+  lumens: number,
+  beamAngleDeg: number,
+  numVertical: number,
+  numHorizontal: number
+): number[][] {
+  const halfBeamRad = (beamAngleDeg / 2) * (Math.PI / 180);
+  const sigma = halfBeamRad / 2.5;
+  const planes: number[][] = [];
 
-  // Parse width/length dimensions dynamically from text
-  // Convert mm values to meters as required by the IES standard specification
-  let luminousWidth = 0.1; 
-  let luminousLength = 0.1;
-  if (selections.dimensions) {
-    const dimensionsFound = selections.dimensions.match(/[\d.]+/g);
-    if (dimensionsFound && dimensionsFound.length >= 1) {
-      const firstDimMm = parseFloat(dimensionsFound[0]);
-      luminousWidth = firstDimMm / 1000; 
-      luminousLength = dimensionsFound[1] ? parseFloat(dimensionsFound[1]) / 1000 : luminousWidth;
+  for (let h = 0; h < numHorizontal; h++) {
+    const plane: number[] = [];
+    const hAngle = (h / (numHorizontal - 1)) * (Math.PI / 2);
+    const lateralFactor = 1 - 0.15 * Math.pow(Math.sin(hAngle), 2);
+
+    for (let v = 0; v < numVertical; v++) {
+      const vAngleRad = (v / (numVertical - 1)) * Math.PI;
+      let candela: number;
+
+      if (vAngleRad <= halfBeamRad * 1.5) {
+        candela = Math.exp(-0.5 * Math.pow(vAngleRad / sigma, 2));
+      } else {
+        const falloff = Math.exp(-0.5 * Math.pow(halfBeamRad * 1.5 / sigma, 2));
+        const excess = vAngleRad - halfBeamRad * 1.5;
+        candela = falloff * Math.exp(-excess * 3.5);
+      }
+
+      candela *= lateralFactor;
+      plane.push(Math.max(0, candela));
+    }
+    planes.push(plane);
+  }
+
+  const maxVal = Math.max(...planes.flat());
+  if (maxVal > 0) {
+    const scale = lumens / (maxVal * planes.length * 0.85);
+    for (const plane of planes) {
+      for (let i = 0; i < plane.length; i++) {
+        plane[i] = Math.round(plane[i] * scale * 100) / 100;
+      }
     }
   }
 
-  // ─── 2. BUILD STANDARD IESNA LM-63-02 DATA STREAM ───────────────────
-  
-  let iesContent = `IESNA:LM-63-02\n`;
-  iesContent += `[TEST] ${name ? name.toUpperCase() : "PRODUCT CONFIGURATION"}\n`;
-  iesContent += `[MANUFAC] LEDLUM LIGHTING\n`;
-  iesContent += `[LUMCAT] ${activeId.toUpperCase()}\n`;
-  iesContent += `[LUMINAIRE] ${activeId.toUpperCase()} - ${selections.bodyColor || "STANDARD"} FINISH\n`;
-  iesContent += `[LAMP] ${selections.ledChip || "STANDARD"} LED CHIP\n`;
-  
-  // Custom tracking metadata block hooks for your configuration data
+  return planes;
+}
+
+export const IesFile = async ({
+  selections,
+  activeId,
+  ipRating,
+  cutout,
+}: IesFileProps) => {
+  const inputWatts = parseNumeric(selections.watts, 12);
+  const luminousFlux = parseNumeric(selections.luminous, 1000);
+  const beamAngle = parseNumeric(selections.beamAngles, 36);
+
+  let luminousWidth = 0.1;
+  let luminousLength = 0.1;
+  if (selections.dimensions) {
+    const dims = selections.dimensions.match(/[\d.]+/g);
+    if (dims && dims.length >= 1) {
+      luminousWidth = parseFloat(dims[0]) / 1000;
+      luminousLength = dims[1] ? parseFloat(dims[1]) / 1000 : luminousWidth;
+    }
+  }
+
+  const numVertical = 181;
+  const numHorizontal = 5;
+  const verticalAngles: number[] = [];
+  for (let i = 0; i < numVertical; i++) {
+    verticalAngles.push(Math.round((i / (numVertical - 1) * 180) * 10) / 10);
+  }
+  const horizontalAngles = [0.0, 90.0, 180.0, 270.0, 360.0];
+
+  const candelaPlanes = generateCandelaDistribution(
+    luminousFlux,
+    beamAngle,
+    numVertical,
+    numHorizontal
+  );
+
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")}`;
+
+  const lines: string[] = [];
+
+  lines.push("IESNA:LM-63-1995");
+  lines.push("[TEST] LEDLUM PRODUCT CONFIGURATION");
+  lines.push(`[ISSUEDATE] ${dateStr}`);
+  lines.push("[MANUFAC] LEDLUM LIGHTING");
+  lines.push(`[LUMCAT] ${activeId.toUpperCase()}`);
+  lines.push(`[LUMINAIRE] ${activeId.toUpperCase()}`);
+  lines.push("[LAMPCAT] LED");
+  lines.push("[LAMP] LED");
+
   Object.entries(selections).forEach(([key, value]) => {
-    const label = key.replace(/([A-Z])/g, ' $1').toUpperCase();
-    iesContent += `[_CONFIG_${label.replace(/\s+/g, '_')}] ${value}\n`;
+    const label = key.replace(/([A-Z])/g, " $1").toUpperCase().trim();
+    lines.push(`[_${label.replace(/\s+/g, "_")}] ${value}`);
   });
-  iesContent += `[_IP_RATING] ${ipRating}\n`;
-  iesContent += `[_CUTOUT_SIZE] ${cutout}\n`;
-  
-  iesContent += `TILT=NONE\n`;
+  lines.push(`[_IP_RATING] ${ipRating}`);
+  lines.push(`[_CUTOUT_SIZE] ${cutout}`);
 
-  // LINE 2 Structure: <# lamps> <lumens/lamp> <multiplier> <# vertical angles> <# horizontal angles> ...
-  iesContent += `1 -1 1.0 4 2 1 1 ${luminousWidth.toFixed(3)} ${luminousLength.toFixed(3)} 0.000\n`;
-  
-  // LINE 3 Structure: <ballast factor> <future use ballast multiplier> <input watts>
-  iesContent += `1.0 1.0 ${inputWatts.toFixed(1)}\n`;
-  
-  // LINE 4: Vertical distribution angle definitions mapping the beam angle profile boundaries
-  const halfBeam = beamAngle / 2;
-  iesContent += `0.0 ${halfBeam.toFixed(1)} ${beamAngle.toFixed(1)} 90.0\n`;
-  
-  // LINE 5: Horizontal orthogonal plane intersection coordinates 
-  iesContent += `0.0 180.0\n`;
-  
-  // LINE 6 & 7: Dynamic candela calculations mapped over the structural grid shapes array
-  const solidAngleEstimate = 2 * Math.PI * (1 - Math.cos((beamAngle * Math.PI) / 360));
-  const peakCandela = Math.round(luminousFlux / (solidAngleEstimate || 1));
-  const midCandela = Math.round(peakCandela * 0.5);
+  lines.push("[BALLAST] NONE");
+  lines.push("[BALLASTCAT] LED");
+  lines.push("TILT=NONE");
 
-  // Plane 0 (Nadir peak -> falloff slope points -> Zero at zenith)
-  iesContent += `${peakCandela} ${midCandela} 0 0\n`;
-  // Plane 180
-  iesContent += `${peakCandela} ${midCandela} 0 0\n`;
+  lines.push(
+    `1 ${luminousFlux.toFixed(1)} 1.000 ${numVertical} ${numHorizontal} 1 2 0.000 0.000 0.000`
+  );
+  lines.push(`1.000 1.000 ${inputWatts.toFixed(2)}`);
 
-  // ─── 3. FILE EMISSION AND SAVE DISPATCH ─────────────────────────────
-  const blob = new Blob([iesContent], { type: "text/plain;charset=utf-8" });
-  
+  lines.push(verticalAngles.map((a) => a.toFixed(1)).join(" "));
+  lines.push(horizontalAngles.map((a) => a.toFixed(1)).join(" "));
+
+  for (const plane of candelaPlanes) {
+    lines.push(plane.map((v) => v.toFixed(2)).join(" "));
+  }
+
+  const content = lines.join("\r\n");
+  const blob = new Blob([content], { type: "application/octet-stream" });
+
   const { default: fileSaver } = await import("file-saver");
-  fileSaver.saveAs(blob, `${activeId}-${beamAngle}DEG-${luminousFlux}LM.ies`);
+  fileSaver.saveAs(blob, `${activeId}.ies`);
 };
