@@ -27,6 +27,8 @@ const Hero = memo(function Hero({
           muted
           loop
           playsInline
+          preload="none"
+          poster="/images/home/home-hero.webp"
           className="absolute inset-0 w-full h-full object-cover z-0"
         >
           <source src={typeof src === "string" ? src : ""} />

@@ -10,7 +10,6 @@ import Pagination from '@/components/sections/blog/Pagination';
 import CTABtn from '@/components/layout/common/CTABtn';
 import { GetInTouch } from '@/components/layout/footer/GetInTouch';
 import Section from '@/components/layout/Section';
-import { urlFor } from '@/lib/image'; // Ensure this exists to handle images
 
 export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[] }) {
   const router = useRouter();

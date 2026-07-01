@@ -195,15 +195,13 @@
 // }
 
 
-import { client } from '@/lib/sanity';
+import { sanityFetch } from '@/lib/sanity';
 import BlogContent from '@/components/sections/blog/BlogContent';
 import { Suspense } from 'react';
 
 export default async function BlogPage() {
-  // 1. Fetch your posts from Sanity here
-  const posts = await client.fetch(`*[_type == "post"] | order(date desc)`) || [];
+  const posts = await sanityFetch(`*[_type == "post"] | order(date desc)`) || [];
 
-  // 2. Pass the posts into your Client Component
   return (
     <Suspense fallback={<div className="min-h-screen bg-black" />}>
       <BlogContent initialPosts={posts} />

@@ -35,7 +35,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning style={{ backgroundColor: '#000' }}>
-      <body style={{ backgroundColor: '#000' }} className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black overflow-x-hidden`}>
+      <body suppressHydrationWarning style={{ backgroundColor: '#000' }} className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black overflow-x-hidden`}>
         
         <LayoutWrapper 
           pageLoader={
