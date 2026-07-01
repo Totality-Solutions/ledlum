@@ -1,8 +1,7 @@
-import { createImageUrlBuilder } from '@sanity/image-url'; // Use named import
-import { client } from './sanity';
-
-const builder = createImageUrlBuilder(client);
+import { createImageUrlBuilder } from '@sanity/image-url';
+import { getClient } from './sanity';
 
 export function urlFor(source: any) {
-  return builder.image(source);
+  const client = getClient();
+  return createImageUrlBuilder(client).image(source);
 }

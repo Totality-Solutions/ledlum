@@ -101,8 +101,7 @@ import BlogCard from "@/components/sections/blog/BlogCard";
 import Section from '@/components/layout/Section';
 import { Container } from '@/components/layout/Container';
 import { MidSection, OutcomeSection, BackButton } from '@/components/sections/blog/BlogPostContent';
-import { client } from "@/lib/sanity";
-import { urlFor } from "@/lib/image";
+import { sanityFetch } from "@/lib/sanity";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -112,13 +111,13 @@ export default async function BlogPost({ params }: PageProps) {
   const { slug } = await params;
 
   // 1. Fetch current post
-  const post = await client.fetch(
+  const post = await sanityFetch(
     `*[_type == "post" && slug.current == $slug][0]`,
     { slug }
   );
 
   // 2. Fetch latest insights (excluding current post)
-  const latestInsights = await client.fetch(
+  const latestInsights = await sanityFetch(
     `*[_type == "post" && slug.current != $slug][0...6]`,
     { slug }
   );
