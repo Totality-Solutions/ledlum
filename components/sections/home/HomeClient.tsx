@@ -8,7 +8,7 @@ import AutoCarousel from "./AutoCarousel";
 import { PopupForm } from "@/components/common/PopupForm";
 
 // --- ASSETS ---
-import BgImg from '@/public/images/home/home-bg3.png';
+import BgImg from '@/public/images/home/home-bg3.webp';
 import TestimonialSection from "./TesimonialSection";
 
 const HomeClient = () => {
@@ -35,7 +35,7 @@ const HomeClient = () => {
       {/* --- SHARED TEXTURE OVERLAY --- */}
       <div className="absolute inset-0 -z-10 pointer-events-none opacity-10 md:opacity-30">
         <Image 
-          src="/images/about/ledlumline.png"
+          src="/images/about/ledlumline.webp"
           alt="background texture"
           fill
           className="object-cover object-center"
