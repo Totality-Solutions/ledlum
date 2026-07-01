@@ -176,6 +176,8 @@ const ViewToggle = ({
 );
 
 // Helper function to extract initial selections where only a single option is present
+const normalizeId = (s: string) => s.replace(/\s+/g, "+").trim().toUpperCase();
+
 const getAutoSelections = (config: any) => {
   const autoSelections: Record<string, string> = {};
   if (!config) return autoSelections;
@@ -183,7 +185,7 @@ const getAutoSelections = (config: any) => {
   if (config.voltage?.length === 1) autoSelections.voltage = config.voltage[0];
   if (config.dimensions?.length === 1) autoSelections.dimensions = config.dimensions[0];
   if (config.watts?.length === 1) autoSelections.watts = config.watts[0];
-  if (config.bodyColors?.length === 1) autoSelections.bodyColor = config.bodyColors[0];
+  if (config.bodyColors?.length === 1) autoSelections.bodyColor = typeof config.bodyColors[0] === "string" ? config.bodyColors[0] : config.bodyColors[0].label;
   if (config.beamAngles?.length === 1) autoSelections.beamAngles = config.beamAngles[0];
   if (config.ledChip?.length === 1) autoSelections.ledChip = config.ledChip[0];
   if (config.luminous?.length === 1) autoSelections.luminous = config.luminous[0];
@@ -241,7 +243,7 @@ export default function ProductInfoSection({
   if (desktopView !== "carousel") return;
 
   const idx = allModelIds.findIndex(
-    id => id.toLowerCase() === activeId.toLowerCase()
+    id => normalizeId(id) === normalizeId(activeId)
   );
 
   setOffset(prev => {
@@ -516,7 +518,7 @@ export default function ProductInfoSection({
                       {allModelIds.map((id) => (
                         <ModelCard
                           key={id} id={id}
-                          isActive={activeId.toLowerCase() === id.toLowerCase()}
+                          isActive={normalizeId(activeId) === normalizeId(id)}
                           onClick={() => {
                             onModelChange(id);
                             setMobileDropOpen(false);
@@ -582,96 +584,18 @@ export default function ProductInfoSection({
 
               {/* ── GRID VIEW ────────────────────────────────────────────────── */}
               {desktopView === "grid" && (
-                <div className="flex flex-col gap-3">
-                  <div className="grid grid-cols-4 gap-4">
-                    {allModelIds.slice(0, GRID_INITIAL).map((id) => (
-                      <ModelCard
-                        key={id}
-                        id={id}
-                        isActive={
-                          activeId.toLowerCase() ===
-                          id.toLowerCase()
-                        }
-                        onClick={() => onModelChange(id)}
-                      />
-                    ))}
-                  </div>
-                  
-                  <AnimatePresence>
-                    {gridExpanded &&
-                      allModelIds.length > GRID_INITIAL && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{
-                            opacity: 1,
-                            height: "auto",
-                          }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{
-                            duration: 0.25,
-                            ease: "easeOut",
-                          }}
-                          className="overflow-hidden"
-                        >
-                          <div className="grid grid-cols-4 gap-4 pt-1">
-                            {allModelIds
-                              .slice(GRID_INITIAL)
-                              .map((id) => (
-                                <ModelCard
-                                  key={id}
-                                  id={id}
-                                  isActive={
-                                    activeId.toLowerCase() ===
-                                    id.toLowerCase()
-                                  }
-                                  onClick={() =>
-                                    onModelChange(id)
-                                  }
-                                />
-                              ))}
-                          </div>
-                        </motion.div>
-                      )}
-                  </AnimatePresence>
-                    
-                  {hasMore && (
-                    <button
-                      onClick={() =>
-                        setGridExpanded((p) => !p)
+                <div className="grid grid-cols-4 gap-4 max-h-[180px] px-4 overflow-y-auto custom-scrollbar">
+                  {allModelIds.map((id) => (
+                    <ModelCard
+                      key={id}
+                      id={id}
+                      isActive={
+                        activeId.toLowerCase() ===
+                        id.toLowerCase()
                       }
-                      className="self-end flex items-center gap-2 text-white/50 hover:text-white text-xs uppercase tracking-widest transition-all duration-200 mt-1 group"
-                    >
-                      <span>
-                        {gridExpanded
-                          ? "Show less"
-                          : `+${
-                              allModelIds.length -
-                              GRID_INITIAL
-                            } more models`}
-                      </span>
-                          
-                      <motion.div
-                        animate={{
-                          rotate: gridExpanded ? 180 : 0,
-                        }}
-                        transition={{ duration: 0.2 }}
-                        className="text-white/30 group-hover:text-white/60 transition-colors"
-                      >
-                        <svg
-                          width="14"
-                          height="14"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="m6 9 6 6 6-6" />
-                        </svg>
-                      </motion.div>
-                    </button>
-                  )}
+                      onClick={() => onModelChange(id)}
+                    />
+                  ))}
                 </div>
               )}
             </div>
@@ -713,7 +637,7 @@ export default function ProductInfoSection({
                     initial={{ opacity: 0, y: 180, scale: 0.95 }}
                     animate={{ opacity: 1, y: 220, scale: 1 }}
                     exit={{ opacity: 0, y: 180, scale: 0.95 }}
-                    className="absolute bottom-full mb-4 flex flex-col gap-2 w-fit z-50"
+                    className="absolute bottom-full mb-4 flex flex-col gap-2 w-fit z-50 bg-black rounded-2xl p-2 border border-white/10 shadow-2xl"
                   >
                     <button 
                       onClick={handleDownloadExcel} 
@@ -737,56 +661,18 @@ export default function ProductInfoSection({
                       </div>
                     </button>
 
-                    <div className="relative group w-full">
+                    {/* {config?.iesFile && ( */}
                       <button
                         onClick={handleDownloadIES}
-                        disabled={isAnyFileDownloading || !config?.iesFile}
-                        className={`
-                          flex items-center justify-between gap-2
-                          text-white pl-4 pr-1 py-1 rounded-full transition-all w-full shadow-xl
-                        
-                          ${
-                            config?.iesFile
-                              ? "bg-logo hover:bg-[#85764d]"
-                              : "bg-white/5 text-white/30 cursor-not-allowed"
-                          }
-                        `}
+                        disabled={isAnyFileDownloading}
+                        className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] disabled:bg-white/5 disabled:text-white/20 text-white pl-4 pr-1 py-1 rounded-full transition-all w-full shadow-xl disabled:cursor-not-allowed"
                       >
-                        <span className="text-body font-regular">
-                          {isDownloading.ies ? "Generating..." : "IES File"}
-                        </span>
-                        
-                        <div
-                          className={`
-                            p-2 rounded-full flex items-center justify-center shrink-0 transition-all
-                            ${
-                              config?.iesFile
-                                ? "bg-[#FAF3E0]"
-                                : "bg-white/10"
-                            }
-                          `}
-                        >
-                          <HiOutlineDownload
-                            className={`
-                              text-lg transition-all
-                              ${
-                                config?.iesFile
-                                  ? "text-black"
-                                  : "text-white/30"
-                              }
-                            `}
-                          />
+                        <span className="text-body font-regular">{isDownloading.ies ? "Generating..." : "IES File"}</span>
+                        <div className="bg-[#FAF3E0] p-2 rounded-full flex items-center justify-center shrink-0">
+                          <HiOutlineDownload className="text-black text-lg" />
                         </div>
                       </button>
-                        
-                      {!config?.iesFile && (
-                        <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 z-50">
-                          <div className="px-3 py-2 text-xs text-white bg-black border border-white/20 rounded-md whitespace-nowrap">
-                            File download not available
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    {/* )} */}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -856,7 +742,7 @@ const ConfigColumn = ({ id, label, options = [], selected, onSelect, isDisabled,
         if (isCctType) {
           return (
             <button key={val} disabled={disabled} onClick={() => onSelect && onSelect(val)}
-              className={`h-fit pl-4 pr-1 rounded-full border transition-all flex items-center gap-3 ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active ? "bg-content border-content text-black" : "text-[#EBEBEB]"}`}
+              className={`h-fit pl-3 pr-1 py-1 rounded-full border transition-all flex items-center gap-3 ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active ? "bg-content border-content text-black" : "text-[#EBEBEB]"}`}
               title={val}>
               <span className={active ? "text-black font-medium" : "text-[#EBEBEB]"}>{val}</span>
               <div className="w-6 h-6 rounded-full border border-black/10" style={{ backgroundColor: colorHex }} />
@@ -865,7 +751,7 @@ const ConfigColumn = ({ id, label, options = [], selected, onSelect, isDisabled,
         }
         return (
           <button key={val} disabled={disabled} onClick={() => onSelect && onSelect(val)}
-            className={`transition-all py-1 flex items-center justify-center border ${isColorType ? "w-8 h-8 rounded-full p-[3px]" : "px-6 rounded-full text-md"} ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active && isColorType ? "ring-2 ring-white scale-110 shadow-lg" : ""} ${active && !isColorType ? "bg-content border-content" : ""}`}
+            className={`transition-all py-1 flex items-center justify-center border ${isColorType ? "w-8 h-8 rounded-full p-0.75" : "px-6 rounded-full text-md"} ${disabled ? "opacity-30 cursor-not-allowed grayscale border-white/5" : "cursor-pointer border-white/20 hover:border-white"} ${active && isColorType ? "ring-2 ring-white scale-110 shadow-lg" : ""} ${active && !isColorType ? "bg-content border-content" : ""}`}
             title={val}>
             {isColorType
               ? <div className="w-full h-full rounded-full" style={{ backgroundColor: colorHex }} />

@@ -1,0 +1,37 @@
+LED SMD CONCEALED DOWN LIGHT FI | rows:30 | cols:Category;Item Number;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Family;Product Overview
+LED SMD CONCEALED DOWN LIGHT_2 | rows:24 | cols:Category;Item Number;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Family;Product Overview
+LED HI-POWER CONCEALED DOWN LIG | rows:6 | cols:Category;Item Number;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;Luminous;CRI;D.P.;Family;Product Overview
+LED COB CONCEALED DOWN LIGHT FI | rows:218 | cols:Category;Item Number;Product Type;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Family;Product Overview
+PROJECT AND RETAIL LIGHTS | rows:26 | cols:Category;Item Number;Feature;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Website;Family;Product Overview
+LED IP54 - IP65 CONCEALED DOWN  | rows:12 | cols:Category;Item Number;Feature;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Product Overview
+PREMIUM SERIES | rows:87 | cols:Category;Item Number;Feature;Accessory;Product Type;Watts;Dimension;Cutout Size;Body Color;Reflector Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Website;Family;Product Overview
+LED COB TRACK LIGHTS | rows:15 | cols:Category;Item Number;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Website;Family;Product Overview
+SLIM MAGNETIC TRACK | rows:29 | cols:Category;Item Number;Feature;Watts;Material;Dimension;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Website;Family;Product Overview
+FLEXIBLE TRACK SUSPENDED | rows:9 | cols:Category;Item Number;Feature;Watts;Material;Dimension;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Website;Family;Product Overview
+FLEXIBLE TRACK ACCESSORIES | rows:15 | cols:Category;Item Number;Feature;Material;Dimension;Body Color;D.P.;Website;Family;Product Overview
+LED MODULES AND DOWN LIGHTERS | rows:15 | cols:Category;Item Number;Feature;Product Type;Watts;Material;Dimension;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Website;Family;Product Overview
+MR16 MODULE DOWN LIGHTERS | rows:5 | cols:Category;Item Number;Feature;Watts;Dimension;Cutout Size;Body Color;Reflector Color;CCT (K);D.P.;Family;Product Overview
+LED SMD SLIM SURFACE PANELS | rows:25 | cols:Category;Item Number;Feature;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Family;Product Overview
+LED CONCEALED STEP LIGHTS | rows:5 | cols:Category;Item Number;Product Type;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Website;Family;Product Overview
+LED SMD SURFACE FIXTURES | rows:12 | cols:Category;Item Number;Feature;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Website;Family;Product Overview
+LED COB SURFACE FIXTURES | rows:59 | cols:Category;Item Number;Watts;Dimension;Cutout Size;Body Color;Reflector Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Family;Product Overview
+MOTION SENSORS | rows:11 | cols:Category;Item Number;Feature;Watts;Dimension;Cutout Size;Body Color;CCT (K);Beam Angle;IP Rating;CRI;D.P.;Website;Family;Product Overview
+LED SMD SURFACE PANELS | rows:10 | cols:Category;Item Number;Product Type;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Family;Product Overview
+LED INDOOR WALL LIGHTS | rows:30 | cols:Category;Item Number;Watts;Dimension;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Websiite;Family;Product Overview
+LED LAMPS FILAMENT | rows:14 | cols:Category;Item Number;Feature;Watts;Dimension;Cutout Size;CCT (K);Beam Angle;D.P.;Family;Product Overview
+LED GU10 MR16 LAMPS | rows:3 | cols:Category;Item Number;Feature;Watts;Dimension;Cutout Size;CCT (K);Beam Angle;D.P.;Family;Product Overview
+TRACK LENGTHS | rows:16 | cols:Category;Item Number;Feature;D.P.;Family;Product Overview
+LED LINEAR MIRROR LIGHTS | rows:33 | cols:Category;Item Number;Feature;Watts;Dimension;Cutout Size;CCT (K);Powered by;Beam Angle;D.P.;Family;Product Overview
+LED LINEAR PROFILE LIGHTS | rows:8 | cols:Category;Item Number;Feature;Product Type;Watts;Material;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;D.P.;Website;Item Number_1;Product Overview
+LED STRIP LIGHTS 12V | rows:15 | cols:Category;Item Number;Feature;PCB;LMNS / LED;Wattage/Mtr;No of LEDs/Mtr;CCT (K);IP Rating;D.P.;Family;Product Overview
+LED STRIP LIGHTS 24V | rows:8 | cols:Category;Item Number;Feature;PCB;LMNS / LED;Wattage/Mtr;No of LEDs/Mtr;CCT (K);IP Rating;Luminous;D.P.;Website;Family;Product Overview
+220V LED STRIP LIGHTS IP67 | rows:2 | cols:Category;Item Number;Feature;PCB;LMNS / LED;Wattage/Mtr;No of LEDs/Mtr;CCT (K);IP Rating;D.P.;Family;Product Overview
+NEON 220V STRIP LIGHTS IP67 | rows:1 | cols:Category;Item Number;Feature;PCB;LMNS / LED;Wattage/Mtr;No of LEDs/Mtr;CCT (K);IP Rating;D.P.;Family;Product Overview
+24V NEON STRIP LIGHTS IP67 | rows:11 | cols:Category;Item Number;Feature;PCB;LMNS / LED;Wattage/Mtr;No of LEDs/Mtr;CCT (K);IP Rating;D.P.;Website;FAMILY;Product Overview
+LED STRIP LIGHT PLUS SERIES | rows:44 | cols:Category;Item Number;Feature;PCB;LMNS / LED;Wattage/Mtr;No of LEDs/Mtr;CCT (K);D.P.;Website;Family;Product Overview
+ALUMINIUM EMPTY PROFILES | rows:20 | cols:Category;Item Number;Size;End Caps;Clips;D.P. (2 Mtr);D.P. (3 Mtr);Website;Product Overview
+LED STRIP LIGHT DRIVERS | rows:31 | cols:Category;Item Number;Product Type;Watts;Current;Voltage;Dimension;IP Rating;D.P.;Product Overview
+LED STRIP LIGHT DRIVERS NEW | rows:42 | cols:Category;Item Number;Feature;Watts;Current;Voltage;Dimension;IP Rating;D.P.;Website;family;Product Overview
+LED LUM LUXE | rows:31 | cols:Category;Item Number;Watts;Dimension;Cutout Size;Body Color;CCT (K);Powered by;Beam Angle;IP Rating;Luminous;CRI;D.P.;Website;FAMILY;Product Overview
+KLEWE SISTEMASOLARE | rows:25 | cols:Category;Model No;Product Name;Watt;Charging Time;Working Time;Size;Lithium Battery;Solar Panel;Powered by;CCT;CRI;IP Rating;Daylight Sensor;Materials;D.P.;Website;FAMILY;Product Overview
+VISION SERIES | rows:24 | cols:Category;Item Code;Product Name;Name / Function;Key Specs;Size;Protocol;Input / Power;D.P.;Website;Family;Product Overview
