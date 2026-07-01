@@ -5,6 +5,7 @@
 import { Container } from "@/components/layout/Container";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Instagram, Facebook, Linkedin, Send } from "lucide-react";
 import logo from "../../../public/images/logo/ledlum-logo-footer.png";
 import PrivacyModal from "@/components/layout/common/PrivacyModal";
@@ -44,6 +45,7 @@ const socialIcons = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false); // New Terms State
 
@@ -112,33 +114,43 @@ export default function Footer() {
                     {column.title}
                   </h4>
                   <ul className="space-y-4">
-                    {column.links.map((link) => (
+                    {column.links.map((link) => {
+                      const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+                      return (
                       <li key={link.name}>
-                        {/* Logic for Modal Triggers */}
                         {link.name === "Privacy Policy" ? (
                           <button
                             onClick={() => setIsPrivacyOpen(true)}
-                            className="text-body-sm text-white/70 hover:text-white transition-colors font-pop font-regular text-left"
+                            className={`text-body-sm transition-colors font-pop font-regular text-left ${
+                              isActive ? "text-black font-medium" : "text-white/70 hover:text-black font-medium"
+                            }`}
                           >
                             {link.name}
                           </button>
                         ) : link.name === "Terms & Conditions" ? (
                           <button
                             onClick={() => setIsTermsOpen(true)}
-                            className="text-body-sm text-white/70 hover:text-white transition-colors font-pop font-regular text-left"
+                            className={`text-body-sm transition-colors font-pop font-regular text-left ${
+                              isActive ? "text-black font-medium" : "text-white/70 hover:text-black font-medium"
+                            }`}
                           >
                             {link.name}
                           </button>
                         ) : (
+                          <>
                           <Link
                             href={link.href}
-                            className="text-body-sm text-white/70 hover:text-white transition-colors font-pop font-regular"
+                            className={`text-body-sm transition-colors font-pop font-regular ${
+                              isActive ? "text-black font-medium" : "text-white/70 hover:text-black font-medium"
+                            }`}
                           >
                             {link.name}
                           </Link>
+                          </>
                         )}
                       </li>
-                    ))}
+                      );
+                    })}
                   </ul>
                 </div>
               ))}
