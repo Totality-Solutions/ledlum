@@ -38,8 +38,8 @@ const InfiniteCarousel: React.FC<ImageSliderCardProps> = ({
             duration: 0.8, 
             ease: [0.4, 0, 0.2, 1] 
           }}
-          // Added willChange and translateZ to fix sub-pixel rendering lines
-          className="absolute inset-0 w-full h-full will-change-transform"
+          // Added transform to fix sub-pixel rendering lines
+          className="absolute inset-0 w-full h-full"
           style={{ backfaceVisibility: "hidden", transform: "translateZ(0)" }}
         >
           <Image
@@ -47,7 +47,8 @@ const InfiniteCarousel: React.FC<ImageSliderCardProps> = ({
             alt={`Slide ${index}`}
             fill
             className="object-cover" 
-            priority
+            priority={index === 0}
+            sizes="100vw"
           />
         </motion.div>
       </AnimatePresence>

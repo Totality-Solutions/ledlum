@@ -1,13 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["192.168.1.109"],
+  allowedDevOrigins: ["192.168.1.109","192.168.1.34","192.168.29.201"],
   typescript: {
-    ignoreBuildErrors: true, // quick fix (not ideal long-term)
+    ignoreBuildErrors: true,
   },
   turbopack: {},
   images: {
     qualities: [75, 100],
+    deviceSizes: [320, 420, 768, 1024, 1280, 1536],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',

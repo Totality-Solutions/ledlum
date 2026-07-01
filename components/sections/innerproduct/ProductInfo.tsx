@@ -97,8 +97,8 @@ const ModelCard = ({
           src={modelImage}
           alt={id}
           fill
-          unoptimized
           className="object-contain"
+          sizes="60px"
         />
       </div>
     </div>

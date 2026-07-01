@@ -33,6 +33,7 @@ export default function BlogCard({ title, category, description, image, date, is
           alt={title || "Blog Insight"} 
           fill 
           className="object-cover transition-transform duration-1000 group-hover:scale-105" 
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
       

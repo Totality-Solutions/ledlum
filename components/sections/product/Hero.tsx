@@ -10,7 +10,7 @@ export default function Hero({ heroBannerImage }: { heroBannerImage: string }) {
         fill
         priority
         sizes="100vw"
-        className="object-cover object-center z-0 transition-transform duration-1000 hover:scale-105 will-change-transform" 
+        className="object-cover object-center z-0 transition-transform duration-1000 hover:scale-105" 
         style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}
       />
     </section>

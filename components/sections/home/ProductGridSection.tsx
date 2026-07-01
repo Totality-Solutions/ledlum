@@ -80,24 +80,26 @@ const CombinedProductSection = memo(function CombinedProductSection() {
   };
 
   return (
-    <Section 
-      className="relative min-h-screen bg-black flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat will-change-transform"
-    >
-    <Image
-      src={BgImg}
-      alt="Background"
-      fill
-      priority
-      className="object-cover relative -z-20 "
-    />
-    <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
-                          <Image 
-                            src="/images/about/ledlumline.webp"
-                            alt="background texture"
-                            fill
-                            className="object-cover object-center"
-                          />
-    </div>
+<Section 
+        className="relative min-h-screen bg-black flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat"
+      >
+      <Image
+        src={BgImg}
+        alt="Background"
+        fill
+        priority
+        className="object-cover relative -z-20 "
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+                  <Image 
+                    src="/images/about/ledlumline.webp"
+                    alt="background texture"
+                    fill
+                    className="object-cover object-center"
+                    sizes="100vw"
+                  />
+      </div>
 
       {/* SECTION 1: BESTSELLERS GRID */}
       <Container className="relative z-20 ">
@@ -209,9 +211,8 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                 src={item.img} 
                 alt={item.title || "New Arrival"} 
                 fill 
-                className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform rounded-[16px] " 
-                style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
-                sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
+                className="object-cover transition-transform duration-500 group-hover:scale-110 rounded-[16px]" 
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
 
               {/* The Overlay */}
