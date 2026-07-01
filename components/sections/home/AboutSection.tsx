@@ -11,7 +11,7 @@ export default function WhoWeAreSection() {
   return (
     <Section className="relative min-h-[400px] overflow-hidden flex items-center">
       {/* Background Image Layer with Luminosity effect - Optimized */}
-      <div className="absolute inset-0 z-0 will-change-transform">
+      <div className="absolute inset-0 z-0">
         <Image
           src={BgImg}
           alt="Background Texture"

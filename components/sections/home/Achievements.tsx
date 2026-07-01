@@ -61,7 +61,7 @@ useEffect(() => {
 
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-32">
           {/* LEFT SIDE: IMAGE PREVIEW */}
-          <div className="relative w-[320px] aspect-[3/4] rounded-[24px] overflow-hidden shadow-2xl hidden lg:block border border-white/10 sticky top-32">
+          <div className="relative w-full lg:w-[320px] aspect-[3/4] rounded-[24px] overflow-hidden shadow-2xl hidden lg:block border border-white/10 sticky top-32">
             {ACHIEVEMENTS.map((item) => (
               <div
                 key={item.id}
@@ -69,7 +69,7 @@ useEffect(() => {
                   activeId === item.id ? "opacity-100 scale-100" : "opacity-0 scale-110"
                 }`}
               >
-                <Image src={item.image} alt={item.label} fill className="object-cover" unoptimized />
+                <Image src={item.image} alt={item.label} fill className="object-cover" sizes="320px" />
               </div>
             ))}
           </div>

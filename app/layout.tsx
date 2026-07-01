@@ -35,7 +35,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning style={{ backgroundColor: '#000' }}>
-      <body style={{ backgroundColor: '#000' }} className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black`}>
+      <body style={{ backgroundColor: '#000' }} className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black overflow-x-hidden`}>
         
         <LayoutWrapper 
           pageLoader={
@@ -51,21 +51,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               alt="" 
               fill 
               priority 
-              className="will-change-transform" 
+              className="" 
               style={{ objectFit: "fill", mixBlendMode: "screen", opacity: 0.8 }} 
             />
             <Image 
               src={linearGradientBg} 
               alt="" 
               fill 
-              className="will-change-transform" 
+              className="" 
               style={{ objectFit: "cover", objectPosition: "top right", mixBlendMode: "screen" }} 
             />
             <Image 
               src={ledlumLineBg} 
               alt="" 
               fill 
-              className="will-change-transform" 
+              className="" 
               style={{ objectFit: "cover", mixBlendMode: "screen" }} 
             />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%)" }} />

@@ -48,7 +48,7 @@ const HomeClient = () => {
         <Achievements onTriggerForm={handleTriggerForm} />
         <ProjectSection />
         <AutoCarousel />
-        <TestimonialSection />
+        {/* <TestimonialSection /> */}
       </div>
 
       {/* FLOATING POPUP */}

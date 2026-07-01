@@ -39,7 +39,7 @@ const Hero = memo(function Hero({
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center z-0 transition-transform duration-1000 hover:scale-105 will-change-transform"
+          className="object-cover object-center z-0 transition-transform duration-1000 hover:scale-105"
         />
       )}
 

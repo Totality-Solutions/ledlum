@@ -119,7 +119,7 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                           src={project.img} 
                           alt="Our Projects"
                           fill
-                         className="object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform rounded-[16px] " 
+                         className="object-cover transition-transform duration-500 group-hover:scale-110 rounded-[16px]" 
                 style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
                 sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
                         />

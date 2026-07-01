@@ -31,13 +31,11 @@ body{
 
 /* Optimize images during scroll */
 img {
-  will-change: transform;
   contain: layout paint;
 }
 
 /* Optimize fixed backgrounds */
 .fixed {
-  will-change: transform;
   contain: layout style paint;
 }
 

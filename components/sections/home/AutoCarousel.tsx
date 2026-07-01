@@ -44,7 +44,7 @@ const handleSliderClick = () => {
 
   return (
     <Section 
-      className="relative flex flex-col bg-cover bg-center bg-no-repeat will-change-transform"
+      className="relative flex flex-col bg-cover bg-center bg-no-repeat"
     >
       <Image
         src={BgImg}
@@ -53,6 +53,7 @@ const handleSliderClick = () => {
         priority
         quality={100}
         className="object-cover -z-[20]"
+        sizes="100vw"
       />
       
       <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
@@ -61,6 +62,7 @@ const handleSliderClick = () => {
           alt="background texture"
           fill
           className="object-cover object-center"
+          sizes="100vw"
         />
       </div>
 

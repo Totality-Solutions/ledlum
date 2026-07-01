@@ -44,7 +44,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
 
   return (
     <Section className="!py-6 w-full min-h-screen bg-black flex items-center justify-center">
-      <div className="relative w-full min-h-[650px] bg-[#101010] rounded-[25px] overflow-hidden flex flex-col lg:flex-row items-center p-8 lg:p-0">
+      <div className="relative w-full min-h-[500px] md:min-h-[650px] bg-[#101010] rounded-[25px] overflow-hidden flex flex-col lg:flex-row items-center p-8 lg:p-0">
 
         {/* BACK BUTTON */}
         <Link
@@ -91,8 +91,8 @@ const ProductInnerHero = ({ data }: HeroProps) => {
               alt={data.name}
               fill
               priority
-              unoptimized
               className="object-cover"
+              sizes="100vw"
             />
 
             {images.length > 1 && (
