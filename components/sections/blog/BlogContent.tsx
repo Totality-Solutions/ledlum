@@ -54,14 +54,14 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
     });
 
     const hero = freshFromThisMonth.length > 0 ? freshFromThisMonth[0] : categoryPool[0];
-    const poolExcludingHero = categoryPool.filter(p => p.slug?.current !== hero?.slug?.current);
+    const poolExcludingHero = categoryPool.filter(p => p.slug !== hero?.slug);
 
     const displayLatest = freshFromThisMonth.length > 1
-      ? freshFromThisMonth.filter(p => p.slug?.current !== hero?.slug?.current)
+      ? freshFromThisMonth.filter(p => p.slug !== hero?.slug)
       : poolExcludingHero.slice(0, 6);
 
     const displayArchive = poolExcludingHero.filter(
-      poolItem => !displayLatest.find(latestItem => latestItem.slug?.current === poolItem.slug?.current)
+      poolItem => !displayLatest.find(latestItem => latestItem.slug === poolItem.slug)
     );
 
     return { heroPost: hero, recentBucket: displayLatest, archiveBucket: displayArchive };
@@ -101,7 +101,7 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
                 <h2 className="desk-h3 text-[1.75rem] text-gray-300 font-bai font-medium">{heroPost.title}</h2>
                 <p className="body-sm text-zinc-400 font-light leading-relaxed font-pop line-clamp-4">{heroPost.description}</p>
                 <div className="pt-2">
-                  <Link href={`/blog/${heroPost.slug.current}`}><CTABtn label="Read More" /></Link>
+                  <Link href={`/blog/${heroPost.slug}`}><CTABtn label="Read More" /></Link>
                 </div>
               </div>
             </div>
@@ -122,7 +122,7 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
               {currentGridPosts.map((post) => (
-                <Link key={post.slug.current} href={`/blog/${post.slug.current}`}>
+                <Link key={post.slug} href={`/blog/${post.slug}`}>
                   <BlogCard
                     title={post.title}
                     category={post.category}
@@ -151,8 +151,8 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
           </header>
           <div className="grid grid-cols-1 md:grid-cols-6 gap-8 items-stretch">
             {stayUpdatedPosts.map((post, i) => (
-              <div key={`${post.slug.current}-stay`} className={i === 0 ? 'md:col-span-4' : 'md:col-span-2'}>
-                <Link href={`/blog/${post.slug.current}`}>
+              <div key={`${post.slug}-stay`} className={i === 0 ? 'md:col-span-4' : 'md:col-span-2'}>
+                <Link href={`/blog/${post.slug}`}>
                   <BlogCard
                     isFeatured={i === 0}
                     title={post.title}
