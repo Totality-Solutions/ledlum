@@ -29,12 +29,12 @@ import Arrival6 from "@/public/images/home/product/Klewe_Catalogue.jpg";
 
 // --- DATA ---
 const NEW_ARRIVALS = [
-  { id: 1, img: Arrival1, title: 'Outdoor', href:"/product/outdoor" },
-  { id: 2, img: Arrival2, title: 'Indoor', href:"/product/indoor" },
-  { id: 3, img: Arrival3, title: 'Artizan', href:"/product/artizan" },
+  { id: 1, img: Arrival1, title: 'Outdoor', href:"/product/outdoor", pdf:"/pdf/OUTDOOR.pdf" },
+  { id: 2, img: Arrival2, title: 'Indoor', href:"/product/indoor", pdf:"/pdf/INDOOR.pdf" },
+  { id: 3, img: Arrival3, title: 'Artizan', href:"/product/artizan", pdf:"/pdf/ARTIZAN.pdf" },
   { id: 4, img: Arrival4, title: 'Astara', href:"/product/astara" },
   { id: 5, img: Arrival5, title: 'Volaris', href:"/product/volaris" },
-  { id: 6, img: Arrival6, title: 'Klewe', href:"/product/klewe" },
+  { id: 6, img: Arrival6, title: 'Klewe', href:"/product/klewe", pdf:"/pdf/KLEWE.pdf" },
 ];
 
 const BESTSELLERS = [
@@ -65,15 +65,14 @@ const CombinedProductSection = memo(function CombinedProductSection() {
     setActiveModes((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  // --- DOWNLOAD HANDLER ---
-  const handleDownload = (e: React.MouseEvent, imgSrc: any, fileName: string) => {
+  // --- PDF DOWNLOAD HANDLER ---
+  const handleDownloadPdf = (e: React.MouseEvent, pdfPath: string, title: string) => {
     e.preventDefault();
     e.stopPropagation();
     
     const link = document.createElement('a');
-    // Handle both StaticImageData objects and string paths
-    link.href = typeof imgSrc === 'string' ? imgSrc : imgSrc.src;
-    link.download = `${fileName.replace(/\s+/g, '-').toLowerCase()}-ledlum.png`;
+    link.href = pdfPath;
+    link.download = `${title.toLowerCase().replace(/\s+/g, '-')}-catalog-ledlum.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -224,9 +223,10 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                 </span>
 
                 <div className="flex items-center gap-3">
-                  {/* DOWNLOAD ICON */}
+                  {/* DOWNLOAD PDF ICON */}
+                  {item.pdf && (
                   <button 
-                    onClick={(e) => handleDownload(e, item.img, item.title)}
+                    onClick={(e) => handleDownloadPdf(e, item.pdf, item.title)}
                     className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 hover:text-black transition-all cursor-pointer"
                   >
                    <svg
@@ -244,11 +244,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                       <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
                   </button>
-
-                  {/*  */}
-
-
-                  {/*  */}
+                  )}
 
                   {/* Arrow Side */}
                   <div className="w-8 h-8 md:w-10 md:h-10 bg-[#9a8c66] rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-45">
