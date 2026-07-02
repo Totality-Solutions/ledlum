@@ -122,7 +122,7 @@ export default function Footer() {
                           <button
                             onClick={() => setIsPrivacyOpen(true)}
                             className={`text-body-sm transition-colors font-pop font-regular text-left ${
-                              isActive ? "text-black font-medium" : "text-white/70 hover:text-black font-medium"
+                              isActive ? "text-[#111111] font-medium" : "text-white/70 hover:text-[#111111] font-medium"
                             }`}
                           >
                             {link.name}
@@ -131,7 +131,7 @@ export default function Footer() {
                           <button
                             onClick={() => setIsTermsOpen(true)}
                             className={`text-body-sm transition-colors font-pop font-regular text-left ${
-                              isActive ? "text-black font-medium" : "text-white/70 hover:text-black font-medium"
+                              isActive ? "text-[#111111] font-medium" : "text-white/70 hover:text-[#111111] font-medium"
                             }`}
                           >
                             {link.name}
@@ -141,7 +141,7 @@ export default function Footer() {
                           <Link
                             href={link.href}
                             className={`text-body-sm transition-colors font-pop font-regular ${
-                              isActive ? "text-black font-medium" : "text-white/70 hover:text-black font-medium"
+                              isActive ? "text-[#111111] font-medium" : "text-white/70 hover:text-[#111111] font-medium"
                             }`}
                           >
                             {link.name}
