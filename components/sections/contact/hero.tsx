@@ -12,15 +12,47 @@ import { Container } from "@/components/layout/Container";
  */
 const ContactSection = memo(function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const reset = () => {
+    setName("");
+    setEmail("");
+    setPhone("");
+    setMessage("");
+    setError("");
+    setSuccess(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError("");
+    setSuccess(false);
 
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone, message }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setSuccess(true);
+      reset();
+    } catch (err: any) {
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
       setIsSubmitting(false);
-      alert("Message sent successfully!");
-    }, 2000);
+    }
   };
 
   return (
@@ -44,13 +76,13 @@ const ContactSection = memo(function ContactSection() {
               </h1>
             </div>
             <p className="text-body-sm lg:text-body font-pop font-regular text-white/30 max-w-md">
-              A practical guide to selecting efficient, high-performance lighting systems for offices.
+              Reach out to LEDLUM Lighting for premium architectural lighting solutions.
             </p>
 
             <div className="space-y-4 w-full md:w-[85%] lg:w-[80%]">
               <ContactLink
                 label="E-mail"
-                value="info@ledlum.com"
+                value="ledlumlighting@gmail.com"
                 iconType="mail"
               />
               <ContactLink
@@ -68,32 +100,46 @@ const ContactSection = memo(function ContactSection() {
           </div>
 
           {/* RIGHT COLUMN */}
-          {/* <div className="w-full h-full px-4 sm:px-6 lg:px-0">
+          <div className="w-full h-full px-4 sm:px-6 lg:px-0">
 
             <form
               onSubmit={handleSubmit}
               className="flex flex-col justify-between h-full gap-8 lg:gap-6"
             >
-              <div className="space-y-4">
+              <div className="space-y-4 ">
 
                 <input
                   type="text"
                   placeholder="Name"
                   required
-                  className="w-full bg-white/5 border border-content rounded-full px-6 md:px-8 py-4 md:py-6 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-content text-white"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full bg-white/5 border border-content rounded-full px-6 md:px-8 py-2 md:py-4 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-content text-white"
                 />
 
                 <input
                   type="email"
-                  placeholder="E-mail / Contact no."
+                  placeholder="E-mail"
                   required
-                  className="w-full bg-white/5 border border-content rounded-full px-6 md:px-8 py-4 md:py-6 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-content text-white"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-white/5 border border-content rounded-full px-6 md:px-8 py-2 md:py-4 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-content text-white"
+                />
+                <input
+                  type="tel"
+                  placeholder="Contact no."
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full bg-white/5 border border-content rounded-full px-6 md:px-8 py-2 md:py-4 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-content text-white"
                 />
 
                 <textarea
                   placeholder="Message"
                   rows={5}
                   required
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   className="w-full bg-white/5 border border-content rounded-[30px] md:rounded-[40px] px-6 md:px-8 py-5 md:py-8 font-extralight text-base md:text-lg tracking-wider focus:outline-none focus:border-[#8D794E]/50 transition-all placeholder:text-content text-white resize-none"
                 />
 
@@ -103,21 +149,25 @@ const ContactSection = memo(function ContactSection() {
                 <CTABtn
                   label="Reset"
                   btnBg="black"
-                 
                   btnHoverBg="black"
                   iconType="reset"
                   textColor="white"
-                />
-
-                <CTABtn
-                  label={isSubmitting ? "..." : "Submit"}
+                  onClick={reset}
                   disabled={isSubmitting}
                 />
 
+                <CTABtn
+                  label={isSubmitting ? "Sending..." : success ? "Sent!" : "Submit"}
+                  disabled={isSubmitting || success}
+                />
               </div>
 
+              {error && (
+                <p className="text-red-400 text-sm text-center">{error}</p>
+              )}
+
             </form>
-          </div> */}
+          </div>
         </div>
       </main>
       </Container>
