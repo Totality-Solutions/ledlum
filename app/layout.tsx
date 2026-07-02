@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins, Bai_Jamjuree } from "next/font/google";
+import localFont from "next/font/local";
 import Image from "next/image";
 import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
@@ -12,15 +12,28 @@ import ledlumLineBg from "@/public/images/about/ledlumline.webp";
 import glowBg from "@/public/glow-bg.png";
 import { Suspense } from "react";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
+const poppins = localFont({
+  src: [
+    { path: "../public/fonts/poppins/poppins-200.woff2", weight: "200" },
+    { path: "../public/fonts/poppins/poppins-300.woff2", weight: "300" },
+    { path: "../public/fonts/poppins/poppins-400.woff2", weight: "400" },
+    { path: "../public/fonts/poppins/poppins-500.woff2", weight: "500" },
+    { path: "../public/fonts/poppins/poppins-600.woff2", weight: "600" },
+    { path: "../public/fonts/poppins/poppins-700.woff2", weight: "700" },
+    { path: "../public/fonts/poppins/poppins-800.woff2", weight: "800" },
+  ],
   variable: "--font-pop",
 });
 
-const baiJamjuree = Bai_Jamjuree({
-  subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700"],
+const baiJamjuree = localFont({
+  src: [
+    { path: "../public/fonts/bai-jamjuree/bai-jamjuree-200.woff2", weight: "200" },
+    { path: "../public/fonts/bai-jamjuree/bai-jamjuree-300.woff2", weight: "300" },
+    { path: "../public/fonts/bai-jamjuree/bai-jamjuree-400.woff2", weight: "400" },
+    { path: "../public/fonts/bai-jamjuree/bai-jamjuree-500.woff2", weight: "500" },
+    { path: "../public/fonts/bai-jamjuree/bai-jamjuree-600.woff2", weight: "600" },
+    { path: "../public/fonts/bai-jamjuree/bai-jamjuree-700.woff2", weight: "700" },
+  ],
   variable: "--font-bai",
 });
 
