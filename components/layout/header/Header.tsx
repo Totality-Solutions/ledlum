@@ -68,6 +68,7 @@ const Header = () => {
                   alt="LEDLUM Logo"
                   className="object-contain"
                   fill
+                  sizes="(max-width: 640px) 128px, (max-width: 1024px) 144px, 176px"
                   priority
                 />
               </div>
@@ -90,6 +91,7 @@ const Header = () => {
                   alt="Secondary Logo"
                   className="object-contain"
                   fill
+                  sizes="(max-width: 640px) 80px, (max-width: 1024px) 96px, 128px"
                 />
               </div>
             </Link>

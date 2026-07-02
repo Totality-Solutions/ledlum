@@ -47,7 +47,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning style={{ backgroundColor: '#000' }}>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" style={{ backgroundColor: '#000' }}>
       <body suppressHydrationWarning style={{ backgroundColor: '#000' }} className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black overflow-x-hidden`}>
         
         <LayoutWrapper 
@@ -64,6 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               alt="" 
               fill 
               priority 
+              sizes="100vw"
               className="" 
               style={{ objectFit: "fill", mixBlendMode: "screen", opacity: 0.8 }} 
             />
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               src={linearGradientBg} 
               alt="" 
               fill 
+              sizes="100vw"
               className="" 
               style={{ objectFit: "cover", objectPosition: "top right", mixBlendMode: "screen" }} 
             />
@@ -78,6 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               src={ledlumLineBg} 
               alt="" 
               fill 
+              sizes="100vw"
               className="" 
               style={{ objectFit: "cover", mixBlendMode: "screen" }} 
             />
