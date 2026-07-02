@@ -1,6 +1,7 @@
 "use client";
 
 import React, { memo } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
@@ -8,7 +9,8 @@ import {
   Instagram, 
   Linkedin, 
   Facebook, 
-  MessageCircle 
+  MessageCircle,
+  ArrowRight 
 } from "lucide-react";
 
 // 1. Import your Carousel component
@@ -70,9 +72,10 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                             </div>
 
                             <div className="flex flex-col items-start md:items-end gap-5">
-                              <p className="hidden md:block text-body-sm lg:text-body font-pop font-regular text-white">
-                                See how LEDLUM lives in real spaces.
-                              </p>
+                              <Link href="/project" className="hidden flex items-center gap-2 md:block text-body-sm lg:text-body font-pop font-regular text-white hover:text-white/70 transition-colors">
+                                See how LEDLUM lives in real spaces
+                                <ArrowRight size={16} strokeWidth={2} className="inline ml-5 text-background" />
+                              </Link>
                               
                               <div className="flex items-center gap-6 text-white/60">
                                 <a href="https://www.instagram.com/ledlumlighting/" className="hover:text-white transition-all hover:scale-110">

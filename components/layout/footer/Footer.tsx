@@ -20,6 +20,7 @@ const footerColumns = [
       { name: "About Us", href: "/about" },
       { name: "Blog", href: "/blog" },
       { name: "Contact Us", href: "/contact" },
+      { name: "Project", href: "/project" },
       { name: "Privacy Policy", href: "#" },
       { name: "Terms & Conditions", href: "#" },
     ],
