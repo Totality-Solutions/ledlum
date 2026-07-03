@@ -13,14 +13,14 @@ export async function POST(req) {
 
     const { name, email, phone,message } = body;
 
-    if (!name || !email || !phone) {
-      return Response.json({ error: "Missing required fields: name, email, phone" }, { status: 400 });
+    if (!name || !email) {
+      return Response.json({ error: "Missing required fields: name, email" }, { status: 400 });
     }
 
     const response = await resend.emails.send({
-  from: "LEDLUM Lighting <onboarding@resend.dev>",
-  to: "ledlumlighting@gmail.com",
-  subject: `New Contact from ${name}`,
+      from: "LEDLUM Website <noreply@ledlumlighting.com>",
+      to: "admin@ledlumlighting.com",
+      subject: `New Contact from ${name}`,
       html: `
         <h2 style="font-family:sans-serif;color:#1a1a1a;">New Contact Form Submission</h2>
         <table style="font-family:sans-serif;font-size:15px;border-collapse:collapse;width:100%;max-width:560px;">

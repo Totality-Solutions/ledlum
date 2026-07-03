@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow"; 
+import LeadPopup from "./LeadPopup";
 
 import BgImg from '@/public/images/home/home-bg1.webp';
 import productSeller1 from "@/public/images/home/bestseller/Indoor1.jpeg";
@@ -51,6 +52,7 @@ function cn(...classes: (string | boolean | undefined)[]) {
 const CombinedProductSection = memo(function CombinedProductSection() {
   const [isAllDark, setIsAllDark] = useState(false);
   const [activeModes, setActiveModes] = useState<Record<number, boolean>>({});
+  const [pendingDownload, setPendingDownload] = useState<{ pdf: string; title: string } | null>(null);
 
   // --- HANDLERS ---
   const toggleAll = () => {
@@ -69,13 +71,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
   const handleDownloadPdf = (e: React.MouseEvent, pdfPath: string, title: string) => {
     e.preventDefault();
     e.stopPropagation();
-    
-    const link = document.createElement('a');
-    link.href = pdfPath;
-    link.download = `${title.toLowerCase().replace(/\s+/g, '-')}-catalog-ledlum.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    setPendingDownload({ pdf: pdfPath, title });
   };
 
   return (
@@ -200,6 +196,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
           items={NEW_ARRIVALS}
           gap={20}
           speed={3000}
+          showArrows
           
           renderItem={(item) => (
             <Link 
@@ -227,7 +224,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                   {item.pdf && (
                   <button 
                     onClick={(e) => handleDownloadPdf(e, item.pdf, item.title)}
-                    className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shrink-0 hover:text-black transition-all cursor-pointer"
+                    className="w-8 h-8 md:w-10 md:h-10 bg-[#3f3f3f] rounded-full flex items-center justify-center shrink-0 hover:text-black transition-all cursor-pointer"
                   >
                    <svg
                       width="18"
@@ -239,7 +236,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                       <polyline points="7 10 12 15 17 10"></polyline>
                       <line x1="12" y1="15" x2="12" y2="3"></line>
                     </svg>
@@ -268,6 +265,14 @@ const CombinedProductSection = memo(function CombinedProductSection() {
           )}
         />
       </Container>
+
+      {pendingDownload && (
+        <LeadPopup
+          product={pendingDownload.title}
+          pdfPath={pendingDownload.pdf}
+          onClose={() => setPendingDownload(null)}
+        />
+      )}
     </Section>
   );
 });

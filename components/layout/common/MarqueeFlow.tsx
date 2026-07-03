@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface MarqueeFlowProps<T> {
   items: T[];
@@ -10,6 +11,7 @@ interface MarqueeFlowProps<T> {
   mobileCount?: number;
   tabletCount?: number;
   desktopCount?: number;
+  showArrows?: boolean;
 }
 
 export default function MarqueeFlow<T>({
@@ -17,15 +19,17 @@ export default function MarqueeFlow<T>({
   renderItem,
   gap = 24,
   speed = 3500,
-  mobileCount = 2,     // ← was 1, now 2 so cards aren't full-width
+  mobileCount = 2,
   tabletCount = 3,
-  desktopCount = 4
+  desktopCount = 4,
+  showArrows = false,
 }: MarqueeFlowProps<T>) {
   const [visibleItems, setVisibleItems] = useState(desktopCount);
-  const [activeGap, setActiveGap] = useState(gap);      // ← new: responsive gap
-  const [activeSpeed, setActiveSpeed] = useState(speed); // ← new: responsive speed
+  const [activeGap, setActiveGap] = useState(gap);
+  const [activeSpeed, setActiveSpeed] = useState(speed);
   const [isVisible, setIsVisible] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -44,23 +48,46 @@ export default function MarqueeFlow<T>({
 
   const realOffset = cloneCount;
 
-  const getTransform = (idx: number) =>
-    `translateX(calc(${idx} * -1 * (100% + ${activeGap}px) / ${visibleItems}))`;
+  const getTransform = useCallback(
+    (idx: number) =>
+      `translateX(calc(${idx} * -1 * (100% + ${activeGap}px) / ${visibleItems}))`,
+    [activeGap, visibleItems]
+  );
 
-  const jumpTo = (idx: number) => {
+  const jumpTo = useCallback((idx: number) => {
     const track = trackRef.current;
     if (!track) return;
     track.style.transition = "none";
     track.style.transform = getTransform(idx);
     void track.offsetHeight;
-  };
+  }, [getTransform]);
 
-  const slideTo = (idx: number) => {
+  const slideTo = useCallback((idx: number) => {
     const track = trackRef.current;
     if (!track) return;
     track.style.transition = "transform 700ms ease-in-out";
     track.style.transform = getTransform(idx);
-  };
+  }, [getTransform]);
+
+  const goNext = useCallback(() => {
+    if (currentIndex >= items.length - visibleItems) return;
+    setIsPaused(true);
+    const next = indexRef.current + scrollBy;
+    indexRef.current = next;
+    setCurrentIndex((prev) => Math.min(prev + scrollBy, items.length - visibleItems));
+    slideTo(next);
+    setTimeout(() => setIsPaused(false), activeSpeed);
+  }, [currentIndex, items.length, visibleItems, scrollBy, slideTo, activeSpeed]);
+
+  const goPrev = useCallback(() => {
+    if (currentIndex <= 0) return;
+    setIsPaused(true);
+    const prev = indexRef.current - scrollBy;
+    indexRef.current = prev;
+    setCurrentIndex((prev) => Math.max(prev - scrollBy, 0));
+    slideTo(prev);
+    setTimeout(() => setIsPaused(false), activeSpeed);
+  }, [currentIndex, scrollBy, slideTo, activeSpeed]);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -120,16 +147,18 @@ export default function MarqueeFlow<T>({
       const next = indexRef.current + scrollBy;
       indexRef.current = next;
       slideTo(next);
+      setCurrentIndex((prev) => Math.min(prev + scrollBy, items.length - visibleItems));
 
       if (next >= realOffset + items.length) {
         isResettingRef.current = true;
         setTimeout(() => {
           indexRef.current = realOffset;
+          setCurrentIndex(0);
           jumpTo(realOffset);
           isResettingRef.current = false;
         }, 720);
       }
-    }, activeSpeed); // ← uses activeSpeed now
+    }, activeSpeed);
 
     return () => {
       if (intervalRef.current) {
@@ -142,32 +171,50 @@ export default function MarqueeFlow<T>({
   if (items.length === 0) return null;
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full overflow-hidden"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
+    <div className="relative">
+      {showArrows && currentIndex > 0 && (
+        <button
+          onClick={goPrev}
+          className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#9a8c66]/60 hover:bg-[#9a8c66]/80 flex items-center justify-center transition-colors"
+        >
+          <ChevronLeft size={24} className="text-white" />
+        </button>
+      )}
+      {showArrows && currentIndex < items.length - visibleItems && (
+        <button
+          onClick={goNext}
+          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#9a8c66]/60 hover:bg-[#9a8c66]/80 flex items-center justify-center transition-colors"
+        >
+          <ChevronRight size={24} className="text-white" />
+        </button>
+      )}
       <div
-        ref={trackRef}
-        className="flex"
-        style={{
-          gap: `${activeGap}px`,  // ← uses activeGap now
-          transform: getTransform(realOffset),
-          willChange: "transform",
-        }}
+        ref={containerRef}
+        className="w-full overflow-hidden"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
       >
-        {cloned.map((item: T, i: number) => (
-          <div
-            key={i}
-            className="flex-shrink-0"
-            style={{
-              flex: `0 0 calc((100% - ${(visibleItems - 1) * activeGap}px) / ${visibleItems})`,
-            }}
-          >
-            {renderItem(item, i % items.length)}
-          </div>
-        ))}
+        <div
+          ref={trackRef}
+          className="flex"
+          style={{
+            gap: `${activeGap}px`,
+            transform: getTransform(realOffset),
+            willChange: "transform",
+          }}
+        >
+          {cloned.map((item: T, i: number) => (
+            <div
+              key={i}
+              className="flex-shrink-0"
+              style={{
+                flex: `0 0 calc((100% - ${(visibleItems - 1) * activeGap}px) / ${visibleItems})`,
+              }}
+            >
+              {renderItem(item, i % items.length)}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -54,6 +54,7 @@ const ContactSection = memo(function ContactSection() {
       setIsSubmitting(false);
     }
   };
+  const Asterisk = () => <span className="text-red-500">*</span>;
 
   return (
     <Section className="relative min-h-full bg-transparent font-pop selection:bg-[#8D794E] selection:text-black overflow-hidden">
@@ -110,7 +111,7 @@ const ContactSection = memo(function ContactSection() {
 
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder="Name *"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -119,7 +120,7 @@ const ContactSection = memo(function ContactSection() {
 
                 <input
                   type="email"
-                  placeholder="E-mail"
+                  placeholder="E-mail *"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
