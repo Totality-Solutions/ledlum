@@ -45,7 +45,7 @@ export default function BlogCard({ title, category, description, image, date, is
           </h4>
 
           {/* Golden Arrow */}
-          <div className="w-8 h-8 rounded-full bg-[#9a8c66] flex items-center justify-center transition-all duration-300 group-hover:rotate-45 group-hover:bg-[#b4a47a]">
+          <div className="w-8 h-8 shrink-0 rounded-full bg-[#9a8c66] flex items-center justify-center transition-all duration-300 group-hover:rotate-45 group-hover:bg-[#b4a47a]">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
               <line x1="7" y1="17" x2="17" y2="7"></line>
               <polyline points="7 7 17 7 17 17"></polyline>
