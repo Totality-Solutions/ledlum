@@ -16,9 +16,13 @@
 
 
 import type { ReactNode } from "react";
+import dynamic from "next/dynamic";
 import Header from "@/components/layout/header/Header";
 import Footer from "@/components/layout/footer/Footer";
-import ScrollToTop from "@/components/common/ScrollToTop";
+
+const ScrollToTop = dynamic(
+  () => import("@/components/common/ScrollToTop")
+);
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (

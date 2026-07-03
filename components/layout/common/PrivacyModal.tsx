@@ -1,6 +1,6 @@
 "use client";
 import React, { memo, useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
+import { X } from '@/lib/icons';
 
 interface PrivacyModalProps {
   isOpen: boolean;

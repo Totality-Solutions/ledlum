@@ -1,7 +1,7 @@
 "use client";
 import React, { memo, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { X } from 'lucide-react';
+import { X } from '@/lib/icons';
 
 interface BlogModalProps {
   isOpen: boolean;

@@ -86,7 +86,7 @@
 
 "use client";
 import React, { memo, useCallback, useMemo } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from '@/lib/icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 interface PaginationProps {

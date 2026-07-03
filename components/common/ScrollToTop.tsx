@@ -3,7 +3,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { ChevronUp } from "lucide-react";
+import { ChevronUp } from "@/lib/icons";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ScrollToTop() {

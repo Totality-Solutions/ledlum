@@ -2,7 +2,7 @@
 import { useMemo, useState, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowDown, ArrowRight, X } from "lucide-react"
+import { ArrowDown, ArrowRight, X } from "@/lib/icons"
 import Section from "@/components/layout/Section"
 import { Container } from "@/components/layout/Container"
 

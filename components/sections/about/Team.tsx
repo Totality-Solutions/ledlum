@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { GetInTouch } from "@/components/layout/footer/GetInTouch";
 import Section from "@/components/layout/Section";
-import { Linkedin } from "lucide-react";
+import { Linkedin } from "@/lib/icons";
 
 import TeamBg from "@/public/images/about/ledlumbox.webp";
 

@@ -6,7 +6,7 @@ import { Container } from "@/components/layout/Container";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Instagram, Facebook, Linkedin, Send } from "lucide-react";
+import { Instagram, Facebook, Linkedin, Send } from "@/lib/icons";
 import logo from "../../../public/images/logo/ledlum-logo-footer.png";
 import PrivacyModal from "@/components/layout/common/PrivacyModal";
 import TermsModal from "@/components/layout/common/TermsModal"; // Import your new Terms Modal
