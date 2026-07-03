@@ -147,13 +147,15 @@ export default function MarqueeFlow<T>({
       const next = indexRef.current + scrollBy;
       indexRef.current = next;
       slideTo(next);
-      setCurrentIndex((prev) => Math.min(prev + scrollBy, items.length - visibleItems));
+      if (showArrows) {
+        setCurrentIndex((prev) => Math.min(prev + scrollBy, items.length - visibleItems));
+      }
 
       if (next >= realOffset + items.length) {
         isResettingRef.current = true;
         setTimeout(() => {
           indexRef.current = realOffset;
-          setCurrentIndex(0);
+          if (showArrows) setCurrentIndex(0);
           jumpTo(realOffset);
           isResettingRef.current = false;
         }, 720);
@@ -200,7 +202,6 @@ export default function MarqueeFlow<T>({
           style={{
             gap: `${activeGap}px`,
             transform: getTransform(realOffset),
-            willChange: "transform",
           }}
         >
           {cloned.map((item: T, i: number) => (

@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 import LayoutWrapper from "@/app/LayoutWrapper";
 import Loader from "@/components/common/Loader";
 
-import linearGradientBg from "@/public/lineargradient.png";
+import linearGradientBg from "@/public/lineargradient.webp";
 import ledlumLineBg from "@/public/images/about/ledlumline.webp";
 import glowBg from "@/public/glow-bg.png";
 import { Suspense } from "react";
