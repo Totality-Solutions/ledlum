@@ -50,8 +50,7 @@ const handleSliderClick = () => {
         src={BgImg}
         alt="Background"
         fill
-        priority
-        quality={100}
+        loading="lazy"
         className="object-cover -z-[20]"
         sizes="100vw"
       />
@@ -61,8 +60,8 @@ const handleSliderClick = () => {
           src="/images/about/ledlumline.webp"
           alt="background texture"
           fill
-          className="object-cover object-center"
           sizes="100vw"
+          className="object-cover object-center"
         />
       </div>
 

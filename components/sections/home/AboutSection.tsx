@@ -17,7 +17,7 @@ export default function WhoWeAreSection() {
           alt="Background Texture"
           fill
           className="object-cover mix-blend-luminosity -z-10"
-          priority
+          loading="lazy"
           style={{
             transform: 'translate3d(0, 0, 0)',
             backfaceVisibility: 'hidden'

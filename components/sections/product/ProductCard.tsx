@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-export default function ProductCard({ title, category, image, itemCount, onClick }: any) {
+export default function ProductCard({ title, category, image, itemCount, onClick, isPriority = false }: any) {
   return (
     <div 
       onClick={onClick}
@@ -13,8 +13,9 @@ export default function ProductCard({ title, category, image, itemCount, onClick
             src={image} 
             alt={title} 
             fill 
-            className="object-cover group-hover:scale-110 transition-transform duration-700" 
+            priority={isPriority}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            className="object-cover group-hover:scale-110 transition-transform duration-700" 
           />
         </div>
 

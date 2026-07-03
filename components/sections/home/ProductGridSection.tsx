@@ -10,39 +10,22 @@ import MarqueeFlow from "@/components/layout/common/MarqueeFlow";
 import LeadPopup from "./LeadPopup";
 
 import BgImg from '@/public/images/home/home-bg1.webp';
-import productSeller1 from "@/public/images/home/bestseller/Indoor1.jpeg";
-import productSeller2 from "@/public/images/home/bestseller/Indoor2.jpeg";
-
-import productSeller3 from "@/public/images/home/bestseller/Klewe1.jpeg";
-import productSeller4 from "@/public/images/home/bestseller/Klewe2.jpeg";
-
-import productSeller5 from "@/public/images/home/bestseller/Outdoor1.jpeg";
-import productSeller6 from "@/public/images/home/bestseller/Outdoor2.jpeg";
-
-import productSeller7 from "@/public/images/home/bestseller/Volaris1.png";
-import productSeller8 from "@/public/images/home/bestseller/Volaris2.png";
-import Arrival1 from "@/public/images/home/product/Outdoor_Catalogue.jpg";
-import Arrival2 from "@/public/images/home/product/Indoor_Catalogue.jpg";
-import Arrival3 from "@/public/images/home/product/Artizan_Catalogue.jpg";
-import Arrival4 from "@/public/images/home/product/Astara_Catalogue.jpg"; 
-import Arrival5 from "@/public/images/home/product/Volaris_Catalogue.jpg";
-import Arrival6 from "@/public/images/home/product/Klewe_Catalogue.jpg";
 
 // --- DATA ---
 const NEW_ARRIVALS = [
-  { id: 1, img: Arrival1, title: 'Outdoor', href:"/product/outdoor", pdf:"/pdf/OUTDOOR.pdf" },
-  { id: 2, img: Arrival2, title: 'Indoor', href:"/product/indoor", pdf:"/pdf/INDOOR.pdf" },
-  { id: 3, img: Arrival3, title: 'Artizan', href:"/product/artizan", pdf:"/pdf/ARTIZAN.pdf" },
-  { id: 4, img: Arrival4, title: 'Astara', href:"/product/astara" },
-  { id: 5, img: Arrival5, title: 'Volaris', href:"/product/volaris" },
-  { id: 6, img: Arrival6, title: 'Klewe', href:"/product/klewe", pdf:"/pdf/KLEWE.pdf" },
+  { id: 1, img: '/images/home/product/Outdoor_Catalogue.jpg', title: 'Outdoor', href:"/product/outdoor", pdf:"/pdf/OUTDOOR.pdf" },
+  { id: 2, img: '/images/home/product/Indoor_Catalogue.jpg', title: 'Indoor', href:"/product/indoor", pdf:"/pdf/INDOOR.pdf" },
+  { id: 3, img: '/images/home/product/Artizan_Catalogue.jpg', title: 'Artizan', href:"/product/artizan", pdf:"/pdf/ARTIZAN.pdf" },
+  { id: 4, img: '/images/home/product/Astara_Catalogue.jpg', title: 'Astara', href:"/product/astara" },
+  { id: 5, img: '/images/home/product/Volaris_Catalogue.jpg', title: 'Volaris', href:"/product/volaris" },
+  { id: 6, img: '/images/home/product/Klewe_Catalogue.jpg', title: 'Klewe', href:"/product/klewe", pdf:"/pdf/KLEWE.pdf" },
 ];
 
 const BESTSELLERS = [
-  { id: 1, title: 'Indoor Lights', sub: 'Nordic Pendant', lightImg: productSeller2, darkImg: productSeller1 },
-  { id: 3, title: 'Outdoor Lights', sub: 'Globe Minimal', lightImg: productSeller6, darkImg: productSeller5 },
-  { id: 4, title: 'Volaris Fans', sub: 'Cone Classic', lightImg: productSeller8, darkImg: productSeller7 },
-  { id: 2, title: 'Klewe Lights', sub: 'Wooden Tier', lightImg: productSeller4, darkImg: productSeller3 },
+  { id: 1, title: 'Indoor Lights', sub: 'Nordic Pendant', lightImg: '/images/home/bestseller/Indoor2.jpeg', darkImg: '/images/home/bestseller/Indoor1.jpeg' },
+  { id: 3, title: 'Outdoor Lights', sub: 'Globe Minimal', lightImg: '/images/home/bestseller/Outdoor2.jpeg', darkImg: '/images/home/bestseller/Outdoor1.jpeg' },
+  { id: 4, title: 'Volaris Fans', sub: 'Cone Classic', lightImg: '/images/home/bestseller/Volaris2.png', darkImg: '/images/home/bestseller/Volaris1.png' },
+  { id: 2, title: 'Klewe Lights', sub: 'Wooden Tier', lightImg: '/images/home/bestseller/Klewe2.jpeg', darkImg: '/images/home/bestseller/Klewe1.jpeg' },
 ];
 
 function cn(...classes: (string | boolean | undefined)[]) {
@@ -82,7 +65,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
         src={BgImg}
         alt="Background"
         fill
-        priority
+        loading="lazy"
         className="object-cover relative -z-20 "
         sizes="100vw"
       />

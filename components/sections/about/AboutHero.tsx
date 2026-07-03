@@ -44,6 +44,7 @@ export default function AboutHero() {
             src="/images/about/ledlumline.webp"
             alt="decorative line"
             fill
+            sizes="100vw"
             className="object-cover object-center"
             aria-hidden="true"
           />

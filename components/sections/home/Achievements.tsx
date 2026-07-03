@@ -47,10 +47,10 @@ useEffect(() => {
 
   return (
     <Section ref={sectionRef} className="relative bg-cover bg-top bg-no-repeat overflow-visible lg:min-h-screen">
-      <Image src={BgImg} alt="Background" fill priority className="object-cover -z-[20]" />
+      <Image src={BgImg} alt="Background" fill loading="lazy" className="object-cover -z-[20]" />
       
       <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
-        <Image src="/images/about/ledlumline.webp" alt="background" fill className="object-cover object-center" />
+        <Image src="/images/about/ledlumline.webp" alt="background" fill sizes="100vw" className="object-cover object-center" />
       </div>
 
       <Container className="relative z-10">

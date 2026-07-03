@@ -26,8 +26,7 @@ const HomeClient = () => {
           src={BgImg}
           alt="Background"
           fill
-          priority
-          quality={100}
+          loading="lazy"
           className="object-cover"
         />
       </div>
@@ -38,6 +37,7 @@ const HomeClient = () => {
           src="/images/about/ledlumline.webp"
           alt="background texture"
           fill
+          sizes="100vw"
           className="object-cover object-center"
         />
       </div>

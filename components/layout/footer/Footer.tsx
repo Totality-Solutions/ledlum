@@ -75,14 +75,15 @@ export default function Footer() {
           alt="Ledlum Watermark"
           fill
           className="object-contain object-bottom"
-          priority
+          loading="lazy"
+          sizes="100vw"
         />
       </div>
 
       {/* Footer Card */}
       <div className="relative z-10 w-full mx-auto rounded-[24px] max-w-[96%] overflow-hidden bg-[#9d9272] shadow-2xl mb-10 md:mb-20">
         <div className="rounded-[24px] absolute inset-0 pointer-events-none opacity-80 mix-blend-multiply">
-          <Image src="/images/about/footercard.webp" alt="Texture" fill className="object-cover" />
+          <Image src="/images/about/footercard.webp" alt="Texture" fill className="object-cover" sizes="100vw" />
         </div>
 
         <Container className="relative z-20 py-12 md:py-16 lg:py-20 !max-w-none px-6 md:px-[6vw]">
@@ -91,7 +92,7 @@ export default function Footer() {
             <div className="flex flex-col justify-between max-w-sm w-full">
               <div>
                 <Link href="/" className="inline-block mb-8 hover:opacity-90 transition">
-                  <Image src={logo} alt="Ledlum Logo" width={200} height={50} className="object-contain" style={{ width: 'auto', height: 'auto' }} priority />
+                  <Image src={logo} alt="Ledlum Logo" width={200} height={50} className="object-contain" style={{ width: 'auto', height: 'auto' }} loading="lazy" />
                 </Link>
                 <p className="text-body-sm leading-relaxed text-white font-pop font-regular max-w-[320px]">
                   Design that inspires. Spaces that come alive.

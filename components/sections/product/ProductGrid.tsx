@@ -47,7 +47,7 @@ export default function ProductGrid({ filters, products, collection }: any) {
       {filteredProducts.length > 0 ? (
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-8">
-            {paginatedProducts.map((product: any) => (
+            {paginatedProducts.map((product: any, index: number) => (
               <ProductCard
                 key={product.id}
                 title={product.title}
@@ -59,6 +59,7 @@ export default function ProductGrid({ filters, products, collection }: any) {
                   "/images/fallback-product.webp"
                 }
                 itemCount={product.itemCount}
+                isPriority={index < 4}
                 onClick={() =>
                   router.push(
                     `/product/${collection}/${product.id}?model=${product.title.toLowerCase()}`

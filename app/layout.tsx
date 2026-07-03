@@ -73,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               alt="" 
               fill 
               sizes="100vw"
+              loading="lazy"
               className="" 
               style={{ objectFit: "cover", objectPosition: "top right", mixBlendMode: "screen" }} 
             />
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               alt="" 
               fill 
               sizes="100vw"
+              loading="lazy"
               className="" 
               style={{ objectFit: "cover", mixBlendMode: "screen" }} 
             />

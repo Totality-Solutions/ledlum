@@ -90,9 +90,8 @@ const ProductInnerHero = ({ data }: HeroProps) => {
               src={images[activeImage]}
               alt={data.name}
               fill
-              priority
               className="object-cover"
-              sizes="100vw"
+              sizes="(max-width: 1024px) 100vw, 50vw"
             />
 
             {images.length > 1 && (

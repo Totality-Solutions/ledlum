@@ -46,8 +46,9 @@ export default function Team() {
         src={TeamBg}
         alt="Background"
         fill
-        priority
+        loading="lazy"
         className="object-cover -z-[20]"
+        sizes="100vw"
       />
 
       <Container className="relative z-10 space-y-5 ">

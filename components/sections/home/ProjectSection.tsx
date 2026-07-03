@@ -10,31 +10,20 @@ import { Instagram, Linkedin, Facebook, ArrowRight } from "@/lib/icons";
 // 1. Import your Carousel component
 import InfiniteCarousel from "@/components/layout/common/InfiniteCarousel"; 
 
-import project1 from "@/public/images/home/project/project1.jpeg";
-import project2 from "@/public/images/home/project/project2.jpeg";
-import project3 from "@/public/images/home/project/project3.jpeg";
-import project4 from "@/public/images/home/project/project4.jpeg";
-import project5 from "@/public/images/home/project/project5.jpeg";
-import project6 from "@/public/images/home/project/project6.jpeg";
-import project7 from "@/public/images/home/project/project7.jpeg";
-import project8 from "@/public/images/home/project/project8.jpeg";
-import project9 from "@/public/images/home/project/project9.jpeg";
-import project10 from "@/public/images/home/project/project10.jpeg";
-import project11 from "@/public/images/home/project/project11.jpeg";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow";
 
 const PROJECTS = [
-  { id: 1, img: project1 },
-  { id: 2, img: project2 },
-  { id: 3, img: project3 },
-  { id: 4, img: project4 },
-  { id: 5, img: project5 },
-  { id: 6, img: project6 },
-  { id: 7, img: project7 },
-  { id: 8, img: project8 },
-  { id: 9, img: project9 },
-  { id: 10, img: project10 },
-  { id: 11, img: project11 },
+  { id: 1, img: '/images/home/project/project1.jpeg' },
+  { id: 2, img: '/images/home/project/project2.jpeg' },
+  { id: 3, img: '/images/home/project/project3.jpeg' },
+  { id: 4, img: '/images/home/project/project4.jpeg' },
+  { id: 5, img: '/images/home/project/project5.jpeg' },
+  { id: 6, img: '/images/home/project/project6.jpeg' },
+  { id: 7, img: '/images/home/project/project7.jpeg' },
+  { id: 8, img: '/images/home/project/project8.jpeg' },
+  { id: 9, img: '/images/home/project/project9.jpeg' },
+  { id: 10, img: '/images/home/project/project10.jpeg' },
+  { id: 11, img: '/images/home/project/project11.jpeg' },
 ];
 
 const OurProjectsSection = memo(function OurProjectsSection() {
@@ -50,6 +39,7 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                             src="/images/about/ledlumline.webp"
                             alt="background texture"
                             fill
+                            sizes="100vw"
                             className="object-cover object-center"
                           />
                           </div>

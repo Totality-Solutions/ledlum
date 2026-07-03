@@ -7,10 +7,11 @@ const nextConfig: NextConfig = {
   },
   turbopack: {},
   images: {
-    qualities: [75, 100],
-    deviceSizes: [320, 420, 768, 1024, 1280, 1536],
+    qualities: [75],
+    deviceSizes: [640, 750, 828, 1080, 1200],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
       {
         protocol: 'https',

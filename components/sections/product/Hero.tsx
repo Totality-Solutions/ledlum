@@ -1,11 +1,10 @@
 import Image from 'next/image';
-import heroImage from '@/public/images/home/home-hero.webp'; // Make sure this path exists
 
 export default function Hero({ heroBannerImage }: { heroBannerImage: string }) {
   return (
     <section className="relative w-full h-[20vh] sm:h-[50vh] lg:h-[90vh] min-h-[200px] max-h-[900px] flex items-start justify-start overflow-hidden">
       <Image
-        src={heroBannerImage || heroImage}
+        src={heroBannerImage || '/images/home/home-hero.webp'}
         alt="Collection Hero"
         fill
         priority
