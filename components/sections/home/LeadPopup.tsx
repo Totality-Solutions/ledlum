@@ -41,16 +41,16 @@ export default function LeadPopup({ product, pdfPath, onClose }: LeadPopupProps)
     setSubmitting(true);
 
     try {
-      const res = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), email: email.trim(), phone: phone.trim(), product }),
-      });
+      // const res = await fetch("/api/lead", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ name: name.trim(), email: email.trim(), phone: phone.trim(), product }),
+      // });
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Submission failed");
-      }
+      // if (!res.ok) {
+      //   const data = await res.json();
+      //   throw new Error(data.error || "Submission failed");
+      // }
 
       const link = document.createElement("a");
       link.href = pdfPath;
