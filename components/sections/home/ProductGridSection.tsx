@@ -9,7 +9,6 @@ import { Container } from "@/components/layout/Container";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow"; 
 import LeadPopup from "./LeadPopup";
 
-import BgImg from '@/public/images/home/home-bg1.webp';
 
 // --- DATA ---
 const NEW_ARRIVALS = [
@@ -62,11 +61,11 @@ const CombinedProductSection = memo(function CombinedProductSection() {
         className="relative min-h-screen bg-black flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat"
       >
       <Image
-        src={BgImg}
+        src='/images/about/ledlumbox.webp'
         alt="Background"
         fill
         loading="lazy"
-        className="object-cover relative -z-20 "
+        className="object-cover relative z-0 "
         sizes="100vw"
       />
       <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
