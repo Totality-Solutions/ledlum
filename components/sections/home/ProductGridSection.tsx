@@ -16,7 +16,7 @@ const NEW_ARRIVALS = [
   { id: 1, img: '/images/home/product/Outdoor_Catalogue.jpg', title: 'Outdoor', href:"/product/outdoor", pdf:"/pdf/OUTDOOR.pdf" },
   { id: 2, img: '/images/home/product/Indoor_Catalogue.jpg', title: 'Indoor', href:"/product/indoor", pdf:"/pdf/INDOOR.pdf" },
   { id: 3, img: '/images/home/product/Artizan_Catalogue.jpg', title: 'Artizan', href:"/product/artizan", pdf:"/pdf/ARTIZAN.pdf" },
-  { id: 4, img: '/images/home/product/Astara_Catalogue.jpg', title: 'Astara', href:"/product/astara" },
+  { id: 4, img: '/images/home/product/Astara_Catalogue.jpg', title: 'Astara', href:"/product/astara", pdf:"/pdf/ASTARA.pdf" },
   { id: 5, img: '/images/home/product/Volaris_Catalogue.jpg', title: 'Volaris', href:"/product/volaris", pdf:"/pdf/VOLARIS.pdf" },
   { id: 6, img: '/images/home/product/Klewe_Catalogue.jpg', title: 'Klewe', href:"/product/klewe", pdf:"/pdf/KLEWE.pdf" },
 ];
