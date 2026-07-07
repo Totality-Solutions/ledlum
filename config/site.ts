@@ -6,7 +6,7 @@ export const siteConfig = {
   url: "https://www.roltaelectricals.com",
   locale: "en_US",
   logo: "/logo.svg",
-  defaultOgImage: "/og-default.png",
+  defaultOgImage: "https://d1qlyda1dsr5ui.cloudfront.net/ledlum/og-default.png",
   contact: {
     email: "hello@roltaelectricals.com",
     phone: "+91-98765-43210",

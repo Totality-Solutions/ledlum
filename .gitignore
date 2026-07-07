@@ -41,4 +41,6 @@ yarn-error.log*
 *.pem
 /dev.ps1
 
+/publicBackup
+
 .env.local

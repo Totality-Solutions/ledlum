@@ -1,10 +1,11 @@
 import Image from 'next/image';
+import { cdnImg } from "@/lib/cdn";
 
 export default function Hero({ heroBannerImage }: { heroBannerImage: string }) {
   return (
     <section className="relative w-full h-[20vh] sm:h-[50vh] lg:h-[90vh] min-h-[200px] max-h-[900px] flex items-start justify-start overflow-hidden">
       <Image
-        src={heroBannerImage || '/images/home/home-hero.webp'}
+        src={heroBannerImage || cdnImg('/images/home/home-hero.webp')}
         alt="Collection Hero"
         fill
         priority

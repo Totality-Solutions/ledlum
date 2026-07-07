@@ -12,18 +12,20 @@ import InfiniteCarousel from "@/components/layout/common/InfiniteCarousel";
 
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow";
 
+import { cdnImg } from "@/lib/cdn";
+
 const PROJECTS = [
-  { id: 1, img: '/images/home/project/project1.jpeg' },
-  { id: 2, img: '/images/home/project/project2.jpeg' },
-  { id: 3, img: '/images/home/project/project3.jpeg' },
-  { id: 4, img: '/images/home/project/project4.jpeg' },
-  { id: 5, img: '/images/home/project/project5.jpeg' },
-  { id: 6, img: '/images/home/project/project6.jpeg' },
-  { id: 7, img: '/images/home/project/project7.jpeg' },
-  { id: 8, img: '/images/home/project/project8.jpeg' },
-  { id: 9, img: '/images/home/project/project9.jpeg' },
-  { id: 10, img: '/images/home/project/project10.jpeg' },
-  { id: 11, img: '/images/home/project/project11.jpeg' },
+  { id: 1, img: cdnImg('/images/home/project/project1.jpeg') },
+  { id: 2, img: cdnImg('/images/home/project/project2.jpeg') },
+  { id: 3, img: cdnImg('/images/home/project/project3.jpeg') },
+  { id: 4, img: cdnImg('/images/home/project/project4.jpeg') },
+  { id: 5, img: cdnImg('/images/home/project/project5.jpeg') },
+  { id: 6, img: cdnImg('/images/home/project/project6.jpeg') },
+  { id: 7, img: cdnImg('/images/home/project/project7.jpeg') },
+  { id: 8, img: cdnImg('/images/home/project/project8.jpeg') },
+  { id: 9, img: cdnImg('/images/home/project/project9.jpeg') },
+  { id: 10, img: cdnImg('/images/home/project/project10.jpeg') },
+  { id: 11, img: cdnImg('/images/home/project/project11.jpeg') },
 ];
 
 const OurProjectsSection = memo(function OurProjectsSection() {
@@ -36,7 +38,7 @@ const OurProjectsSection = memo(function OurProjectsSection() {
 
         <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
                           <Image 
-                            src="/images/about/ledlumline.webp"
+                            src={cdnImg("/images/about/ledlumline.webp")}
                             alt="background texture"
                             fill
                             sizes="100vw"

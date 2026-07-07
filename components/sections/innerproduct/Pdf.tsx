@@ -1,7 +1,6 @@
 "use client";
 import jsPDF from "jspdf";
-import photometricLocal from "@/public/images/products/Light-angle.png"; 
-import logoLocal from "@/public/images/logo/LEDLUM - Logo.webp"; 
+import { cdnImg } from "@/lib/cdn"; 
 
 interface PdfFileProps {
   selections: any;
@@ -99,7 +98,7 @@ export const PdfFile = async ({
   
   // Embedded Logo image inside the banner header
   try {
-    const logoBase64 = await getBase64FromUrl(logoLocal.src);
+    const logoBase64 = await getBase64FromUrl(cdnImg("/images/logo/LEDLUM - Logo.webp"));
     doc.addImage(logoBase64, 'PNG', 12, 6, 38, 10); 
   } catch (e) { 
     doc.setTextColor(255, 255, 255);
@@ -136,7 +135,7 @@ export const PdfFile = async ({
   doc.setDrawColor(220, 220, 220);
   doc.rect(leftColX, 123, 75, 50);
   try {
-    const photoBase = await getBase64FromUrl(photometricLocal.src);
+    const photoBase = await getBase64FromUrl(cdnImg("/images/products/Light-angle.png"));
     doc.addImage(photoBase, 'PNG', leftColX + 5, 128, 65, 40);
   } catch (e) { console.warn("Photometric image failed to load"); }
 

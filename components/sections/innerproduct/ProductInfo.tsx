@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineDownload } from "react-icons/hi";
 import { ExcelFile } from "./ExcelFile";
 import { PRODUCT_IMAGES } from "@/content/data/productImages";
+import { cdnImg } from "@/lib/cdn";
 
 interface ProductInfoProps {
   config: any;
@@ -37,7 +38,7 @@ const ModelCard = ({
 }) => {
   const modelImage =
     PRODUCT_IMAGES[id.toUpperCase()]?.heroCarousel?.[0] ??
-    "/images/fallback-product.webp";
+    cdnImg("/images/fallback-product.webp");
 
   return (
     <div

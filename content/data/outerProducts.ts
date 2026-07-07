@@ -1,5 +1,6 @@
 // @/content/data/outerProducts.ts
 import { INDOOR_MODEL_DATABASE } from "./indoorCategoryMap";
+import { cdnImg } from "@/lib/cdn";
 import fs from "fs";
 import path from "path";
 
@@ -44,7 +45,7 @@ function loadOutdoorProducts(): Record<string, OuterProduct> {
         id: uniqueId,
         title: model,
         image: `https://placehold.co/800x800/1a1a1a/ffffff?text=${encodeURIComponent(model)}`,
-        heroBannerImage: "/images/home/product/Outdoor.jpeg",
+        heroBannerImage: cdnImg("/images/home/product/Outdoor.jpeg"),
         collection: "outdoor",
         category,
         group: category,
@@ -78,7 +79,7 @@ export function generateOuterPageData(collection: string): Record<string, OuterP
             id: uniqueId,
             title: modelName,
             image: `https://placehold.co/800x800/1a1a1a/ffffff?text=${encodeURIComponent(modelName)}`,
-            heroBannerImage: "/images/home/product/Indoor.jpeg",
+            heroBannerImage: cdnImg("/images/home/product/Indoor.jpeg"),
             collection: "indoor",
             category: categoryKey,
             group: categoryKey,

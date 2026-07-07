@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
+import { cdnImg } from "@/lib/cdn";
 
 export default function Loader() {
   const pathname = usePathname();
@@ -59,7 +60,7 @@ export default function Loader() {
     <div className={`loader-overlay ${!isLoading ? "hidden-loader" : ""}`}>
       <div className="loader-animated-svg">
         <Image
-          src="/images/logo/loader_logo.svg"
+          src={cdnImg("/images/logo/loader_logo.svg")}
           alt="Loading..."
           width={120}
           height={120}

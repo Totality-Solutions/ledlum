@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import ProductCard from "./ProductCard"
 import { Container } from "@/components/layout/Container"
 import { PRODUCT_IMAGES } from "@/content/data/productImages";
+import { cdnImg } from "@/lib/cdn";
 
 const PRODUCTS_PER_PAGE = 12;
 
@@ -56,7 +57,7 @@ export default function ProductGrid({ filters, products, collection }: any) {
                   PRODUCT_IMAGES[
                     product.title?.toUpperCase()
                   ]?.heroCarousel?.[0] ??
-                  "/images/fallback-product.webp"
+                  cdnImg("/images/fallback-product.webp")
                 }
                 itemCount={product.itemCount}
                 isPriority={index < 4}

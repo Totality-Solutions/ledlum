@@ -2,6 +2,7 @@
 
 import React from "react";
 import PressGrid from "@/components/common/PressGrid";
+import { cdnImg } from "@/lib/cdn";
 
 function getYouTubeThumbnail(url: string): string {
   try {
@@ -17,7 +18,7 @@ function getYouTubeThumbnail(url: string): string {
   } catch {
     // Fallback if processing fails
   }
-  return "/images/fallback-thumbnail.jpg";
+  return cdnImg("/images/fallback-thumbnail.jpg");
 }
 
 const RAW_INTERVIEW_DATA = [

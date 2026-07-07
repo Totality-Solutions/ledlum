@@ -2,6 +2,7 @@
 
 import React, { memo } from "react";
 import Image, { StaticImageData } from "next/image";
+import { cdnImg } from "@/lib/cdn";
 import clsx from "clsx";
 
 type HeroProps = {
@@ -28,7 +29,7 @@ const Hero = memo(function Hero({
           loop
           playsInline
           preload="none"
-          poster="/images/home/home-hero.webp"
+          poster={cdnImg("/images/home/home-hero.webp")}
           className="absolute inset-0 w-full h-full object-cover z-0"
         >
           <source src={typeof src === "string" ? src : ""} />

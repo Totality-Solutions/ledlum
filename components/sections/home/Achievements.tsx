@@ -6,17 +6,17 @@ import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 import { PopupForm } from "@/components/common/PopupForm";
-import BgImg from "@/public/images/home/home-bg4.webp";
+import { cdnImg } from "@/lib/cdn";
 
 interface Props {
   onTriggerForm: () => void;
 }
 
 const ACHIEVEMENTS = [
-  { id: "01", value: "23+", label: "YEARS OF EXPERIENCE", image: "/images/home/achievment1.png" },
-  { id: "02", value: "400+", label: "PARTNERS", image: "/images/home/achievment2.webp" },
-  { id: "03", value: "1,100+", label: "PRODUCTS", image: "/images/home/achievment3.webp" },
-  { id: "04", value: "30,000+", label: "BURNING HOURS", image: "/images/home/achievment4.webp" },
+  { id: "01", value: "23+", label: "YEARS OF EXPERIENCE", image: cdnImg("/images/home/achievment1.png") },
+  { id: "02", value: "400+", label: "PARTNERS", image: cdnImg("/images/home/achievment2.webp") },
+  { id: "03", value: "1,100+", label: "PRODUCTS", image: cdnImg("/images/home/achievment3.webp") },
+  { id: "04", value: "30,000+", label: "BURNING HOURS", image: cdnImg("/images/home/achievment4.webp") },
 ];
 
 export default function Achievements({ onTriggerForm }: Props) {
@@ -47,10 +47,10 @@ useEffect(() => {
 
   return (
     <Section ref={sectionRef} className="relative bg-cover bg-top bg-no-repeat overflow-visible lg:min-h-screen">
-      <Image src={BgImg} alt="Background" fill loading="lazy" className="object-cover -z-[20]" />
+      <Image src={cdnImg("/images/home/home-bg4.webp")} alt="Background" fill loading="lazy" className="object-cover -z-[20]" />
       
       <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
-        <Image src="/images/about/ledlumline.webp" alt="background" fill sizes="100vw" className="object-cover object-center" />
+        <Image src={cdnImg("/images/about/ledlumline.webp")} alt="background" fill sizes="100vw" className="object-cover object-center" />
       </div>
 
       <Container className="relative z-10">

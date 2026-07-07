@@ -28,6 +28,11 @@ const nextConfig: NextConfig = {
         hostname: 'img.youtube.com',
         pathname: '/vi/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'd1qlyda1dsr5ui.cloudfront.net',
+        pathname: '/ledlum/**',
+      },
     ],
   },
   reactStrictMode: true,

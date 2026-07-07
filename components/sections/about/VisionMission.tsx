@@ -3,6 +3,7 @@
 "use client";
 import React from 'react';
 import Image from 'next/image';
+import { cdnImg } from "@/lib/cdn";
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 import CoreValues from './CoreValues';
@@ -27,7 +28,7 @@ export default function VisionMission() {
             maskImage: 'linear-gradient(to bottom, transparent 0%, black 30%)'
           }}>
           <Image
-            src="/images/about/ledlumline.webp"
+            src={cdnImg("/images/about/ledlumline.webp")}
             alt="background texture"
             fill
             className="object-cover"
@@ -53,7 +54,7 @@ export default function VisionMission() {
               transform: 'scale(1.7)'
             }}>
             <Image
-              src="/images/about/mission2.webp"
+              src={cdnImg("/images/about/mission2.webp")}
               alt="Mission background"
               fill
               className="object-cover"

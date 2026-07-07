@@ -7,10 +7,8 @@ import { buildMetadata } from "@/lib/seo";
 import LayoutWrapper from "@/app/LayoutWrapper";
 import Loader from "@/components/common/Loader";
 
-import linearGradientBg from "@/public/lineargradient.webp";
-import ledlumLineBg from "@/public/images/about/ledlumline.webp";
-import glowBg from "@/public/glow-bg.png";
 import { Suspense } from "react";
+import { cdnImg } from "@/lib/cdn";
 
 const poppins = localFont({
   src: [
@@ -60,7 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* ── Fixed Background Layers ── */}
           <div aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
             <Image 
-              src={glowBg} 
+              src={cdnImg("/glow-bg.png")} 
               alt="" 
               fill 
               priority 
@@ -69,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               style={{ objectFit: "fill", mixBlendMode: "screen", opacity: 0.8 }} 
             />
             <Image 
-              src={linearGradientBg} 
+              src={cdnImg("/lineargradient.webp")} 
               alt="" 
               fill 
               sizes="100vw"
@@ -78,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               style={{ objectFit: "cover", objectPosition: "top right", mixBlendMode: "screen" }} 
             />
             <Image 
-              src={ledlumLineBg} 
+              src={cdnImg("/images/about/ledlumline.webp")} 
               alt="" 
               fill 
               sizes="100vw"

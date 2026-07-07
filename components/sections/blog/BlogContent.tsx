@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import BlogCard from "@/components/sections/blog/BlogCard";
 import Pagination from '@/components/sections/blog/Pagination';
+import { cdnImg } from "@/lib/cdn";
 import CTABtn from '@/components/layout/common/CTABtn';
 import { GetInTouch } from '@/components/layout/footer/GetInTouch';
 import Section from '@/components/layout/Section';
@@ -89,7 +90,7 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
           <div className="mt-8 md:mt-16 bg-[#000] border border-white/5 rounded-[32px] md:rounded-[48px] p-6 flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start shadow-2xl">
             <div className="w-full lg:w-[58%] relative rounded-[24px] md:rounded-[32px] overflow-hidden group" style={{ aspectRatio: '16/9' }}>
               <Image
-                src={heroPost.image || "/images/placeholder.jpg"}
+                src={heroPost.image || cdnImg("/images/placeholder.jpg")}
                 alt={heroPost.title}
                 fill
                 className="object-cover transform group-hover:scale-105 transition-transform duration-1000"
@@ -113,7 +114,7 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
       {recentBucket.length > 0 && (
         <section className="mb-32 relative pt-16">
           <div className="absolute inset-0 z-0 pointer-events-none w-screen left-1/2 -translate-x-1/2">
-            <Image src="/images/about/ledlumbox.webp" alt="Background" fill className="object-cover" />
+            <Image src={cdnImg("/images/about/ledlumbox.webp")} alt="Background" fill className="object-cover" />
             <div className="absolute inset-0 bg-black/35" />
           </div>
           <div className="relative pb-12">
@@ -127,7 +128,7 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
                     title={post.title}
                     category={post.category}
                     description={post.description}
-                    image={post.image || "/images/placeholder.jpg"}
+                    image={post.image || cdnImg("/images/placeholder.jpg")}
                     date={post.date}
                   />
                 </Link>
@@ -158,7 +159,7 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
                     title={post.title}
                     category={post.category}
                     description={post.description}
-                    image={post.image || "/images/placeholder.jpg"}
+                    image={post.image || cdnImg("/images/placeholder.jpg")}
                     date={post.date}
                   />
                 </Link>

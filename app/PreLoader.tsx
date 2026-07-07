@@ -50,6 +50,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { cdnImg } from "@/lib/cdn";
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [showVideo, setShowVideo] = useState<boolean>(false);
@@ -110,7 +111,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
       >
         {/* The #t=0.1 trick forces the browser to load the first frame immediately */}
-        <source src="/videos/Preloader.mp4#t=0.1" type="video/mp4" />
+        <source src={cdnImg("/videos/Preloader.mp4#t=0.1")} type="video/mp4" />
       </video>
 
       {/* Skip Hint */}

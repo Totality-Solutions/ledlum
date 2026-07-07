@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "@/lib/icons";
 
 import CTABtn from "@/components/layout/common/CTABtn";
+import { cdnImg } from "@/lib/cdn";
 import Section from "@/components/layout/Section";
 
 interface HeroProps {
@@ -28,7 +29,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
   const images =
     data.images && data.images.length > 0
       ? data.images
-      : ["/placeholder.jpg"];
+      : [cdnImg("/placeholder.jpg")];
 
   const nextImage = () => {
     setActiveImage((prev) =>

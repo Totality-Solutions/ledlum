@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
+import { cdnImg } from "@/lib/cdn";
 import Carousel, { CarouselHandle, CarouselState } from "./Carousel";
 
 interface PressItem {
@@ -73,7 +74,7 @@ export default function PressGrid({
         {/* Decorative Background Texture Overlay */}
         <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
           <Image
-            src="/images/about/ledlumline.webp"
+            src={cdnImg("/images/about/ledlumline.webp")}
             alt="background texture"
             fill
             className="object-cover object-center"

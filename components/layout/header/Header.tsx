@@ -7,10 +7,7 @@ import { usePathname } from "next/navigation"; // Hook to detect current locatio
 import { primaryNavigation, sideNavigation } from "@/config/navigation";
 import MobileMenu from "./MobileMenu"; 
 
-// Local Image Imports
-import LogoImg from "@/public/images/logo/LEDLUM - Logo.webp";
-import SecondaryLogoImg from "@/public/images/logo/SECONDARY_LOGO.png"; 
-import MenuIcon from "@/public/images/icons/menu_icon.png";
+import { cdnImg } from "@/lib/cdn";
 
 const HEADER_HEIGHT = "90px";
 
@@ -64,7 +61,7 @@ const Header = () => {
             <Link href="/" onClick={closeAll} className="flex items-center group">
               <div className="relative w-32 h-10 sm:w-36 sm:h-11 lg:w-44 lg:h-12">
                 <Image
-                  src={LogoImg}
+                  src={cdnImg("/images/logo/LEDLUM - Logo.webp")}
                   alt="LEDLUM Logo"
                   className="object-contain"
                   fill
@@ -87,7 +84,7 @@ const Header = () => {
             >
               <div className="relative w-20 h-6 sm:w-24 sm:h-7 lg:w-32 lg:h-10">
                 <Image
-                  src={SecondaryLogoImg}
+                  src={cdnImg("/images/logo/SECONDARY_LOGO.png")}
                   alt="Secondary Logo"
                   className="object-contain"
                   fill
@@ -154,7 +151,7 @@ const Header = () => {
                   />
                 </svg>
               ) : (
-                <Image src={MenuIcon} alt="Open Menu" width={28} height={28} className="brightness-0 invert" />
+                <Image src={cdnImg("/images/icons/menu_icon.png")} alt="Open Menu" width={28} height={28} className="brightness-0 invert" />
               )}
             </button>
 
@@ -182,7 +179,7 @@ const Header = () => {
                 </svg>
               ) : (
                 <Image
-                  src={MenuIcon}
+                  src={cdnImg("/images/icons/menu_icon.png")}
                   alt="Menu Icon"
                   width={24}
                   height={24}
