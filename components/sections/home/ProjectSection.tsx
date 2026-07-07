@@ -58,6 +58,7 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                             <div className="flex flex-col items-start md:items-end gap-5">
                               <Link href="/project" className="hidden flex items-center gap-2 md:block text-body-sm lg:text-body font-pop font-regular text-white hover:text-white/70 transition-colors">
                                 See how LEDLUM lives in real spaces
+                                <ArrowRight size={26} strokeWidth={2} className="inline ml-5 text-background" />
                                 {/* <ArrowRight size={16} strokeWidth={2} className="inline ml-5 text-background" /> */}
                               </Link>
                               
