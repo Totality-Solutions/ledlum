@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
   },
   turbopack: {},
   images: {
+    // Assets are already served from CloudFront in optimized .webp/.jpeg format,
+    // so we bypass Vercel's Image Optimization API (which was the main bottleneck
+    // in production: cold re-encoding + Hobby-tier transformation cap made images
+    // slow to appear and painting glitchy on scroll). Serving directly from
+    // CloudFront is faster and free of the transformation quota.
+    unoptimized: true,
     qualities: [75],
     deviceSizes: [640, 750, 828, 1080, 1200],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],

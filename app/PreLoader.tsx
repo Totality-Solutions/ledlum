@@ -73,10 +73,22 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
   useEffect(() => {
     if (sessionStorage.getItem("hasSeenIntro")) {
       onComplete();
-    } else {
-      setShowVideo(true);
-      document.documentElement.classList.add("no-scroll");
+      return;
     }
+    // Skip the fullscreen preloader video on mobile / low-memory devices to
+    // avoid out-of-memory crashes when combined with the hero video + images.
+    const isMobile =
+      typeof window !== "undefined" &&
+      (window.matchMedia("(max-width: 768px)").matches ||
+        // @ts-ignore - deviceMemory is a non-standard but widely supported hint
+        (navigator.deviceMemory && navigator.deviceMemory <= 4));
+    if (isMobile) {
+      sessionStorage.setItem("hasSeenIntro", "true");
+      onComplete();
+      return;
+    }
+    setShowVideo(true);
+    document.documentElement.classList.add("no-scroll");
   }, [onComplete]);
 
   // Speed boost: Increase playback speed once the video starts

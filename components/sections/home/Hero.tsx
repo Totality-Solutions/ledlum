@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo } from "react";
+import React, { memo, useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { cdnImg } from "@/lib/cdn";
 import clsx from "clsx";
@@ -18,11 +18,24 @@ const Hero = memo(function Hero({
   overlay = true,
   children,
 }: HeroProps) {
+  // On mobile, don't decode a background video — it's the main cause of
+  // out-of-memory crashes when combined with the rest of the page.
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  const useVideo = type === "video" && !isMobile;
+
   return (
     <section className="relative w-full h-[30vh] sm:h-[50vh] lg:h-screen min-h-[230px] max-h-[700px] flex items-center justify-center bg-gray-900 overflow-hidden">
       
       {/* 🎥 VIDEO BACKGROUND */}
-      {type === "video" ? (
+      {useVideo ? (
         <video
           autoPlay
           muted
@@ -34,6 +47,16 @@ const Hero = memo(function Hero({
         >
           <source src={typeof src === "string" ? src : ""} />
         </video>
+      ) : type === "video" ? (
+        /* Mobile: static poster image instead of the video */
+        <Image
+          src={cdnImg("/images/home/home-hero.webp")}
+          alt="Hero Background"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center z-0"
+        />
       ) : (
         /* 🖼️ IMAGE BACKGROUND */
         <Image
