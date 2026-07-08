@@ -2,6 +2,7 @@
 import React, { memo, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { X } from '@/lib/icons';
+import { cdnImg } from '@/lib/cdn';
 
 interface BlogModalProps {
   isOpen: boolean;
@@ -82,7 +83,7 @@ const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, heroPost, modalS
           <section className="relative w-full" style={{ aspectRatio: '21/9', maxHeight: '400px' }}>
             {heroPost?.image && (
               <Image
-                src={heroPost.image}
+                src={cdnImg(heroPost.image)}
                 alt={heroPost.category ?? 'Hero'}
                 fill
                 className="object-cover"
@@ -132,7 +133,7 @@ const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, heroPost, modalS
                   style={{ aspectRatio: '16/9' }}
                 >
                   <Image
-                    src={section.image}
+                    src={cdnImg(section.image)}
                     alt={section.title}
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-1000"

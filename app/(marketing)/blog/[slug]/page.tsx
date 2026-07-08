@@ -27,7 +27,7 @@ export default async function BlogPost({ params }: PageProps) {
       <BackButton />
       <section className="w-full relative">
         <div className="w-full h-[40vh] md:h-[65vh] relative overflow-hidden">
-          <Image src={post.image} fill priority sizes="100vw" className="object-cover" alt={post.title} />
+          <Image src={  post.image} fill priority sizes="100vw" className="object-cover" alt={post.title} />
         </div>
       </section>
 
