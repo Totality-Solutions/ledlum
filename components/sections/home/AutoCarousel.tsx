@@ -80,11 +80,11 @@ const handleSliderClick = () => {
             onClick={handleSliderClick}
             className="w-full cursor-pointer relative group overflow-hidden rounded-[12px] md:rounded-[24px]"
           >
-            <ImageSliderCard 
+            {/* <ImageSliderCard 
               images={LIGHTING_IMAGES as any} 
               interval={SLIDE_INTERVAL} 
               className="w-full aspect-video md:aspect-[12/4] transition-all duration-700 group-hover:scale-[1.01]" 
-            />
+            /> */}
             
             {/* Dark Overlay on Hover */}
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-500 pointer-events-none" />
