@@ -49,9 +49,9 @@ useEffect(() => {
     <Section ref={sectionRef} className="relative bg-cover bg-top bg-no-repeat overflow-visible lg:min-h-screen">
       <Image src={cdnImg("/images/home/home-bg4.webp")} alt="Background" fill loading="lazy" className="object-cover -z-[20]" />
       
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+      {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
         <Image src={cdnImg("/images/about/ledlumline.webp")} alt="background" fill sizes="100vw" className="object-cover object-center" />
-      </div>
+      </div> */}
 
       <Container className="relative z-10">
         <div className="md:mb-20 mb-5">

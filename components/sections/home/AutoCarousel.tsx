@@ -55,7 +55,7 @@ const handleSliderClick = () => {
         sizes="100vw"
       />
       
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+      {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
         <Image 
            src={cdnImg("/images/about/ledlumline.webp")}
           alt="background texture"
@@ -63,7 +63,7 @@ const handleSliderClick = () => {
           sizes="100vw"
           className="object-cover object-center"
         />
-      </div>
+      </div> */}
 
       <Container className="">
         <div className="mb-12">

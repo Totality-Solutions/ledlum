@@ -32,7 +32,7 @@ const HomeClient = () => {
       </div>
 
       {/* --- SHARED TEXTURE OVERLAY --- */}
-      <div className="absolute inset-0 -z-10 pointer-events-none opacity-10 md:opacity-30">
+      {/* <div className="absolute inset-0 -z-10 pointer-events-none opacity-10 md:opacity-30">
         <Image 
           src={cdnImg("/images/about/ledlumline.webp")}
           alt="background texture"
@@ -40,7 +40,7 @@ const HomeClient = () => {
           sizes="100vw"
           className="object-cover object-center"
         />
-      </div>
+      </div> */}
 
       {/* --- CONTENT LAYER --- */}
       {/* Wrapping these 3 ensures they all sit on top of the same background */}

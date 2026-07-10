@@ -35,7 +35,7 @@ export default function AboutHero() {
       <Container>
 
         {/* BACKGROUND DECORATIVE LAYER - Optimized with Next/Image */}
-        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
+        {/* <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
           style={{
             maskImage: 'linear-gradient(to_bottom,transparent_0%,black_30%)',
             WebkitMaskImage: 'linear-gradient(to_bottom,transparent_0%,black_30%)',
@@ -49,7 +49,7 @@ export default function AboutHero() {
             className="object-cover object-center"
             aria-hidden="true"
           />
-        </div>
+        </div> */}
 
         {/* HEADER SECTION */}
         <div className="relative z-10 w-full mb-16 md:mb-24">

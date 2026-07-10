@@ -22,7 +22,7 @@ export default function VisionMission() {
     <Section className="relative bg-black text-white overflow-hidden ">
       <Container>
         {/* 1. GLOBAL BACKGROUND LAYER */}
-        <div className="absolute inset-0 z-0 opacity-30 pointer-events-none"
+        {/* <div className="absolute inset-0 z-0 opacity-30 pointer-events-none"
           style={{
             WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 30%)',
             maskImage: 'linear-gradient(to bottom, transparent 0%, black 30%)'
@@ -33,7 +33,7 @@ export default function VisionMission() {
             fill
             className="object-cover"
           />
-        </div>
+        </div> */}
 
         {/* 2. MISSION CIRCULAR IMAGE */}
         <div className="absolute top-[20%] left-[-10%] md:left-[5%] w-[400px] h-[400px] md:w-[700px] md:h-[700px] z-0 pointer-events-none ">

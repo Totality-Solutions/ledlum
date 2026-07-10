@@ -27,14 +27,14 @@ export function GetInTouch() {
     <section className={`relative z-10 w-full py-10 flex flex-col items-center text-center ${currentTheme.bg} overflow-hidden`}>
       
       {/* 1. GLOBAL BACKGROUND LAYER - Optimized */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+      {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
         <Image 
           src={cdnImg("/images/about/ledlumline.webp")}
           alt="background texture"
           fill
           className="object-cover object-center"
         />
-      </div>
+      </div> */}
 
       <div className="relative z-10 flex flex-col items-center">
         {/* Title */}

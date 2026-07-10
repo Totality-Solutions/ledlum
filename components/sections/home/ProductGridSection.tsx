@@ -70,7 +70,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
         className="object-cover relative z-0 "
         sizes="100vw"
       />
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+      {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
                   <Image 
                     src={cdnImg("/images/about/ledlumline.webp")}
                     alt="background texture"
@@ -78,7 +78,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                     className="object-cover object-center"
                     sizes="100vw"
                   />
-      </div>
+      </div> */}
 
       {/* SECTION 1: BESTSELLERS GRID */}
       <Container className="relative z-20 ">

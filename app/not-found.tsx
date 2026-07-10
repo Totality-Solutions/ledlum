@@ -16,14 +16,14 @@ export default function NotFound() {
         <div className="relative flex flex-col items-center justify-center min-h-[90vh] w-full px-4 overflow-hidden">
           
           {/* GLOBAL BACKGROUND LAYER - Optimized */}
-          <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+          {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
             <Image 
               src={cdnImg("/images/about/ledlumline.webp")}
               alt="background line"
               fill
               className="object-cover object-center"
             />
-          </div>
+          </div> */}
 
           {/* ANCHOR WRAPPER */}
           <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-[800px]">
