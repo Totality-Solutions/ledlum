@@ -57,11 +57,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div aria-hidden="true" style={{
             position: "fixed", inset: 0, zIndex: 0,
             pointerEvents: "none", overflow: "hidden",
-            background: [
-              "radial-gradient(ellipse 600px 400px at 70% 20%, rgba(255,255,255,0.06) 0%, transparent 100%)",
-              "radial-gradient(ellipse 400px 400px at 50% 80%, rgba(255,255,255,0.03) 0%, transparent 100%)",
-              "linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%)",
-            ].join(", "),
+            // background: [
+            //   "radial-gradient(ellipse 600px 400px at 70% 20%, rgba(255,255,255,0.06) 0%, transparent 100%)",
+            //   "radial-gradient(ellipse 400px 400px at 50% 80%, rgba(255,255,255,0.03) 0%, transparent 100%)",
+            //   "linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%)",
+            // ].join(", "),
           }} />
 
           <div style={{ position: "relative", zIndex: 1 }}>

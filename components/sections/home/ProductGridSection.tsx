@@ -176,7 +176,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
           <p className="text-body-sm lg:text-body font-pop font-regular text-white">Product Catalog</p>
         </div>
 
-        <MarqueeFlow
+        {/* <MarqueeFlow
           items={NEW_ARRIVALS}
           gap={20}
           speed={3000}
@@ -195,16 +195,15 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
 
-              {/* The Overlay */}
+          
               <div className="absolute bottom-0 left-0 w-full bg-black/80 backdrop-blur-sm p-4 flex items-center justify-between">
                 
-                {/* Left Side: Title */}
+    
                 <span className="text-body-sm lg:text-body font-pop font-regular text-white truncate pr-4">
                   {item.title}
                 </span>
 
                 <div className="flex items-center gap-3">
-                  {/* DOWNLOAD PDF ICON */}
                   {item.pdf && (
                   <button 
                     onClick={(e) => handleDownloadPdf(e, item.pdf, item.title)}
@@ -227,7 +226,6 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                   </button>
                   )}
 
-                  {/* Arrow Side */}
                   <div className="w-8 h-8 md:w-10 md:h-10 bg-[#9a8c66] rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-45">
                     <svg 
                       width="18" 
@@ -247,7 +245,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
               </div>
             </Link>
           )}
-        />
+        /> */}
       </Container>
 
       {pendingDownload && (
