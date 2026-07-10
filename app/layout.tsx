@@ -53,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Suspense>
           }
         >
-          {/* ── Fixed Background (CSS-only, no image requests) ── */}
+
           <div aria-hidden="true" style={{
             position: "fixed", inset: 0, zIndex: 0,
             pointerEvents: "none", overflow: "hidden",
