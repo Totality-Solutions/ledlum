@@ -176,7 +176,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
           <p className="text-body-sm lg:text-body font-pop font-regular text-white">Product Catalog</p>
         </div>
 
-        {/* <MarqueeFlow
+        <MarqueeFlow
           items={NEW_ARRIVALS}
           gap={20}
           speed={3000}
@@ -245,7 +245,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
               </div>
             </Link>
           )}
-        /> */}
+        />
       </Container>
 
       {pendingDownload && (

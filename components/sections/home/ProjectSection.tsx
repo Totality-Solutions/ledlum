@@ -95,7 +95,7 @@ const OurProjectsSection = memo(function OurProjectsSection() {
 
         {/* 3. DESKTOP VIEW: Your original Gallery Grid */}
         <div className="">
-          {/* <MarqueeFlow
+          <MarqueeFlow
                     items={PROJECTS}
                     gap={20}
                     speed={3000}
@@ -116,7 +116,7 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       </div>
                     )}
-                  /> */}
+                  />
           
         </div>
         

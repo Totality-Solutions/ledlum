@@ -32,7 +32,7 @@ export default function TrustedPartnersSection() {
               </div>
       
               {/* MARQUEE FLOW CAROUSEL */}
-              {/* <MarqueeFlow
+              <MarqueeFlow
                 items={PARTNERS}
                 gap={20}
                 speed={2000}
@@ -46,7 +46,7 @@ export default function TrustedPartnersSection() {
                     </div>
                   </div>
                 )}
-              /> */}
+              />
             </Container>
   );
 }
