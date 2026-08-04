@@ -43,12 +43,16 @@ export default function ProductGrid({ filters, products, collection }: any) {
     currentPage * PRODUCTS_PER_PAGE
   )
 
+  console.log("filteredProducts", filteredProducts)
   return (
     <Container className="relative">
       {filteredProducts.length > 0 ? (
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-8">
-            {paginatedProducts.map((product: any, index: number) => (
+            {paginatedProducts.map((product: any, index: number) => {
+              const totalItemCount = filteredProducts.reduce((sum: number, item: any) => sum + item.itemCount, 0);
+              console.log("totalItemCount", totalItemCount); // 5
+              return (
               <ProductCard
                 key={product.id}
                 title={product.title}
@@ -67,7 +71,7 @@ export default function ProductGrid({ filters, products, collection }: any) {
                   )
                 }
               />
-            ))}
+            )})}
           </div>
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 mt-8 lg:mt-12">
