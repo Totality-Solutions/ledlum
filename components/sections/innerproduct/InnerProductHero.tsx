@@ -10,6 +10,7 @@ import { ChevronLeft, ChevronRight } from "@/lib/icons";
 import CTABtn from "@/components/layout/common/CTABtn";
 import { cdnImg } from "@/lib/cdn";
 import Section from "@/components/layout/Section";
+import RequestQuotePopup from "@/components/common/RequestQuotePopup";
 
 interface HeroProps {
   data: {
@@ -25,6 +26,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
   const collection = params.collection as string;
 
   const [activeImage, setActiveImage] = useState(0);
+  const [showQuotePopup, setShowQuotePopup] = useState(false);
 
   const images =
     data.images && data.images.length > 0
@@ -183,12 +185,20 @@ const ProductInnerHero = ({ data }: HeroProps) => {
               circleBg="#96865D"
               textColor="#101010"
               className="font-pop"
+              onClick={() => setShowQuotePopup(true)}
             />
           </motion.div>
 
         </div>
 
       </div>
+
+      {showQuotePopup && (
+        <RequestQuotePopup
+          product={data.name}
+          onClose={() => setShowQuotePopup(false)}
+        />
+      )}
     </Section>
   );
 };
