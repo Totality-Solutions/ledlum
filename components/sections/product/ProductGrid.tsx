@@ -1,17 +1,31 @@
 "use client"
 import { useRouter } from "next/navigation"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import ProductCard from "./ProductCard"
 import { Container } from "@/components/layout/Container"
 import { PRODUCT_IMAGES } from "@/content/data/productImages";
 import { cdnImg } from "@/lib/cdn";
 
 const PRODUCTS_PER_PAGE = 12;
+const PAGE_WINDOW = 5;
 
 export default function ProductGrid({ filters, products, collection }: any) {
   const router = useRouter()
-  const [currentPage, setCurrentPage] = useState(1)
-  
+  const pageStorageKey = `productGrid:${collection}:page`
+
+  const [currentPage, setCurrentPageState] = useState<number>(() => {
+    if (typeof window === "undefined") return 1
+    const stored = Number(sessionStorage.getItem(pageStorageKey))
+    return stored > 0 ? stored : 1
+  })
+
+  const setCurrentPage = (page: number) => {
+    setCurrentPageState(page)
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(pageStorageKey, String(page))
+    }
+  }
+
   const filteredProducts = useMemo(() => {
     return products.filter((p: any) => {
       let matchCollection = false;
@@ -41,6 +55,20 @@ export default function ProductGrid({ filters, products, collection }: any) {
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * PRODUCTS_PER_PAGE,
     currentPage * PRODUCTS_PER_PAGE
+  )
+
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(totalPages)
+    }
+  }, [totalPages])
+
+  let windowStart = Math.max(1, currentPage - Math.floor(PAGE_WINDOW / 2))
+  const windowEnd = Math.min(totalPages, windowStart + PAGE_WINDOW - 1)
+  windowStart = Math.max(1, windowEnd - PAGE_WINDOW + 1)
+  const visiblePages = Array.from(
+    { length: windowEnd - windowStart + 1 },
+    (_, i) => windowStart + i
   )
 
   console.log("filteredProducts", filteredProducts)
@@ -76,14 +104,14 @@ export default function ProductGrid({ filters, products, collection }: any) {
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 mt-8 lg:mt-12">
               <button
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
                 className="px-4 py-2 border border-white/20 rounded-full text-white/60 hover:text-white hover:border-white/40 disabled:opacity-30 disabled:cursor-not-allowed transition-colors font-pop text-sm"
               >
                 Previous
               </button>
               <div className="flex items-center gap-1">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                {visiblePages.map(page => (
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
@@ -98,7 +126,7 @@ export default function ProductGrid({ filters, products, collection }: any) {
                 ))}
               </div>
               <button
-                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
                 className="px-4 py-2 border border-white/20 rounded-full text-white/60 hover:text-white hover:border-white/40 disabled:opacity-30 disabled:cursor-not-allowed transition-colors font-pop text-sm"
               >

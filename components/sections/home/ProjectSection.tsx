@@ -58,13 +58,9 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                             </div>
 
                             <div className="flex flex-col items-start md:items-end gap-5">
-                              <Link href="/project" className="hidden flex items-center gap-2 md:block text-body-sm lg:text-body font-pop font-regular text-white hover:text-white/70 transition-colors">
-                                See how LEDLUM lives in real spaces
-                                <ArrowRight size={26} strokeWidth={2} className="inline ml-5 text-background" />
-                                {/* <ArrowRight size={16} strokeWidth={2} className="inline ml-5 text-background" /> */}
-                              </Link>
                               
-                              <div className="flex items-center gap-6 text-white/60">
+                              
+                              <div className="flex items-center justify-end w-full gap-6 text-white/60">
                                 <a href="https://www.instagram.com/ledlumlighting/" className="hover:text-white transition-all hover:scale-110">
                                   <Instagram size={22} strokeWidth={1.5} />
                                 </a>
@@ -78,7 +74,11 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                                   <Facebook size={22} strokeWidth={1.5} />
                                 </a>
                               </div>
-                            </div>
+<Link href="/project" className=" flex items-center gap-2 md:block text-[12px] lg:text-body font-pop font-regular text-white hover:text-white/70 transition-colors">
+                                Explore Projects
+                                <ArrowRight size={20} strokeWidth={2} className="inline text-background" />
+                                {/* <ArrowRight size={16} strokeWidth={2} className="inline ml-5 text-background" /> */}
+                              </Link>                            </div>
                           </div>
 
         {/* 2. MOBILE & TABLET VIEW: Uses your InfiniteCarousel */}

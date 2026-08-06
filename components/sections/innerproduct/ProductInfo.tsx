@@ -44,7 +44,7 @@ const ModelCard = ({
     <div
       onClick={onClick}
       className={`
-        h-fit flex items-center px-5 py-2 rounded-[12px] cursor-pointer
+        h-fit flex items-center px-5 rounded-[12px] cursor-pointer
         transition-all duration-200 border w-full
         ${
           isActive
@@ -429,7 +429,7 @@ export default function ProductInfoSection({
   ];
 
   const rowFields = allConfigFields.filter((f) => f.options.length > 2);
-  const colFields = allConfigFields.filter((f) => f.options.length <= 2 && f.options.length > 0);
+  const colFields = allConfigFields.filter((f) => f.options.length <= 2);
 
   const renderField = (field: any, layout: "row" | "col") => {
     const isError = touched.includes(field.key);
@@ -468,7 +468,7 @@ export default function ProductInfoSection({
   return (
     <Section className="!py-6 w-full bg-black md:px-[50px] font-pop">
       <div>
-        <h1 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white mb-6">
+        <h1 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h3 font-pop font-medium text-white mb-6">
           Product Configuration
         </h1>
 
