@@ -323,7 +323,8 @@ export default function CollectionPage() {
   const [filters, setFilters] = useState({
     collection: "All",
     group: "All",
-    dimming: "All"
+    dimming: "All",
+    search: "",
   })
 
   useEffect(() => {
@@ -350,6 +351,31 @@ export default function CollectionPage() {
   const products = useMemo(() => {
     const familyMap = new Map<string, any>()
 
+    // Flattens every searchable field on a raw product row into one lowercase
+    // blob, so search can match on spec data the card itself doesn't display.
+    const buildSearchText = (item: any) => {
+      const parts = [
+        item.model,
+        item.category,
+        item.group_name,
+        item.family,
+        item.watts,
+        item.dimensions,
+        item.cutout_size,
+        item.beam_angle,
+        item.ip_rating,
+        item.led_chip,
+        item.luminous,
+        item.cri,
+        item.product_type,
+        item.hero_description,
+        ...(item.body_colors || []),
+        ...(item.cct || []),
+        ...Object.values(item.extra_specs || {}),
+      ]
+      return parts.filter(Boolean).join(" ").toLowerCase()
+    }
+
     dbProducts.forEach((item: any) => {
       if (item.collection !== collection) return
       const familyKey = item.family || `${item.group_name}-fallback`
@@ -357,6 +383,9 @@ export default function CollectionPage() {
       if (familyMap.has(familyKey)) {
         const existing = familyMap.get(familyKey)
         existing.itemCount += 1
+        existing.searchText += " " + buildSearchText(item)
+        const modelCode = String(item.model || "").trim()
+        if (modelCode) existing.models.push(modelCode)
         if (item.product_type?.toLowerCase() === "new") {
           existing.isNewLaunch = true
         }
@@ -399,6 +428,8 @@ export default function CollectionPage() {
         dimming: assignedDimming,
         series: firstModelCode.split("-")[0] || "General",
         itemCount: 1,
+        searchText: buildSearchText(item),
+        models: [firstModelCode],
       })
     })
 

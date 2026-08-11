@@ -42,6 +42,7 @@ export function mapProduct(product: any, familyProducts: any[]) {
       ledChip: product.led_chip ? [product.led_chip] : [],
       luminous: product.luminous ? [product.luminous] : [],
       cri: product.cri ? [product.cri] : [],
+      extraSpecs: product.extra_specs || {},
     },
 
     gallery: images?.gallery || [],

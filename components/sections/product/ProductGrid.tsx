@@ -5,9 +5,17 @@ import ProductCard from "./ProductCard"
 import { Container } from "@/components/layout/Container"
 import { PRODUCT_IMAGES } from "@/content/data/productImages";
 import { cdnImg } from "@/lib/cdn";
+import { preloadImage } from "@/lib/imagePreloadCache";
 
 const PRODUCTS_PER_PAGE = 12;
 const PAGE_WINDOW = 5;
+
+function resolveThumb(product: any) {
+  return (
+    PRODUCT_IMAGES[product.title?.toUpperCase()]?.heroCarousel?.[0] ??
+    cdnImg("/images/fallback-product.webp")
+  )
+}
 
 export default function ProductGrid({ filters, products, collection }: any) {
   const router = useRouter()
@@ -47,7 +55,15 @@ export default function ProductGrid({ filters, products, collection }: any) {
         filters.dimming === "All" ||
         p.dimming === filters.dimming
 
-      return matchCollection && matchGroup && matchDimming
+      const query = (filters.search || "").trim().toLowerCase()
+      const matchSearch =
+        query === "" ||
+        p.title?.toLowerCase().includes(query) ||
+        p.category?.toLowerCase().includes(query) ||
+        p.group?.toLowerCase().includes(query) ||
+        (p.searchText || "").includes(query)
+
+      return matchCollection && matchGroup && matchDimming && matchSearch
     })
   }, [filters, products, collection])
 
@@ -62,6 +78,19 @@ export default function ProductGrid({ filters, products, collection }: any) {
       setCurrentPage(totalPages)
     }
   }, [totalPages])
+
+  // Warm the browser's image cache for the next page while the current one is
+  // being viewed, so clicking "Next" feels instant instead of showing blank
+  // cards while images lazy-load in. Already-warmed URLs are skipped so paging
+  // back and forth doesn't keep re-triggering the same fetches.
+  useEffect(() => {
+    if (currentPage >= totalPages) return
+    const nextPageProducts = filteredProducts.slice(
+      currentPage * PRODUCTS_PER_PAGE,
+      (currentPage + 1) * PRODUCTS_PER_PAGE
+    )
+    nextPageProducts.forEach((product: any) => preloadImage(resolveThumb(product)))
+  }, [currentPage, totalPages, filteredProducts])
 
   let windowStart = Math.max(1, currentPage - Math.floor(PAGE_WINDOW / 2))
   const windowEnd = Math.min(totalPages, windowStart + PAGE_WINDOW - 1)
@@ -85,12 +114,7 @@ export default function ProductGrid({ filters, products, collection }: any) {
                 key={product.id}
                 title={product.title}
                 category={product.category}
-                image={
-                  PRODUCT_IMAGES[
-                    product.title?.toUpperCase()
-                  ]?.heroCarousel?.[0] ??
-                  cdnImg("/images/fallback-product.webp")
-                }
+                image={resolveThumb(product)}
                 itemCount={product.itemCount}
                 isPriority={index < 4}
                 onClick={() =>

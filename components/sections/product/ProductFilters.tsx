@@ -1,10 +1,29 @@
 "use client"
 import { useMemo, useState, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowDown, ArrowRight, X } from "@/lib/icons"
+import { ArrowDown, ArrowRight, Search, X } from "@/lib/icons"
 import Section from "@/components/layout/Section"
 import { Container } from "@/components/layout/Container"
+import { PRODUCT_IMAGES } from "@/content/data/productImages"
+import { cdnImg } from "@/lib/cdn"
+
+const MAX_SEARCH_RESULTS = 8
+
+function highlightMatch(text: string, query: string) {
+  if (!query) return text
+  const idx = text.toLowerCase().indexOf(query.toLowerCase())
+  if (idx === -1) return text
+  return (
+    <>
+      {text.slice(0, idx)}
+      <strong className="text-white font-semibold">{text.slice(idx, idx + query.length)}</strong>
+      {text.slice(idx + query.length)}
+    </>
+  )
+}
 
 export default function ProductFilters({
   filters,
@@ -12,13 +31,16 @@ export default function ProductFilters({
   products = [],
   collection,
 }: any) {
+  const router = useRouter()
   const [showGroupDropdown, setShowGroupDropdown] = useState(false)
   const [showDimmingDropdown, setShowDimmingDropdown] = useState(false)
+  const [showSearchResults, setShowSearchResults] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
 
   const groupRef = useRef<HTMLDivElement>(null)
   const dimmingRef = useRef<HTMLDivElement>(null)
+  const searchRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -48,10 +70,40 @@ export default function ProductFilters({
       if (dimmingRef.current && !dimmingRef.current.contains(event.target as Node)) {
         setShowDimmingDropdown(false)
       }
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSearchResults(false)
+      }
     }
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
+
+  // ✅ LIVE SEARCH RESULTS: matches title/category/group plus the full spec blob
+  const searchQuery = (filters.search || "").trim().toLowerCase()
+  const searchResults = useMemo(() => {
+    if (!searchQuery) return []
+    return products
+      .filter((p: any) =>
+        p.title?.toLowerCase().includes(searchQuery) ||
+        p.category?.toLowerCase().includes(searchQuery) ||
+        p.group?.toLowerCase().includes(searchQuery) ||
+        (p.searchText || "").includes(searchQuery)
+      )
+      .slice(0, MAX_SEARCH_RESULTS)
+  }, [products, searchQuery])
+
+  // A search hit is often on a specific variant buried inside a family/group card
+  // (e.g. searching "LLF-217" while the card's headline model is "LLF-216") — surface
+  // whichever actual model matched, not just the family's representative model.
+  const getMatchedModel = (item: any, query: string) => {
+    const match = (item.models || []).find((m: string) => m.toLowerCase().includes(query))
+    return match || item.title
+  }
+
+  const goToProduct = (item: any, model: string) => {
+    setShowSearchResults(false)
+    router.push(`/product/${collection}/${item.id}?model=${model.toLowerCase()}`)
+  }
 
   const categories = useMemo(() => {
     const base = ["All", "New Launch"]
@@ -86,7 +138,7 @@ export default function ProductFilters({
       }
     })
     
-    return ["All", ...Array.from(set)]
+    return ["All", ...Array.from(set).sort((a, b) => a.localeCompare(b))]
   }, [products, filters.collection])
 
   const dimmings = useMemo(() => {
@@ -124,8 +176,8 @@ export default function ProductFilters({
           <div className="p-6 flex justify-between items-center border-b border-white/5 bg-[#050505] flex-shrink-0">
             <span className="text-white text-body font-pop font-regular">Filters</span>
             <div className="flex items-center gap-4">
-              <button 
-                onClick={() => updateFilters({ collection: "All", group: "All", dimming: "All" })} 
+              <button
+                onClick={() => updateFilters({ collection: "All", group: "All", dimming: "All", search: "" })}
                 className="text-body-xs font-pop font-regular text-red-500 border border-red-500/30 px-2 py-1 rounded"
               >
                 Clear All
@@ -141,6 +193,61 @@ export default function ProductFilters({
 
           {/* Mobile Content */}
           <div className="flex-1 overflow-y-auto px-6 pt-4 pb-10 custom-scrollbar">
+            <div className="mb-4 relative">
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" />
+              <input
+                type="text"
+                value={filters.search || ""}
+                onChange={(e) => updateFilters({ search: e.target.value })}
+                placeholder="Search products..."
+                className="w-full h-12 pl-11 pr-9 rounded-[8px] bg-[#0A0A0A] border border-white/10 text-white text-body-sm font-pop font-regular placeholder:text-white/40 focus:outline-none focus:border-white/40"
+              />
+              {filters.search && (
+                <button
+                  onClick={() => updateFilters({ search: "" })}
+                  aria-label="Clear search"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+
+            {/* LIVE SEARCH RESULTS (Google-style typeahead) */}
+            {searchQuery && (
+              <div className="mb-10 rounded-lg border border-white/10 bg-[#0A0A0A] overflow-hidden">
+                {searchResults.length > 0 ? (
+                  searchResults.map((item: any) => {
+                    const thumb =
+                      PRODUCT_IMAGES[item.title?.toUpperCase()]?.heroCarousel?.[0] ??
+                      cdnImg("/images/fallback-product.webp")
+                    const matchedModel = getMatchedModel(item, searchQuery)
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => { setIsMobileMenuOpen(false); goToProduct(item, matchedModel) }}
+                        className="w-full flex items-center gap-4 px-4 py-3 text-left hover:bg-[#1A1A1A] border-b border-white/5 last:border-0 transition-all"
+                      >
+                        <Image src={thumb} alt={item.title} width={40} height={40} className="w-10 h-10 rounded-md object-contain bg-black/40 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-body-sm text-white font-regular font-pop uppercase truncate">
+                            Model: {highlightMatch(matchedModel, searchQuery)}
+                          </p>
+                          <p className="text-body-xxs text-white/40 uppercase tracking-wide truncate">
+                            {item.category || item.group}
+                          </p>
+                        </div>
+                      </button>
+                    )
+                  })
+                ) : (
+                  <div className="px-4 py-6 text-center text-body-sm text-white/40 font-pop">
+                    No results for &ldquo;{filters.search}&rdquo;
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="mb-10">
               <label className="text-white text-body-sm font-pop font-regular uppercase tracking-wide mb-4 block">Collection</label>
               <div className="space-y-1">
@@ -191,8 +298,9 @@ export default function ProductFilters({
   return (
     <Section className="w-full !py-0 sticky top-0 z-[50]">
       <Container>
-        {/* DESKTOP NAVIGATION */}
-        <div className="hidden lg:flex gap-10 items-center border-b border-white/10 overflow-x-auto custom-scrollbar">
+        {/* DESKTOP NAVIGATION + SEARCH/FILTER (top right) */}
+        <div className="hidden lg:flex items-center justify-between gap-6 border-b border-white/10">
+          <div className="flex gap-10 items-center overflow-x-auto custom-scrollbar">
           {categories.map((tab: string) => {
             const label = labelMap[tab] || tab.toUpperCase()
             return (
@@ -216,9 +324,81 @@ export default function ProductFilters({
           })}
         </div>
 
-        {/* DESKTOP DROPDOWNS */}
-        <div className="hidden lg:flex flex-col md:flex-row justify-between items-center py-4 relative custom-scrollbar">
-          <div className="relative w-full md:w-auto" ref={groupRef}>
+        {/* DESKTOP SEARCH + GROUP FILTER */}
+        <div className="flex flex-row items-center gap-4 py-4 relative custom-scrollbar flex-shrink-0">
+          <div className="relative w-full max-w-[280px]" ref={searchRef}>
+            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none z-10" />
+            <input
+              type="text"
+              value={filters.search || ""}
+              onChange={(e) => { updateFilters({ search: e.target.value }); setShowSearchResults(true) }}
+              onFocus={() => setShowSearchResults(true)}
+              placeholder="Search products..."
+              className="relative w-full h-12 pl-11 pr-9 rounded-[8px] bg-transparent border-b border-white/20 text-white text-body font-pop font-regular placeholder:text-white/40 focus:outline-none focus:bg-white focus:text-black focus:placeholder:text-black/40 transition-all duration-300"
+            />
+            {filters.search && (
+              <button
+                onClick={() => { updateFilters({ search: "" }); setShowSearchResults(false) }}
+                aria-label="Clear search"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white z-10"
+              >
+                <X size={14} />
+              </button>
+            )}
+
+            {/* LIVE SEARCH RESULTS (Google-style typeahead) */}
+            <AnimatePresence>
+              {showSearchResults && searchQuery && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-[calc(100%+8px)] left-0 w-full min-w-[380px] bg-[#111111] border border-white/10 rounded-lg shadow-2xl z-[9999] overflow-hidden"
+                >
+                  {searchResults.length > 0 ? (
+                    <div className="max-h-[420px] overflow-y-auto custom-scrollbar">
+                      {searchResults.map((item: any) => {
+                        const thumb =
+                          PRODUCT_IMAGES[item.title?.toUpperCase()]?.heroCarousel?.[0] ??
+                          cdnImg("/images/fallback-product.webp")
+                        const matchedModel = getMatchedModel(item, searchQuery)
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => goToProduct(item, matchedModel)}
+                            className="group w-full flex items-center gap-4 px-4 py-3 text-left hover:bg-[#1A1A1A] border-b border-white/5 last:border-0 transition-all"
+                          >
+                            <Image
+                              src={thumb}
+                              alt={item.title}
+                              width={40}
+                              height={40}
+                              className="w-10 h-10 rounded-md object-contain bg-black/40 flex-shrink-0"
+                            />
+                            <div className="min-w-0 flex-1">
+                              <p className="text-body-sm text-white font-regular font-pop uppercase truncate">
+                                Model: {highlightMatch(matchedModel, searchQuery)}
+                              </p>
+                              <p className="text-body-xxs text-white/40 uppercase tracking-wide truncate">
+                                {item.category || item.group}
+                              </p>
+                            </div>
+                            <ArrowRight size={14} className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0 flex-shrink-0 text-white/60" />
+                          </button>
+                        )
+                      })}
+                    </div>
+                  ) : (
+                    <div className="px-4 py-6 text-center text-body-sm text-white/40 font-pop">
+                      No results for &ldquo;{filters.search}&rdquo;
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="relative w-auto" ref={groupRef}>
             <button
               onClick={() => setShowGroupDropdown(!showGroupDropdown)}
               className={`flex items-center justify-between gap-6 px-6 h-12 rounded-[8px] text-[14px] font-medium transition-all duration-300 w-full md:max-w-[400px] truncate ${showGroupDropdown ? "bg-white text-black shadow-xl" : "bg-transparent border-b border-white/20 text-white hover:bg-white hover:text-black"}`}
@@ -235,7 +415,7 @@ export default function ProductFilters({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-[calc(100%+8px)] left-0 w-full md:min-w-[340px] bg-[#111111] border border-white/10 rounded-lg shadow-2xl z-[9999] overflow-hidden"
+                  className="absolute top-[calc(100%+8px)] right-0 w-full md:min-w-[340px] bg-[#111111] border border-white/10 rounded-lg shadow-2xl z-[9999] overflow-hidden"
                 >
                   <div className="max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
                     {groups.map((g: string) => (
@@ -253,6 +433,7 @@ export default function ProductFilters({
               )}
             </AnimatePresence>
           </div>
+        </div>
         </div>
 
         {/* MOBILE TRIGGER */}

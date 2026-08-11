@@ -7,9 +7,10 @@ interface ExcelFileProps {
   activeId: string;
   ipRating: string;
   cutout: string;
+  extraSpecs?: Record<string, string>;
 }
 
-export const ExcelFile = async ({ selections, activeId, ipRating, cutout }: ExcelFileProps) => {
+export const ExcelFile = async ({ selections, activeId, ipRating, cutout, extraSpecs = {} }: ExcelFileProps) => {
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("Technical Specs");
 
@@ -19,7 +20,7 @@ export const ExcelFile = async ({ selections, activeId, ipRating, cutout }: Exce
   ];
 
   worksheet.addRow({ spec: "PRODUCT ID", value: activeId });
-  
+
   Object.entries(selections).forEach(([key, value]) => {
     // Formats camelCase keys to UPPER CASE with spaces (e.g., bodyColor -> BODY COLOR)
     const label = key.replace(/([A-Z])/g, ' $1').toUpperCase();
@@ -29,6 +30,11 @@ export const ExcelFile = async ({ selections, activeId, ipRating, cutout }: Exce
   // Adding non-selectable config values
   worksheet.addRow({ spec: "IP RATING", value: ipRating });
   worksheet.addRow({ spec: "CUTOUT SIZE", value: cutout });
+
+  // Product-line-specific specs (e.g. Klewe's Charging Time, Vision Series' Protocol)
+  Object.entries(extraSpecs).forEach(([label, value]) => {
+    worksheet.addRow({ spec: label.toUpperCase(), value });
+  });
 
   // Styling
   worksheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };

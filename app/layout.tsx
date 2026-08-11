@@ -44,6 +44,12 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" style={{ backgroundColor: '#000' }}>
+      <head>
+        {/* Product images are served from CloudFront — warm the connection early
+            so the first images in view don't pay a fresh DNS/TLS handshake. */}
+        <link rel="preconnect" href="https://d1qlyda1dsr5ui.cloudfront.net" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://d1qlyda1dsr5ui.cloudfront.net" />
+      </head>
       <body suppressHydrationWarning style={{ backgroundColor: '#000' }} className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black overflow-x-hidden`}>
         
         <LayoutWrapper 

@@ -9,6 +9,7 @@ interface PdfFileProps {
   cutout: string;
   description?: string[];
   notes?: string[];
+  extraSpecs?: Record<string, string>;
 }
 
 // Helper to convert an image URL or source path to Base64
@@ -41,20 +42,21 @@ const fetchFontAsBinaryString = async (url: string): Promise<string> => {
   return btoa(binary); // Returns base64 string readable by jsPDF
 };
 
-export const PdfFile = async ({ 
-  selections, 
-  activeId, 
-  ipRating, 
+export const PdfFile = async ({
+  selections,
+  activeId,
+  ipRating,
   cutout,
   description = [],
-  notes = []
+  notes = [],
+  extraSpecs = {},
 }: PdfFileProps) => {
   const doc = new jsPDF('p', 'mm', 'a4');
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
   
-  // Brand Logo Color #96865D converted to RGB
-  const brandGold: [number, number, number] = [150, 134, 93];
+  // Brand copper color #a03522 (--primary-copper) converted to RGB
+  const brandCopper: [number, number, number] = [160, 53, 34];
   const textGrey: [number, number, number] = [100, 100, 100];
 
   // Load and add custom un-subsetted Poppins Fonts dynamically to resolve cmap error
@@ -93,7 +95,7 @@ export const PdfFile = async ({
   ];
 
   // 1. TOP HEADER Banner
-  doc.setFillColor(brandGold[0], brandGold[1], brandGold[2]);
+  doc.setFillColor(brandCopper[0], brandCopper[1], brandCopper[2]);
   doc.rect(0, 0, pageWidth, 28, 'F');
   
   // Embedded Logo image inside the banner header
@@ -183,7 +185,7 @@ export const PdfFile = async ({
 
   // Summary Bar
   currentY += 2;
-  doc.setFillColor(brandGold[0], brandGold[1], brandGold[2]);
+  doc.setFillColor(brandCopper[0], brandCopper[1], brandCopper[2]);
   doc.rect(rightColX, currentY, 98, 9, 'F');
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(8);
@@ -199,7 +201,7 @@ export const PdfFile = async ({
 
   // Technical Specification Data Array
   let tableY = currentY + 25;
-  const tableData = [
+  const tableData: [string, string][] = [
     ["Wattage", selections.watts || "11W"],
     ["Lumens", selections.luminous || "600lm/m"],
     ["CRI", `CRI ${selections.cri || "80"}`],
@@ -209,8 +211,14 @@ export const PdfFile = async ({
     ["Cutout Size", cutout || "5CM"],
     ["IP Rating", ipRating],
     ["LED Chip", selections.ledChip || "120 LED/Mtr"],
-    ["Warranty", "5 Years"]
   ];
+
+  // Product-line-specific specs (e.g. Klewe's Charging Time, Vision Series' Protocol)
+  Object.entries(extraSpecs).forEach(([label, value]) => {
+    tableData.push([label, value]);
+  });
+
+  tableData.push(["Warranty", "5 Years"]);
 
   tableData.forEach((item, i) => {
     if (i % 2 === 0) {
@@ -250,7 +258,7 @@ export const PdfFile = async ({
   }
 
   // FOOTER
-  doc.setFillColor(brandGold[0], brandGold[1], brandGold[2]);
+  doc.setFillColor(brandCopper[0], brandCopper[1], brandCopper[2]);
   doc.rect(0, pageHeight - 12, pageWidth, 12, 'F');
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(7);

@@ -3,6 +3,7 @@ interface IesFileProps {
   activeId: string;
   ipRating: string;
   cutout: string;
+  extraSpecs?: Record<string, string>;
 }
 
 function parseNumeric(value: string | undefined, fallback: number): number {
@@ -62,6 +63,7 @@ export const IesFile = async ({
   activeId,
   ipRating,
   cutout,
+  extraSpecs = {},
 }: IesFileProps) => {
   const inputWatts = parseNumeric(selections.watts, 12);
   const luminousFlux = parseNumeric(selections.luminous, 1000);
@@ -112,6 +114,11 @@ export const IesFile = async ({
   });
   lines.push(`[_IP_RATING] ${ipRating}`);
   lines.push(`[_CUTOUT_SIZE] ${cutout}`);
+
+  Object.entries(extraSpecs).forEach(([label, value]) => {
+    const key = label.toUpperCase().trim().replace(/\s+/g, "_");
+    lines.push(`[_${key}] ${value}`);
+  });
 
   lines.push("[BALLAST] NONE");
   lines.push("[BALLASTCAT] LED");
