@@ -5,6 +5,7 @@ import {
   DeleteObjectCommand,
   ListObjectsV2Command,
   GetObjectCommand,
+  CopyObjectCommand,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
@@ -87,6 +88,19 @@ export async function uploadFile(params: {
 export async function deleteFile(key: string): Promise<void> {
   await getR2Client().send(
     new DeleteObjectCommand({ Bucket: getBucketName(), Key: key })
+  );
+}
+
+// Server-side copy (no download/upload round trip) — used for fixing up keys,
+// e.g. renaming to a different case.
+export async function copyFile(sourceKey: string, destKey: string): Promise<void> {
+  const bucket = getBucketName();
+  await getR2Client().send(
+    new CopyObjectCommand({
+      Bucket: bucket,
+      CopySource: `${bucket}/${sourceKey.split("/").map(encodeURIComponent).join("/")}`,
+      Key: destKey,
+    })
   );
 }
 
