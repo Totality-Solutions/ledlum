@@ -20,7 +20,7 @@ export default function ProductShowcaseGallery({
               src={src}
               alt={`Gallery ${index + 1}`}
               fill
-              className="object-cover grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer"
+              className="object-contain grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer"
               sizes="(max-width: 768px) 100vw, 33vw"
             />
           </div>
