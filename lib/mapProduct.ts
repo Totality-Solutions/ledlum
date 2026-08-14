@@ -2,7 +2,13 @@ import { PRODUCT_IMAGES } from "@/content/data/productImages";
 import { cctToColor, bodyColorToHex } from "@/lib/productColors";
 
 export function mapProduct(product: any, familyProducts: any[]) {
-  const images = PRODUCT_IMAGES[product.model.toUpperCase()];
+  // Prefer real uploaded photos from Supabase (product.gallery_images); fall
+  // back to the legacy hardcoded PRODUCT_IMAGES map for the handful of
+  // models that predate the upload pipeline and don't have DB images yet.
+  const staticImages = PRODUCT_IMAGES[product.model.toUpperCase()];
+  const dbImages: string[] = product.gallery_images || [];
+  const heroCarousel = dbImages.length > 0 ? dbImages : staticImages?.heroCarousel || [];
+  const gallery = dbImages.length > 0 ? dbImages : staticImages?.gallery || [];
 
   // Check if product is flagged as a new launch
   const isNewLaunch = product.product_type?.toLowerCase() === "new";
@@ -21,7 +27,7 @@ export function mapProduct(product: any, familyProducts: any[]) {
       category: categoryLabel,
       name: product.model,
       description: product.hero_description || "",
-      images: images?.heroCarousel || [],
+      images: heroCarousel,
     },
 
     config: {
@@ -45,7 +51,7 @@ export function mapProduct(product: any, familyProducts: any[]) {
       extraSpecs: product.extra_specs || {},
     },
 
-    gallery: images?.gallery || [],
+    gallery,
     permutations: [],
   };
 }

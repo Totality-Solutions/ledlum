@@ -413,12 +413,11 @@ export default function CollectionPage() {
       }
 
       const isNewLaunch = item.product_type?.toLowerCase() === "new"
-      const fallbackPlaceholderImage = `https://placehold.co/800x800/1a1a1a/ffffff?text=${encodeURIComponent(firstModelCode)}`
 
       familyMap.set(familyKey, {
         id: cleanId,
         title: firstModelCode,
-        image: item.hero_image || fallbackPlaceholderImage,
+        image: item.hero_image || null,
         heroBannerImage: item.collection === "outdoor" ? "/images/home/product/Outdoor.jpeg" : "/images/home/product/Indoor.jpeg",
         collection: item.collection || "indoor",
         isNewLaunch,

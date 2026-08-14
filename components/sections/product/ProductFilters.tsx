@@ -219,6 +219,7 @@ export default function ProductFilters({
                 {searchResults.length > 0 ? (
                   searchResults.map((item: any) => {
                     const thumb =
+                      item.image ??
                       PRODUCT_IMAGES[item.title?.toUpperCase()]?.heroCarousel?.[0] ??
                       cdnImg("/images/fallback-product.webp")
                     const matchedModel = getMatchedModel(item, searchQuery)

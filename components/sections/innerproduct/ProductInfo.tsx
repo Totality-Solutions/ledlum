@@ -18,6 +18,7 @@ interface ProductInfoProps {
     models: string[];
   }[];
   permutations?: any[];
+  modelImages?: Record<string, string>;
 }
 
 interface LoadingStates {
@@ -31,12 +32,15 @@ const ModelCard = ({
   id,
   isActive,
   onClick,
+  modelImages,
 }: {
   id: string;
   isActive: boolean;
   onClick: () => void;
+  modelImages?: Record<string, string>;
 }) => {
   const modelImage =
+    modelImages?.[id.toUpperCase()] ??
     PRODUCT_IMAGES[id.toUpperCase()]?.heroCarousel?.[0] ??
     cdnImg("/images/fallback-product.webp");
 
@@ -204,6 +208,7 @@ export default function ProductInfoSection({
   allModelIds,
   modelFamilies,
   permutations = [],
+  modelImages,
 }: ProductInfoProps) {
   const [selections, setSelections] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
@@ -538,6 +543,7 @@ export default function ProductInfoSection({
                             onModelChange(id);
                             setMobileDropOpen(false);
                           }}
+                          modelImages={modelImages}
                         />
                       ))}
                     </div>
@@ -578,6 +584,7 @@ export default function ProductInfoSection({
                             id.toLowerCase()
                           }
                           onClick={() => onModelChange(id)}
+                          modelImages={modelImages}
                         />
                       ))}
                   </div>
@@ -609,6 +616,7 @@ export default function ProductInfoSection({
                         id.toLowerCase()
                       }
                       onClick={() => onModelChange(id)}
+                      modelImages={modelImages}
                     />
                   ))}
                 </div>

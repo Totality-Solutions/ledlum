@@ -12,6 +12,7 @@ const PAGE_WINDOW = 5;
 
 function resolveThumb(product: any) {
   return (
+    product.image ??
     PRODUCT_IMAGES[product.title?.toUpperCase()]?.heroCarousel?.[0] ??
     cdnImg("/images/fallback-product.webp")
   )
