@@ -10,6 +10,7 @@ interface PdfFileProps {
   description?: string[];
   notes?: string[];
   extraSpecs?: Record<string, string>;
+  imageUrl?: string;
 }
 
 // Helper to convert an image URL or source path to Base64
@@ -50,6 +51,7 @@ export const PdfFile = async ({
   description = [],
   notes = [],
   extraSpecs = {},
+  imageUrl,
 }: PdfFileProps) => {
   const doc = new jsPDF('p', 'mm', 'a4');
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -125,9 +127,17 @@ export const PdfFile = async ({
   doc.setFillColor(240, 240, 240);
   doc.rect(leftColX, 35, 75, 75, 'F');
   try {
-    const productImg = await getBase64FromUrl(`https://placehold.co/400x400/EEE/31343C?text=${activeId}`);
+    const productImg = await getBase64FromUrl(
+      imageUrl || `https://placehold.co/400x400/EEE/31343C?text=${activeId}`
+    );
     doc.addImage(productImg, 'PNG', leftColX + 5, 40, 65, 65);
-  } catch (e) { console.warn("Product image failed to load"); }
+  } catch (e) {
+    console.warn("Product image failed to load, falling back to placeholder", e);
+    try {
+      const fallbackImg = await getBase64FromUrl(`https://placehold.co/400x400/EEE/31343C?text=${activeId}`);
+      doc.addImage(fallbackImg, 'PNG', leftColX + 5, 40, 65, 65);
+    } catch (e2) { console.warn("Placeholder image also failed to load"); }
+  }
 
   // Photometric Diagram
   doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);

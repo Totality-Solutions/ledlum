@@ -361,7 +361,14 @@ export default function ProductInfoSection({
     const { PdfFile } = await import("./Pdf");
     const start = Date.now();
     try {
-      await PdfFile({ selections, activeId, ipRating: config.ipRating?.[0] || "IP20", cutout: config.cutoutSizes?.[0] || "N/A", extraSpecs: config.extraSpecs || {} });
+      await PdfFile({
+        selections,
+        activeId,
+        ipRating: config.ipRating?.[0] || "IP20",
+        cutout: config.cutoutSizes?.[0] || "N/A",
+        extraSpecs: config.extraSpecs || {},
+        imageUrl: modelImages?.[activeId.toUpperCase()],
+      });
       await new Promise((r) => setTimeout(r, Math.max(0, ANIMATION_DURATION - (Date.now() - start))));
       setIsDownloadMenuOpen(false);
     } catch {
