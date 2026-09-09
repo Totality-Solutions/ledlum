@@ -8,7 +8,9 @@ import { useParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "@/lib/icons";
 
 import CTABtn from "@/components/layout/common/CTABtn";
+import { cdnImg } from "@/lib/cdn";
 import Section from "@/components/layout/Section";
+import RequestQuotePopup from "@/components/common/RequestQuotePopup";
 
 interface HeroProps {
   data: {
@@ -24,11 +26,12 @@ const ProductInnerHero = ({ data }: HeroProps) => {
   const collection = params.collection as string;
 
   const [activeImage, setActiveImage] = useState(0);
+  const [showQuotePopup, setShowQuotePopup] = useState(false);
 
   const images =
     data.images && data.images.length > 0
       ? data.images
-      : ["/placeholder.jpg"];
+      : [cdnImg("/placeholder.jpg")];
 
   const nextImage = () => {
     setActiveImage((prev) =>
@@ -43,8 +46,8 @@ const ProductInnerHero = ({ data }: HeroProps) => {
   };
 
   return (
-    <Section className="!py-6 w-full min-h-screen bg-black flex items-center justify-center">
-      <div className="relative w-full min-h-[500px] md:min-h-[650px] bg-[#101010] rounded-[25px] overflow-hidden flex flex-col lg:flex-row items-center p-8 lg:p-0">
+    <Section className="!py-6 w-full bg-black flex items-center justify-center">
+      <div className="relative w-full bg-[#101010] rounded-[25px] overflow-hidden flex flex-col lg:flex-row items-center p-8 lg:p-0">
 
         {/* BACK BUTTON */}
         <Link
@@ -75,7 +78,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
         </Link>
 
         {/* IMAGE CAROUSEL */}
-        <div className="relative w-full lg:w-1/2 h-[50vh] md:h-[80vh] lg:h-[90vh] flex items-center justify-center p-4 mt-12 lg:p-12">
+        <div className="relative w-full lg:w-1/3 h-[30vh] md:h-[40vh] lg:h-[60vh] flex items-center justify-center p-4 mt-12 lg:p-12">
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -90,7 +93,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
               src={images[activeImage]}
               alt={data.name}
               fill
-              className="object-cover"
+              className="object-contain"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
 
@@ -174,6 +177,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 }}
+            className=""
           >
             <CTABtn
               label="Request Quote"
@@ -181,13 +185,21 @@ const ProductInnerHero = ({ data }: HeroProps) => {
               btnBg="#F3E7D8"
               circleBg="#96865D"
               textColor="#101010"
-              className="font-pop"
+              className="font-pop cursor-pointer"
+              onClick={() => setShowQuotePopup(true)}
             />
           </motion.div>
 
         </div>
 
       </div>
+
+      {showQuotePopup && (
+        <RequestQuotePopup
+          product={data.name}
+          onClose={() => setShowQuotePopup(false)}
+        />
+      )}
     </Section>
   );
 };

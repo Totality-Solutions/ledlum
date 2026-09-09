@@ -64,6 +64,7 @@ img {
   --content: #DBDCDD;
   --cardbackground: #222222;
   --logo: #96865D;
+  --primary-copper: #a03522;
   
 
   /* Fonts */
@@ -127,6 +128,7 @@ img {
   /* --text-gray: var(--textGray); */
   --color-card: var(--cardbackground);
   --color-logo: var(--logo);
+  --color-primary-copper: var(--primary-copper);
   --color-content: var(--content);
   --color-text: var(--logo);
 

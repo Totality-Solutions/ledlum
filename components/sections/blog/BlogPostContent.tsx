@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { cdnImg } from '@/lib/cdn';
 
 // Updated MidSection to handle an array of strings for multiple paragraphs
 export const MidSection = ({ title, paragraph, image }: { 

@@ -9,8 +9,8 @@ import Section from "@/components/layout/Section";
 import CTABtn from "@/components/layout/common/CTABtn"; // Import your CTA component
 
 // --- ASSETS ---
-import BgImg from '@/public/images/home/home-bg3.webp';
 import { blogPosts } from "@/lib/blogData";
+import { cdnImg } from "@/lib/cdn";
 
 // --- LIVE ASSETS (Unsplash Lighting Images) ---
 
@@ -47,7 +47,7 @@ const handleSliderClick = () => {
       className="relative flex flex-col bg-cover bg-center bg-no-repeat"
     >
       <Image
-        src={BgImg}
+        src={cdnImg("/images/home/home-bg3.webp")}
         alt="Background"
         fill
         loading="lazy"
@@ -55,15 +55,15 @@ const handleSliderClick = () => {
         sizes="100vw"
       />
       
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+      {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
         <Image 
-          src="/images/about/ledlumline.webp"
+           src={cdnImg("/images/about/ledlumline.webp")}
           alt="background texture"
           fill
           sizes="100vw"
           className="object-cover object-center"
         />
-      </div>
+      </div> */}
 
       <Container className="">
         <div className="mb-12">

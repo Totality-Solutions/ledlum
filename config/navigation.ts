@@ -16,5 +16,6 @@ export const sideNavigation: NavigationItem[] = [
   { title: "Home", href: "/" },
   { title: "About Us", href: "/about" },
   { title: "Blog", href: "/blog" },
+  { title: "Project", href: "/project" },
   { title: "Contact Us", href: "/contact" },
 ];

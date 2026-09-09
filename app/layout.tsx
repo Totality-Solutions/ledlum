@@ -1,15 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import Image from "next/image";
 import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
 
 import LayoutWrapper from "@/app/LayoutWrapper";
 import Loader from "@/components/common/Loader";
 
-import linearGradientBg from "@/public/lineargradient.webp";
-import ledlumLineBg from "@/public/images/about/ledlumline.webp";
-import glowBg from "@/public/glow-bg.png";
 import { Suspense } from "react";
 
 const poppins = localFont({
@@ -48,6 +44,12 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" style={{ backgroundColor: '#000' }}>
+      <head>
+        {/* Product images are served from Cloudflare R2 — warm the connection early
+            so the first images in view don't pay a fresh DNS/TLS handshake. */}
+        <link rel="preconnect" href="https://pub-72e9e5cfa7cc4ff0a9cc7ba22a9d2341.r2.dev" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://pub-72e9e5cfa7cc4ff0a9cc7ba22a9d2341.r2.dev" />
+      </head>
       <body suppressHydrationWarning style={{ backgroundColor: '#000' }} className={`${poppins.variable} ${baiJamjuree.variable} text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 antialiased selection:bg-logo selection:text-black overflow-x-hidden`}>
         
         <LayoutWrapper 
@@ -57,39 +59,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Suspense>
           }
         >
-          {/* ── Fixed Background Layers ── */}
-          <div aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
-            <Image 
-              src={glowBg} 
-              alt="" 
-              fill 
-              priority 
-              sizes="100vw"
-              className="" 
-              style={{ objectFit: "fill", mixBlendMode: "screen", opacity: 0.8 }} 
-            />
-            <Image 
-              src={linearGradientBg} 
-              alt="" 
-              fill 
-              sizes="100vw"
-              loading="lazy"
-              className="" 
-              style={{ objectFit: "cover", objectPosition: "top right", mixBlendMode: "screen" }} 
-            />
-            <Image 
-              src={ledlumLineBg} 
-              alt="" 
-              fill 
-              sizes="100vw"
-              loading="lazy"
-              className="" 
-              style={{ objectFit: "cover", mixBlendMode: "screen" }} 
-            />
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%)" }} />
-          </div>
+          {/* ── Fixed Background (CSS-only, no image requests) ── */}
+          <div aria-hidden="true" style={{
+            position: "fixed", inset: 0, zIndex: 0,
+            pointerEvents: "none", overflow: "hidden",
+            // background: [
+            //   "radial-gradient(ellipse 600px 400px at 70% 20%, rgba(255,255,255,0.06) 0%, transparent 100%)",
+            //   "radial-gradient(ellipse 400px 400px at 50% 80%, rgba(255,255,255,0.03) 0%, transparent 100%)",
+            //   "linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%)",
+            // ].join(", "),
+          }} />
 
-          {/* ── Page Content ── */}
           <div style={{ position: "relative", zIndex: 1 }}>
             {children}
           </div>

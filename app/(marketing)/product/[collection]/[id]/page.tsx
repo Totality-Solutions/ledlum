@@ -36,6 +36,7 @@ const InnerProductPage = memo(function InnerProductPage() {
   const [product, setProduct] = useState<any>(null);
   const [relatedModelIds, setRelatedModelIds] = useState<string[]>([]);
   const [modelFamilies, setModelFamilies] = useState<any[]>([]);
+  const [modelImages, setModelImages] = useState<Record<string, string>>({});
 
   const [activeModel, setActiveModel] =
     useState(
@@ -69,6 +70,13 @@ const InnerProductPage = memo(function InnerProductPage() {
 
       const relatedModels = familyProducts.length > 0 ? familyProducts : categoryProducts;
       setRelatedModelIds(relatedModels.map((p: any) => p.model));
+      setModelImages(
+        Object.fromEntries(
+          relatedModels
+            .filter((p: any) => p.hero_image)
+            .map((p: any) => [String(p.model).toUpperCase(), p.hero_image])
+        )
+      );
 
       const familyMap: any = {};
       if (familyProducts.length > 0) {
@@ -119,6 +127,7 @@ const InnerProductPage = memo(function InnerProductPage() {
         permutations={product.permutations}
         allModelIds={relatedModelIds}
         modelFamilies={modelFamilies}
+        modelImages={modelImages}
       />
       <ProductShowcaseGallery images={product.gallery} />
     </main>

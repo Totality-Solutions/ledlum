@@ -4,8 +4,8 @@ import React from "react";
 import Image from "next/image";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
-import BgImg from '@/public/images/home/home-bg2.webp';
-import CTABtn from "@/components/layout/common/CTABtn"; // Adjust this path based on your folder structure
+import { cdnImg } from "@/lib/cdn";
+import CTABtn from "@/components/layout/common/CTABtn";
 
 export default function WhoWeAreSection() {
   return (
@@ -13,7 +13,7 @@ export default function WhoWeAreSection() {
       {/* Background Image Layer with Luminosity effect - Optimized */}
       <div className="absolute inset-0 z-0">
         <Image
-          src={BgImg}
+          src={cdnImg("/images/home/home-bg2.webp")}
           alt="Background Texture"
           fill
           className="object-cover mix-blend-luminosity -z-10"

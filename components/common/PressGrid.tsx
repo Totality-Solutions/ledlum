@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
+import { cdnImg } from "@/lib/cdn";
 import Carousel, { CarouselHandle, CarouselState } from "./Carousel";
 
 interface PressItem {
@@ -71,15 +72,15 @@ export default function PressGrid({
     <Section className="bg-[#0A0A0A] text-white py-10 lg:py-16 px-4 lg:px-14 overflow-x-hidden">
       <Container className="relative z-10 max-w-full">
         {/* Decorative Background Texture Overlay */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+        {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
           <Image
-            src="/images/about/ledlumline.webp"
+            src={cdnImg("/images/about/ledlumline.webp")}
             alt="background texture"
             fill
             className="object-cover object-center"
             sizes="100vw"
           />
-        </div>
+        </div> */}
 
         {/* Unified Premium Header Row */}
         <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end mb-4 lg:mb-8 gap-4 md:gap-8">

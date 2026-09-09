@@ -6,7 +6,7 @@ import { GetInTouch } from "@/components/layout/footer/GetInTouch";
 import Section from "@/components/layout/Section";
 import { Linkedin } from "@/lib/icons";
 
-import TeamBg from "@/public/images/about/ledlumbox.webp";
+import { cdnImg } from "@/lib/cdn";
 
 export default function Team() {
 
@@ -43,7 +43,7 @@ export default function Team() {
 
       {/* Background Image Layer (same approach as Achievements section) */}
       <Image
-        src={TeamBg}
+        src={cdnImg("/images/about/ledlumbox.webp")}
         alt="Background"
         fill
         loading="lazy"
@@ -76,7 +76,7 @@ export default function Team() {
             playsInline
             className="w-full h-full object-cover rounded-[25px]"
           >
-            <source src="/videos/about.mp4" type="video/mp4" />
+            <source src={cdnImg("/videos/about.mp4")} type="video/mp4" />
           </video>
 
         </div>

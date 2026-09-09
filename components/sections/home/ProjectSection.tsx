@@ -12,18 +12,20 @@ import InfiniteCarousel from "@/components/layout/common/InfiniteCarousel";
 
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow";
 
+import { cdnImg } from "@/lib/cdn";
+
 const PROJECTS = [
-  { id: 1, img: '/images/home/project/project1.jpeg' },
-  { id: 2, img: '/images/home/project/project2.jpeg' },
-  { id: 3, img: '/images/home/project/project3.jpeg' },
-  { id: 4, img: '/images/home/project/project4.jpeg' },
-  { id: 5, img: '/images/home/project/project5.jpeg' },
-  { id: 6, img: '/images/home/project/project6.jpeg' },
-  { id: 7, img: '/images/home/project/project7.jpeg' },
-  { id: 8, img: '/images/home/project/project8.jpeg' },
-  { id: 9, img: '/images/home/project/project9.jpeg' },
-  { id: 10, img: '/images/home/project/project10.jpeg' },
-  { id: 11, img: '/images/home/project/project11.jpeg' },
+  { id: 1, img: cdnImg('/images/home/project/project1.jpeg') },
+  { id: 2, img: cdnImg('/images/home/project/project2.jpeg') },
+  { id: 3, img: cdnImg('/images/home/project/project3.jpeg') },
+  { id: 4, img: cdnImg('/images/home/project/project4.jpeg') },
+  { id: 5, img: cdnImg('/images/home/project/project5.jpeg') },
+  { id: 6, img: cdnImg('/images/home/project/project6.jpeg') },
+  { id: 7, img: cdnImg('/images/home/project/project7.jpeg') },
+  { id: 8, img: cdnImg('/images/home/project/project8.jpeg') },
+  { id: 9, img: cdnImg('/images/home/project/project9.jpeg') },
+  { id: 10, img: cdnImg('/images/home/project/project10.jpeg') },
+  { id: 11, img: cdnImg('/images/home/project/project11.jpeg') },
 ];
 
 const OurProjectsSection = memo(function OurProjectsSection() {
@@ -34,15 +36,15 @@ const OurProjectsSection = memo(function OurProjectsSection() {
     <Section className="bg-[#0A0A0A] text-white py-12 lg:py-16 px-3 lg:px-14">
       <Container className="relative z-10 ">
 
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+        {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
                           <Image 
-                            src="/images/about/ledlumline.webp"
+                            src={cdnImg("/images/about/ledlumline.webp")}
                             alt="background texture"
                             fill
                             sizes="100vw"
                             className="object-cover object-center"
                           />
-                          </div>
+                          </div> */}
                           
                           {/* Header Row - Exactly as your original */}
                           <div className="flex flex-col-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
@@ -56,12 +58,9 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                             </div>
 
                             <div className="flex flex-col items-start md:items-end gap-5">
-                              <Link href="/project" className="hidden flex items-center gap-2 md:block text-body-sm lg:text-body font-pop font-regular text-white hover:text-white/70 transition-colors">
-                                See how LEDLUM lives in real spaces
-                                {/* <ArrowRight size={16} strokeWidth={2} className="inline ml-5 text-background" /> */}
-                              </Link>
                               
-                              <div className="flex items-center gap-6 text-white/60">
+                              
+                              <div className="flex items-center justify-end w-full gap-6 text-white/60">
                                 <a href="https://www.instagram.com/ledlumlighting/" className="hover:text-white transition-all hover:scale-110">
                                   <Instagram size={22} strokeWidth={1.5} />
                                 </a>
@@ -75,7 +74,11 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                                   <Facebook size={22} strokeWidth={1.5} />
                                 </a>
                               </div>
-                            </div>
+<Link href="/project" className=" flex items-center gap-2 md:block text-[12px] lg:text-body font-pop font-regular text-white hover:text-white/70 transition-colors">
+                                Explore Projects
+                                <ArrowRight size={20} strokeWidth={2} className="inline text-background" />
+                                {/* <ArrowRight size={16} strokeWidth={2} className="inline ml-5 text-background" /> */}
+                              </Link>                            </div>
                           </div>
 
         {/* 2. MOBILE & TABLET VIEW: Uses your InfiniteCarousel */}

@@ -21,18 +21,22 @@ interface CollectionSource {
   name: string;          // collection value stored in DB (e.g. "indoor", "outdoor")
   sourceType: "excel" | "json-dir";
   path: string;
+  forceVisible?: boolean; // ignore the sheet's Website column; mark every row visible
 }
 
 const COLLECTIONS: CollectionSource[] = [
   {
     name: "indoor",
     sourceType: "excel",
-    path: "./Indoor_Products.xlsx",
+    path: "./Ledlum_Indoor_Website_W (2) (1).xlsx",
   },
   {
     name: "outdoor",
-    sourceType: "json-dir",
-    path: "./content/data/outdoor",
+    sourceType: "excel",
+    path: "./Ledlum_Outdoor (1) (2).xlsx",
+    // The outdoor sheet's Website column is only filled in for 85/764 rows,
+    // but all outdoor products have always been shown on the site — keep that behavior.
+    forceVisible: true,
   },
   // To add a new collection:
   //   { name: "artizan", sourceType: "json-dir", path: "./content/data/artizan" },
@@ -103,10 +107,15 @@ function parseExcelSource(source: CollectionSource): any[] {
         }
       }
 
+      // Any non-empty marker in the website column means "show on website".
+      // Different sheets use different marker text (e.g. "W" vs "Website"),
+      // but the app filters on the literal value "W", so normalize here.
       let websiteValue: string | null = null;
-      if (websiteCol && row[websiteCol] != null) {
+      if (source.forceVisible) {
+        websiteValue = "W";
+      } else if (websiteCol && row[websiteCol] != null) {
         const trimmed = String(row[websiteCol]).trim();
-        if (trimmed !== "") websiteValue = trimmed.toUpperCase();
+        if (trimmed !== "") websiteValue = "W";
       }
 
       const category = categoryCol ? String(row[categoryCol] || "").trim() || null : null;
@@ -144,6 +153,7 @@ function parseExcelSource(source: CollectionSource): any[] {
         cri: row["CRI"]?.toString() || null,
         website: websiteValue,
         product_type: rawProductType?.toLowerCase() === "new" ? "new" : null,
+        extra_specs: buildExtraSpecs(row, cols),
       });
     }
 
@@ -155,6 +165,32 @@ function parseExcelSource(source: CollectionSource): any[] {
 
 function findCol(cols: string[], names: string[]): string | undefined {
   return cols.find((c) => names.includes(c.toLowerCase()));
+}
+
+// Columns already captured by the fixed schema above — everything else
+// gets swept into extra_specs so new sheet columns don't need code changes.
+const MAPPED_COLS = new Set([
+  "category", "item number", "model no", "item code", "family",
+  "website", "websiite", "product type", "watts", "wattage/mtr", "watt",
+  "dimension", "size", "cutout size", "body color", "cct (k)", "cct",
+  "powered by", "beam angle", "ip rating", "luminous", "cri",
+  "product overview", "item number_1",
+]);
+
+function buildExtraSpecs(row: Record<string, any>, cols: string[]): Record<string, string> {
+  const extra: Record<string, string> = {};
+  for (const col of cols) {
+    const lc = col.toLowerCase().trim();
+    if (MAPPED_COLS.has(lc)) continue;
+    if (lc.startsWith("d.p.")) continue; // dealer/distributor price — not for the public site
+    if (lc.startsWith("__empty")) continue; // stray Excel merged-cell artifacts
+    const val = row[col];
+    if (val == null) continue;
+    const trimmed = String(val).trim();
+    if (trimmed === "") continue;
+    extra[col.trim()] = trimmed;
+  }
+  return extra;
 }
 
 // --------------- JSON Directory Source ---------------
@@ -202,6 +238,7 @@ function parseJsonDirSource(source: CollectionSource): any[] {
         cri: product.cri?.toString() || null,
         website: "W",
         product_type: product.product_type?.toLowerCase() === "new" ? "new" : null,
+        extra_specs: {},
       });
     }
 

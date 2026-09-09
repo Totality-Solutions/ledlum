@@ -1,7 +1,6 @@
 "use client";
 import jsPDF from "jspdf";
-import photometricLocal from "@/public/images/products/Light-angle.png"; 
-import logoLocal from "@/public/images/logo/LEDLUM - Logo.webp"; 
+import { cdnImg } from "@/lib/cdn";
 
 interface PdfFileProps {
   selections: any;
@@ -10,24 +9,69 @@ interface PdfFileProps {
   cutout: string;
   description?: string[];
   notes?: string[];
+  extraSpecs?: Record<string, string>;
+  imageUrl?: string;
 }
 
+// Fetches image bytes ourselves and loads them into an <img> via a same-origin
+// blob: URL, rather than pointing <img> straight at the remote URL. Product/logo
+// images on this page are also rendered elsewhere as plain <img>/next/image
+// (no crossOrigin) — if the browser has already cached a non-CORS response for
+// that exact URL, a later `Image` with crossOrigin="anonymous" can silently
+// reuse it and taint the canvas, making toDataURL() throw. A blob: URL never
+// crosses an origin boundary at the canvas layer, so it can't be tainted.
+//
+// `cache: "no-store"` is required too, not just belt-and-braces: R2's public
+// URLs don't send `Vary: Origin`, so a plain <img> load done earlier on the
+// same page (no CORS request) can leave a cached response the browser then
+// incorrectly reuses for this CORS `fetch()`, which fails with a CORS error
+// even though the server would've answered a fresh request correctly.
+const loadImageViaBlob = async (url: string): Promise<HTMLImageElement> => {
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to fetch image (${res.status}): ${url}`);
+  const blob = await res.blob();
+  const objectUrl = URL.createObjectURL(blob);
+  try {
+    return await new Promise<HTMLImageElement>((resolve, reject) => {
+      const img = new window.Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error("Failed to decode image"));
+      img.src = objectUrl;
+    });
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+};
+
 // Helper to convert an image URL or source path to Base64
-export const getBase64FromUrl = (url: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const img = new window.Image();
-    img.setAttribute("crossOrigin", "anonymous"); 
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext("2d");
-      ctx?.drawImage(img, 0, 0);
-      resolve(canvas.toDataURL("image/png"));
-    };
-    img.onerror = () => reject(new Error("Failed to load image"));
-    img.src = url;
-  });
+export const getBase64FromUrl = async (url: string): Promise<string> => {
+  const img = await loadImageViaBlob(url);
+  const canvas = document.createElement("canvas");
+  canvas.width = img.width;
+  canvas.height = img.height;
+  const ctx = canvas.getContext("2d");
+  ctx?.drawImage(img, 0, 0);
+  return canvas.toDataURL("image/png");
+};
+
+// Crops a source rectangle out of an image URL and returns it as Base64 —
+// used to pull just the (opaque, brand-orange) icon mark out of the site's
+// primary logo asset, whose "LEDLUM" wordmark is white-on-transparent and
+// only readable against the old copper header band, not a white datasheet.
+const getCroppedBase64FromUrl = async (
+  url: string,
+  sx: number,
+  sy: number,
+  sw: number,
+  sh: number
+): Promise<string> => {
+  const img = await loadImageViaBlob(url);
+  const canvas = document.createElement("canvas");
+  canvas.width = sw;
+  canvas.height = sh;
+  const ctx = canvas.getContext("2d");
+  ctx?.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+  return canvas.toDataURL("image/png");
 };
 
 // Helper to fetch custom TTF fonts cleanly from GitHub source to prevent unicode cmap errors
@@ -42,21 +86,26 @@ const fetchFontAsBinaryString = async (url: string): Promise<string> => {
   return btoa(binary); // Returns base64 string readable by jsPDF
 };
 
-export const PdfFile = async ({ 
-  selections, 
-  activeId, 
-  ipRating, 
+type ParamRow = [string, string];
+
+export const PdfFile = async ({
+  selections,
+  activeId,
+  ipRating,
   cutout,
   description = [],
-  notes = []
+  notes = [],
+  extraSpecs = {},
+  imageUrl,
 }: PdfFileProps) => {
   const doc = new jsPDF('p', 'mm', 'a4');
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
-  
-  // Brand Logo Color #96865D converted to RGB
-  const brandGold: [number, number, number] = [150, 134, 93];
+  const margin = 12;
+
+  const textDark: [number, number, number] = [20, 20, 20];
   const textGrey: [number, number, number] = [100, 100, 100];
+  const lineGrey: [number, number, number] = [210, 210, 210];
 
   // Load and add custom un-subsetted Poppins Fonts dynamically to resolve cmap error
   try {
@@ -93,170 +142,181 @@ export const PdfFile = async ({
     "Color temperature (CCT) tolerance is ±200K"
   ];
 
-  // 1. TOP HEADER Banner
-  doc.setFillColor(brandGold[0], brandGold[1], brandGold[2]);
-  doc.rect(0, 0, pageWidth, 28, 'F');
-  
-  // Embedded Logo image inside the banner header
+  // ── 1. HEADER — icon mark + wordmark left, "PRODUCT DATASHEET" pill right, black divider ──
+  // The site's logo asset is a white "LEDLUM" wordmark meant for the old
+  // copper header band, invisible on this design's white background — so
+  // only the opaque orange icon mark is pulled from it, and "LEDLUM" /
+  // "BEYOND BRIGHT" are drawn as real dark text instead.
+  let wordmarkX = margin;
   try {
-    const logoBase64 = await getBase64FromUrl(logoLocal.src);
-    doc.addImage(logoBase64, 'PNG', 12, 6, 38, 10); 
-  } catch (e) { 
-    doc.setTextColor(255, 255, 255);
-    doc.setFont(fontName, "bold");
-    doc.setFontSize(16);
-    doc.text("LEDLUM LIGHTS", 12, 12); 
+    const iconBase64 = await getCroppedBase64FromUrl(
+      cdnImg("/images/logo/LEDLUM - Logo.webp"), 0, 0, 130, 136
+    );
+    const iconW = 10;
+    const iconH = 10.5;
+    doc.addImage(iconBase64, 'PNG', margin, 7, iconW, iconH);
+    wordmarkX = margin + iconW + 3;
+  } catch (e) {
+    console.warn("Logo icon failed to load", e);
   }
-
-  // Header Context Subtitles
-  doc.setTextColor(255, 255, 255);
-  doc.setFont(fontName, "normal");
-  doc.setFontSize(8);
-  doc.text(`SPECIFICATION SHEET — ${activeId}`, 12, 21);
-  
-  doc.setFontSize(11);
-  doc.text("Recessed Downlight", pageWidth - 15, 12, { align: "right" });
-  doc.setFontSize(8);
-  doc.text(new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }), pageWidth - 15, 21, { align: "right" });
-
-  // LEFT COLUMN - Product Image
-  const leftColX = 12;
-  doc.setFillColor(240, 240, 240);
-  doc.rect(leftColX, 35, 75, 75, 'F');
-  try {
-    const productImg = await getBase64FromUrl(`https://placehold.co/400x400/EEE/31343C?text=${activeId}`);
-    doc.addImage(productImg, 'PNG', leftColX + 5, 40, 65, 65);
-  } catch (e) { console.warn("Product image failed to load"); }
-
-  // Photometric Diagram
-  doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);
-  doc.setFont(fontName, "normal");
-  doc.setFontSize(9);
-  doc.text("Photometric Diagram", leftColX, 120);
-  doc.setDrawColor(220, 220, 220);
-  doc.rect(leftColX, 123, 75, 50);
-  try {
-    const photoBase = await getBase64FromUrl(photometricLocal.src);
-    doc.addImage(photoBase, 'PNG', leftColX + 5, 128, 65, 40);
-  } catch (e) { console.warn("Photometric image failed to load"); }
-
-  doc.text("Selected Finish", leftColX, 185);
-  doc.setFillColor(0, 0, 0); 
-  doc.circle(leftColX + 3, 193, 3, 'F');
-  doc.setTextColor(0, 0, 0);
-  doc.text(selections.bodyColor || "Standard", leftColX + 10, 194);
-  
-  const leftColumnBottomY = 198;
-
-  // RIGHT COLUMN - Content
-  const rightColX = 100;
-  doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);
-  doc.text("LED COB — Recessed Downlight", rightColX, 40);
-  doc.setTextColor(0, 0, 0);
-  doc.setFontSize(24); 
+  doc.setTextColor(textDark[0], textDark[1], textDark[2]);
   doc.setFont(fontName, "bold");
-  doc.text(activeId, rightColX, 52);
-  doc.setFontSize(9.5);
+  doc.setFontSize(15);
+  doc.text("LEDLUM", wordmarkX, 14.5);
   doc.setFont(fontName, "normal");
+  doc.setFontSize(6);
   doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);
-  doc.text("Adjustable Beam Technical Lighting", rightColX, 60);
+  doc.text("B E Y O N D   B R I G H T", wordmarkX, 18.5);
 
-  // Description block right under product headings
-  let currentY = 66;
-
-  if (finalDescription.length > 0) {
-    doc.setFont(fontName, "bold");
-    doc.setFontSize(9);
-    doc.setTextColor(0, 0, 0);
-    doc.text("Description", rightColX, currentY);
-    currentY += 5;
-
-    doc.setFont(fontName, "normal");
-    doc.setFontSize(7.5);
-    doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);
-
-    finalDescription.forEach((item) => {
-      const wrapped = doc.splitTextToSize(`• ${item}`, 98);
-      doc.text(wrapped, rightColX, currentY);
-      currentY += (wrapped.length * 3.5) + 2;
-    });
-  }
-
-  // Summary Bar
-  currentY += 2;
-  doc.setFillColor(brandGold[0], brandGold[1], brandGold[2]);
-  doc.rect(rightColX, currentY, 98, 9, 'F');
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(10);
+  const pillLabel = "PRODUCT DATASHEET";
+  const pillTextWidth = doc.getTextWidth(pillLabel);
+  const pillW = pillTextWidth + 16;
+  const pillH = 10;
+  const pillX = pageWidth - margin - pillW;
+  const pillY = 8;
+  doc.setFillColor(0, 0, 0);
+  doc.roundedRect(pillX, pillY, pillW, pillH, 2, 2, 'F');
   doc.setTextColor(255, 255, 255);
-  doc.setFontSize(8);
-  const summaryText = `${selections.watts || "11W"} – ${selections.luminous || "600lm/m"} – ${selections.beamAngles || "Top Bending"} – CRI${selections.cri || "80"} – ${ipRating}`;
-  doc.text(summaryText, rightColX + 3, currentY + 6);
+  doc.text(pillLabel, pillX + pillW / 2, pillY + pillH / 2 + 1, { align: "center" });
 
-  // Full Technical Table Header
-  doc.setFontSize(9);
+  doc.setFillColor(0, 0, 0);
+  doc.rect(0, 26, pageWidth, 1, 'F');
+
+  // ── 2. DESCRIPTION — bullets left, product photo + model number right ──
+  const descHeadingY = 38;
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(12);
+  doc.setTextColor(textDark[0], textDark[1], textDark[2]);
+  doc.text("Description", margin, descHeadingY);
+
+  let leftY = descHeadingY + 8;
+  doc.setFont(fontName, "normal");
+  doc.setFontSize(8.5);
   doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);
-  doc.text("Full Technical Specifications", rightColX, currentY + 16);
-  doc.setDrawColor(220, 220, 220);
-  doc.line(rightColX, currentY + 19, pageWidth - 12, currentY + 19);
-
-  // Technical Specification Data Array
-  let tableY = currentY + 25;
-  const tableData = [
-    ["Wattage", selections.watts || "11W"],
-    ["Lumens", selections.luminous || "600lm/m"],
-    ["CRI", `CRI ${selections.cri || "80"}`],
-    ["CCT", selections.cct || "3000 K"],
-    ["Beam Angle", selections.beamAngles || "Top Bending"],
-    ["Selected Finish", selections.bodyColor || "Standard"],
-    ["Cutout Size", cutout || "5CM"],
-    ["IP Rating", ipRating],
-    ["LED Chip", selections.ledChip || "120 LED/Mtr"],
-    ["Warranty", "5 Years"]
-  ];
-
-  tableData.forEach((item, i) => {
-    if (i % 2 === 0) {
-      doc.setFillColor(248, 248, 248);
-      doc.rect(rightColX, tableY - 4.5, 98, 7, 'F');
-    }
-    doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);
-    doc.setFont(fontName, "normal");
-    doc.text(String(item[0]), rightColX + 2, tableY);
-    doc.setTextColor(0, 0, 0);
-    doc.setFont(fontName, "bold");
-    doc.text(String(item[1]), pageWidth - 15, tableY, { align: "right" });
-    tableY += 7;
+  const descColWidth = 108;
+  finalDescription.forEach((item) => {
+    const wrapped = doc.splitTextToSize(`•  ${item}`, descColWidth);
+    doc.text(wrapped, margin, leftY);
+    leftY += wrapped.length * 4 + 3;
   });
 
-  const rightColumnBottomY = tableY;
-
-  // Notes block placed right under both columns dynamically
-  if (finalNotes.length > 0) {
-    let notesY = Math.max(leftColumnBottomY, rightColumnBottomY) + 12;
-
-    doc.setFont(fontName, "bold");
-    doc.setFontSize(9);
-    doc.setTextColor(0, 0, 0);
-    doc.text("Note:-", 12, notesY);
-
-    notesY += 5;
-    doc.setFont(fontName, "normal");
-    doc.setFontSize(7.5);
-    doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);
-
-    finalNotes.forEach((note) => {
-      const wrapped = doc.splitTextToSize(`• ${note}`, 180);
-      doc.text(wrapped, 12, notesY);
-      notesY += (wrapped.length * 3.5) + 1.5;
-    });
+  const imgBoxX = margin + descColWidth + 12;
+  const imgBoxW = pageWidth - margin - imgBoxX;
+  const imgBoxY = 34;
+  const imgBoxH = 62;
+  doc.setFillColor(245, 245, 245);
+  doc.rect(imgBoxX, imgBoxY, imgBoxW, imgBoxH, 'F');
+  try {
+    const productImg = await getBase64FromUrl(
+      imageUrl || `https://placehold.co/400x400/EEE/31343C?text=${activeId}`
+    );
+    const pad = 5;
+    doc.addImage(productImg, 'PNG', imgBoxX + pad, imgBoxY + pad, imgBoxW - pad * 2, imgBoxH - pad * 2);
+  } catch (e) {
+    console.warn("Product image failed to load", e);
   }
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(13);
+  doc.setTextColor(textDark[0], textDark[1], textDark[2]);
+  doc.text(activeId, imgBoxX + imgBoxW / 2, imgBoxY + imgBoxH + 9, { align: "center" });
+  const rightY = imgBoxY + imgBoxH + 15;
 
-  // FOOTER
-  doc.setFillColor(brandGold[0], brandGold[1], brandGold[2]);
+  // ── 3. Divider ──
+  let sectionY = Math.max(leftY, rightY) + 4;
+  doc.setDrawColor(lineGrey[0], lineGrey[1], lineGrey[2]);
+  doc.setLineWidth(0.3);
+  doc.line(margin, sectionY, pageWidth - margin, sectionY);
+  sectionY += 10;
+
+  // ── 4. General Parameters / Technical Parameters (two columns) ──
+  const generalRows: ParamRow[] = [
+    ["Model", activeId],
+    ["Dimension", selections.dimensions || "N/A"],
+    ["Cutout Size", cutout || "N/A"],
+    ["Body Colour", selections.bodyColor || "Standard"],
+    ["LED Chip", selections.ledChip || "N/A"],
+    ["IP Rating", ipRating],
+  ];
+
+  const technicalRows: ParamRow[] = [
+    ["Wattage", selections.watts || "N/A"],
+    ["Luminous Flux", selections.luminous || "N/A"],
+    ["Beam Angle", selections.beamAngles || "N/A"],
+    ["CRI", selections.cri || "≥80"],
+    ["CCT", selections.cct || "N/A"],
+    ["Voltage", selections.voltage || "220 - 230V AC"],
+  ];
+  Object.entries(extraSpecs).forEach(([label, value]) => technicalRows.push([label, value]));
+  technicalRows.push(["Warranty", "5 Years"]);
+
+  const leftColX = margin;
+  const rightColX = 110;
+  const colWidth = 88;
+  const colonOffset = 34;
+  const valueOffset = 40;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(textDark[0], textDark[1], textDark[2]);
+  doc.text("General Parameters", leftColX, sectionY);
+  doc.text("Technical Parameters", rightColX, sectionY);
+
+  const drawParamRow = (x: number, y: number, [label, value]: ParamRow) => {
+    doc.setFont(fontName, "normal");
+    doc.setFontSize(8.5);
+    doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);
+    doc.text(label, x, y);
+    doc.text(":", x + colonOffset, y);
+    doc.setTextColor(textDark[0], textDark[1], textDark[2]);
+    const wrapped = doc.splitTextToSize(String(value), colWidth - valueOffset);
+    doc.text(wrapped, x + valueOffset, y);
+    return wrapped.length;
+  };
+
+  let leftRowY = sectionY + 8;
+  generalRows.forEach((row) => {
+    const lines = drawParamRow(leftColX, leftRowY, row);
+    leftRowY += Math.max(lines, 1) * 4 + 3.5;
+  });
+
+  let rightRowY = sectionY + 8;
+  technicalRows.forEach((row) => {
+    const lines = drawParamRow(rightColX, rightRowY, row);
+    rightRowY += Math.max(lines, 1) * 4 + 3.5;
+  });
+
+  // ── 5. Divider + Notes ──
+  let notesY = Math.max(leftRowY, rightRowY) + 4;
+  doc.setDrawColor(lineGrey[0], lineGrey[1], lineGrey[2]);
+  doc.line(margin, notesY, pageWidth - margin, notesY);
+  notesY += 8;
+
+  doc.setFont(fontName, "bold");
+  doc.setFontSize(10);
+  doc.setTextColor(textDark[0], textDark[1], textDark[2]);
+  doc.text("Note:-", margin, notesY);
+  notesY += 5.5;
+
+  doc.setFont(fontName, "normal");
+  doc.setFontSize(8);
+  doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);
+  finalNotes.forEach((note) => {
+    const wrapped = doc.splitTextToSize(`•  ${note}`, pageWidth - margin * 2);
+    doc.text(wrapped, margin, notesY);
+    notesY += wrapped.length * 3.8 + 2;
+  });
+
+  // ── 6. FOOTER ──
+  doc.setFillColor(0, 0, 0);
   doc.rect(0, pageHeight - 12, pageWidth, 12, 'F');
   doc.setTextColor(255, 255, 255);
-  doc.setFontSize(7);
-  doc.text("LEDLUM Lighting Pvt. Ltd.", 12, pageHeight - 5);
-  doc.text("ledlumlights.com", pageWidth - 12, pageHeight - 5, { align: "right" });
+  doc.setFont(fontName, "normal");
+  doc.setFontSize(8);
+  doc.text("LEDLUM Lighting Pvt. Ltd.", margin, pageHeight - 5);
+  doc.setFont(fontName, "bold");
+  doc.text("www.ledlumlighting.com", pageWidth - margin, pageHeight - 5, { align: "right" });
 
-  doc.save(`${activeId}-Specification.pdf`);
+  doc.save(`${activeId}-Datasheet.pdf`);
 };

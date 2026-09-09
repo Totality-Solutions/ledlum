@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { cdnImg } from "@/lib/cdn";
 
 interface BlogCardProps {
   title: string;
@@ -29,7 +30,7 @@ export default function BlogCard({ title, category, description, image, date, is
       {/* 1. Image Container - Kept your original flex-grow */}
       <div className="relative flex-grow overflow-hidden rounded-[24px] bg-black mb-5 min-h-[220px]">
         <Image 
-          src={image || "/images/placeholder.jpg"} 
+          src={image || cdnImg("/images/placeholder.jpg")} 
           alt={title || "Blog Insight"} 
           fill 
           className="object-cover transition-transform duration-1000 group-hover:scale-105" 

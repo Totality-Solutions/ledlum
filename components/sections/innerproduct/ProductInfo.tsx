@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineDownload } from "react-icons/hi";
 import { ExcelFile } from "./ExcelFile";
 import { PRODUCT_IMAGES } from "@/content/data/productImages";
+import { cdnImg } from "@/lib/cdn";
 
 interface ProductInfoProps {
   config: any;
@@ -17,6 +18,7 @@ interface ProductInfoProps {
     models: string[];
   }[];
   permutations?: any[];
+  modelImages?: Record<string, string>;
 }
 
 interface LoadingStates {
@@ -30,20 +32,23 @@ const ModelCard = ({
   id,
   isActive,
   onClick,
+  modelImages,
 }: {
   id: string;
   isActive: boolean;
   onClick: () => void;
+  modelImages?: Record<string, string>;
 }) => {
   const modelImage =
+    modelImages?.[id.toUpperCase()] ??
     PRODUCT_IMAGES[id.toUpperCase()]?.heroCarousel?.[0] ??
-    "/images/fallback-product.webp";
+    cdnImg("/images/fallback-product.webp");
 
   return (
     <div
       onClick={onClick}
       className={`
-        h-fit flex items-center px-5 py-2 rounded-[12px] cursor-pointer
+        h-fit flex items-center px-5 rounded-[12px] cursor-pointer
         transition-all duration-200 border w-full
         ${
           isActive
@@ -203,6 +208,7 @@ export default function ProductInfoSection({
   allModelIds,
   modelFamilies,
   permutations = [],
+  modelImages,
 }: ProductInfoProps) {
   const [selections, setSelections] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
@@ -355,7 +361,14 @@ export default function ProductInfoSection({
     const { PdfFile } = await import("./Pdf");
     const start = Date.now();
     try {
-      await PdfFile({ selections, activeId, ipRating: config.ipRating?.[0] || "IP20", cutout: config.cutoutSizes?.[0] || "N/A" });
+      await PdfFile({
+        selections,
+        activeId,
+        ipRating: config.ipRating?.[0] || "IP20",
+        cutout: config.cutoutSizes?.[0] || "N/A",
+        extraSpecs: config.extraSpecs || {},
+        imageUrl: modelImages?.[activeId.toUpperCase()],
+      });
       await new Promise((r) => setTimeout(r, Math.max(0, ANIMATION_DURATION - (Date.now() - start))));
       setIsDownloadMenuOpen(false);
     } catch {
@@ -370,7 +383,7 @@ export default function ProductInfoSection({
     setIsDownloading((prev) => ({ ...prev, excel: true }));
     const start = Date.now();
     try {
-      await ExcelFile({ selections, activeId, ipRating: config.ipRating?.[0] || "IP20", cutout: config.cutoutSizes?.[0] || "N/A" });
+      await ExcelFile({ selections, activeId, ipRating: config.ipRating?.[0] || "IP20", cutout: config.cutoutSizes?.[0] || "N/A", extraSpecs: config.extraSpecs || {} });
       await new Promise((r) => setTimeout(r, Math.max(0, ANIMATION_DURATION - (Date.now() - start))));
       setIsDownloadMenuOpen(false);
     } catch {
@@ -389,11 +402,12 @@ export default function ProductInfoSection({
       const { IesFile } = await import("./IesFile");
       const start = Date.now();
       
-      await IesFile({ 
-        selections, 
-        activeId, 
-        ipRating: config.ipRating?.[0] || "IP20", 
-        cutout: config.cutoutSizes?.[0] || "N/A" 
+      await IesFile({
+        selections,
+        activeId,
+        ipRating: config.ipRating?.[0] || "IP20",
+        cutout: config.cutoutSizes?.[0] || "N/A",
+        extraSpecs: config.extraSpecs || {},
       });
       
       // Keep loading active long enough to fulfill your standard linear animation requirements
@@ -413,6 +427,17 @@ export default function ProductInfoSection({
   };
 
   // ── Config fields parsing layout array ─────────────────────────────────────────
+  // Product-line-specific spec fields that don't fit the fixed schema below
+  // (e.g. Klewe's Charging Time / Solar Panel, Vision Series' Protocol / Key Specs)
+  // are merged in alongside the standard fields so they render the same way.
+  const extraSpecFields = Object.entries(config.extraSpecs || {}).map(([label, value]) => ({
+    key: `extra-${label}`,
+    id: `field-extra-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+    label: `${label} :`,
+    options: [value as string],
+    type: "static" as const,
+  }));
+
   const allConfigFields = [
     { key: "voltage",     id: "field-voltage",     label: "Voltage :",     options: config.voltage     || [], type: "standard" },
     { key: "dimensions",  id: "field-dimensions",  label: "Dimensions :",  options: config.dimensions  || [], type: "standard" },
@@ -425,10 +450,12 @@ export default function ProductInfoSection({
     { key: "ledChip",     id: "field-ledChip",     label: "LED Chip :",    options: config.ledChip     || [], type: "standard" },
     { key: "luminous",    id: "field-luminous",    label: "Luminous :",    options: config.luminous    || [], type: "standard" },
     { key: "cri",         id: "field-cri",         label: "CRI :",         options: config.cri         || [], type: "standard" },
+    ...extraSpecFields,
   ];
 
-  const rowFields = allConfigFields.filter((f) => f.options.length > 2);
-  const colFields = allConfigFields.filter((f) => f.options.length <= 2 && f.options.length > 0);
+  const populatedFields = allConfigFields.filter((f) => f.options.length > 0);
+  const rowFields = populatedFields.filter((f) => f.options.length > 2);
+  const colFields = populatedFields.filter((f) => f.options.length <= 2);
 
   const renderField = (field: any, layout: "row" | "col") => {
     const isError = touched.includes(field.key);
@@ -467,7 +494,7 @@ export default function ProductInfoSection({
   return (
     <Section className="!py-6 w-full bg-black md:px-[50px] font-pop">
       <div>
-        <h1 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white mb-6">
+        <h1 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h3 font-pop font-medium text-white mb-6">
           Product Configuration
         </h1>
 
@@ -523,6 +550,7 @@ export default function ProductInfoSection({
                             onModelChange(id);
                             setMobileDropOpen(false);
                           }}
+                          modelImages={modelImages}
                         />
                       ))}
                     </div>
@@ -563,6 +591,7 @@ export default function ProductInfoSection({
                             id.toLowerCase()
                           }
                           onClick={() => onModelChange(id)}
+                          modelImages={modelImages}
                         />
                       ))}
                   </div>
@@ -594,6 +623,7 @@ export default function ProductInfoSection({
                         id.toLowerCase()
                       }
                       onClick={() => onModelChange(id)}
+                      modelImages={modelImages}
                     />
                   ))}
                 </div>
@@ -650,8 +680,8 @@ export default function ProductInfoSection({
                       </div>
                     </button>
                     
-                    <button 
-                      onClick={handleDownloadPDF} 
+                    <button
+                      onClick={handleDownloadPDF}
                       disabled={isAnyFileDownloading}
                       className="flex items-center justify-between gap-2 bg-logo hover:bg-[#85764d] disabled:bg-white/5 disabled:text-white/20 text-white pl-4 pr-1 py-1 rounded-full transition-all w-full shadow-xl disabled:cursor-not-allowed"
                     >

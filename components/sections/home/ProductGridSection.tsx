@@ -9,23 +9,24 @@ import { Container } from "@/components/layout/Container";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow"; 
 import LeadPopup from "./LeadPopup";
 
-import BgImg from '@/public/images/home/home-bg1.webp';
 
 // --- DATA ---
+import { cdnImg } from "@/lib/cdn";
+
 const NEW_ARRIVALS = [
-  { id: 1, img: '/images/home/product/Outdoor_Catalogue.jpg', title: 'Outdoor', href:"/product/outdoor", pdf:"/pdf/OUTDOOR.pdf" },
-  { id: 2, img: '/images/home/product/Indoor_Catalogue.jpg', title: 'Indoor', href:"/product/indoor", pdf:"/pdf/INDOOR.pdf" },
-  { id: 3, img: '/images/home/product/Artizan_Catalogue.jpg', title: 'Artizan', href:"/product/artizan", pdf:"/pdf/ARTIZAN.pdf" },
-  { id: 4, img: '/images/home/product/Astara_Catalogue.jpg', title: 'Astara', href:"/product/astara/", pdf:"/pdf/ASTARA.pdf" },
-  { id: 5, img: '/images/home/product/Volaris_Catalogue.jpg', title: 'Volaris', href:"/product/volaris", pdf:"/pdf/VOLARIS.pdf" },
-  { id: 6, img: '/images/home/product/Klewe_Catalogue.jpg', title: 'Klewe', href:"/product/klewe", pdf:"/pdf/KLEWE.pdf" },
+  { id: 1, img: cdnImg('/images/home/product/Outdoor_Catalogue.jpg'), title: 'Outdoor', href:"/product/outdoor", pdf: cdnImg('/pdf/OUTDOOR.pdf') },
+  { id: 2, img: cdnImg('/images/home/product/Indoor_Catalogue.jpg'), title: 'Indoor', href:"/product/indoor", pdf: cdnImg('/pdf/INDOOR.pdf') },
+  { id: 3, img: cdnImg('/images/home/product/Artizan_Catalogue.jpg'), title: 'Artizan', href:"/product/artizan", pdf: cdnImg('/pdf/ARTIZAN.pdf') },
+  { id: 4, img: cdnImg('/images/home/product/Astara_Catalogue.jpg'), title: 'Astara', href:"/product/astara", pdf: cdnImg('/pdf/ASTARA.pdf') },
+  { id: 5, img: cdnImg('/images/home/product/Volaris_Catalogue.jpg'), title: 'Volaris', href:"/product/volaris", pdf: cdnImg('/pdf/VOLARIS.pdf') },
+  { id: 6, img: cdnImg('/images/home/product/Klewe_Catalogue.jpg'), title: 'Klewe', href:"/product/klewe", pdf: cdnImg('/pdf/KLEWE.pdf') },
 ];
 
 const BESTSELLERS = [
-  { id: 1, title: 'Indoor Lights', sub: 'Nordic Pendant', lightImg: '/images/home/bestseller/Indoor2.jpeg', darkImg: '/images/home/bestseller/Indoor1.jpeg' },
-  { id: 3, title: 'Outdoor Lights', sub: 'Globe Minimal', lightImg: '/images/home/bestseller/Outdoor2.jpeg', darkImg: '/images/home/bestseller/Outdoor1.jpeg' },
-  { id: 4, title: 'Volaris Fans', sub: 'Cone Classic', lightImg: '/images/home/bestseller/Volaris2.png', darkImg: '/images/home/bestseller/Volaris1.png' },
-  { id: 2, title: 'Klewe Lights', sub: 'Wooden Tier', lightImg: '/images/home/bestseller/Klewe2.jpeg', darkImg: '/images/home/bestseller/Klewe1.jpeg' },
+  { id: 1, title: 'Indoor Lights', sub: 'Nordic Pendant', lightImg: cdnImg('/images/home/bestseller/Indoor2.jpeg'), darkImg: cdnImg('/images/home/bestseller/Indoor1.jpeg') },
+  { id: 3, title: 'Outdoor Lights', sub: 'Globe Minimal', lightImg: cdnImg('/images/home/bestseller/Outdoor2.jpeg'), darkImg: cdnImg('/images/home/bestseller/Outdoor1.jpeg') },
+  { id: 4, title: 'Volaris Fans', sub: 'Cone Classic', lightImg: cdnImg('/images/home/bestseller/Volaris2.png'), darkImg: cdnImg('/images/home/bestseller/Volaris1.png') },
+  { id: 2, title: 'Klewe Lights', sub: 'Wooden Tier', lightImg: cdnImg('/images/home/bestseller/Klewe2.jpeg'), darkImg: cdnImg('/images/home/bestseller/Klewe1.jpeg') },
 ];
 
 function cn(...classes: (string | boolean | undefined)[]) {
@@ -62,22 +63,22 @@ const CombinedProductSection = memo(function CombinedProductSection() {
         className="relative min-h-screen bg-black flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat"
       >
       <Image
-        src={BgImg}
+        src={cdnImg('/images/about/ledlumbox.webp')}
         alt="Background"
         fill
         loading="lazy"
-        className="object-cover relative -z-20 "
+        className="object-cover relative z-0 "
         sizes="100vw"
       />
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+      {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
                   <Image 
-                    src="/images/about/ledlumline.webp"
+                    src={cdnImg("/images/about/ledlumline.webp")}
                     alt="background texture"
                     fill
                     className="object-cover object-center"
                     sizes="100vw"
                   />
-      </div>
+      </div> */}
 
       {/* SECTION 1: BESTSELLERS GRID */}
       <Container className="relative z-20 ">
@@ -194,16 +195,15 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
 
-              {/* The Overlay */}
+          
               <div className="absolute bottom-0 left-0 w-full bg-black/80 backdrop-blur-sm p-4 flex items-center justify-between">
                 
-                {/* Left Side: Title */}
+    
                 <span className="text-body-sm lg:text-body font-pop font-regular text-white truncate pr-4">
                   {item.title}
                 </span>
 
                 <div className="flex items-center gap-3">
-                  {/* DOWNLOAD PDF ICON */}
                   {item.pdf && (
                   <button 
                     onClick={(e) => handleDownloadPdf(e, item.pdf, item.title)}
@@ -226,7 +226,6 @@ const CombinedProductSection = memo(function CombinedProductSection() {
                   </button>
                   )}
 
-                  {/* Arrow Side */}
                   <div className="w-8 h-8 md:w-10 md:h-10 bg-[#9a8c66] rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-45">
                     <svg 
                       width="18" 

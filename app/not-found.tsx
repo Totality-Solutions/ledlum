@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { cdnImg } from "@/lib/cdn";
 import Header from '@/components/layout/header/Header';
 import Footer from '@/components/layout/footer/Footer';
 import CTABtn from '@/components/layout/common/CTABtn';
@@ -15,14 +16,14 @@ export default function NotFound() {
         <div className="relative flex flex-col items-center justify-center min-h-[90vh] w-full px-4 overflow-hidden">
           
           {/* GLOBAL BACKGROUND LAYER - Optimized */}
-          <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
+          {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
             <Image 
-              src="/images/about/ledlumline.webp"
+              src={cdnImg("/images/about/ledlumline.webp")}
               alt="background line"
               fill
               className="object-cover object-center"
             />
-          </div>
+          </div> */}
 
           {/* ANCHOR WRAPPER */}
           <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-[800px]">
@@ -30,7 +31,7 @@ export default function NotFound() {
             {/* 2. THE NOT-BG LAYER - Locked to center */}
             <div className="absolute z-0 pointer-events-none w-[100vw] h-[125vh] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 mix-blend-difference">
               <Image 
-                src="/images/blog/not-bg.jpg"
+                src={cdnImg("/images/blog/not-bg.jpg")}
                 alt="texture overlay"
                 fill
                 className="object-cover object-[center_38%]"
@@ -40,7 +41,7 @@ export default function NotFound() {
             {/* 404 Image Container - Optimized */}
             <div className="relative z-10 w-full max-w-[600px] aspect-video">
               <Image 
-                src="/404.png" 
+                src={cdnImg("/404.png")} 
                 alt="404 Error" 
                 fill
                 priority

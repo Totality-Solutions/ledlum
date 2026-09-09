@@ -7,6 +7,7 @@
 import { Container } from '@/components/layout/Container';
 import Section from '@/components/layout/Section';
 import Image from 'next/image';
+import { cdnImg } from "@/lib/cdn";
 import React from 'react';
 
 const stats = [
@@ -34,21 +35,21 @@ export default function AboutHero() {
       <Container>
 
         {/* BACKGROUND DECORATIVE LAYER - Optimized with Next/Image */}
-        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
+        {/* <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
           style={{
             maskImage: 'linear-gradient(to_bottom,transparent_0%,black_30%)',
             WebkitMaskImage: 'linear-gradient(to_bottom,transparent_0%,black_30%)',
           }}
         >
           <Image
-            src="/images/about/ledlumline.webp"
+            src={cdnImg("/images/about/ledlumline.webp")}
             alt="decorative line"
             fill
             sizes="100vw"
             className="object-cover object-center"
             aria-hidden="true"
           />
-        </div>
+        </div> */}
 
         {/* HEADER SECTION */}
         <div className="relative z-10 w-full mb-16 md:mb-24">
@@ -77,7 +78,7 @@ export default function AboutHero() {
                       h-[35vh] md:h-[60vh] lg:h-[70vh] 
                       mb-20 md:mb-32 overflow-hidden">
           <Image
-            src="/images/home/about-new.webp"
+            src={cdnImg("/images/home/about-new.webp")}
             alt="LEDLUM Architectural Lighting"
             fill
             priority
