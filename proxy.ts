@@ -23,5 +23,10 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*"],
+  // The image-upload route is excluded here and checks auth itself instead
+  // (see app/api/admin/products/[id]/images/route.ts) — any route covered by
+  // middleware/proxy gets routed through a much weaker body parser for large
+  // multipart uploads in Next.js, which made uploads over ~8-10MB fail with
+  // "Failed to parse body as FormData" even though the route itself is fine.
+  matcher: ["/admin/:path*", "/api/admin/((?!products/[^/]+/images).*)"],
 };
