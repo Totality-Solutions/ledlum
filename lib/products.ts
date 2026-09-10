@@ -1,46 +1,27 @@
-import { supabase } from "@/lib/supabase";
-import { getCached, setCached } from "@/lib/queryCache";
-
-const ALL_PRODUCTS_KEY = "all_products";
+// Client-safe: fetches the catalog through /api/products (server-side cached,
+// shared across all visitors) instead of querying Supabase directly from the
+// browser — every visitor querying Supabase independently is what took the
+// database down under load. See lib/productsServer.ts for the actual query.
+let inFlight: Promise<any[]> | null = null;
 
 export async function getAllProducts(): Promise<any[]> {
-  const cached = getCached<any[]>(ALL_PRODUCTS_KEY);
-  if (cached !== null) return cached;
+  if (inFlight) return inFlight;
 
-  let allData: any[] = [];
-  let page = 0;
-  const pageSize = 1000;
-  let hasMore = true;
+  inFlight = fetch("/api/products")
+    .then(async (res) => {
+      if (!res.ok) throw new Error(`/api/products returned ${res.status}`);
+      const { products } = await res.json();
+      return products || [];
+    })
+    .catch((err) => {
+      console.error("getAllProducts error:", err);
+      return [];
+    })
+    .finally(() => {
+      inFlight = null;
+    });
 
-  while (hasMore) {
-    const from = page * pageSize;
-    const to = from + pageSize - 1;
-
-    const { data, error } = await supabase
-      .from("ledlum_products")
-      .select("*")
-      .not("website", "is", null)
-      .neq("website", "")
-      .ilike("website", "W")
-      .order("model")
-      .range(from, to);
-
-    if (error) {
-      console.error("getAllProducts error:", error);
-      return allData.length > 0 ? allData : [];
-    }
-
-    if (!data || data.length === 0) {
-      hasMore = false;
-    } else {
-      allData = allData.concat(data);
-      page++;
-      if (data.length < pageSize) hasMore = false;
-    }
-  }
-
-  if (allData.length > 0) setCached(ALL_PRODUCTS_KEY, allData);
-  return allData;
+  return inFlight;
 }
 
 export async function getProduct(model?: string): Promise<any> {
