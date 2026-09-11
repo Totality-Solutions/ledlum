@@ -87,7 +87,7 @@ const ProductInnerHero = ({ data }: HeroProps) => {
               duration: 0.8,
               ease: "easeOut",
             }}
-            className="relative w-full h-full bg-[#1A1A1A] rounded-[18px] overflow-hidden"
+            className="relative w-full h-full bg-white rounded-[18px] overflow-hidden"
           >
             <Image
               src={images[activeImage]}
