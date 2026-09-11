@@ -97,7 +97,7 @@ const ModelCard = ({
         `}
       />
 
-      <div className="relative w-15 h-15 shrink-0">
+      <div className="relative w-15 h-15 shrink-0 bg-white">
         <Image
           src={modelImage}
           alt={id}
