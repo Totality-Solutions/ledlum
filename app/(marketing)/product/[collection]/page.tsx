@@ -333,7 +333,7 @@ export default function CollectionPage() {
     async function fetchLiveCatalogData() {
       try {
         setLoading(true)
-        const data = await getAllProductsForCatalog()
+        const data = await getAllProductsForCatalog(collection)
         if (!cancelled && data) {
           setDbProducts(data)
         }
@@ -346,7 +346,7 @@ export default function CollectionPage() {
 
     fetchLiveCatalogData()
     return () => { cancelled = true }
-  }, [])
+  }, [collection])
 
   const products = useMemo(() => {
     const familyMap = new Map<string, any>()

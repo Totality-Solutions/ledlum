@@ -21,10 +21,15 @@ export async function fetchAllProductsFromDb(): Promise<any[]> {
     const from = page * pageSize;
     const to = from + pageSize - 1;
 
+    // Plain equality, not ilike — every row's website column is either
+    // exactly 'W' or null (verified against live data), never a case
+    // variant, so this doesn't need pattern matching. Matters beyond style:
+    // it's what lets the partial index in migration 004 satisfy this
+    // query's filter AND its ORDER BY in a single index scan.
     const { data, error } = await supabaseAdmin
       .from("ledlum_products")
       .select("*")
-      .ilike("website", "W")
+      .eq("website", "W")
       .order("model")
       .range(from, to);
 

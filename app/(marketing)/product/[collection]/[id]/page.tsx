@@ -20,7 +20,7 @@ import {
   getProduct,
   getFamilyProducts,
   getCategoryProducts,
-  getAllProducts,
+  getGroupProducts,
 } from "@/lib/products";
 
 import { mapProduct } from "@/lib/mapProduct";
@@ -63,7 +63,7 @@ const InnerProductPage = memo(function InnerProductPage() {
         rawProduct.family ? getFamilyProducts(rawProduct.family) : Promise.resolve([]),
         rawProduct.category
           ? getCategoryProducts(rawProduct.category)
-          : getAllProducts().then(all => all.filter((p: any) => p.group_name === rawProduct.group_name)),
+          : getGroupProducts(rawProduct.group_name),
       ]);
 
       if (cancelled) return;
