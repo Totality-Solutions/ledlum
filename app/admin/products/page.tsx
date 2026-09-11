@@ -126,15 +126,15 @@ export default function AdminProductsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] min-h-[calc(100vh-57px)]">
         {/* Left: search + results */}
-        <div className="border-r border-neutral-800 p-4 flex flex-col gap-3">
+        <div className="border-r border-neutral-800 p-4 flex flex-col gap-3 md:h-[calc(100vh-57px)] md:overflow-y-auto">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by model..."
-            className="w-full px-3 py-2 rounded-md bg-neutral-900 border border-neutral-700 text-sm placeholder-neutral-500 focus:outline-none focus:border-neutral-500"
+            className="w-full px-3 py-2 rounded-md bg-neutral-900 border border-neutral-700 text-sm placeholder-neutral-500 focus:outline-none focus:border-neutral-500 md:sticky md:top-0 md:z-10"
           />
           {searching && <p className="text-xs text-neutral-500">Searching...</p>}
-          <div className="flex flex-col gap-1 overflow-y-auto">
+          <div className="flex flex-col gap-1">
             {results.map((p) => (
               <button
                 key={p.id}
@@ -164,7 +164,7 @@ export default function AdminProductsPage() {
         </div>
 
         {/* Right: selected product image manager */}
-        <div className="p-6">
+        <div className="p-6 md:sticky md:top-0 md:h-[calc(100vh-57px)] md:overflow-y-auto">
           {!selected ? (
             <p className="text-neutral-500">Select a product on the left to manage its images.</p>
           ) : (

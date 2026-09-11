@@ -4,11 +4,11 @@ export default function ProductCard({ title, category, image, itemCount, onClick
   return (
     <div 
       onClick={onClick}
-      className="group p-2 lg:p-3 border border border-[#444444] rounded-[16px] lg:rounded-[25px] transition-all duration-500 cursor-pointer hover:border-white/30 hover:bg-[#444444]/20 flex flex-col justify-between"
+      className="group p-2 lg:p-3 border border-[#444444] rounded-[16px] lg:rounded-[25px] transition-all duration-500 cursor-pointer hover:border-white/30 hover:bg-[#444444]/20 flex flex-col justify-between"
     >
       <div>
         {/* Image Container */}
-        <div className="aspect-square relative rounded-[12px] overflow-hidden border border-[#444444] mb-4">
+        <div className="aspect-square relative bg-white rounded-[12px] overflow-hidden border border-[#444444] mb-4">
           <Image 
             src={image} 
             alt={title} 
