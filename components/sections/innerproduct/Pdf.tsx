@@ -43,36 +43,36 @@ const loadImageViaBlob = async (url: string): Promise<HTMLImageElement> => {
   }
 };
 
-// Helper to convert an image URL or source path to Base64
-export const getBase64FromUrl = async (url: string): Promise<string> => {
+// Helper to convert an image URL or source path to Base64. Also returns the
+// source's natural pixel dimensions so callers can fit it into a box without
+// stretching/compressing it off its real aspect ratio.
+export const getBase64FromUrl = async (
+  url: string
+): Promise<{ dataUrl: string; width: number; height: number }> => {
   const img = await loadImageViaBlob(url);
   const canvas = document.createElement("canvas");
   canvas.width = img.width;
   canvas.height = img.height;
   const ctx = canvas.getContext("2d");
   ctx?.drawImage(img, 0, 0);
-  return canvas.toDataURL("image/png");
+  return { dataUrl: canvas.toDataURL("image/png"), width: img.width, height: img.height };
 };
 
-// Crops a source rectangle out of an image URL and returns it as Base64 —
-// used to pull just the (opaque, brand-orange) icon mark out of the site's
-// primary logo asset, whose "LEDLUM" wordmark is white-on-transparent and
-// only readable against the old copper header band, not a white datasheet.
-const getCroppedBase64FromUrl = async (
-  url: string,
-  sx: number,
-  sy: number,
-  sw: number,
-  sh: number
-): Promise<string> => {
-  const img = await loadImageViaBlob(url);
-  const canvas = document.createElement("canvas");
-  canvas.width = sw;
-  canvas.height = sh;
-  const ctx = canvas.getContext("2d");
-  ctx?.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
-  return canvas.toDataURL("image/png");
-};
+// Fits a `srcW`x`srcH` image into a `boxW`x`boxH` box without distorting its
+// aspect ratio (like CSS `object-fit: contain`), centered within the box.
+function containFit(
+  srcW: number,
+  srcH: number,
+  boxX: number,
+  boxY: number,
+  boxW: number,
+  boxH: number
+): { x: number; y: number; w: number; h: number } {
+  const scale = Math.min(boxW / srcW, boxH / srcH);
+  const w = srcW * scale;
+  const h = srcH * scale;
+  return { x: boxX + (boxW - w) / 2, y: boxY + (boxH - h) / 2, w, h };
+}
 
 // Helper to fetch custom TTF fonts cleanly from GitHub source to prevent unicode cmap errors
 const fetchFontAsBinaryString = async (url: string): Promise<string> => {
@@ -142,31 +142,19 @@ export const PdfFile = async ({
     "Color temperature (CCT) tolerance is ±200K"
   ];
 
-  // ── 1. HEADER — icon mark + wordmark left, "PRODUCT DATASHEET" pill right, black divider ──
-  // The site's logo asset is a white "LEDLUM" wordmark meant for the old
-  // copper header band, invisible on this design's white background — so
-  // only the opaque orange icon mark is pulled from it, and "LEDLUM" /
-  // "BEYOND BRIGHT" are drawn as real dark text instead.
-  let wordmarkX = margin;
+  // ── 1. HEADER — full logo lockup left, "PRODUCT DATASHEET" pill right, black divider ──
+  const logoY = 7;
+  const logoH = 26; // 2x the original 11mm
+  const headerCenterY = logoY + logoH / 2;
   try {
-    const iconBase64 = await getCroppedBase64FromUrl(
-      cdnImg("/images/logo/LEDLUM - Logo.webp"), 0, 0, 130, 136
-    );
-    const iconW = 10;
-    const iconH = 10.5;
-    doc.addImage(iconBase64, 'PNG', margin, 7, iconW, iconH);
-    wordmarkX = margin + iconW + 3;
+    // Full, uncropped lockup (icon + "LEDLUM" + "BEYOND BRIGHT" all baked in
+    // as pixels), drawn at its real aspect ratio so it's never stretched.
+    const logo = await getBase64FromUrl(cdnImg("/images/logo/LEDLUM-Logo-black.png"));
+    const logoW = logoH * (logo.width / logo.height);
+    doc.addImage(logo.dataUrl, 'PNG', margin, logoY, logoW, logoH);
   } catch (e) {
-    console.warn("Logo icon failed to load", e);
+    console.warn("Logo failed to load", e);
   }
-  doc.setTextColor(textDark[0], textDark[1], textDark[2]);
-  doc.setFont(fontName, "bold");
-  doc.setFontSize(15);
-  doc.text("LEDLUM", wordmarkX, 14.5);
-  doc.setFont(fontName, "normal");
-  doc.setFontSize(6);
-  doc.setTextColor(textGrey[0], textGrey[1], textGrey[2]);
-  doc.text("B E Y O N D   B R I G H T", wordmarkX, 18.5);
 
   doc.setFont(fontName, "bold");
   doc.setFontSize(10);
@@ -175,17 +163,17 @@ export const PdfFile = async ({
   const pillW = pillTextWidth + 16;
   const pillH = 10;
   const pillX = pageWidth - margin - pillW;
-  const pillY = 8;
+  const pillY = headerCenterY - pillH / 2; // vertically centered against the logo
   doc.setFillColor(0, 0, 0);
   doc.roundedRect(pillX, pillY, pillW, pillH, 2, 2, 'F');
   doc.setTextColor(255, 255, 255);
   doc.text(pillLabel, pillX + pillW / 2, pillY + pillH / 2 + 1, { align: "center" });
 
   doc.setFillColor(0, 0, 0);
-  doc.rect(0, 26, pageWidth, 1, 'F');
+  doc.rect(0, 33, pageWidth, 1, 'F'); // moved down from 26 to clear the now-taller logo
 
   // ── 2. DESCRIPTION — bullets left, product photo + model number right ──
-  const descHeadingY = 38;
+  const descHeadingY = 45; // shifted +7 with the divider
   doc.setFont(fontName, "bold");
   doc.setFontSize(12);
   doc.setTextColor(textDark[0], textDark[1], textDark[2]);
@@ -204,7 +192,7 @@ export const PdfFile = async ({
 
   const imgBoxX = margin + descColWidth + 12;
   const imgBoxW = pageWidth - margin - imgBoxX;
-  const imgBoxY = 34;
+  const imgBoxY = 41; // shifted +7 with the divider
   const imgBoxH = 62;
   doc.setFillColor(245, 245, 245);
   doc.rect(imgBoxX, imgBoxY, imgBoxW, imgBoxH, 'F');
@@ -213,7 +201,16 @@ export const PdfFile = async ({
       imageUrl || `https://placehold.co/400x400/EEE/31343C?text=${activeId}`
     );
     const pad = 5;
-    doc.addImage(productImg, 'PNG', imgBoxX + pad, imgBoxY + pad, imgBoxW - pad * 2, imgBoxH - pad * 2);
+    // contain-fit, not stretch — keeps the real product photo's proportions
+    const fit = containFit(
+      productImg.width,
+      productImg.height,
+      imgBoxX + pad,
+      imgBoxY + pad,
+      imgBoxW - pad * 2,
+      imgBoxH - pad * 2
+    );
+    doc.addImage(productImg.dataUrl, 'PNG', fit.x, fit.y, fit.w, fit.h);
   } catch (e) {
     console.warn("Product image failed to load", e);
   }
@@ -249,7 +246,7 @@ export const PdfFile = async ({
     ["Voltage", selections.voltage || "220 - 230V AC"],
   ];
   Object.entries(extraSpecs).forEach(([label, value]) => technicalRows.push([label, value]));
-  technicalRows.push(["Warranty", "5 Years"]);
+  // technicalRows.push(["Warranty", "5 Years"]);
 
   const leftColX = margin;
   const rightColX = 110;

@@ -163,7 +163,7 @@ export default function Footer() {
               <div className="flex flex-col gap-5 items-center">
                 <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">© 2026 LEDLUM. All rights reserved.</p>
                 <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">
-                  Designed by <span className="text-white"><a href="https://www.totality.solutions/" target="_blank">Totality Solutions</a></span>
+                  Built by <span className="text-white"><a href="https://www.totality.solutions/" target="_blank">Totality Solutions</a></span>
                 </p>
               </div>
             </div>
@@ -174,7 +174,7 @@ export default function Footer() {
             <div className="flex justify-between mt-7">
               <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">© 2026 LEDLUM. All rights reserved.</p>
               <p className="text-right text-body-xxs tracking-wide text-white/70 font-pop font-medium">
-                Designed by <span className="text-white"><a href="https://www.totality.solutions/" target="_blank">Totality Solutions</a></span>
+                Built by <span className="text-white"><a href="https://www.totality.solutions/" target="_blank">Totality Solutions</a></span>
               </p>
             </div>
           </div>

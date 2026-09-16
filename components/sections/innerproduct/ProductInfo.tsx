@@ -19,6 +19,7 @@ interface ProductInfoProps {
   }[];
   permutations?: any[];
   modelImages?: Record<string, string>;
+  description?: string;
 }
 
 interface LoadingStates {
@@ -209,6 +210,7 @@ export default function ProductInfoSection({
   modelFamilies,
   permutations = [],
   modelImages,
+  description,
 }: ProductInfoProps) {
   const [selections, setSelections] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
@@ -368,6 +370,7 @@ export default function ProductInfoSection({
         cutout: config.cutoutSizes?.[0] || "N/A",
         extraSpecs: config.extraSpecs || {},
         imageUrl: modelImages?.[activeId.toUpperCase()],
+        description: description ? [description] : undefined,
       });
       await new Promise((r) => setTimeout(r, Math.max(0, ANIMATION_DURATION - (Date.now() - start))));
       setIsDownloadMenuOpen(false);

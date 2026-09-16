@@ -128,6 +128,7 @@ const InnerProductPage = memo(function InnerProductPage() {
         allModelIds={relatedModelIds}
         modelFamilies={modelFamilies}
         modelImages={modelImages}
+        description={product.hero.description}
       />
       <ProductShowcaseGallery images={product.gallery} />
     </main>
