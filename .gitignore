@@ -43,4 +43,7 @@ yarn-error.log*
 
 /publicBackup
 
+# --- Unused/quarantined files (see unused/) ---
+/unused
+
 .env.local
