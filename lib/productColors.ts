@@ -1,4 +1,4 @@
-const BODY_COLOR_MAP: Record<string, string> = {
+export const BODY_COLOR_MAP: Record<string, string> = {
   // Black & White
   "black":            "#1A1A1A",
   "white":            "#F5F5F5",
@@ -12,7 +12,7 @@ const BODY_COLOR_MAP: Record<string, string> = {
   "sand black":       "#3C3733",
   "sand white":       "#E8DEC9",
   "graphite black":   "#2D2D2D",
-  "anthracite":       "#383838",
+  "anthracite":       "#383E42",
 
   // Grey
   "grey":             "#808080",
@@ -45,7 +45,7 @@ const BODY_COLOR_MAP: Record<string, string> = {
   // Chrome & metallic
   "chrome":           "#DBE4EB",
   "black chrome":     "#1E1E1E",
-  "brushed nickel":   "#B0B0B0",
+  "brushed nickel":   "#B7B4AC",
   "brushed chrome":   "#C8C8C8",
   "gun black":        "#2D2D2D",
   "s.s":              "#C8C8C8",
@@ -58,7 +58,7 @@ const BODY_COLOR_MAP: Record<string, string> = {
   "natural aluminum": "#A8A9AD",
   "anodised aluminium":"#8C8C8C",
   "anodized aluminum": "#8C8C8C",
-  "wood":             "#8B6914",
+  "wood":             "#8B5A2B",
   "oak":              "#C4A35A",
   "walnut":           "#5C4033",
   "beige":            "#F5F5DC",
@@ -75,23 +75,23 @@ const BODY_COLOR_MAP: Record<string, string> = {
   "print ball":       "#CFB095",
   "white warm":       "#FAF0E1",
 
-  // RAL
-  "ral 9005":         "#1A1A1A",
-  "ral 9003":         "#F4F4F4",
-  "ral 9010":         "#FAFAFA",
-  "ral 9016":         "#F6F6F6",
-  "ral 7016":         "#3E4846",
-  "ral 7035":         "#B5B5B0",
-  "ral 1013":         "#E6D2B5",
-  "ral 1021":         "#E7D9A0",
-  "ral 3005":         "#5E2028",
-  "ral 5015":         "#2E6B9E",
-  "ral 6005":         "#0F4337",
-  "ral 9006":         "#A5A8A6",
-  "ral 9007":         "#87817B",
-  "ral 7022":         "#464543",
-  "ral 7021":         "#323336",
-  "ral 9001":         "#F4F0E8",
+  // RAL — hex values checked against RAL Classic reference charts, not guessed
+  "ral 9005":         "#0A0A0A",
+  "ral 9003":         "#ECECE7",
+  "ral 9010":         "#F1ECE1",
+  "ral 9016":         "#F1F1EA",
+  "ral 7016":         "#383E42",
+  "ral 7035":         "#C8CBC8",
+  "ral 1013":         "#E3D9C7",
+  "ral 1021":         "#F6B600",
+  "ral 3005":         "#59191F",
+  "ral 5015":         "#0B7BB0",
+  "ral 6005":         "#114232",
+  "ral 9006":         "#A1A1A0",
+  "ral 9007":         "#868581",
+  "ral 7022":         "#4C4A44",
+  "ral 7021":         "#2F3234",
+  "ral 9001":         "#E9E0D2",
 };
 
 function parseKelvin(value: string): number | null {
@@ -136,24 +136,22 @@ export function cctToColor(cctLabel: string): string {
   return "#E8E0D0";
 }
 
-export function bodyColorToHex(colorName: string): string {
+// Shared by the local hardcoded map and the Supabase-backed one below, so a
+// composite name like "White/Black" or "Antique Brass/Satin Nickel" resolves
+// against either source the same way.
+function lookupHex(colorName: string, map: Record<string, string>): string | null {
   const lower = colorName.toLowerCase().trim();
-  if (BODY_COLOR_MAP[lower]) return BODY_COLOR_MAP[lower];
-
-  if (lower.startsWith("ral ")) {
-    const ralMatch = BODY_COLOR_MAP[lower];
-    if (ralMatch) return ralMatch;
-  }
+  if (map[lower]) return map[lower];
 
   // Handle composite colors: "White/Black", "Matt White / Dark Grey", etc.
   const parts = lower.split(/\/|\+| & | with /).map(p => p.trim()).filter(Boolean);
   if (parts.length > 1) {
     for (const part of parts) {
-      if (BODY_COLOR_MAP[part]) return BODY_COLOR_MAP[part];
+      if (map[part]) return map[part];
     }
     // Try matching partial names (e.g. "black with black reflector" → "black")
     for (const part of parts) {
-      for (const [key, hex] of Object.entries(BODY_COLOR_MAP)) {
+      for (const [key, hex] of Object.entries(map)) {
         if (part.includes(key)) return hex;
       }
     }
@@ -161,10 +159,56 @@ export function bodyColorToHex(colorName: string): string {
 
   if (/^#[0-9a-f]{3,8}$/.test(lower)) return lower;
 
+  return null;
+}
+
+function hashToColor(colorName: string): string {
+  const lower = colorName.toLowerCase().trim();
   let hash = 0;
   for (let i = 0; i < lower.length; i++) {
     hash = lower.charCodeAt(i) + ((hash << 5) - hash);
   }
   const h = Math.abs(hash) % 360;
   return `hsl(${h}, 35%, 45%)`;
+}
+
+// Local, synchronous fallback — used when the Supabase body_colors table
+// hasn't loaded yet (or is unreachable) and as the last resort inside
+// resolveBodyColorHex below.
+export function bodyColorToHex(colorName: string): string {
+  return lookupHex(colorName, BODY_COLOR_MAP) ?? hashToColor(colorName);
+}
+
+let bodyColorDbMapPromise: Promise<Record<string, string>> | null = null;
+
+async function fetchBodyColorDbMap(): Promise<Record<string, string>> {
+  try {
+    const res = await fetch("/api/body-colors");
+    if (!res.ok) throw new Error(`/api/body-colors returned ${res.status}`);
+    const { colors } = await res.json();
+    const map: Record<string, string> = {};
+    (colors || []).forEach((c: { slug: string; hex_code: string }) => {
+      map[c.slug] = c.hex_code;
+    });
+    return map;
+  } catch (err) {
+    console.error("fetchBodyColorDbMap error:", err);
+    return {};
+  }
+}
+
+// Memoized for the lifetime of the tab — the color table changes rarely, so
+// one fetch (itself served from the server-side cache in
+// lib/bodyColorsServer.ts) is enough for the whole session.
+function getBodyColorDbMap(): Promise<Record<string, string>> {
+  if (!bodyColorDbMapPromise) bodyColorDbMapPromise = fetchBodyColorDbMap();
+  return bodyColorDbMapPromise;
+}
+
+// DB-first color lookup: Supabase body_colors table (seeded from the excel
+// body colour names via scripts/seed-body-colors.ts), then the local map,
+// then a deterministic hash color as a last resort for a name nobody's seen.
+export async function resolveBodyColorHex(colorName: string): Promise<string> {
+  const dbMap = await getBodyColorDbMap();
+  return lookupHex(colorName, dbMap) ?? bodyColorToHex(colorName);
 }

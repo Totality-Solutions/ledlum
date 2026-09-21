@@ -1,7 +1,7 @@
 import { PRODUCT_IMAGES } from "@/content/data/productImages";
-import { cctToColor, bodyColorToHex } from "@/lib/productColors";
+import { cctToColor, resolveBodyColorHex } from "@/lib/productColors";
 
-export function mapProduct(product: any, familyProducts: any[]) {
+export async function mapProduct(product: any, familyProducts: any[]) {
   // Prefer real uploaded photos from Supabase (product.gallery_images); fall
   // back to the legacy hardcoded PRODUCT_IMAGES map for the handful of
   // models that predate the upload pipeline and don't have DB images yet.
@@ -14,6 +14,13 @@ export function mapProduct(product: any, familyProducts: any[]) {
   const isNewLaunch = product.product_type?.toLowerCase() === "new";
 
   const categoryLabel = product.category || product.group_name || "General";
+
+  const bodyColors = await Promise.all(
+    (product.body_colors || []).map(async (item: string) => ({
+      label: item,
+      hex: await resolveBodyColorHex(item),
+    }))
+  );
 
   return {
     category: categoryLabel,
@@ -38,10 +45,7 @@ export function mapProduct(product: any, familyProducts: any[]) {
         label: item,
         color: cctToColor(item),
       })),
-      bodyColors: (product.body_colors || []).map((item: string) => ({
-        label: item,
-        hex: bodyColorToHex(item),
-      })),
+      bodyColors,
       beamAngles: product.beam_angle ? [product.beam_angle] : [],
       ipRating: product.ip_rating ? [product.ip_rating] : [],
       cutoutSizes: product.cutout_size ? [product.cutout_size] : [],

@@ -107,7 +107,7 @@ export default function ProductFilters({
 
   const categories = useMemo(() => {
     const base = ["All", "New Launch"]
-    if (collection === "outdoor" || collection === "indoor") {
+    if (collection === "outdoor" || collection === "indoor" || collection === "klewe") {
       const groupSet = new Set<string>()
       products.forEach((p: any) => { if (p.group && p.group !== "General") groupSet.add(p.group) })
       return [...base]
@@ -117,7 +117,7 @@ export default function ProductFilters({
 
   const labelMap: any = useMemo(() => {
     const map: any = { All: "All", "New Launch": "New Launch" }
-    if (collection === "outdoor" || collection === "indoor") {
+    if (collection === "outdoor" || collection === "indoor" || collection === "klewe") {
       products.forEach((p: any) => { if (p.group) map[p.group] = p.group })
     } else {
       map.Tracks = "Tracks"

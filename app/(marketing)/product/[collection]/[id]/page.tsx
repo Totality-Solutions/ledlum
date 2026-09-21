@@ -97,7 +97,8 @@ const InnerProductPage = memo(function InnerProductPage() {
       }
 
       setModelFamilies(Object.values(familyMap));
-      setProduct(mapProduct(rawProduct, familyProducts.length > 0 ? familyProducts : categoryProducts));
+      const mapped = await mapProduct(rawProduct, familyProducts.length > 0 ? familyProducts : categoryProducts);
+      if (!cancelled) setProduct(mapped);
     }
 
     loadProduct();
