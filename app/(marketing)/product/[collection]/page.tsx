@@ -378,13 +378,19 @@ export default function CollectionPage() {
 
     dbProducts.forEach((item: any) => {
       if (item.collection !== collection) return
-      const familyKey = item.family || `${item.group_name}-fallback`
+      // Only group under a shared card when the source data actually says
+      // these rows are the same product (family set, e.g. from an explicit
+      // "Family" column in the source excel). Without that, fall back to the
+      // model itself — one card per model — instead of the category, which
+      // would otherwise merge every unrelated product in a category together
+      // (this is what caused all 21 Volaris downrod fans to show as one card).
+      const modelCode = String(item.model || "").trim()
+      const familyKey = item.family || `model-${modelCode}`
 
       if (familyMap.has(familyKey)) {
         const existing = familyMap.get(familyKey)
         existing.itemCount += 1
         existing.searchText += " " + buildSearchText(item)
-        const modelCode = String(item.model || "").trim()
         if (modelCode) existing.models.push(modelCode)
         if (item.product_type?.toLowerCase() === "new") {
           existing.isNewLaunch = true

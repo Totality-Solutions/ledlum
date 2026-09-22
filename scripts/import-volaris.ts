@@ -89,6 +89,9 @@ function parseVolaris(): { rows: any[]; skipped: ParsedRow[] } {
       ? String(bodyColourRaw).split(",").map((v: string) => v.trim()).filter(Boolean)
       : [];
 
+    // Unlike Artizan/Klewe, this sheet has no explicit "Family" column, so
+    // (per user instruction) we don't synthesize grouping from "Product" —
+    // every model stands alone here.
     rows.push({
       model,
       family: null,
