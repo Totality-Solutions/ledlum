@@ -65,7 +65,11 @@ export default function ProductGrid({ filters, products, collection }: any) {
         (p.searchText || "").includes(query)
 
       return matchCollection && matchGroup && matchDimming && matchSearch
-    })
+    }).sort((a: any, b: any) =>
+      // Same A→Z order as the "Product Groups" dropdown, then by model within a group
+      (a.group || "").localeCompare(b.group || "") ||
+      (a.title || "").localeCompare(b.title || "", undefined, { numeric: true, sensitivity: "base" })
+    )
   }, [filters, products, collection])
 
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE)
