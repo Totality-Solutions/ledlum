@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import Section from "@/components/layout/Section";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineDownload } from "react-icons/hi";

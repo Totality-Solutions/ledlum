@@ -1,7 +1,7 @@
 "use client";
 
 import React, { memo, useEffect, useState } from "react";
-import Image, { StaticImageData } from "next/image";
+import Image, { type StaticImageData } from "@/components/common/SmartImage";
 import { cdnImg } from "@/lib/cdn";
 import clsx from "clsx";
 

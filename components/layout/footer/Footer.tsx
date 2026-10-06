@@ -4,7 +4,7 @@
 
 import { Container } from "@/components/layout/Container";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import { usePathname } from "next/navigation";
 import { Instagram, Facebook, Linkedin, Send } from "@/lib/icons";
 import { cdnImg } from "@/lib/cdn";

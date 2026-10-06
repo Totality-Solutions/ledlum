@@ -3,7 +3,7 @@
 
 import React, { memo, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "@/components/common/SmartImage";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import MarqueeFlow from "@/components/layout/common/MarqueeFlow"; 

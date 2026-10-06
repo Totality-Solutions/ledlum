@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image, { StaticImageData } from "next/image";
+import Image, { type StaticImageData } from "@/components/common/SmartImage";
 
 interface ImageSliderCardProps {
   images: (string | StaticImageData)[];

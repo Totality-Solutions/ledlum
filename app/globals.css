@@ -384,3 +384,13 @@ body.no-scroll {
   50% { transform: scale(0.9) rotate(180deg); opacity: 1; }
   100% { transform: scale(1) rotate(360deg); opacity: 1; }
 }
+
+/* SmartImage spinner: only appears if an image takes longer than ~300ms,
+   so fast/cached images never flash a loader. */
+.smart-image-loader {
+  animation: smart-image-loader-in 0.2s ease 0.3s both;
+}
+@keyframes smart-image-loader-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

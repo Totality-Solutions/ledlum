@@ -1,7 +1,7 @@
 import React from 'react';
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import BlogCard from "@/components/sections/blog/BlogCard";
 import { getPublishedPosts } from "@/lib/cms/content";
 import { buildMetadata } from "@/lib/seo";

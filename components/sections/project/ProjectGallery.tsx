@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import { X, ChevronLeft, ChevronRight } from "@/lib/icons";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";

@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "@/components/common/SmartImage";
 import { cdnImg } from "@/lib/cdn";
 
 export default function Hero({ heroBannerImage }: { heroBannerImage: string }) {

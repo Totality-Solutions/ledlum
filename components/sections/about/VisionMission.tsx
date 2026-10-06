@@ -2,7 +2,7 @@
 
 "use client";
 import React from 'react';
-import Image from 'next/image';
+import Image from "@/components/common/SmartImage";
 import { cdnImg } from "@/lib/cdn";
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";

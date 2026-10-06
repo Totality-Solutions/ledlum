@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import { useRouter } from "next/navigation";
 import ImageSliderCard from "@/components/layout/common/InfiniteCarousel";
 import { Container } from "@/components/layout/Container";

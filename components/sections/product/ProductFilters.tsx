@@ -2,7 +2,7 @@
 import { useMemo, useState, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
+import Image from "@/components/common/SmartImage";
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowDown, ArrowRight, Search, X } from "@/lib/icons"
 import Section from "@/components/layout/Section"

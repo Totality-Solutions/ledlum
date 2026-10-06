@@ -3,7 +3,7 @@
 
 import React, { useMemo, useCallback, Suspense } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "@/components/common/SmartImage";
 import { useSearchParams, useRouter } from 'next/navigation';
 import BlogCard from "@/components/sections/blog/BlogCard";
 import Pagination from '@/components/sections/blog/Pagination';

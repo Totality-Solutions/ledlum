@@ -3,6 +3,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { uploadFile, deleteFile, buildProductKey } from "@/lib/r2";
 import { requireAdmin } from "@/lib/adminSession";
 import { invalidateProductCache } from "@/lib/productsServer";
+import { generateImageVariants } from "@/lib/imageVariants";
 
 // This route is excluded from proxy.ts's matcher and checks auth itself —
 // large multipart uploads (>~8-10MB) were failing with "Failed to parse body
@@ -93,6 +94,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       body: buffer,
       contentType: file.type || contentTypeFor(ext),
     });
+    // Resized copies for the site's image loader (responsive srcset).
+    await generateImageVariants(key, buffer);
     newUrls.push(url);
     seq += 1;
   }

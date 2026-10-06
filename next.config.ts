@@ -7,17 +7,18 @@ const nextConfig: NextConfig = {
   },
   turbopack: {},
   images: {
-    // Assets are already served from Cloudflare R2 in optimized .webp/.jpeg format,
-    // so we bypass Vercel's Image Optimization API (which was the main bottleneck
-    // in production: cold re-encoding + Hobby-tier transformation cap made images
-    // slow to appear and painting glitchy on scroll). Serving directly from
-    // R2 is faster and has zero egress cost, unlike the CDN/optimizer combo.
-    unoptimized: true,
-    qualities: [75],
-    deviceSizes: [640, 750, 828, 1080, 1200],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 60 * 60 * 24 * 30,
+    // No runtime image optimizer (the hosted one was the production bottleneck:
+    // cold re-encoding + transformation caps). Instead every R2 image has
+    // pre-generated WebP copies at fixed widths (scripts/generate-image-variants.ts)
+    // and this loader points srcset at the right one — resized images with
+    // zero per-request work. Non-R2 images are passed through untouched.
+    loader: "custom",
+    loaderFile: "./lib/imageLoader.ts",
+    // 50 = "slow network" hint from components/common/SmartImage.tsx.
+    qualities: [30, 50, 75],
+    // Map onto the stored variant widths (384 / 768 / 1280 / 1920).
+    deviceSizes: [384, 640, 768, 1080, 1280, 1920],
+    imageSizes: [64, 128, 256],
     remotePatterns: [
       {
         protocol: 'https',

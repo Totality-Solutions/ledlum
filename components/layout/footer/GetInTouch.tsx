@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import { cdnImg } from "@/lib/cdn";
 import CTABtn from "../../../components/layout/common/CTABtn";
 import { usePathname } from 'next/navigation';

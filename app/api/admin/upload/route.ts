@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 import { requireAdmin } from "@/lib/adminSession";
 import { buildCmsKey, uploadFile } from "@/lib/r2";
+import { generateImageVariants } from "@/lib/imageVariants";
 
 // Excluded from proxy.ts's matcher (see the note there about multipart
 // bodies) — checks auth itself.
@@ -40,20 +41,21 @@ export async function POST(request: NextRequest) {
         .resize({ width: MAX_IMAGE_WIDTH, withoutEnlargement: true })
         .webp({ quality: 82 })
         .toBuffer();
-      const { url } = await uploadFile({
-        key: buildCmsKey("image", file.name, "webp"),
-        body,
-        contentType: "image/webp",
-      });
+      const key = buildCmsKey("image", file.name, "webp");
+      const { url } = await uploadFile({ key, body, contentType: "image/webp" });
+      // Resized copies for the site's image loader (responsive srcset).
+      await generateImageVariants(key, body);
       return NextResponse.json({ url });
     }
 
     const kind = file.type.startsWith("image/") ? "image" : file.type.startsWith("video/") ? "video" : "file";
+    const key = buildCmsKey(kind, file.name, ext || "bin");
     const { url } = await uploadFile({
-      key: buildCmsKey(kind, file.name, ext || "bin"),
+      key,
       body: input,
       contentType: file.type || "application/octet-stream",
     });
+    await generateImageVariants(key, input);
     return NextResponse.json({ url });
   } catch (err: any) {
     console.error("CMS upload failed:", err);

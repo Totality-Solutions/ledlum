@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import { ChevronLeft, ChevronRight, X } from "@/lib/icons";
 
 export default function ProductShowcaseGallery({

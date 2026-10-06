@@ -2,7 +2,7 @@
 
 import React, { memo } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { Instagram, Linkedin, Facebook, ArrowRight } from "@/lib/icons";

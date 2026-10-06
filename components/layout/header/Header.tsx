@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import { usePathname } from "next/navigation"; // Hook to detect current location path
 import MobileMenu from "./MobileMenu";
 import type { NavigationContent, SiteSettings } from "@/lib/cms/defaults";

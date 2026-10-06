@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import Achievements from "./Achievements";
 import ProjectSection from "./ProjectSection";
 import AutoCarousel from "./AutoCarousel";

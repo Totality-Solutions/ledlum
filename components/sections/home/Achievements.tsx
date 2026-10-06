@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 import { PopupForm } from "@/components/common/PopupForm";

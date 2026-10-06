@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useCallback } from "react";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import Link from "next/link";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Section from "@/components/layout/Section";

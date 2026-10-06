@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Image from 'next/image';
+import Image from "@/components/common/SmartImage";
 import { cdnImg } from "@/lib/cdn";
 import Header from '@/components/layout/header/Header';
 import Footer from '@/components/layout/footer/Footer';

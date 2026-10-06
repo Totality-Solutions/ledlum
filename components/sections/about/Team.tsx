@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import { Container } from "@/components/layout/Container";
 import { GetInTouch } from "@/components/layout/footer/GetInTouch";
 import Section from "@/components/layout/Section";

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import { cdnImg } from "@/lib/cdn";
 
 export default function Loader() {

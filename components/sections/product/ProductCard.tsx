@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "@/components/common/SmartImage";
 
 export default function ProductCard({ title, category, image, itemCount, onClick, isPriority = false }: any) {
   return (

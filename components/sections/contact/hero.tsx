@@ -1,7 +1,7 @@
 "use client";
 
 import React, { memo, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/common/SmartImage";
 import Section from "@/components/layout/Section";
 import CTABtn from "@/components/layout/common/CTABtn";
 import { Container } from "@/components/layout/Container";
