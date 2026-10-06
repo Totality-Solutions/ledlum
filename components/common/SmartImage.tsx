@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useCallback, useEffect, useState } from "react";
 import NextImage, { type ImageProps } from "next/image";
 import { isOptimizableSrc, placeholderUrl, LOW_BANDWIDTH_QUALITY } from "@/lib/imageLoader";
 import ImageLoader from "./ImageLoader";
@@ -39,17 +39,29 @@ const SmartImage = forwardRef<HTMLImageElement, SmartImageProps>(function SmartI
   const src = typeof props.src === "string" ? props.src : "";
   const optimizable = src !== "" && isOptimizableSrc(src);
 
-  const [loaded, setLoaded] = useState(false);
-  const [failed, setFailed] = useState(false);
+  // Loaded/failed are remembered per src rather than reset in an effect:
+  // a cached image (e.g. after navigating back) reports "loaded" during the
+  // very first commit, and an effect resetting state afterwards would wipe
+  // that out — the image never fires load again, so the loader spun forever.
+  const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const loaded = loadedSrc === src;
+  const failed = failedSrc === src;
   const [slow, setSlow] = useState(false);
 
   // Read after mount (not during render) so server and client HTML match.
   useEffect(() => setSlow(isSlowConnection()), []);
-  // New image → show the placeholder/spinner again.
-  useEffect(() => {
-    setLoaded(false);
-    setFailed(false);
-  }, [src]);
+
+  // Safety net: if the browser already has the image fully decoded when the
+  // element attaches, mark it loaded even if no load event comes through.
+  const imgRef = useCallback(
+    (img: HTMLImageElement | null) => {
+      if (img && img.complete && img.naturalWidth > 0) setLoadedSrc(src);
+      if (typeof ref === "function") ref(img);
+      else if (ref) ref.current = img;
+    },
+    [src, ref]
+  );
 
   const placeholder = optimizable && !failed ? placeholderUrl(src) : null;
   const wantsLoader = (showLoader ?? !DECORATIVE_ALT.test(String(props.alt || ""))) && props.fill;
@@ -57,7 +69,7 @@ const SmartImage = forwardRef<HTMLImageElement, SmartImageProps>(function SmartI
   return (
     <>
       <NextImage
-        ref={ref}
+        ref={imgRef}
         {...props}
         priority={priority}
         // Original file when it isn't one of ours, or its resized copy failed.
@@ -76,12 +88,16 @@ const SmartImage = forwardRef<HTMLImageElement, SmartImageProps>(function SmartI
             : null),
         }}
         onLoad={(e) => {
-          setLoaded(true);
+          setLoadedSrc(src);
           onLoad?.(e);
         }}
         onError={(e) => {
-          if (optimizable && !failed) setFailed(true);
-          else onError?.(e);
+          if (optimizable && !failed) setFailedSrc(src);
+          else {
+            // Even the original failed — stop showing the loader.
+            setLoadedSrc(src);
+            onError?.(e);
+          }
         }}
       />
       {wantsLoader && !loaded && (
