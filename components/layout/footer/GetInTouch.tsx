@@ -5,8 +5,9 @@ import Image from "next/image";
 import { cdnImg } from "@/lib/cdn";
 import CTABtn from "../../../components/layout/common/CTABtn";
 import { usePathname } from 'next/navigation';
+import { CMS_DEFAULTS, type CmsContent } from "@/lib/cms/defaults";
 
-export function GetInTouch() {
+export function GetInTouch({ content = CMS_DEFAULTS.getInTouch }: { content?: CmsContent<"getInTouch"> }) {
   const pathname = usePathname(); // Initialize pathname
 
 
@@ -39,18 +40,18 @@ export function GetInTouch() {
       <div className="relative z-10 flex flex-col items-center">
         {/* Title */}
         <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
-          Get In Touch
+          {content.title}
         </h2>
         
         {/* Subtitle */}
         <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-regular text-white opacity-95 mb-14">
-          With Our Lighting Specialists.
+          {content.subtitle}
         </p>
         
         {/* Modular Button Replacement */}
         <CTABtn 
-          label="Our Story"
-          href="/contact"
+          label={content.buttonLabel}
+          href={content.buttonHref}
           size="md"
           btnBg="#EFE3D3"
           circleBg="#A39678"

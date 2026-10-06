@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import BlogCard from "@/components/sections/blog/BlogCard";
-import { blogPosts } from "@/lib/blogData";
+import { getPublishedPosts } from "@/lib/cms/content";
+import { buildMetadata } from "@/lib/seo";
+import { getContent } from "@/lib/cms/content";
 import Section from '@/components/layout/Section';
 import { Container } from '@/components/layout/Container';
 import { MidSection, OutcomeSection, BackButton } from '@/components/sections/blog/BlogPostContent';
@@ -12,8 +14,29 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateStaticParams() {
+  const posts = await getPublishedPosts();
+  return posts.map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({ params }: PageProps) {
+  const { slug } = await params;
+  const [posts, site] = await Promise.all([getPublishedPosts(), getContent("site.settings")]);
+  const post = posts.find((p) => p.slug === slug);
+  if (!post) return {};
+  return buildMetadata({
+    site,
+    title: post.seoTitle || post.title,
+    description: post.seoDescription || post.description,
+    canonical: `/blog/${post.slug}`,
+    ogImage: post.image || undefined,
+    type: "article",
+  });
+}
+
 export default async function BlogPost({ params }: PageProps) {
   const { slug } = await params;
+  const blogPosts = await getPublishedPosts();
   const post = blogPosts.find((p) => p.slug === slug);
 
   if (!post) notFound();
@@ -27,7 +50,7 @@ export default async function BlogPost({ params }: PageProps) {
       <BackButton />
       <section className="w-full relative">
         <div className="w-full h-[40vh] md:h-[65vh] relative overflow-hidden">
-          <Image src={  post.image} fill priority sizes="100vw" className="object-cover" alt={post.title} />
+          {post.image && <Image src={post.image} fill priority sizes="100vw" className="object-cover" alt={post.title} />}
         </div>
       </section>
 

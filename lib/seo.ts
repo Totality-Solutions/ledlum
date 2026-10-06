@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+import type { SiteSettings } from "@/lib/cms/defaults";
 
 export type BuildMetadataOptions = {
   title?: string;
@@ -9,38 +10,46 @@ export type BuildMetadataOptions = {
   ogImage?: string;
   type?: "website" | "article";
   openGraph?: Metadata["openGraph"];
+  // CMS site settings (Admin → Site settings & SEO); falls back to
+  // config/site.ts when omitted.
+  site?: SiteSettings;
 };
 
-export function absoluteUrl(path: string) {
+export function absoluteUrl(path: string, baseUrl: string = siteConfig.url) {
   if (!path) {
-    return siteConfig.url;
+    return baseUrl;
   }
 
   try {
     return new URL(path).toString();
   } catch (error) {
-    return new URL(path.replace(/^\//, ""), siteConfig.url).toString();
+    return new URL(path.replace(/^\//, ""), baseUrl).toString();
   }
 }
 
 export function buildMetadata(options: BuildMetadataOptions = {}): Metadata {
+  const site = options.site;
+  const siteName = site?.siteName || siteConfig.name;
+  const siteUrl = site?.siteUrl || siteConfig.url;
+  const legalName = site?.legalName || siteConfig.legalName;
+
   const {
-    title = siteConfig.name,
-    description = siteConfig.description,
-    keywords = siteConfig.keywords,
+    title = siteName,
+    description = site?.seoDescription || siteConfig.description,
+    keywords = site?.keywords || siteConfig.keywords,
     canonical,
     ogImage,
     type = "website",
     openGraph,
   } = options;
 
-  const isDefaultTitle = title === siteConfig.name;
-  const resolvedTitle = isDefaultTitle ? title : `${title} | ${siteConfig.name}`;
-  const canonicalUrl = canonical ? absoluteUrl(canonical) : siteConfig.url;
-  const imageUrl = absoluteUrl(ogImage ?? siteConfig.defaultOgImage);
+  const isDefaultTitle = title === siteName;
+  const resolvedTitle = isDefaultTitle ? title : `${title} | ${siteName}`;
+  const canonicalUrl = canonical ? absoluteUrl(canonical, siteUrl) : siteUrl;
+  const imageUrl = absoluteUrl(ogImage ?? (site?.defaultOgImage || siteConfig.defaultOgImage), siteUrl);
 
   return {
-    metadataBase: new URL(siteConfig.url),
+    metadataBase: new URL(siteUrl),
     title: resolvedTitle,
     description,
     keywords,
@@ -49,14 +58,14 @@ export function buildMetadata(options: BuildMetadataOptions = {}): Metadata {
       type,
       locale: siteConfig.locale,
       url: canonicalUrl,
-      siteName: siteConfig.name,
+      siteName,
       title: resolvedTitle,
       description,
       images: [{
         url: imageUrl,
         width: 1200,
         height: 630,
-        alt: `${siteConfig.name} hero image`,
+        alt: `${siteName} hero image`,
       }],
       ...openGraph,
     },
@@ -67,8 +76,8 @@ export function buildMetadata(options: BuildMetadataOptions = {}): Metadata {
       images: [imageUrl],
     },
     authors: siteConfig.authors,
-    creator: siteConfig.legalName,
-    publisher: siteConfig.legalName,
+    creator: legalName,
+    publisher: legalName,
     robots: {
       index: true,
       follow: true,

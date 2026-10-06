@@ -8,6 +8,8 @@ import clsx from "clsx";
 type HeroProps = {
   type?: "image" | "video";
   src: string | StaticImageData;
+  // Poster for the video, and the banner shown on mobile instead of it.
+  poster?: string;
   overlay?: boolean;
   children?: React.ReactNode;
 };
@@ -16,6 +18,7 @@ const Hero = memo(function Hero({
   type = "image",
   src,
   overlay = true,
+  poster = cdnImg("/images/home/home-hero.webp"),
   children,
 }: HeroProps) {
   // On mobile, don't decode a background video — it's the main cause of
@@ -42,7 +45,7 @@ const Hero = memo(function Hero({
           loop
           playsInline
           preload="none"
-          poster={cdnImg("/images/home/home-hero.webp")}
+          poster={poster}
           className="absolute inset-0 w-full h-full object-cover z-0"
         >
           <source src={typeof src === "string" ? src : ""} />
@@ -50,7 +53,7 @@ const Hero = memo(function Hero({
       ) : type === "video" ? (
         /* Mobile: static poster image instead of the video */
         <Image
-          src={cdnImg("/images/home/home-hero.webp")}
+          src={poster}
           alt="Hero Background"
           fill
           priority

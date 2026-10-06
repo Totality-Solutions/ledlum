@@ -86,7 +86,8 @@ function VerticalLine({ leftPx, topPx, heightPx, direction = "down" }: VerticalL
   );
 }
 
-export default function CoreValues() {
+// labels are ordered left to right across the wave.
+export default function CoreValues({ labels }: { labels: string[] }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const slides = [{ x: 169 }, { x: 424 }, { x: 814 }, { x: 1232 }];
 
@@ -134,10 +135,10 @@ export default function CoreValues() {
       <VerticalLine leftPx={169} topPx={456} heightPx={90} direction="down" />
       <VerticalLine leftPx={814} topPx={388} heightPx={90} direction="down" />
 
-      <ValueLabel label={["Design-led Innovation"]} leftPx={424} topPx={320} />
-      <ValueLabel label={["Precision Engineering"]} leftPx={1232} topPx={285} />
-      <ValueLabel label={["Performance Reliability"]} leftPx={169} topPx={560} />
-      <ValueLabel label={["Architectural Harmony"]} leftPx={814} topPx={495} />
+      <ValueLabel label={[labels[1] || ""]} leftPx={424} topPx={320} />
+      <ValueLabel label={[labels[3] || ""]} leftPx={1232} topPx={285} />
+      <ValueLabel label={[labels[0] || ""]} leftPx={169} topPx={560} />
+      <ValueLabel label={[labels[2] || ""]} leftPx={814} topPx={495} />
     </>
   );
 

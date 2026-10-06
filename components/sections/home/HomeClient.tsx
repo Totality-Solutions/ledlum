@@ -10,8 +10,18 @@ import { PopupForm } from "@/components/common/PopupForm";
 // --- ASSETS ---
 import { cdnImg } from "@/lib/cdn";
 import TestimonialSection from "./TesimonialSection";
+import type { CmsContent } from "@/lib/cms/defaults";
 
-const HomeClient = () => {
+type HomeClientProps = {
+  achievements: CmsContent<"home.achievements">;
+  projects: CmsContent<"projects">;
+  blogCarousel: CmsContent<"home.blogCarousel">;
+  posts: { image: string; slug: string }[];
+  testimonials: CmsContent<"home.testimonials">;
+  social: { instagram: string; linkedin: string; facebook: string };
+};
+
+const HomeClient = ({ achievements, projects, blogCarousel, posts, testimonials, social }: HomeClientProps) => {
   const [showForm, setShowForm] = useState(false);
 
   const handleTriggerForm = useCallback(() => {
@@ -23,7 +33,7 @@ const HomeClient = () => {
       {/* --- SHARED BACKGROUND LAYER --- */}
       <div className="absolute inset-0 -z-20 pointer-events-none">
         <Image
-          src={cdnImg("/images/home/home-bg3.webp")}
+          src={blogCarousel.backgroundImage || cdnImg("/images/home/home-bg3.webp")}
           alt="Background"
           fill
           loading="lazy"
@@ -45,10 +55,10 @@ const HomeClient = () => {
       {/* --- CONTENT LAYER --- */}
       {/* Wrapping these 3 ensures they all sit on top of the same background */}
       <div className="relative z-10">
-        <Achievements onTriggerForm={handleTriggerForm} />
-        <ProjectSection />
-        <AutoCarousel />
-        <TestimonialSection />
+        <Achievements onTriggerForm={handleTriggerForm} content={achievements} />
+        <ProjectSection content={projects} social={social} />
+        <AutoCarousel content={blogCarousel} posts={posts} />
+        <TestimonialSection content={testimonials} />
       </div>
 
       {/* FLOATING POPUP */}

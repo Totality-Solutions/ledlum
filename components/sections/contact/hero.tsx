@@ -5,12 +5,17 @@ import Image from "next/image";
 import Section from "@/components/layout/Section";
 import CTABtn from "@/components/layout/common/CTABtn";
 import { Container } from "@/components/layout/Container";
+import { CMS_DEFAULTS, type CmsContent } from "@/lib/cms/defaults";
 
 /**
  * CONTACT PAGE
  * Responsive version (mobile + tablet optimized)
  */
-const ContactSection = memo(function ContactSection() {
+const ContactSection = memo(function ContactSection({
+  content = CMS_DEFAULTS["contact.page"],
+}: {
+  content?: CmsContent<"contact.page">;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -69,31 +74,31 @@ const ContactSection = memo(function ContactSection() {
             <div className="">
               <h1>
                 <span className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white block">
-                  Get.
+                  {content.title1}
                 </span>
                 <span className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white -mt-4">
-                  in Touch.
+                  {content.title2}
                 </span>
               </h1>
             </div>
             <p className="text-body-sm lg:text-body font-pop font-regular text-white/30 max-w-md">
-              Reach out to LEDLUM Lighting for premium architectural lighting solutions.
+              {content.intro}
             </p>
 
             <div className="space-y-4 w-full md:w-[85%] lg:w-[80%]">
               <ContactLink
                 label="E-mail"
-                value="ledlumlighting@gmail.com"
+                value={content.email}
                 iconType="mail"
               />
               <ContactLink
                 label="Call us"
-                value="+91 96631 02951"
+                value={content.phone}
                 iconType="phone"
               />
               <ContactLink
-                label="Msg on Whatsapp"
-                value="10:00 am to 6:00 pm"
+                label={content.whatsappLabel}
+                value={content.whatsappHours}
                 iconType="whatsapp"
               />
             </div>

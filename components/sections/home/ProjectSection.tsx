@@ -14,21 +14,16 @@ import MarqueeFlow from "@/components/layout/common/MarqueeFlow";
 
 import { cdnImg } from "@/lib/cdn";
 
-const PROJECTS = [
-  { id: 1, img: cdnImg('/images/home/project/project1.jpeg') },
-  { id: 2, img: cdnImg('/images/home/project/project2.jpeg') },
-  { id: 3, img: cdnImg('/images/home/project/project3.jpeg') },
-  { id: 4, img: cdnImg('/images/home/project/project4.jpeg') },
-  { id: 5, img: cdnImg('/images/home/project/project5.jpeg') },
-  { id: 6, img: cdnImg('/images/home/project/project6.jpeg') },
-  { id: 7, img: cdnImg('/images/home/project/project7.jpeg') },
-  { id: 8, img: cdnImg('/images/home/project/project8.jpeg') },
-  { id: 9, img: cdnImg('/images/home/project/project9.jpeg') },
-  { id: 10, img: cdnImg('/images/home/project/project10.jpeg') },
-  { id: 11, img: cdnImg('/images/home/project/project11.jpeg') },
-];
+import type { CmsContent } from "@/lib/cms/defaults";
 
-const OurProjectsSection = memo(function OurProjectsSection() {
+const OurProjectsSection = memo(function OurProjectsSection({
+  content,
+  social,
+}: {
+  content: CmsContent<"projects">;
+  social: { instagram: string; linkedin: string; facebook: string };
+}) {
+  const PROJECTS = (content.images || []).filter((p) => p.image).map((p, i) => ({ id: i + 1, img: p.image }));
   // Extract just the images for the carousel
   const carouselImages = PROJECTS.map((p) => p.img);
 
@@ -50,10 +45,10 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                           <div className="flex flex-col-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
                             <div className="flex flex-col">
                               <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
-                                Our.
+                                {content.title1}
                               </h2>
                               <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
-                                Projects.
+                                {content.title2}
                               </p>
                             </div>
 
@@ -61,21 +56,21 @@ const OurProjectsSection = memo(function OurProjectsSection() {
                               
                               
                               <div className="flex items-center justify-end w-full gap-6 text-white/60">
-                                <a href="https://www.instagram.com/ledlumlighting/" className="hover:text-white transition-all hover:scale-110">
+                                <a href={social.instagram} className="hover:text-white transition-all hover:scale-110">
                                   <Instagram size={22} strokeWidth={1.5} />
                                 </a>
                                 {/* <a href="#" className="hover:text-white transition-all hover:scale-110">
                                   <MessageCircle size={22} strokeWidth={1.5} />
                                 </a> */}
-                                <a href="https://www.linkedin.com/company/95175675/admin/dashboard/" className="hover:text-white transition-all hover:scale-110">
+                                <a href={social.linkedin} className="hover:text-white transition-all hover:scale-110">
                                   <Linkedin size={22} strokeWidth={1.5} />
                                 </a>
-                                <a href="https://www.facebook.com/ledlumlightingsolutions" className="hover:text-white transition-all hover:scale-110">
+                                <a href={social.facebook} className="hover:text-white transition-all hover:scale-110">
                                   <Facebook size={22} strokeWidth={1.5} />
                                 </a>
                               </div>
 <Link href="/project" className=" flex items-center gap-2 md:block text-[12px] lg:text-body font-pop font-regular text-white hover:text-white/70 transition-colors">
-                                Explore Projects
+                                {content.exploreLabel}
                                 <ArrowRight size={20} strokeWidth={2} className="inline text-background" />
                                 {/* <ArrowRight size={16} strokeWidth={2} className="inline ml-5 text-background" /> */}
                               </Link>                            </div>

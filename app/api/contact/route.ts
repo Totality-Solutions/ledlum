@@ -1,5 +1,6 @@
 // app/api/contact/route.js
 import { Resend } from "resend";
+import { saveSubmission } from "@/lib/submissions";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -12,10 +13,11 @@ export async function POST(req: Request) {
     }
 
     const { name, email, phone,message } = body;
-
     if (!name || !email) {
       return Response.json({ error: "Missing required fields: name, email" }, { status: 400 });
     }
+
+    await saveSubmission("contact", body);
 
     const response = await resend.emails.send({
       from: "LEDLUM Website <noreply@ledlumlighting.com>",

@@ -10,26 +10,10 @@ import Image from 'next/image';
 import { cdnImg } from "@/lib/cdn";
 import React from 'react';
 
-const stats = [
-  {
-    title: "Who We Are",
-    desc: "LEDLUM develops architectural lighting systems tailored for modern design environments. Our solutions are created to enhance spatial experience while maintaining technical reliability."
-  },
-  {
-    title: "Since When",
-    desc: "Built on years of lighting expertise, LEDLUM continues to evolve with changing architectural needs and emerging technologies."
-  },
-  {
-    title: "What We Do",
-    desc: "We design and manufacture architectural luminaires that integrate seamlessly into contemporary spaces — delivering both visual comfort and performance."
-  },
-  {
-    title: "Core Expertise",
-    desc: "Architectural lighting systems, optical engineering, custom project solutions, design-led product development."
-  }
-];
+import type { CmsContent } from "@/lib/cms/defaults";
 
-export default function AboutHero() {
+export default function AboutHero({ content }: { content: CmsContent<"about.hero"> }) {
+  const stats = content.cards || [];
   return (
     <Section className="relative bg-black text-white overflow-hidden ">
       <Container>
@@ -57,17 +41,17 @@ export default function AboutHero() {
             <div className="flex-1">
               <h1 className="max-w-xl leading-[1.05]">
                 <span className="lg:text-desk-h1 md:text-tab-h1 text-mob-h1 font-bai font-semibold text-white">
-                  Illuminating Spaces
+                  {content.title1}
                 </span>
                 <span className="lg:text-desk-h1 md:text-tab-h1 text-mob-h1 font-bai font-semibold text-white">
-                  - Inspiring Lives
+                  {content.title2}
                 </span>
               </h1>
             </div>
 
             <div className="w-full md:w-[35%] lg:w-[40%]">
               <p className="lg:text-tab-h2 text-mob-h2  text-white/40 text-left md:text-right font-light ">
-                Advancing architectural lighting through thoughtful design, precision engineering, and forward-thinking innovation.
+                {content.subtitle}
               </p>
             </div>
           </div>
@@ -78,7 +62,7 @@ export default function AboutHero() {
                       h-[35vh] md:h-[60vh] lg:h-[70vh] 
                       mb-20 md:mb-32 overflow-hidden">
           <Image
-            src={cdnImg("/images/home/about-new.webp")}
+            src={content.image || cdnImg("/images/home/about-new.webp")}
             alt="LEDLUM Architectural Lighting"
             fill
             priority
@@ -94,7 +78,7 @@ export default function AboutHero() {
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
     {stats.map((item, i) => (
       <div
-        key={item.title}
+        key={i}
         /* Logic and structure strictly preserved */
         style={{ height: i === 1 ? '100%' : i === 2 ? '100%' : i === 3 ? '100%' : '100%' }}
         /* - border-b: creates the bottom line for mobile 

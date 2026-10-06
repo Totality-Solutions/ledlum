@@ -7,20 +7,16 @@ import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 import { PopupForm } from "@/components/common/PopupForm";
 import { cdnImg } from "@/lib/cdn";
+import type { CmsContent } from "@/lib/cms/defaults";
 
 interface Props {
   onTriggerForm: () => void;
+  content: CmsContent<"home.achievements">;
 }
 
-const ACHIEVEMENTS = [
-  { id: "01", value: "23+", label: "YEARS OF EXPERIENCE", image: cdnImg("/images/home/achievment1.png") },
-  { id: "02", value: "400+", label: "PARTNERS", image: cdnImg("/images/home/achievment2.webp") },
-  { id: "03", value: "1,100+", label: "PRODUCTS", image: cdnImg("/images/home/achievment3.webp") },
-  { id: "04", value: "30,000+", label: "BURNING HOURS", image: cdnImg("/images/home/achievment4.webp") },
-];
-
-export default function Achievements({ onTriggerForm }: Props) {
-  const [activeId, setActiveId] = useState(ACHIEVEMENTS[0].id);
+export default function Achievements({ onTriggerForm, content }: Props) {
+  const ACHIEVEMENTS = (content.items || []).map((item, i) => ({ ...item, id: String(i + 1).padStart(2, "0") }));
+  const [activeId, setActiveId] = useState("01");
   const [showForm, setShowForm] = useState(false);
   const hasTriggered = useRef(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -47,7 +43,7 @@ useEffect(() => {
 
   return (
     <Section ref={sectionRef} className="relative bg-cover bg-top bg-no-repeat overflow-visible lg:min-h-screen">
-      <Image src={cdnImg("/images/home/home-bg4.webp")} alt="Background" fill loading="lazy" className="object-cover -z-[20]" />
+      <Image src={content.backgroundImage || cdnImg("/images/home/home-bg4.webp")} alt="Background" fill loading="lazy" className="object-cover -z-[20]" />
       
       {/* <div className="absolute inset-0 z-0 pointer-events-none opacity-10 md:opacity-30">
         <Image src={cdnImg("/images/about/ledlumline.webp")} alt="background" fill sizes="100vw" className="object-cover object-center" />
@@ -55,8 +51,8 @@ useEffect(() => {
 
       <Container className="relative z-10">
         <div className="md:mb-20 mb-5">
-          <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">Our.</h2>
-          <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">Achievements.</p>
+          <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">{content.title1}</h2>
+          <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">{content.title2}</p>
         </div>
 
         <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-32">
@@ -69,7 +65,7 @@ useEffect(() => {
                   activeId === item.id ? "opacity-100 scale-100" : "opacity-0 scale-110"
                 }`}
               >
-                <Image src={item.image} alt={item.label} fill className="object-cover" sizes="320px" />
+                {item.image && <Image src={item.image} alt={item.label} fill className="object-cover" sizes="320px" />}
               </div>
             ))}
           </div>

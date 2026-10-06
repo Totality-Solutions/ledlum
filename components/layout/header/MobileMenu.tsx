@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { primaryNavigation, sideNavigation } from "@/config/navigation";
-
 const HEADER_HEIGHT = "90px";
 
 export default function MobileMenu({
   isOpen,
   onClose,
+  items,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  items: { title: string; href: string }[];
 }) {
   const [mounted, setMounted] = useState(false);
 
@@ -38,7 +38,7 @@ export default function MobileMenu({
 
       {/* Menu */}
       <div className="relative z-50 bg-black w-full h-full overflow-y-auto px-6 py-8 flex flex-col gap-6 rounded-b-3xl shadow-2xl">
-        {[...sideNavigation, ...primaryNavigation].map((item, idx) => (
+        {items.map((item, idx) => (
           <Link
             key={idx}
             href={item.href}

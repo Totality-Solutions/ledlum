@@ -1,17 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ADMIN_SESSION_COOKIE, verifySessionToken } from "@/lib/adminAuth";
 
+// Signature-only check — cheap enough to run on every admin request. Route
+// handlers still call requireAdmin() (lib/adminSession.ts), which also checks
+// the user is active and enforces roles.
+const PUBLIC_ADMIN_PATHS = new Set([
+  "/admin/login",
+  "/admin/setup",
+  "/api/admin/login",
+  "/api/admin/setup",
+]);
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const isLoginPage = pathname === "/admin/login";
-  const isLoginApi = pathname === "/api/admin/login";
-  if (isLoginPage || isLoginApi) return NextResponse.next();
+  if (PUBLIC_ADMIN_PATHS.has(pathname)) return NextResponse.next();
 
   const token = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
-  const authed = verifySessionToken(token);
-
-  if (authed) return NextResponse.next();
+  if (verifySessionToken(token)) return NextResponse.next();
 
   if (pathname.startsWith("/api/admin")) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -23,10 +29,11 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // The image-upload route is excluded here and checks auth itself instead
-  // (see app/api/admin/products/[id]/images/route.ts) — any route covered by
-  // middleware/proxy gets routed through a much weaker body parser for large
-  // multipart uploads in Next.js, which made uploads over ~8-10MB fail with
-  // "Failed to parse body as FormData" even though the route itself is fine.
-  matcher: ["/admin/:path*", "/api/admin/((?!products/[^/]+/images).*)"],
+  // Upload routes are excluded here and check auth themselves instead (see
+  // app/api/admin/products/[id]/images/route.ts and app/api/admin/upload) —
+  // any route covered by middleware/proxy gets routed through a much weaker
+  // body parser for large multipart uploads in Next.js, which made uploads
+  // over ~8-10MB fail with "Failed to parse body as FormData" even though the
+  // route itself is fine.
+  matcher: ["/admin/:path*", "/api/admin/((?!products/[^/]+/images|upload).*)"],
 };

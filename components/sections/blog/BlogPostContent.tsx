@@ -26,7 +26,7 @@ export const MidSection = ({ title, paragraph, image }: {
       </div>
     </div>
     
-    <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ">
+    {image && <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl ">
       <Image
         src={image}
         fill
@@ -34,7 +34,7 @@ export const MidSection = ({ title, paragraph, image }: {
         className="object-cover"
         alt={title}
       />
-    </div>  
+    </div>}
   </div>
 );
 

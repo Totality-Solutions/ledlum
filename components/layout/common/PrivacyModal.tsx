@@ -1,13 +1,16 @@
 "use client";
 import React, { memo, useEffect, useRef } from 'react';
 import { X } from '@/lib/icons';
+import type { LegalContent } from "@/lib/cms/defaults";
+import LegalSections from "./LegalSections";
 
 interface PrivacyModalProps {
   isOpen: boolean;
   onClose: () => void;
+  content: LegalContent;
 }
 
-const PrivacyModal: React.FC<PrivacyModalProps> = ({ isOpen, onClose }) => {
+const PrivacyModal: React.FC<PrivacyModalProps> = ({ isOpen, onClose, content }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -51,11 +54,13 @@ const PrivacyModal: React.FC<PrivacyModalProps> = ({ isOpen, onClose }) => {
         <div className="sticky top-0 z-50 flex justify-between items-center px-8 py-6 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/5">
           <div>
             <h2 className="text-2xl md:text-3xl font-pop font-bold text-white tracking-tight">
-              Privacy Policy
+              {content.title}
             </h2>
+            {content.effectiveDate && (
             <p className="text-xs text-white/40 uppercase tracking-widest mt-1 font-pop">
-              Effective Date: March 2026
+              {content.effectiveDate}
             </p>
+            )}
           </div>
           <button
             onClick={onClose}
@@ -69,47 +74,7 @@ const PrivacyModal: React.FC<PrivacyModalProps> = ({ isOpen, onClose }) => {
         {/* Scrollable Content */}
         <div className="overflow-y-auto flex-1 p-8 md:p-12 scrollbar-thin scrollbar-thumb-white/10">
           <div className="max-w-3xl mx-auto space-y-12 text-white/70 font-pop leading-relaxed">
-            
-            <section className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">1. Introduction</h3>
-              <p>
-                At LEDLUM, we prioritize the protection of your personal data. This policy outlines how 
-                we collect, use, and safeguard your information when you interact with our architectural 
-                lighting services.
-              </p>
-            </section>
-
-            <section className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">2. Information Collection</h3>
-              <p>
-                We may collect personal identification information including, but not limited to, 
-                name, email address, and project specifications when you fill out contact forms 
-                or request energy audits.
-              </p>
-              <ul className="list-disc pl-5 space-y-2 text-white/60">
-                <li>Usage data and cookie identifiers</li>
-                <li>Contact information provided via forms</li>
-                <li>Professional project requirements</li>
-              </ul>
-            </section>
-
-            <section className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">3. Data Usage</h3>
-              <p>
-                Collected data is used strictly to enhance our energy efficiency solutions, provide 
-                bespoke design consultations, and ensure technical support delivery.
-              </p>
-            </section>
-
-            <section className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">4. Your Rights</h3>
-              <p>
-                Users have the right to request access to their data, seek corrections, or 
-                request deletion of their personal information at any time by contacting our 
-                privacy team.
-              </p>
-            </section>
-
+            <LegalSections sections={content.sections} />
           </div>
         </div>
 

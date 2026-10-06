@@ -6,14 +6,15 @@ import Section from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { cdnImg } from "@/lib/cdn";
 import CTABtn from "@/components/layout/common/CTABtn";
+import type { CmsContent } from "@/lib/cms/defaults";
 
-export default function WhoWeAreSection() {
+export default function WhoWeAreSection({ content }: { content: CmsContent<"home.about"> }) {
   return (
     <Section className="relative min-h-[400px] overflow-hidden flex items-center">
       {/* Background Image Layer with Luminosity effect - Optimized */}
       <div className="absolute inset-0 z-0">
         <Image
-          src={cdnImg("/images/home/home-bg2.webp")}
+          src={content.backgroundImage || cdnImg("/images/home/home-bg2.webp")}
           alt="Background Texture"
           fill
           className="object-cover mix-blend-luminosity -z-10"
@@ -37,28 +38,23 @@ export default function WhoWeAreSection() {
           {/* Title Header - Optimized Typography */}
           <div className="">
             <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
-              Who.
+              {content.title1}
             </h2>
             <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
-              We Are.
+              {content.title2}
             </p>
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-10">
             {/* Description Text - Balanced for Laptop width */}
             <p className="max-w-[750px] text-white lg:text-desk-section font-medium leading-[1.6] font-pop ">
-              Founded in 2005, LedLum creates LED lighting that transforms spaces into experiences. We
-              combine design, technology, and efficiency to illuminate interiors, exteriors, and landscapes
-              with precision and style.
-              Our solutions are crafted to enhance every corner, highlight architectural beauty, and create
-              moods that resonate. With every project, we redefine how light interacts with space, turning
-              vision into reality.
+              {content.body}
             </p>
 
             {/* "Our Story" CTA Button - Now using the CTABtn Component */}
             <CTABtn
-              label="Our Story"
-              href="/our-story" // Or use onClick={() => ...}
+              label={content.buttonLabel}
+              href={content.buttonHref}
               size="md"
               btnBg="#F3E7D8"
               circleBg="#96865D"

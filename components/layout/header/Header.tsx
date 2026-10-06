@@ -4,14 +4,17 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation"; // Hook to detect current location path
-import { primaryNavigation, sideNavigation } from "@/config/navigation";
-import MobileMenu from "./MobileMenu"; 
+import MobileMenu from "./MobileMenu";
+import type { NavigationContent, SiteSettings } from "@/lib/cms/defaults";
 
 import { cdnImg } from "@/lib/cdn";
 
 const HEADER_HEIGHT = "90px";
 
-const Header = () => {
+const Header = ({ site, navigation }: { site: SiteSettings; navigation: NavigationContent }) => {
+  const primaryNavigation = navigation.primary || [];
+  const sideNavigation = navigation.side || [];
+
   const [sideMenuOpen, setSideMenuOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   
@@ -61,7 +64,7 @@ const Header = () => {
             <Link href="/" onClick={closeAll} className="flex items-center group">
               <div className="relative w-32 h-10 sm:w-36 sm:h-11 lg:w-44 lg:h-12">
                 <Image
-                  src={cdnImg("/images/logo/LEDLUM - Logo.webp")}
+                  src={site.headerLogo || cdnImg("/images/logo/LEDLUM - Logo.webp")}
                   alt="LEDLUM Logo"
                   className="object-contain"
                   fill
@@ -71,12 +74,13 @@ const Header = () => {
               </div>
             </Link>
 
+            {/* Secondary Logo */}
+            {site.secondaryLogo && (
+            <>
             {/* Divider Line */}
             <div className="h-6 sm:h-7 lg:h-8 w-px bg-white/30" />
-
-            {/* Secondary Logo */}
             <Link
-              href="https://allhome.in/"
+              href={site.secondaryLogoUrl || "#"}
               target="_blank"
               rel="noopener noreferrer"
               onClick={closeAll}
@@ -84,7 +88,7 @@ const Header = () => {
             >
               <div className="relative w-20 h-6 sm:w-24 sm:h-7 lg:w-32 lg:h-10">
                 <Image
-                  src={cdnImg("/images/logo/SECONDARY_LOGO.png")}
+                  src={site.secondaryLogo}
                   alt="Secondary Logo"
                   className="object-contain"
                   fill
@@ -92,6 +96,8 @@ const Header = () => {
                 />
               </div>
             </Link>
+            </>
+            )}
           </div>
 
           {/* ============ CENTER SECTION: NAVIGATION (DESKTOP ONLY) ============ */}
@@ -228,7 +234,11 @@ const Header = () => {
         </div>
       </header>
 
-      <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileMenu
+        isOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        items={[...sideNavigation, ...primaryNavigation]}
+      />
     </>
   );
 };

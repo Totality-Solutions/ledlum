@@ -1,13 +1,20 @@
 import { NextResponse } from "next/server";
-import { getAllPosts } from "@/lib/content/posts";
-import { siteConfig } from "@/config/site";
+import { getContents, getPublishedPosts } from "@/lib/cms/content";
 
 export async function GET() {
-  const posts = await getAllPosts();
+  const [posts, content] = await Promise.all([
+    getPublishedPosts(),
+    getContents(["site.settings", "collections"] as const),
+  ]);
+  const base = content["site.settings"].siteUrl.replace(/\/$/, "");
   const urls = [
-    `${siteConfig.url}/`,
-    `${siteConfig.url}/blog`,
-    ...posts.map((p) => `${siteConfig.url}/blog/${p.slug}`),
+    `${base}/`,
+    `${base}/about`,
+    `${base}/project`,
+    `${base}/contact`,
+    `${base}/blog`,
+    ...content.collections.items.filter((c) => c.visible).map((c) => `${base}/product/${c.slug}`),
+    ...posts.map((p) => `${base}/blog/${p.slug}`),
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>

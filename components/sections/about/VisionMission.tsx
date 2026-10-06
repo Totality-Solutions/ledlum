@@ -7,12 +7,13 @@ import { cdnImg } from "@/lib/cdn";
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
 import CoreValues from './CoreValues';
+import type { CmsContent } from "@/lib/cms/defaults";
 
 interface ArrowCornerProps {
   className?: string;
 }
 
-export default function VisionMission() {
+export default function VisionMission({ content }: { content: CmsContent<"about.visionMission"> }) {
   const ourStyle = "block text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white ";
   const wordStyle = "block text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white -mt-2 ";
   const bodyStyle = "text-body font-regular leading-relaxed font-pop text-zinc-500 max-w-[280px] md:max-w-[320px] ";
@@ -54,7 +55,7 @@ export default function VisionMission() {
               transform: 'scale(1.7)'
             }}>
             <Image
-              src={cdnImg("/images/about/mission2.webp")}
+              src={content.backgroundImage || cdnImg("/images/about/mission2.webp")}
               alt="Mission background"
               fill
               className="object-cover"
@@ -74,10 +75,10 @@ export default function VisionMission() {
 
               <h2 className="font-pop">
                 <span className={ourStyle}>Our.</span>
-                <span className={wordStyle}>Vision.</span>
+                <span className={wordStyle}>{content.visionTitle}</span>
               </h2>
               <p className={bodyStyle}>
-To redefine architectural lighting through refined design, advanced technology, and meaningful spatial impact.
+                {content.visionText}
               </p>
             </div>
 
@@ -86,10 +87,10 @@ To redefine architectural lighting through refined design, advanced technology, 
               <ArrowCorner className={`${arrowStyle} md:rotate-90 rotate-[135deg]`} />
               <h2 className="font-pop">
                 <span className={ourStyle}>Our.</span>
-                <span className={wordStyle}>Mission.</span>
+                <span className={wordStyle}>{content.missionTitle}</span>
               </h2>
               <p className={bodyStyle}>
-To collaborate with architects and designers in delivering lighting systems that balance aesthetics, performance, and longevity.
+                {content.missionText}
               </p>
             </div>
 
@@ -99,7 +100,7 @@ To collaborate with architects and designers in delivering lighting systems that
 
               <h2 className="font-pop">
                 <span className={ourStyle}>Our.</span>
-                <span className={wordStyle}>Core Values.</span>
+                <span className={wordStyle}>{content.valuesTitle}</span>
               </h2>
             </div>
           </div>
@@ -112,7 +113,7 @@ To collaborate with architects and designers in delivering lighting systems that
       </Container>
       {/* This wrapper now forces full width by resetting internal section padding */}
       <div className="relative z-10 w-full block">
-        <CoreValues />
+        <CoreValues labels={[content.value1, content.value2, content.value3, content.value4]} />
       </div>
     </Section>
   );

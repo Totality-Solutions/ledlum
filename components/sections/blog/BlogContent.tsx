@@ -11,8 +11,17 @@ import { cdnImg } from "@/lib/cdn";
 import CTABtn from '@/components/layout/common/CTABtn';
 import { GetInTouch } from '@/components/layout/footer/GetInTouch';
 import Section from '@/components/layout/Section';
+import type { CmsContent } from "@/lib/cms/defaults";
 
-export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[] }) {
+export default function BlogContent({
+  initialPosts = [],
+  page,
+  getInTouch,
+}: {
+  initialPosts?: any[];
+  page: CmsContent<"blog.page">;
+  getInTouch: CmsContent<"getInTouch">;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -20,10 +29,7 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
   const currentPage = Number(searchParams.get('page')) || 1;
   const stayPage = Number(searchParams.get('stayPage')) || 1;
 
-  const categories = useMemo(() => [
-    "All", "Architectural lighting", "Commercial projects",
-    "Residential systems", "Energy efficiency", "Product insights"
-  ], []);
+  const categories = useMemo(() => ["All", ...(page.categories || [])], [page.categories]);
 
   const normalize = useCallback((str: string) =>
     str.toLowerCase().replace(/[^a-z0-9]/g, '').trim(), []);
@@ -82,8 +88,8 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
   return (
     <Section>
       <div className="mb-14 relative">
-        <h5 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">Insights.</h5>
-        <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">That illuminate.</p>
+        <h5 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">{page.title1}</h5>
+        <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">{page.title2}</p>
 
         {/* Hero Card */}
         {heroPost && (
@@ -119,7 +125,7 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
           </div>
           <div className="relative pb-12">
             <h2 className="text-desk-h3 text-white font-semibold font-pop mb-12">
-              {activeCategory === "All" ? "Current insights & innovations." : `Latest in ${activeCategory}.`}
+              {activeCategory === "All" ? page.latestTitle : `Latest in ${activeCategory}.`}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
               {currentGridPosts.map((post) => (
@@ -144,10 +150,10 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
         <section className="pb-20 relative">
           <header className="mb-14">
             <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
-              {activeCategory === "All" ? "Stay Updated." : "From the Archive."}
+              {activeCategory === "All" ? page.stayTitle : "From the Archive."}
             </h2>
             <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-zinc-400">
-              {activeCategory === "All" ? "Timeless insights from our journey." : `Older projects in ${activeCategory}.`}
+              {activeCategory === "All" ? page.staySubtitle : `Older projects in ${activeCategory}.`}
             </p>
           </header>
           <div className="grid grid-cols-1 md:grid-cols-6 gap-8 items-stretch">
@@ -171,7 +177,7 @@ export default function BlogContent({ initialPosts = [] }: { initialPosts?: any[
           </div>
         </section>
       )}
-      <GetInTouch />
+      <GetInTouch content={getInTouch} />
     </Section>
   );
 }

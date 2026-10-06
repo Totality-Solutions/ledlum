@@ -32,40 +32,56 @@
 // export default Home
 
 
-import { buildMetadata } from "@/lib/seo";
-import Hero from '@/components/sections/home/Hero';
-import ProductSection from '@/components/sections/home/ProductGridSection';
-import AboutSection from '@/components/sections/home/AboutSection';
-import ProjectSection from '@/components/sections/home/ProjectSection';
-import AutoCarousel from '@/components/sections/home/AutoCarousel';
-import Achievements from '@/components/sections/home/Achievements';
-import FirstVisitModal from "@/components/layout/common/FirstVisitModal";
-import { cdnImg } from "@/lib/cdn";
+import Hero from "@/components/sections/home/Hero";
+import ProductSection from "@/components/sections/home/ProductGridSection";
+import AboutSection from "@/components/sections/home/AboutSection";
 import HomeClient from "@/components/sections/home/HomeClient";
-import TestimonialSection from "@/components/sections/home/TesimonialSection";
+import { getContents, getPublishedPosts } from "@/lib/cms/content";
+import { buildCmsMetadata } from "@/lib/cms/seo";
 
-export const metadata = buildMetadata({
-  title: "LEDLUM | Futuristic LED Solutions",
-  description:
-    "LedLum believes lighting is the ultimate intersection of technology and design. Our premium, futuristic LED solutions transform everyday experiences into moments of luxury, defining the mood, ambience, and personality of your space.",
-  canonical: "/",
-});
+export async function generateMetadata() {
+  return buildCmsMetadata("home", { canonical: "/" });
+}
 
-const Home = () => {
+const Home = async () => {
+  const [content, posts] = await Promise.all([
+    getContents([
+      "home.hero",
+      "home.products",
+      "home.about",
+      "home.achievements",
+      "home.blogCarousel",
+      "home.testimonials",
+      "projects",
+      "collections",
+      "site.settings",
+    ] as const),
+    getPublishedPosts(),
+  ]);
+  const hero = content["home.hero"];
+
   return (
     <div className="relative">
-      {/* Logic to show contact form on first visit */}
-
-
-      <Hero type="video" src={cdnImg("/videos/home.mp4")}>
-        {/* <h1 className="text-4xl font-bold">We Build the Future</h1> */}
-      </Hero>
-      <ProductSection />
-      <AboutSection />
-      <HomeClient/>
-      
+      <Hero
+        type={hero.type === "image" ? "image" : "video"}
+        src={hero.type === "image" ? hero.image : hero.video}
+        poster={hero.image}
+      />
+      <ProductSection
+        content={content["home.products"]}
+        collections={content.collections.items.filter((c) => c.visible)}
+      />
+      <AboutSection content={content["home.about"]} />
+      <HomeClient
+        achievements={content["home.achievements"]}
+        projects={content.projects}
+        blogCarousel={content["home.blogCarousel"]}
+        posts={posts.map((p) => ({ image: p.image, slug: p.slug }))}
+        testimonials={content["home.testimonials"]}
+        social={content["site.settings"]}
+      />
     </div>
   )
 }
 
-export default Home;
+export default Home

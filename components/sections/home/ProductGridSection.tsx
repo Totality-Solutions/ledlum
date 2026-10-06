@@ -12,28 +12,28 @@ import LeadPopup from "./LeadPopup";
 
 // --- DATA ---
 import { cdnImg } from "@/lib/cdn";
-
-const NEW_ARRIVALS = [
-  { id: 1, img: cdnImg('/images/home/product/Outdoor_Catalogue.jpg'), title: 'Outdoor', href:"/product/outdoor", pdf: cdnImg('/pdf/OUTDOOR.pdf') },
-  { id: 2, img: cdnImg('/images/home/product/Indoor_Catalogue.jpg'), title: 'Indoor', href:"/product/indoor", pdf: cdnImg('/pdf/INDOOR.pdf') },
-  { id: 3, img: cdnImg('/images/home/product/Artizan_Catalogue.jpg'), title: 'Artizan', href:"/product/artizan", pdf: cdnImg('/pdf/ARTIZAN.pdf') },
-  // { id: 4, img: cdnImg('/images/home/product/Astara_Catalogue.jpg'), title: 'Astara', href:"/product/astara", pdf: cdnImg('/pdf/ASTARA.pdf') },
-  { id: 5, img: cdnImg('/images/home/product/Volaris_Catalogue.jpg'), title: 'Volaris', href:"/product/volaris", pdf: cdnImg('/pdf/VOLARIS.pdf') },
-  { id: 6, img: cdnImg('/images/home/product/Klewe_Catalogue.jpg'), title: 'Klewe', href:"/product/klewe", pdf: cdnImg('/pdf/KLEWE.pdf') },
-];
-
-const BESTSELLERS = [
-  { id: 1, title: 'Indoor Lights', sub: 'Nordic Pendant', lightImg: cdnImg('/images/home/bestseller/Indoor2.jpeg'), darkImg: cdnImg('/images/home/bestseller/Indoor1.jpeg') },
-  { id: 3, title: 'Outdoor Lights', sub: 'Globe Minimal', lightImg: cdnImg('/images/home/bestseller/Outdoor2.jpeg'), darkImg: cdnImg('/images/home/bestseller/Outdoor1.jpeg') },
-  { id: 4, title: 'Volaris Fans', sub: 'Cone Classic', lightImg: cdnImg('/images/home/bestseller/Volaris2.png'), darkImg: cdnImg('/images/home/bestseller/Volaris1.png') },
-  { id: 2, title: 'Klewe Lights', sub: 'Wooden Tier', lightImg: cdnImg('/images/home/bestseller/Klewe2.jpeg'), darkImg: cdnImg('/images/home/bestseller/Klewe1.jpeg') },
-];
+import type { CmsContent, CollectionItem } from "@/lib/cms/defaults";
 
 function cn(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const CombinedProductSection = memo(function CombinedProductSection() {
+const CombinedProductSection = memo(function CombinedProductSection({
+  content,
+  collections,
+}: {
+  content: CmsContent<"home.products">;
+  collections: CollectionItem[];
+}) {
+  const BESTSELLERS = (content.bestsellers || []).map((b, i) => ({ ...b, id: i + 1 }));
+  const NEW_ARRIVALS = collections.map((c, i) => ({
+    id: i + 1,
+    img: c.catalogImage,
+    title: c.name,
+    href: `/product/${c.slug}`,
+    pdf: c.catalogPdf,
+  }));
+
   const [isAllDark, setIsAllDark] = useState(false);
   const [activeModes, setActiveModes] = useState<Record<number, boolean>>({});
   const [pendingDownload, setPendingDownload] = useState<{ pdf: string; title: string } | null>(null);
@@ -63,7 +63,7 @@ const CombinedProductSection = memo(function CombinedProductSection() {
         className="relative min-h-screen bg-black flex flex-col gap-24 lg:gap-32 overflow-hidden bg-cover bg-center bg-no-repeat"
       >
       <Image
-        src={cdnImg('/images/about/ledlumbox.webp')}
+        src={content.backgroundImage || cdnImg('/images/about/ledlumbox.webp')}
         alt="Background"
         fill
         loading="lazy"
@@ -84,13 +84,13 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       <Container className="relative z-20 ">
         <div className="flex flex-row-2 md:flex-row justify-between items-start md:items-end mb-12 lg:mb-16 gap-8">
           <div className="max-w-full md:max-w-xl">
-            <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white ">Designed In-House.</h2>
-            <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">Built <span className="lowercase">to</span> Last.</p>
+            <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white ">{content.title1}</h2>
+            <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">{content.title2}</p>
           </div>
           
           <div className="flex flex-row md:flex-col items-end gap-6">
             <div className="flex items-center gap-6 lg:gap-10">
-              <span className="hidden md:block text-body-sm lg:text-body font-pop font-regular text-white">Bestsellers</span>
+              <span className="hidden md:block text-body-sm lg:text-body font-pop font-regular text-white">{content.bestsellersLabel}</span>
             </div>
               
             <button onClick={toggleAll} className={cn("w-[40px] h-[20px] lg:w-[70px] lg:h-[36px] rounded-full p-1.5 flex items-center transition-colors duration-500 shadow-lg", isAllDark ? "bg-black" : "bg-white")}>
@@ -171,9 +171,9 @@ const CombinedProductSection = memo(function CombinedProductSection() {
       <Container className="relative z-20">
         <div className="flex justify-between items-center mb-10">
           <h2 className="text-body-sm lg:text-body font-pop font-regular text-white">
-            Product Collection
+            {content.collectionLabel}
           </h2>
-          <p className="text-body-sm lg:text-body font-pop font-regular text-white">Product Catalog</p>
+          <p className="text-body-sm lg:text-body font-pop font-regular text-white">{content.catalogLabel}</p>
         </div>
 
         <MarqueeFlow

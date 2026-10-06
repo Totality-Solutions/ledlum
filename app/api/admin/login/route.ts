@@ -1,20 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
-import { checkPassword, createSessionToken, ADMIN_SESSION_COOKIE } from "@/lib/adminAuth";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import {
+  createSessionToken,
+  verifyPassword,
+  ADMIN_SESSION_COOKIE,
+  SESSION_MAX_AGE_SECONDS,
+} from "@/lib/adminAuth";
 
 export async function POST(request: NextRequest) {
-  const { password } = await request.json().catch(() => ({ password: "" }));
+  const body = await request.json().catch(() => ({}));
+  const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+  const password = typeof body.password === "string" ? body.password : "";
 
-  if (typeof password !== "string" || !checkPassword(password)) {
-    return NextResponse.json({ error: "Incorrect password" }, { status: 401 });
+  if (!email || !password) {
+    return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
   }
 
+  const { data: user, error } = await supabaseAdmin
+    .from("admin_users")
+    .select("id, password_hash, active")
+    .eq("email", email)
+    .maybeSingle();
+
+  if (error) {
+    return NextResponse.json({ error: "Login is unavailable right now" }, { status: 500 });
+  }
+  if (!user || !user.active || !verifyPassword(password, user.password_hash)) {
+    return NextResponse.json({ error: "Incorrect email or password" }, { status: 401 });
+  }
+
+  await supabaseAdmin
+    .from("admin_users")
+    .update({ last_login_at: new Date().toISOString() })
+    .eq("id", user.id);
+
   const response = NextResponse.json({ ok: true });
-  response.cookies.set(ADMIN_SESSION_COOKIE, createSessionToken(), {
+  response.cookies.set(ADMIN_SESSION_COOKIE, createSessionToken(user.id), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: SESSION_MAX_AGE_SECONDS,
   });
   return response;
 }

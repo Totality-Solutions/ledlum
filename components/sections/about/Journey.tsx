@@ -5,19 +5,12 @@
 import { useState } from "react";
 import { Container } from "@/components/layout/Container";
 import Section from "@/components/layout/Section";
+import type { CmsContent } from "@/lib/cms/defaults";
 
-export default function Journey() {
+export default function Journey({ content }: { content: CmsContent<"about.journey"> }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  const steps = [
-    { year: "1989", title: "The Beginning", desc: "Establishing the foundation of specialized lighting expertise." },
-    { year: "2007", title: "ABBA Lighting is Born", desc: "Sumeet founded ABBA Lighting for mid to high-end spaces." },
-    { year: "2017", title: "Enter Ledlum Lighting", desc: "Expanding with architectural designs and high-performance fixtures." },
-    { year: "2020", title: "Artizan by Ledlum", desc: "Launching a curated collection focusing on artisanal craftsmanship." },
-    { year: "2022", title: "Astara by Ledlum", desc: "Introducing innovative smart lighting solutions." },
-    { year: "2023", title: "Volaris by Ledlum", desc: "Sustainable, high-efficiency lighting for global markets." },
-    { year: "2026", title: " AllHome Affiliation", desc: "Expanded through AllHome partnership." }
-  ];
+  const steps = content.steps || [];
 
   return (
     <Section className="bg-black text-white overflow-hidden">
@@ -26,10 +19,10 @@ export default function Journey() {
         {/* HEADER SECTION */}
         <div className="mb-16">
             <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
-              Our
+              {content.title1}
             </h2>
             <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
-              Journey
+              {content.title2}
             </p>
           </div>
 

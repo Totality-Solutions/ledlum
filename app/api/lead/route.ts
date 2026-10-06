@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { saveSubmission } from "@/lib/submissions";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -10,6 +11,8 @@ export async function POST(req: Request) {
     if (!name || !email) {
       return Response.json({ error: "Name and email are required" }, { status: 400 });
     }
+
+    await saveSubmission("lead", body);
 
     await resend.emails.send({
       from: "LEDLUM Website <noreply@ledlumlighting.com>",

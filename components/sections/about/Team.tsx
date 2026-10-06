@@ -7,43 +7,17 @@ import Section from "@/components/layout/Section";
 import { Linkedin } from "@/lib/icons";
 
 import { cdnImg } from "@/lib/cdn";
+import type { CmsContent } from "@/lib/cms/defaults";
 
-export default function Team() {
-
-  const team = [
-    {
-      name: "Sumeet Malhotra",
-      role: "Director & Founder - Ledlum",
-      image: "https://placehold.co/400x400.png?text=Sumeet+Malhotra",
-    },
-    {
-      name: "Abheek Malhotra",
-      role: "Director & Founder - Astara",
-      image: "https://placehold.co/400x400.png?text=Abheek+Malhotra",
-    },
-    {
-      name: "Abhav Malhotra",
-      role: "Director & Founder - Volaris",
-      image: "https://placehold.co/400x400.png?text=Abhav+Malhotra",
-    },
-    {
-      name: "Pooja Malhotra",
-      role: "Director & Founder - Ledlum/Artizan",
-      image: "https://placehold.co/400x400.png?text=Pooja+Malhotra",
-    },
-    {
-      name: "Sanjay Sethi",
-      role: "",
-      image: "https://placehold.co/400x400.png?text=Sanjay+Sethi",
-    },
-  ];
+export default function Team({ content }: { content: CmsContent<"about.team"> }) {
+  const team = content.members || [];
 
   return (
     <Section className="relative text-white overflow-hidden ">
 
       {/* Background Image Layer (same approach as Achievements section) */}
       <Image
-        src={cdnImg("/images/about/ledlumbox.webp")}
+        src={content.backgroundImage || cdnImg("/images/about/ledlumbox.webp")}
         alt="Background"
         fill
         loading="lazy"
@@ -58,15 +32,15 @@ export default function Team() {
             <div className="flex flex-col justify-start pt-10 pr-4 w-full">
               <h2 className="font-bai leading-tight text-white mb-6">
                 <span className="block text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
-                  Meet Our.
+                  {content.title1}
                 </span>
                 <span className="block text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">
-                  Visionaries.
+                  {content.title2}
                 </span>
               </h2>
 
               <p className="text-white lg:text-desk-section font-regular tracking-none font-pop max-w-[380px]">
-                A multidisciplinary team of lighting specialists focused on delivering architectural lighting systems engineered for performance and design excellence.
+                {content.intro}
               </p>
             </div>
             <video
@@ -76,7 +50,7 @@ export default function Team() {
             playsInline
             className="w-full h-full object-cover rounded-[25px]"
           >
-            <source src={cdnImg("/videos/about.mp4")} type="video/mp4" />
+            <source src={content.video || cdnImg("/videos/about.mp4")} type="video/mp4" />
           </video>
 
         </div>

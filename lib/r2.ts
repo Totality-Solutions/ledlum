@@ -52,9 +52,15 @@ function slugify(value: string): string {
 }
 
 // ---------------- Key builders ----------------
-// Two top-level namespaces:
+// Three top-level namespaces:
 //   zone/<zone-slug>/<filename>                      — installation/site/zone content
 //   product/<collection>/<model-slug>/<filename>      — catalog assets (indoor/outdoor/etc.)
+//   cms/<kind>/<timestamp>-<name>.<ext>              — files uploaded from the admin CMS
+
+export function buildCmsKey(kind: "image" | "video" | "file", originalName: string, ext: string): string {
+  const base = slugify(originalName.replace(/\.[^.]+$/, "")).slice(0, 60) || "upload";
+  return `cms/${kind}/${Date.now()}-${base}.${ext.toLowerCase()}`;
+}
 
 export function buildZoneKey(zone: string, filename: string): string {
   return `zone/${slugify(zone)}/${filename}`;

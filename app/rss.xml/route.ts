@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAllPosts } from "@/lib/content/posts";
-import { siteConfig } from "@/config/site";
+import { getContent, getPublishedPosts } from "@/lib/cms/content";
 
 function escape(str: string) {
   return str
@@ -12,23 +11,24 @@ function escape(str: string) {
 }
 
 export async function GET() {
-  const posts = await getAllPosts();
+  const [posts, site] = await Promise.all([getPublishedPosts(), getContent("site.settings")]);
+  const base = site.siteUrl.replace(/\/$/, "");
   const items = posts
     .map((p) => `
       <item>
         <title>${escape(p.title)}</title>
-        <link>${siteConfig.url}/blog/${p.slug}</link>
+        <link>${base}/blog/${p.slug}</link>
         <pubDate>${new Date(p.date).toUTCString()}</pubDate>
-        ${p.summary ? `<description>${escape(p.summary)}</description>` : ""}
+        ${p.description ? `<description>${escape(p.description)}</description>` : ""}
       </item>`)
     .join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8" ?>
   <rss version="2.0">
     <channel>
-      <title>${escape(siteConfig.name)}</title>
-      <link>${siteConfig.url}</link>
-      <description>${escape(siteConfig.description)}</description>
+      <title>${escape(site.siteName.trim())}</title>
+      <link>${base}</link>
+      <description>${escape(site.seoDescription)}</description>
       ${items}
     </channel>
   </rss>`;

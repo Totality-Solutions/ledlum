@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { PageHeader, Button } from "@/components/admin/ui";
+import ProductDetailsForm, { EMPTY_PRODUCT, rowToEditable } from "./ProductDetailsForm";
 
 type Product = {
   id: number;
@@ -11,10 +12,13 @@ type Product = {
   group_name: string | null;
   hero_image: string | null;
   gallery_images: string[];
+  website?: string | null;
 };
 
-export default function AdminProductsPage() {
-  const router = useRouter();
+export default function ProductsManager({ canDelete }: { canDelete: boolean }) {
+  const [tab, setTab] = useState<"details" | "images">("details");
+  const [creating, setCreating] = useState(false);
+  const [details, setDetails] = useState<ReturnType<typeof rowToEditable> | null>(null);
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Product[]>([]);
   const [searching, setSearching] = useState(false);
@@ -40,10 +44,27 @@ export default function AdminProductsPage() {
     return () => clearTimeout(t);
   }, [search, runSearch]);
 
-  const refreshSelected = async (id: number) => {
-    const res = await fetch(`/api/admin/products/${id}/images`);
-    const data = await res.json();
-    if (res.ok) setSelected(data.product);
+  // Full row (all spec columns) for the details tab.
+  useEffect(() => {
+    if (!selected) {
+      setDetails(null);
+      return;
+    }
+    let cancelled = false;
+    setDetails(null);
+    fetch(`/api/admin/products/${selected.id}`)
+      .then((res) => res.json())
+      .then((data) => !cancelled && data.product && setDetails(rowToEditable(data.product)))
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [selected?.id]);
+
+  const selectProduct = (p: Product | null) => {
+    setCreating(false);
+    setMessage(null);
+    setSelected(p);
   };
 
   const handleUpload = async (files: FileList | null) => {
@@ -110,23 +131,12 @@ export default function AdminProductsPage() {
     }
   };
 
-  const handleLogout = async () => {
-    await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/admin/login");
-  };
-
   return (
-    <div className="min-h-screen bg-neutral-950 text-white">
-      <header className="flex items-center justify-between px-6 py-4 border-b border-neutral-800">
-        <h1 className="text-lg font-semibold">Product Image Manager</h1>
-        <button onClick={handleLogout} className="text-sm text-neutral-400 hover:text-white">
-          Log out
-        </button>
-      </header>
-
-      <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] min-h-[calc(100vh-57px)]">
+    <div className="text-white">
+      <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] min-h-[calc(100vh-56px)]">
         {/* Left: search + results */}
-        <div className="border-r border-neutral-800 p-4 flex flex-col gap-3 md:h-[calc(100vh-57px)] md:overflow-y-auto">
+        <div className="border-r border-neutral-800 p-4 flex flex-col gap-3 md:h-[calc(100vh-56px)] md:overflow-y-auto">
+          <Button onClick={() => { setSelected(null); setCreating(true); }}>+ New product</Button>
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -138,7 +148,7 @@ export default function AdminProductsPage() {
             {results.map((p) => (
               <button
                 key={p.id}
-                onClick={() => setSelected(p)}
+                onClick={() => selectProduct(p)}
                 className={`text-left px-3 py-2 rounded-md text-sm flex items-center gap-3 ${
                   selected?.id === p.id ? "bg-neutral-800" : "hover:bg-neutral-900"
                 }`}
@@ -150,7 +160,10 @@ export default function AdminProductsPage() {
                   )}
                 </div>
                 <div className="min-w-0">
-                  <div className="truncate font-medium">{p.model}</div>
+                  <div className="truncate font-medium">
+                    {p.model}
+                    {p.website !== "W" && <span className="ml-2 text-[10px] text-amber-400">hidden</span>}
+                  </div>
                   <div className="text-xs text-neutral-500">
                     {p.collection} · {p.gallery_images?.length || 0} image(s)
                   </div>
@@ -164,9 +177,24 @@ export default function AdminProductsPage() {
         </div>
 
         {/* Right: selected product image manager */}
-        <div className="p-6 md:sticky md:top-0 md:h-[calc(100vh-57px)] md:overflow-y-auto">
-          {!selected ? (
-            <p className="text-neutral-500">Select a product on the left to manage its images.</p>
+        <div className="p-6 md:sticky md:top-0 md:h-[calc(100vh-56px)] md:overflow-y-auto">
+          {creating ? (
+            <div className="max-w-3xl">
+              <PageHeader title="New product" description="Create the product first, then add its images." />
+              <ProductDetailsForm
+                productId={null}
+                initial={EMPTY_PRODUCT}
+                canDelete={false}
+                onSaved={(row) => {
+                  setCreating(false);
+                  setSelected(row);
+                  setTab("images");
+                  runSearch(search);
+                }}
+              />
+            </div>
+          ) : !selected ? (
+            <p className="text-neutral-500">Select a product on the left, or create a new one.</p>
           ) : (
             <div className="flex flex-col gap-6 max-w-3xl">
               <div>
@@ -175,6 +203,39 @@ export default function AdminProductsPage() {
                   {selected.collection} {selected.category ? `· ${selected.category}` : ""}
                 </p>
               </div>
+
+              <div className="flex gap-1 border-b border-neutral-800">
+                {(["details", "images"] as const).map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setTab(t)}
+                    className={`px-4 py-2 text-sm capitalize -mb-px border-b-2 ${tab === t ? "border-white text-white" : "border-transparent text-neutral-400 hover:text-white"}`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+
+              {tab === "details" ? (
+                details ? (
+                  <ProductDetailsForm
+                    productId={selected.id}
+                    initial={details}
+                    canDelete={canDelete}
+                    onSaved={(row) => {
+                      setSelected((prev) => (prev ? { ...prev, ...row } : row));
+                      runSearch(search);
+                    }}
+                    onDeleted={() => {
+                      setSelected(null);
+                      runSearch(search);
+                    }}
+                  />
+                ) : (
+                  <p className="text-sm text-neutral-500">Loading…</p>
+                )
+              ) : (
+              <>
 
               {message && <p className="text-sm text-amber-400">{message}</p>}
 
@@ -239,6 +300,8 @@ export default function AdminProductsPage() {
                   )}
                 </div>
               </div>
+              </>
+              )}
             </div>
           )}
         </div>

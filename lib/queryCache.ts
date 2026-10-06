@@ -19,3 +19,7 @@ export function getCached<T>(key: string): T | null {
 export function setCached(key: string, data: any, ttl = DEFAULT_TTL) {
   cache.set(key, { data, expiry: Date.now() + ttl });
 }
+
+export function deleteCached(key: string) {
+  cache.delete(key);
+}

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { buildMetadata } from "@/lib/seo";
+import { getContent } from "@/lib/cms/content";
 
 import LayoutWrapper from "@/app/LayoutWrapper";
 import Loader from "@/components/common/Loader";
@@ -33,7 +34,9 @@ const baiJamjuree = localFont({
   variable: "--font-bai",
 });
 
-export const metadata: Metadata = buildMetadata();
+export async function generateMetadata(): Promise<Metadata> {
+  return buildMetadata({ site: await getContent("site.settings") });
+}
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },

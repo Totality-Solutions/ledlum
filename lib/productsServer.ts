@@ -1,6 +1,6 @@
 import "server-only";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { getCached, setCached } from "@/lib/queryCache";
+import { getCached, setCached, deleteCached } from "@/lib/queryCache";
 
 const ALL_PRODUCTS_KEY = "all_products";
 
@@ -49,4 +49,11 @@ export async function fetchAllProductsFromDb(): Promise<any[]> {
 
   if (allData.length > 0) setCached(ALL_PRODUCTS_KEY, allData);
   return allData;
+}
+
+// Called after admin product edits so this server instance serves the change
+// immediately. Other running instances pick it up when their 5-minute cache
+// window expires.
+export function invalidateProductCache() {
+  deleteCached(ALL_PRODUCTS_KEY);
 }

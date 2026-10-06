@@ -5,11 +5,20 @@ import { cdnImg } from "@/lib/cdn";
 import Header from '@/components/layout/header/Header';
 import Footer from '@/components/layout/footer/Footer';
 import CTABtn from '@/components/layout/common/CTABtn';
+import { getContents } from "@/lib/cms/content";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const content = await getContents([
+    "site.settings",
+    "navigation",
+    "footer",
+    "legal.privacy",
+    "legal.terms",
+  ] as const);
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col overflow-x-hidden">
-      <Header />
+      <Header site={content["site.settings"]} navigation={content.navigation} />
       
       <main className="flex-grow flex flex-col">
         {/* 2. BOTTOM 404 SECTION */}
@@ -63,7 +72,12 @@ export default function NotFound() {
         </div>
       </main>
 
-      <Footer/>
+      <Footer
+        site={content["site.settings"]}
+        footer={content.footer}
+        privacy={content["legal.privacy"]}
+        terms={content["legal.terms"]}
+      />
     </div>
   );
 }

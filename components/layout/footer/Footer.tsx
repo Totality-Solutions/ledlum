@@ -11,41 +11,26 @@ import { cdnImg } from "@/lib/cdn";
 import PrivacyModal from "@/components/layout/common/PrivacyModal";
 import TermsModal from "@/components/layout/common/TermsModal"; // Import your new Terms Modal
 import { useEffect, useState } from "react";
+import type { FooterContent, LegalContent, SiteSettings } from "@/lib/cms/defaults";
 
-const footerColumns = [
-  {
-    title: "Quick Links",
-    links: [
-      { name: "Home", href: "/" },
-      { name: "About Us", href: "/about" },
-      { name: "Blog", href: "/blog" },
-      { name: "Project", href: "/project" },
-      { name: "Contact Us", href: "/contact" },
-      { name: "Privacy Policy", href: "#" },
-      { name: "Terms & Conditions", href: "#" },
-    ],
-  },
-  {
-    title: "Our Products",
-    links: [
-      { name: "Outdoor", href: "/product/outdoor" },
-      { name: "Indoor", href: "/product/indoor" },
-      { name: "Artizan", href: "/product/artizan" },
-      // { name: "Astara", href: "/product/astara" },
-      { name: "Volaris", href: "/product/volaris" },
-      { name: "Klewe", href: "/product/klewe" },
-    ],
-  },
-];
+export default function Footer({
+  site,
+  footer,
+  privacy,
+  terms,
+}: {
+  site: SiteSettings;
+  footer: FooterContent;
+  privacy: LegalContent;
+  terms: LegalContent;
+}) {
+  const footerColumns = footer.columns || [];
+  const socialIcons = [
+    { Icon: Instagram, href: site.instagram },
+    { Icon: Linkedin, href: site.linkedin },
+    { Icon: Facebook, href: site.facebook },
+  ].filter((s) => s.href);
 
-const socialIcons = [
-  { Icon: Instagram, href: "https://instagram.com/yourprofile" },
-  // { Icon: Send, href: "mailto:hello@ledlum.com" },
-  { Icon: Linkedin, href: "https://linkedin.com/company/yourprofile" },
-  { Icon: Facebook, href: "https://facebook.com/yourprofile" },
-];
-
-export default function Footer() {
   const pathname = usePathname();
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false); // New Terms State
@@ -92,11 +77,10 @@ export default function Footer() {
             <div className="flex flex-col justify-between max-w-sm w-full">
               <div>
                 <Link href="/" className="inline-block mb-8 hover:opacity-90 transition">
-                  <Image src={cdnImg("/images/logo/ledlum-logo-footer.png")} alt="Ledlum Logo" width={200} height={50} className="object-contain" style={{ width: 'auto', height: 'auto' }} loading="lazy" />
+                  <Image src={footer.logo || cdnImg("/images/logo/ledlum-logo-footer.png")} alt="Ledlum Logo" width={200} height={50} className="object-contain" style={{ width: 'auto', height: 'auto' }} loading="lazy" />
                 </Link>
                 <p className="text-body-sm leading-relaxed text-white font-pop font-regular max-w-[320px]">
-                  Design that inspires. Spaces that come alive.
-                  Every project reflects precision, innovation, and a thoughtful touch
+                  {footer.tagline}
                 </p>
                 <div className="flex gap-6 mt-10">
                   {socialIcons.map((social, i) => (
@@ -120,7 +104,7 @@ export default function Footer() {
                       const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
                       return (
                       <li key={link.name}>
-                        {link.name === "Privacy Policy" ? (
+                        {link.href === "#privacy" ? (
                           <button
                             onClick={() => setIsPrivacyOpen(true)}
                             className={`text-body-sm transition-colors font-pop font-regular text-left ${
@@ -129,7 +113,7 @@ export default function Footer() {
                           >
                             {link.name}
                           </button>
-                        ) : link.name === "Terms & Conditions" ? (
+                        ) : link.href === "#terms" ? (
                           <button
                             onClick={() => setIsTermsOpen(true)}
                             className={`text-body-sm transition-colors font-pop font-regular text-left ${
@@ -161,7 +145,7 @@ export default function Footer() {
             {/* Mobile Copyright */}
             <div className="md:hidden w-full mt-4 pt-8 border-t border-white/10">
               <div className="flex flex-col gap-5 items-center">
-                <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">© 2026 LEDLUM. All rights reserved.</p>
+                <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">{footer.copyright}</p>
                 <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">
                   Built by <span className="text-white"><a href="https://www.totality.solutions/" target="_blank">Totality Solutions</a></span>
                 </p>
@@ -172,7 +156,7 @@ export default function Footer() {
           {/* Desktop Copyright */}
           <div className="hidden md:block">
             <div className="flex justify-between mt-7">
-              <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">© 2026 LEDLUM. All rights reserved.</p>
+              <p className="text-body-xxs tracking-wide text-white/70 font-pop font-medium">{footer.copyright}</p>
               <p className="text-right text-body-xxs tracking-wide text-white/70 font-pop font-medium">
                 Built by <span className="text-white"><a href="https://www.totality.solutions/" target="_blank">Totality Solutions</a></span>
               </p>
@@ -184,8 +168,8 @@ export default function Footer() {
       <div className="flex-grow min-h-[50px] lg:min-h-[100px]" />
 
       {/* Modals */}
-      <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
-      <TermsModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
+      <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} content={privacy} />
+      <TermsModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} content={terms} />
     </footer>
   );
 }

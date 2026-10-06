@@ -8,23 +8,12 @@ import { Container } from "@/components/layout/Container";
 
 import { cdnImg } from "@/lib/cdn";
 
-const PROJECTS = [
-  { id: 1, img: cdnImg("/images/home/project/project1.jpeg") },
-  { id: 2, img: cdnImg("/images/home/project/project2.jpeg") },
-  { id: 3, img: cdnImg("/images/home/project/project3.jpeg") },
-  { id: 4, img: cdnImg("/images/home/project/project4.jpeg") },
-  { id: 5, img: cdnImg("/images/home/project/project5.jpeg") },
-  { id: 6, img: cdnImg("/images/home/project/project6.jpeg") },
-  { id: 7, img: cdnImg("/images/home/project/project7.jpeg") },
-  { id: 8, img: cdnImg("/images/home/project/project8.jpeg") },
-  { id: 9, img: cdnImg("/images/home/project/project9.jpeg") },
-  { id: 10, img: cdnImg("/images/home/project/project10.jpeg") },
-  { id: 11, img: cdnImg("/images/home/project/project11.jpeg") },
-];
+import type { CmsContent } from "@/lib/cms/defaults";
 
 const ASPECT_RATIOS = [3 / 4, 1 / 1, 4 / 5, 3 / 4, 2 / 3, 4 / 3, 3 / 4, 1 / 1, 3 / 5, 4 / 5, 3 / 4];
 
-export default function ProjectGallery() {
+export default function ProjectGallery({ content }: { content: CmsContent<"projects"> }) {
+  const PROJECTS = (content.images || []).filter((p) => p.image).map((p, i) => ({ id: i + 1, img: p.image }));
   const [selected, setSelected] = useState<number | null>(null);
 
   const open = (id: number) => setSelected(id);
@@ -45,7 +34,7 @@ export default function ProjectGallery() {
       const next = prev + 1;
       return next > PROJECTS.length ? 1 : next;
     });
-  }, []);
+  }, [PROJECTS.length]);
 
   const goPrev = useCallback(() => {
     setSelected((prev) => {
@@ -53,7 +42,7 @@ export default function ProjectGallery() {
       const prevId = prev - 1;
       return prevId < 1 ? PROJECTS.length : prevId;
     });
-  }, []);
+  }, [PROJECTS.length]);
 
   useEffect(() => {
     if (selected === null) return;
@@ -73,16 +62,16 @@ export default function ProjectGallery() {
       <Container>
         <div className="mb-14">
           <h1 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
-            Our.
+            {content.title1}
           </h1>
           <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white">
-            Projects.
+            {content.title2}
           </p>
         </div>
 
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
           {PROJECTS.map((project) => {
-            const ratio = ASPECT_RATIOS[project.id - 1] || 3 / 4;
+            const ratio = ASPECT_RATIOS[(project.id - 1) % ASPECT_RATIOS.length] || 3 / 4;
             return (
               <button
                 key={project.id}

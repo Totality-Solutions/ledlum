@@ -9,7 +9,7 @@ import Section from "@/components/layout/Section";
 import CTABtn from "@/components/layout/common/CTABtn"; // Import your CTA component
 
 // --- ASSETS ---
-import { blogPosts } from "@/lib/blogData";
+import type { CmsContent } from "@/lib/cms/defaults";
 import { cdnImg } from "@/lib/cdn";
 
 // --- LIVE ASSETS (Unsplash Lighting Images) ---
@@ -17,11 +17,17 @@ import { cdnImg } from "@/lib/cdn";
 
 const SLIDE_INTERVAL = 5000;
 
-export default function CombinedLightingPartners() {
+export default function CombinedLightingPartners({
+  content,
+  posts,
+}: {
+  content: CmsContent<"home.blogCarousel">;
+  posts: { image: string; slug: string }[];
+}) {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   
-  const BLOG_DATA = blogPosts.map(post => ({
+  const BLOG_DATA = posts.filter(post => post.image).map(post => ({
    image: post.image,
    link: `/blog/${post.slug}`,
   }));
@@ -30,24 +36,26 @@ export default function CombinedLightingPartners() {
   // Sync logic: Track which slide is active based on the interval
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % LIGHTING_IMAGES.length);
+      setCurrentIndex((prev) => (prev + 1) % Math.max(1, LIGHTING_IMAGES.length));
     }, SLIDE_INTERVAL);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [LIGHTING_IMAGES.length]);
 
 
 const handleSliderClick = () => {
-  const targetLink = BLOG_DATA[currentIndex].link;
-  router.push(targetLink);
+  const targetLink = BLOG_DATA[currentIndex]?.link;
+  if (targetLink) router.push(targetLink);
 };
+
+  if (LIGHTING_IMAGES.length === 0) return null;
 
   return (
     <Section 
       className="relative flex flex-col bg-cover bg-center bg-no-repeat"
     >
       <Image
-        src={cdnImg("/images/home/home-bg3.webp")}
+        src={content.backgroundImage || cdnImg("/images/home/home-bg3.webp")}
         alt="Background"
         fill
         loading="lazy"
@@ -68,10 +76,10 @@ const handleSliderClick = () => {
       <Container className="">
         <div className="mb-12">
           <h2 className="text-mob-h1 md:text-tab-h1 lg:text-desk-h2 font-pop font-medium text-white">
-            Blogs
+            {content.title1}
           </h2>
           <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-semibold text-white ">
-            that defines the space.
+            {content.title2}
           </p>
         </div>
         
@@ -93,7 +101,7 @@ const handleSliderClick = () => {
             <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
               <div className="opacity-0 translate-y-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-y-0">
                 <CTABtn 
-                  label="View Article"
+                  label={content.buttonLabel}
                   size="md"
                   iconType="arrow"
                   showIconCircle={true}

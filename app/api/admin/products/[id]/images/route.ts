@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { uploadFile, deleteFile, buildProductKey } from "@/lib/r2";
-import { ADMIN_SESSION_COOKIE, verifySessionToken } from "@/lib/adminAuth";
+import { requireAdmin } from "@/lib/adminSession";
+import { invalidateProductCache } from "@/lib/productsServer";
 
 // This route is excluded from proxy.ts's matcher and checks auth itself —
 // large multipart uploads (>~8-10MB) were failing with "Failed to parse body
@@ -10,10 +11,6 @@ import { ADMIN_SESSION_COOKIE, verifySessionToken } from "@/lib/adminAuth";
 // for large multipart bodies in Next.js, regardless of what the middleware
 // code does or which runtime the route itself declares.
 export const runtime = "nodejs";
-
-function isAuthed(request: NextRequest): boolean {
-  return verifySessionToken(request.cookies.get(ADMIN_SESSION_COOKIE)?.value);
-}
 
 type ProductRow = {
   id: number;
@@ -63,7 +60,8 @@ function contentTypeFor(ext: string): string {
 }
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  if (!isAuthed(request)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin(request);
+  if (auth instanceof NextResponse) return auth;
   const { id } = await params;
   const product = await loadProduct(id);
   if (!product) return NextResponse.json({ error: "Product not found" }, { status: 404 });
@@ -71,7 +69,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 }
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  if (!isAuthed(request)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin(request);
+  if (auth instanceof NextResponse) return auth;
   const { id } = await params;
   const product = await loadProduct(id);
   if (!product) return NextResponse.json({ error: "Product not found" }, { status: 404 });
@@ -109,11 +108,13 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  invalidateProductCache();
   return NextResponse.json({ product: data });
 }
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  if (!isAuthed(request)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin(request);
+  if (auth instanceof NextResponse) return auth;
   const { id } = await params;
   const product = await loadProduct(id);
   if (!product) return NextResponse.json({ error: "Product not found" }, { status: 404 });
@@ -131,11 +132,13 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  invalidateProductCache();
   return NextResponse.json({ product: data });
 }
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  if (!isAuthed(request)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const auth = await requireAdmin(request);
+  if (auth instanceof NextResponse) return auth;
   const { id } = await params;
   const product = await loadProduct(id);
   if (!product) return NextResponse.json({ error: "Product not found" }, { status: 404 });
@@ -160,5 +163,6 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  invalidateProductCache();
   return NextResponse.json({ product: data });
 }
