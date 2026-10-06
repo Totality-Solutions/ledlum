@@ -3,6 +3,7 @@
 import { forwardRef, useEffect, useState } from "react";
 import NextImage, { type ImageProps } from "next/image";
 import { isOptimizableSrc, placeholderUrl, LOW_BANDWIDTH_QUALITY } from "@/lib/imageLoader";
+import ImageLoader from "./ImageLoader";
 
 export type { StaticImageData } from "next/image";
 
@@ -12,8 +13,8 @@ export type { StaticImageData } from "next/image";
 //   pre-generated WebP at the width the device needs.
 // - Network-aware: on a slow or data-saver connection, images that haven't
 //   started downloading yet step down one size.
-// - Progressive: a 64px copy shows (soft, low clarity) straight away, with a
-//   spinner on top, until the real image has loaded and fades in.
+// - Progressive: a 64px copy shows (soft, low clarity) straight away, with the
+//   ImageLoader animation on top, until the real image has loaded and fades in.
 // - Safe: if a resized copy is missing it falls back to the original file.
 
 type SmartImageProps = ImageProps & {
@@ -88,7 +89,7 @@ const SmartImage = forwardRef<HTMLImageElement, SmartImageProps>(function SmartI
           aria-hidden="true"
           className="smart-image-loader pointer-events-none absolute inset-0 z-[1] flex items-center justify-center"
         >
-          <span className="w-7 h-7 rounded-full border-2 border-white/25 border-t-white/80 animate-spin" />
+          <ImageLoader />
         </span>
       )}
     </>

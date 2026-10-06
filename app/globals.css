@@ -394,3 +394,22 @@ body.no-scroll {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* ImageLoader (components/common/ImageLoader.tsx) */
+@keyframes image-loader-anim {
+  0%    { inset: 0 35px 35px 0; }
+  12.5% { inset: 0 35px 0 0; }
+  25%   { inset: 35px 35px 0 0; }
+  37.5% { inset: 35px 0 0 0; }
+  50%   { inset: 35px 0 0 35px; }
+  62.5% { inset: 0 0 0 35px; }
+  75%   { inset: 0 0 35px 35px; }
+  87.5% { inset: 0 0 35px 0; }
+  100%  { inset: 0 35px 35px 0; }
+}
+.image-loader-square {
+  animation: image-loader-anim 2.5s infinite;
+}
+.image-loader-square--delayed {
+  animation-delay: -1.25s;
+}

@@ -20,7 +20,9 @@ export async function buildVariants(input: Buffer): Promise<{ width: number; bod
   return Promise.all(
     widths.map(async (width) => ({
       width,
-      body: await sharp(input, { failOn: "none" })
+      // limitInputPixels off: some supplier product photos exceed sharp's
+      // default 268-megapixel safety cap (they're our own files, not user input).
+      body: await sharp(input, { failOn: "none", limitInputPixels: false })
         .rotate()
         .resize({ width, withoutEnlargement: true })
         .webp({ quality: width === PLACEHOLDER_WIDTH ? 40 : 78, effort: 4 })
