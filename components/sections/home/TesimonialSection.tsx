@@ -14,7 +14,9 @@ function getYouTubeThumbnail(url: string): string {
     const videoId = (match && match[2].length === 11) ? match[2] : null;
 
     if (videoId) {
-      return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+      // hqdefault (480×360) stays sharp at the larger card size; mqdefault
+      // (320×180) looked blurry. Its letterbox bars are cropped by object-cover.
+      return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
     }
   } catch {
     // Fallback if processing fails
