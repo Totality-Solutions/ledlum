@@ -3,19 +3,18 @@
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { EMPTY_POST, slugify, type PostInput } from "@/lib/cms/posts";
+import { EMPTY_POST, normalizeBlocks, slugify, type PostInput } from "@/lib/cms/posts";
+import ArticleBlocksEditor from "@/components/admin/ArticleBlocksEditor";
 import { CMS_DEFAULTS } from "@/lib/cms/defaults";
 import {
   Button,
   Card,
   Label,
   MediaInput,
-  MoveButtons,
   Notice,
   PageHeader,
   StringListInput,
   inputClass,
-  swap,
 } from "@/components/admin/ui";
 
 export default function AdminPostEditor({ params }: { params: Promise<{ id: string }> }) {
@@ -53,7 +52,7 @@ export default function AdminPostEditor({ params }: { params: Promise<{ id: stri
           mid_section_title: p.mid_section_title || "",
           paragraphs: p.paragraphs?.length ? p.paragraphs : [""],
           mid_section_image: p.mid_section_image || "",
-          outcome_sections: (p.outcome_sections || []).map((s: any) => ({ heading: s.heading || "", text: s.text || "" })),
+          outcome_sections: normalizeBlocks(p.outcome_sections),
           date: p.date,
           is_featured: p.is_featured,
           status: p.status,
@@ -115,8 +114,6 @@ export default function AdminPostEditor({ params }: { params: Promise<{ id: stri
       setBusy(false);
     }
   };
-
-  const sections = post.outcome_sections;
 
   return (
     <div className="p-4 md:p-8 max-w-4xl" data-dirty={dirty ? "true" : undefined}>
@@ -223,39 +220,13 @@ export default function AdminPostEditor({ params }: { params: Promise<{ id: stri
         </Card>
 
         <Card className="p-5 flex flex-col gap-4">
-          <h2 className="font-semibold">Article sections</h2>
-          {sections.map((s, i) => (
-            <div key={i} className="border border-neutral-800 rounded-lg p-3 flex flex-col gap-3">
-              <div className="flex gap-2">
-                <input
-                  placeholder="Heading (optional)"
-                  value={s.heading}
-                  onChange={(e) => set("outcome_sections", sections.map((x, j) => (j === i ? { ...x, heading: e.target.value } : x)))}
-                  className={inputClass}
-                />
-                <MoveButtons
-                  onUp={i > 0 ? () => set("outcome_sections", swap(sections, i, i - 1)) : undefined}
-                  onDown={i < sections.length - 1 ? () => set("outcome_sections", swap(sections, i, i + 1)) : undefined}
-                  onRemove={() => set("outcome_sections", sections.filter((_, j) => j !== i))}
-                />
-              </div>
-              <textarea
-                rows={6}
-                placeholder="Text"
-                value={s.text}
-                onChange={(e) => set("outcome_sections", sections.map((x, j) => (j === i ? { ...x, text: e.target.value } : x)))}
-                className={inputClass}
-              />
-            </div>
-          ))}
-          <Button
-            type="button"
-            variant="secondary"
-            className="self-start"
-            onClick={() => set("outcome_sections", [...sections, { heading: "", text: "" }])}
-          >
-            + Add section
-          </Button>
+          <div>
+            <h2 className="font-semibold">Article</h2>
+            <p className="text-sm text-neutral-400 mt-1">
+              Build the article from blocks — text, headings, images and link buttons — in the order they should appear.
+            </p>
+          </div>
+          <ArticleBlocksEditor value={post.outcome_sections} onChange={(v) => set("outcome_sections", v)} />
         </Card>
 
         <Card className="p-5 flex flex-col gap-5">

@@ -1,5 +1,51 @@
 // Shared (client + server) shape of a blog post as the admin editor sends it.
 
+// Blocks of the article body (stored in cms_posts.outcome_sections). Rows
+// saved before block types existed have no `type` — those are text blocks.
+export type ArticleBlock =
+  | { type: "text"; heading: string; text: string }
+  | { type: "heading"; text: string }
+  | { type: "image"; image: string; caption: string }
+  | { type: "link"; label: string; url: string };
+
+export type ArticleBlockType = ArticleBlock["type"];
+
+export function emptyBlock(type: ArticleBlockType): ArticleBlock {
+  switch (type) {
+    case "heading":
+      return { type, text: "" };
+    case "image":
+      return { type, image: "", caption: "" };
+    case "link":
+      return { type, label: "", url: "" };
+    default:
+      return { type: "text", heading: "", text: "" };
+  }
+}
+
+// Coerces a stored/submitted block into a clean ArticleBlock, or null if it's
+// empty (so blank blocks never end up on the site).
+export function normalizeBlock(raw: any): ArticleBlock | null {
+  const s = (v: unknown) => (typeof v === "string" ? v.trim() : "");
+  switch (raw?.type) {
+    case "heading":
+      return s(raw.text) ? { type: "heading", text: s(raw.text) } : null;
+    case "image":
+      return s(raw.image) ? { type: "image", image: s(raw.image), caption: s(raw.caption) } : null;
+    case "link":
+      return s(raw.url) ? { type: "link", url: s(raw.url), label: s(raw.label) || s(raw.url) } : null;
+    default: {
+      const heading = s(raw?.heading);
+      const text = s(raw?.text);
+      return heading || text ? { type: "text", heading, text } : null;
+    }
+  }
+}
+
+export function normalizeBlocks(raw: unknown): ArticleBlock[] {
+  return Array.isArray(raw) ? raw.map(normalizeBlock).filter((b): b is ArticleBlock => b !== null) : [];
+}
+
 export type PostInput = {
   slug: string;
   title: string;
@@ -9,7 +55,7 @@ export type PostInput = {
   mid_section_title: string;
   paragraphs: string[];
   mid_section_image: string;
-  outcome_sections: { heading: string; text: string }[];
+  outcome_sections: ArticleBlock[];
   date: string; // YYYY-MM-DD
   is_featured: boolean;
   status: "draft" | "published";
@@ -62,11 +108,7 @@ export function parsePostInput(body: any): { post?: PostInput; error?: string } 
     ? body.paragraphs.map(str).filter(Boolean)
     : [];
 
-  const outcome_sections = Array.isArray(body.outcome_sections)
-    ? body.outcome_sections
-        .map((s: any) => ({ heading: str(s?.heading), text: str(s?.text) }))
-        .filter((s: { heading: string; text: string }) => s.heading || s.text)
-    : [];
+  const outcome_sections = normalizeBlocks(body.outcome_sections);
 
   return {
     post: {

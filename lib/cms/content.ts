@@ -3,6 +3,7 @@ import { unstable_cache, revalidatePath, revalidateTag } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { blogPosts as legacyBlogPosts, type Post } from "@/lib/blogData";
 import { CMS_DEFAULTS, type CmsKey, type CmsContent } from "./defaults";
+import { normalizeBlocks, type ArticleBlock } from "./posts";
 
 // Public-site reads of CMS content. Everything goes through unstable_cache,
 // so visitors are served cached data and Supabase is only hit again after an
@@ -62,7 +63,7 @@ export type CmsPostRow = {
   mid_section_title: string | null;
   paragraphs: string[] | null;
   mid_section_image: string | null;
-  outcome_sections: { heading?: string; text: string }[] | null;
+  outcome_sections: unknown[] | null;
   date: string;
   is_featured: boolean;
   status: "draft" | "published";
@@ -72,7 +73,12 @@ export type CmsPostRow = {
   updated_at?: string | null;
 };
 
-export type PublicPost = Post & { seoTitle?: string; seoDescription?: string };
+export type PublicPost = Omit<Post, "outcomeSections"> & {
+  // Article body blocks (text / heading / image / link).
+  outcomeSections: ArticleBlock[];
+  seoTitle?: string;
+  seoDescription?: string;
+};
 
 export function rowToPost(row: CmsPostRow): PublicPost {
   return {
@@ -84,7 +90,7 @@ export function rowToPost(row: CmsPostRow): PublicPost {
     midSectionTitle: row.mid_section_title || "",
     paragraph: row.paragraphs || [],
     midSectionImage: row.mid_section_image || "",
-    outcomeSections: row.outcome_sections || [],
+    outcomeSections: normalizeBlocks(row.outcome_sections),
     date: row.date,
     isFeatured: row.is_featured,
     seoTitle: row.seo_title || undefined,
@@ -115,7 +121,7 @@ export async function getPublishedPosts(): Promise<PublicPost[]> {
     return await readPublishedPosts();
   } catch (err) {
     console.error("getPublishedPosts failed, using legacy blogData:", err);
-    return legacyBlogPosts;
+    return legacyBlogPosts.map((p) => ({ ...p, outcomeSections: normalizeBlocks(p.outcomeSections) }));
   }
 }
 
