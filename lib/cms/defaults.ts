@@ -297,11 +297,11 @@ export const CMS_DEFAULTS = {
     video: cdnImg("/videos/about.mp4"),
     backgroundImage: cdnImg("/images/about/ledlumbox.webp"),
     members: [
-      { name: "Sumeet Malhotra", role: "Director & Founder - Ledlum" },
-      { name: "Abheek Malhotra", role: "Director & Founder - Astara" },
-      { name: "Abhav Malhotra", role: "Director & Founder - Volaris" },
-      { name: "Pooja Malhotra", role: "Director & Founder - Ledlum/Artizan" },
-      { name: "Sanjay Sethi", role: "" },
+      { name: "Sumeet Malhotra", role: "Director & Founder - Ledlum", image: "" },
+      { name: "Abheek Malhotra", role: "Director & Founder - Astara", image: "" },
+      { name: "Abhav Malhotra", role: "Director & Founder - Volaris", image: "" },
+      { name: "Pooja Malhotra", role: "Director & Founder - Ledlum/Artizan", image: "" },
+      { name: "Sanjay Sethi", role: "", image: "" },
     ],
   },
 

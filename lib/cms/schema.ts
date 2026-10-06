@@ -309,6 +309,7 @@ export const SECTION_GROUPS: SectionGroup[] = [
             fields: [
               { type: "text", name: "name", label: "Name" },
               { type: "text", name: "role", label: "Role" },
+              { type: "image", name: "image", label: "Photo (optional)", help: "Square photos work best. Leave empty to show just the name." },
             ],
           },
         ],

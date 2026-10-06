@@ -64,16 +64,18 @@ export default function Team({ content }: { content: CmsContent<"about.team"> })
               key={index}
               className="group relative bg-[#111111] p-6 md:p-8 flex flex-col rounded-[25px]"
             >
-              {/* IMAGE */}
-              {/* <div className="relative aspect-square overflow-hidden mb-6 rounded-[24px]">
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div> */}
+              {/* IMAGE — only when a photo has been uploaded in the CMS */}
+              {member.image && (
+                <div className="relative aspect-square overflow-hidden mb-6 rounded-[24px]">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              )}
 
               {/* TEXT */}
               <div className="flex justify-between items-end">
