@@ -224,8 +224,8 @@ export const CMS_DEFAULTS = {
   },
 
   "home.testimonials": {
-    title: "Testimonials",
-    rightLabel: "Dialogue Series",
+    title: "Our stories",
+    rightLabel: "Creative Perspectives",
     items: [
       { category: "Designers", title: "Illuminating Spaces with LMT Series", author: "LEDLUM LIGHTING SOLUTIONS", date: "12 Mar, 2026", videoUrl: "https://youtu.be/m7-HN9NkJVE?si=bWPSxtvVszWKw2WG" },
       { category: "Architects", title: "Pendant Lights", author: "LEDLUM LIGHTING SOLUTIONS", date: "05 Mar, 2026", videoUrl: "https://youtu.be/92gcYZd5tGs?si=ZeSN0wDSGhr5N8qN" },
