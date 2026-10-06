@@ -15,10 +15,10 @@ async function loadActiveUser(userId: string | null): Promise<AdminUser | null> 
   if (!userId) return null;
   const { data, error } = await supabaseAdmin
     .from("admin_users")
-    .select("id, email, name, role, active")
+    .select("id, email, name, role, active, email_verified_at")
     .eq("id", userId)
     .maybeSingle();
-  if (error || !data || !data.active) return null;
+  if (error || !data || !data.active || !data.email_verified_at) return null;
   return { id: data.id, email: data.email, name: data.name, role: data.role };
 }
 

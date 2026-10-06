@@ -119,7 +119,7 @@ export default function AdminPostEditor({ params }: { params: Promise<{ id: stri
   const sections = post.outcome_sections;
 
   return (
-    <div className="p-4 md:p-8 max-w-4xl">
+    <div className="p-4 md:p-8 max-w-4xl" data-dirty={dirty ? "true" : undefined}>
       <Link href="/admin/blog" className="text-sm text-neutral-400 hover:text-white">← All posts</Link>
       <PageHeader
         title={isNew ? "New post" : post.title || "Untitled"}

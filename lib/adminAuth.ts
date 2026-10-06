@@ -71,12 +71,34 @@ export function verifyPassword(password: string, stored: string): boolean {
   return safeEqual(candidate, hash);
 }
 
-// The old shared ADMIN_PASSWORD now only acts as the one-time setup key for
-// creating the first admin user (see app/api/admin/setup/route.ts).
-export function checkSetupKey(candidate: string): boolean {
-  const actual = process.env.ADMIN_PASSWORD;
-  if (!actual) throw new Error("Missing ADMIN_PASSWORD env var.");
-  return safeEqual(candidate, actual);
+// Placeholder for invited users who haven't chosen a password yet — a random
+// hash nobody knows, so the account can't be logged into until the invite
+// link is used.
+export function unusablePasswordHash(): string {
+  return hashPassword(crypto.randomBytes(32).toString("hex"));
+}
+
+// Who may claim the very first admin account at /admin/setup.
+// ADMIN_SETUP_EMAILS is a comma-separated list of emails and/or domains,
+// e.g. "owner@ledlum.com, @totality.solutions". The address must also be
+// verified by email before the account works.
+export function isAllowedSetupEmail(email: string): boolean | null {
+  const raw = process.env.ADMIN_SETUP_EMAILS;
+  if (!raw || !raw.trim()) return null;
+  const target = email.trim().toLowerCase();
+  return raw
+    .split(",")
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean)
+    .some((rule) => (rule.startsWith("@") ? target.endsWith(rule) : target === rule));
 }
 
 export const MIN_PASSWORD_LENGTH = 8;
+
+export const SESSION_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax" as const,
+  path: "/",
+  maxAge: SESSION_MAX_AGE_SECONDS,
+};

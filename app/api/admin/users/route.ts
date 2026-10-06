@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { requireAdmin } from "@/lib/adminSession";
-import { hashPassword, MIN_PASSWORD_LENGTH } from "@/lib/adminAuth";
+import { unusablePasswordHash } from "@/lib/adminAuth";
+import { sendAdminActionEmail } from "@/lib/adminEmails";
 
-const USER_COLUMNS = "id, email, name, role, active, last_login_at, created_at";
+const USER_COLUMNS = "id, email, name, role, active, email_verified_at, last_login_at, created_at";
 
 export async function GET(request: NextRequest) {
   const auth = await requireAdmin(request, "admin");
@@ -17,6 +18,8 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ users: data, currentUserId: auth.id });
 }
 
+// Invites a user: creates the account without a usable password and emails
+// them a link to choose one (which also verifies their address).
 export async function POST(request: NextRequest) {
   const auth = await requireAdmin(request, "admin");
   if (auth instanceof NextResponse) return auth;
@@ -24,27 +27,31 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}));
   const name = typeof body.name === "string" ? body.name.trim() : "";
   const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
-  const password = typeof body.password === "string" ? body.password : "";
   const role = body.role === "admin" ? "admin" : "editor";
 
   if (!name || !email.includes("@")) {
     return NextResponse.json({ error: "Name and a valid email are required" }, { status: 400 });
   }
-  if (password.length < MIN_PASSWORD_LENGTH) {
+
+  const { data: user, error } = await supabaseAdmin
+    .from("admin_users")
+    .insert({ name, email, role, password_hash: unusablePasswordHash(), email_verified_at: null })
+    .select(`${USER_COLUMNS}, password_hash`)
+    .single();
+  if (error || !user) {
+    const message = error?.code === "23505" ? "A user with this email already exists" : error?.message;
+    return NextResponse.json({ error: message || "Could not create user" }, { status: 400 });
+  }
+
+  try {
+    await sendAdminActionEmail(request, user, "invite");
+  } catch (err: any) {
     return NextResponse.json(
-      { error: `Password must be at least ${MIN_PASSWORD_LENGTH} characters` },
-      { status: 400 }
+      { error: `User created, but the invite email failed: ${err.message}. Use "Resend invite".` },
+      { status: 502 }
     );
   }
 
-  const { data, error } = await supabaseAdmin
-    .from("admin_users")
-    .insert({ name, email, role, password_hash: hashPassword(password) })
-    .select(USER_COLUMNS)
-    .single();
-  if (error) {
-    const message = error.code === "23505" ? "A user with this email already exists" : error.message;
-    return NextResponse.json({ error: message }, { status: 400 });
-  }
-  return NextResponse.json({ user: data });
+  const { password_hash: _omit, ...safe } = user;
+  return NextResponse.json({ user: safe });
 }

@@ -9,11 +9,12 @@ type User = {
   name: string;
   role: "admin" | "editor";
   active: boolean;
+  email_verified_at: string | null;
   last_login_at: string | null;
   created_at: string;
 };
 
-const EMPTY_FORM = { name: "", email: "", password: "", role: "editor" as User["role"] };
+const EMPTY_FORM = { name: "", email: "", role: "editor" as User["role"] };
 
 export default function AdminUsers() {
   const [users, setUsers] = useState<User[] | null>(null);
@@ -57,17 +58,19 @@ export default function AdminUsers() {
 
   const create = async (e: React.FormEvent) => {
     e.preventDefault();
-    const ok = await request("/api/admin/users", { method: "POST", body: JSON.stringify(form) }, `Created ${form.email}.`);
+    const ok = await request("/api/admin/users", { method: "POST", body: JSON.stringify(form) }, `Invite sent to ${form.email}.`);
     if (ok) setForm(EMPTY_FORM);
   };
 
   const update = (u: User, patch: Record<string, unknown>, success: string) =>
     request(`/api/admin/users/${u.id}`, { method: "PATCH", body: JSON.stringify(patch) }, success);
 
-  const resetPassword = (u: User) => {
-    const password = prompt(`New password for ${u.email} (min 8 characters):`);
-    if (password) update(u, { password }, `Password changed for ${u.email}. Share it with them securely.`);
-  };
+  const sendEmail = (u: User) =>
+    request(
+      `/api/admin/users/${u.id}/email`,
+      { method: "POST" },
+      u.email_verified_at ? `Password reset link sent to ${u.email}.` : `Invite re-sent to ${u.email}.`
+    );
 
   const remove = (u: User) => {
     if (confirm(`Delete ${u.email}? They will lose access immediately.`)) {
@@ -91,6 +94,7 @@ export default function AdminUsers() {
               <p className="text-sm font-medium truncate">
                 {u.name} {u.id === currentUserId && <span className="text-neutral-500 font-normal">(you)</span>}
                 {!u.active && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-red-950 text-red-300">Disabled</span>}
+                {u.active && !u.email_verified_at && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded bg-amber-950 text-amber-300">Invite pending</span>}
               </p>
               <p className="text-xs text-neutral-500 truncate">
                 {u.email} · {u.last_login_at ? `last login ${formatDateTime(u.last_login_at)}` : "never logged in"}
@@ -106,7 +110,11 @@ export default function AdminUsers() {
                 <option value="editor">Editor</option>
                 <option value="admin">Admin</option>
               </select>
-              <Button variant="secondary" disabled={busy} onClick={() => resetPassword(u)}>Reset password</Button>
+              {u.id !== currentUserId && (
+                <Button variant="secondary" disabled={busy || !u.active} onClick={() => sendEmail(u)}>
+                  {u.email_verified_at ? "Send password reset" : "Resend invite"}
+                </Button>
+              )}
               {u.id !== currentUserId && (
                 <>
                   <Button
@@ -126,7 +134,8 @@ export default function AdminUsers() {
       </Card>
 
       <Card className="p-5">
-        <h2 className="font-semibold mb-4">Add a user</h2>
+        <h2 className="font-semibold mb-1">Invite a user</h2>
+        <p className="text-sm text-neutral-400 mb-4">They'll get an email with a link to choose their password. The link works for 7 days.</p>
         <form onSubmit={create} className="grid sm:grid-cols-2 gap-4">
           <div>
             <Label>Name</Label>
@@ -137,17 +146,6 @@ export default function AdminUsers() {
             <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className={inputClass} />
           </div>
           <div>
-            <Label help="At least 8 characters. Share it with them securely; they can change it under My account.">Temporary password</Label>
-            <input
-              required
-              minLength={8}
-              autoComplete="new-password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className={inputClass}
-            />
-          </div>
-          <div>
             <Label>Role</Label>
             <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value as User["role"] })} className={inputClass}>
               <option value="editor">Editor</option>
@@ -155,7 +153,7 @@ export default function AdminUsers() {
             </select>
           </div>
           <div className="sm:col-span-2">
-            <Button type="submit" disabled={busy}>Create user</Button>
+            <Button type="submit" disabled={busy}>Send invite</Button>
           </div>
         </form>
       </Card>

@@ -48,6 +48,32 @@ export default function AdminShell({
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  // Bumped by the refresh button: re-keying <main> remounts the current page
+  // so it re-fetches its data.
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+  const [refreshNote, setRefreshNote] = useState<string | null>(null);
+
+  const refresh = async () => {
+    // Editors mark themselves with data-dirty while they have unsaved edits.
+    if (document.querySelector('[data-dirty="true"]') && !confirm("You have unsaved changes. Refresh anyway?")) {
+      return;
+    }
+    setRefreshing(true);
+    setRefreshNote(null);
+    try {
+      const res = await fetch("/api/admin/revalidate", { method: "POST" });
+      if (!res.ok) throw new Error();
+      setRefreshKey((k) => k + 1);
+      router.refresh();
+      setRefreshNote("Refreshed");
+    } catch {
+      setRefreshNote("Refresh failed");
+    } finally {
+      setRefreshing(false);
+      setTimeout(() => setRefreshNote(null), 2500);
+    }
+  };
 
   const isActive = (href: string) => (href === "/admin" ? pathname === "/admin" : pathname.startsWith(href));
 
@@ -102,6 +128,29 @@ export default function AdminShell({
           </Link>
         </div>
         <div className="flex items-center gap-4 text-sm">
+          {refreshNote && <span className="text-xs text-neutral-400 hidden sm:inline">{refreshNote}</span>}
+          <button
+            onClick={refresh}
+            disabled={refreshing}
+            title="Refresh data and clear the website cache"
+            aria-label="Refresh"
+            className="p-1.5 rounded-md text-neutral-400 hover:text-white hover:bg-neutral-800 disabled:opacity-60"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={refreshing ? "animate-spin" : ""}
+            >
+              <path d="M21 12a9 9 0 1 1-2.64-6.36" />
+              <polyline points="21 3 21 9 15 9" />
+            </svg>
+          </button>
           <a href="/" target="_blank" rel="noreferrer" className="text-neutral-400 hover:text-white hidden sm:inline">
             View site ↗
           </a>
@@ -121,7 +170,7 @@ export default function AdminShell({
         {mobileOpen && (
           <div className="md:hidden fixed inset-0 top-14 z-30 bg-neutral-950 overflow-y-auto">{sidebar}</div>
         )}
-        <main className="flex-1 min-w-0">{children}</main>
+        <main key={refreshKey} className="flex-1 min-w-0">{children}</main>
       </div>
     </div>
   );

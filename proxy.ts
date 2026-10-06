@@ -7,8 +7,15 @@ import { ADMIN_SESSION_COOKIE, verifySessionToken } from "@/lib/adminAuth";
 const PUBLIC_ADMIN_PATHS = new Set([
   "/admin/login",
   "/admin/setup",
+  "/admin/verify",
+  "/admin/forgot",
+  "/admin/set-password",
   "/api/admin/login",
   "/api/admin/setup",
+  "/api/admin/verify",
+  "/api/admin/verify/resend",
+  "/api/admin/forgot",
+  "/api/admin/set-password",
 ]);
 
 export async function proxy(request: NextRequest) {

@@ -4,7 +4,7 @@ import {
   createSessionToken,
   verifyPassword,
   ADMIN_SESSION_COOKIE,
-  SESSION_MAX_AGE_SECONDS,
+  SESSION_COOKIE_OPTIONS,
 } from "@/lib/adminAuth";
 
 export async function POST(request: NextRequest) {
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
   const { data: user, error } = await supabaseAdmin
     .from("admin_users")
-    .select("id, password_hash, active")
+    .select("id, password_hash, active, email_verified_at")
     .eq("email", email)
     .maybeSingle();
 
@@ -28,6 +28,13 @@ export async function POST(request: NextRequest) {
   if (!user || !user.active || !verifyPassword(password, user.password_hash)) {
     return NextResponse.json({ error: "Incorrect email or password" }, { status: 401 });
   }
+  // Only revealed once the password has checked out.
+  if (!user.email_verified_at) {
+    return NextResponse.json(
+      { error: "Please verify your email first — check your inbox for the link.", unverified: true },
+      { status: 403 }
+    );
+  }
 
   await supabaseAdmin
     .from("admin_users")
@@ -35,12 +42,6 @@ export async function POST(request: NextRequest) {
     .eq("id", user.id);
 
   const response = NextResponse.json({ ok: true });
-  response.cookies.set(ADMIN_SESSION_COOKIE, createSessionToken(user.id), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: SESSION_MAX_AGE_SECONDS,
-  });
+  response.cookies.set(ADMIN_SESSION_COOKIE, createSessionToken(user.id), SESSION_COOKIE_OPTIONS);
   return response;
 }

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import AuthCard, { authButtonClass, authInputClass } from "@/components/admin/AuthCard";
 
 function LoginForm() {
   const router = useRouter();
@@ -9,9 +11,11 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [unverified, setUnverified] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // First run: no users exist yet → go create the first admin.
+  // First run: nobody has a verified account yet → go create the first admin.
   useEffect(() => {
     fetch("/api/admin/setup")
       .then((res) => res.json())
@@ -26,6 +30,8 @@ function LoginForm() {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
+    setNotice(null);
+    setUnverified(false);
 
     try {
       const res = await fetch("/api/admin/login", {
@@ -36,6 +42,7 @@ function LoginForm() {
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
+        if (data.unverified) setUnverified(true);
         throw new Error(data.error || "Login failed");
       }
 
@@ -49,17 +56,27 @@ function LoginForm() {
     }
   };
 
-  const inputClass =
-    "w-full px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-500";
+  const resendVerification = async () => {
+    setSubmitting(true);
+    setError(null);
+    const res = await fetch("/api/admin/verify/resend", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json().catch(() => ({}));
+    setSubmitting(false);
+    if (res.ok) {
+      setUnverified(false);
+      setNotice(`Verification email sent to ${email}.`);
+    } else {
+      setError(data.error || "Could not resend");
+    }
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-950 px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-sm bg-neutral-900 border border-neutral-800 rounded-xl p-8 flex flex-col gap-4"
-      >
-        <h1 className="text-xl font-semibold text-white">LEDLUM CMS</h1>
-
+    <AuthCard title="LEDLUM CMS">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="email"
           value={email}
@@ -68,7 +85,7 @@ function LoginForm() {
           autoComplete="username"
           autoFocus
           required
-          className={inputClass}
+          className={authInputClass}
         />
         <input
           type="password"
@@ -77,21 +94,25 @@ function LoginForm() {
           placeholder="Password"
           autoComplete="current-password"
           required
-          className={inputClass}
+          className={authInputClass}
         />
 
         {error && <p className="text-sm text-red-400">{error}</p>}
+        {notice && <p className="text-sm text-emerald-400">{notice}</p>}
+        {unverified && (
+          <button type="button" onClick={resendVerification} disabled={submitting} className="text-sm text-left text-neutral-300 underline hover:text-white">
+            Resend verification email
+          </button>
+        )}
 
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full py-2 rounded-md bg-white text-black font-medium disabled:opacity-50"
-        >
+        <button type="submit" disabled={submitting} className={authButtonClass}>
           {submitting ? "Signing in..." : "Sign in"}
         </button>
-        <p className="text-xs text-neutral-500">Forgot your password? Ask an admin to reset it.</p>
+        <Link href="/admin/forgot" className="text-xs text-neutral-500 hover:text-white">
+          Forgot your password?
+        </Link>
       </form>
-    </div>
+    </AuthCard>
   );
 }
 

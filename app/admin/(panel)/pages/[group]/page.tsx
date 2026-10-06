@@ -39,10 +39,10 @@ export default async function EditPageGroup({ params }: { params: Promise<{ grou
           ))}
         </nav>
       )}
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-3">
         {group.sections.map((section) => (
           <div key={section.key} id={section.key} className="scroll-mt-20">
-            <SectionEditor section={section} />
+            <SectionEditor section={section} defaultOpen={group.sections.length === 1} />
           </div>
         ))}
       </div>

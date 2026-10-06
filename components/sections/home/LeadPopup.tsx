@@ -41,16 +41,13 @@ export default function LeadPopup({ product, pdfPath, onClose }: LeadPopupProps)
     setSubmitting(true);
 
     try {
-      // const res = await fetch("/api/lead", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ name: name.trim(), email: email.trim(), phone: phone.trim(), product }),
-      // });
-
-      // if (!res.ok) {
-      //   const data = await res.json();
-      //   throw new Error(data.error || "Submission failed");
-      // }
+      // Records the lead (Admin → Submissions + notification email). A failure
+      // here shouldn't stop the visitor getting the catalog they asked for.
+      await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), phone: phone.trim(), product }),
+      }).catch((err) => console.error("Lead capture failed:", err));
 
       const link = document.createElement("a");
       link.href = pdfPath;

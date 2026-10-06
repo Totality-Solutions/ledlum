@@ -69,6 +69,32 @@ const legalFields: Field[] = [
   },
 ];
 
+const COLLECTIONS_SECTION: SectionDef = {
+  key: "collections",
+  label: "Collections",
+  description:
+    "Hidden collections are removed from the home page catalog row and their page returns 404. Header/footer menu links are edited under Header & footer.",
+  fields: [
+    {
+      type: "list",
+      name: "items",
+      label: "Collections",
+      itemLabel: "Collection",
+      titleField: "name",
+      fields: [
+        { type: "text", name: "name", label: "Name" },
+        { type: "text", name: "slug", label: "URL slug", help: "Must match the products' collection value, e.g. indoor → /product/indoor" },
+        { type: "boolean", name: "visible", label: "Visible on the website" },
+        { type: "text", name: "heroTitle", label: "Page title (SEO)" },
+        { type: "textarea", name: "description", label: "Description (SEO)" },
+        { type: "image", name: "bannerImage", label: "Collection page banner" },
+        { type: "image", name: "catalogImage", label: "Catalog card image (home page)" },
+        { type: "file", name: "catalogPdf", label: "Catalog PDF" },
+      ],
+    },
+  ],
+};
+
 export const SECTION_GROUPS: SectionGroup[] = [
   {
     slug: "home",
@@ -95,8 +121,8 @@ export const SECTION_GROUPS: SectionGroup[] = [
       },
       {
         key: "home.products",
-        label: "Bestsellers & catalog",
-        description: "The catalog cards underneath come from Product collections.",
+        label: "Bestsellers & catalog labels",
+        description: "The catalog cards themselves are edited in the “Product catalog” section below.",
         fields: [
           ...twoLineTitle,
           { type: "text", name: "bestsellersLabel", label: "Bestsellers label" },
@@ -117,6 +143,7 @@ export const SECTION_GROUPS: SectionGroup[] = [
           { type: "text", name: "catalogLabel", label: "Catalog row label (right)" },
         ],
       },
+      { ...COLLECTIONS_SECTION, label: "Product catalog (collections)" },
       {
         key: "home.about",
         label: "Who we are",
@@ -331,31 +358,7 @@ export const SECTION_GROUPS: SectionGroup[] = [
     label: "Product collections",
     previewPath: "/",
     sections: [
-      {
-        key: "collections",
-        label: "Collections",
-        description:
-          "Hidden collections are removed from the home page catalog row and their page returns 404. Header/footer menu links are edited under Header & footer.",
-        fields: [
-          {
-            type: "list",
-            name: "items",
-            label: "Collections",
-            itemLabel: "Collection",
-            titleField: "name",
-            fields: [
-              { type: "text", name: "name", label: "Name" },
-              { type: "text", name: "slug", label: "URL slug", help: "Must match the products' collection value, e.g. indoor → /product/indoor" },
-              { type: "boolean", name: "visible", label: "Visible on the website" },
-              { type: "text", name: "heroTitle", label: "Page title (SEO)" },
-              { type: "textarea", name: "description", label: "Description (SEO)" },
-              { type: "image", name: "bannerImage", label: "Collection page banner" },
-              { type: "image", name: "catalogImage", label: "Catalog card image (home page)" },
-              { type: "file", name: "catalogPdf", label: "Catalog PDF" },
-            ],
-          },
-        ],
-      },
+      COLLECTIONS_SECTION,
     ],
   },
   {

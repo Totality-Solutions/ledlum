@@ -1,53 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import {
-  checkSetupKey,
-  createSessionToken,
-  hashPassword,
-  ADMIN_SESSION_COOKIE,
-  MIN_PASSWORD_LENGTH,
-  SESSION_MAX_AGE_SECONDS,
-} from "@/lib/adminAuth";
+import { hashPassword, isAllowedSetupEmail, MIN_PASSWORD_LENGTH } from "@/lib/adminAuth";
+import { sendAdminActionEmail } from "@/lib/adminEmails";
 
-async function countUsers(): Promise<number | null> {
+// Number of users who can actually log in (verified). null = table missing.
+async function countVerifiedUsers(): Promise<number | null> {
   const { count, error, status } = await supabaseAdmin
     .from("admin_users")
-    .select("id", { count: "exact", head: true });
-  // A HEAD count against a missing table comes back with no error object and
-  // a null count, so treat a null count as "table not there".
+    .select("id", { count: "exact", head: true })
+    .not("email_verified_at", "is", null);
+  // A HEAD count against a missing table/column comes back with no error
+  // object and a null count, so treat a null count as "not there".
   return error || status >= 400 || count === null ? null : count;
 }
 
 // GET: lets the login page know whether first-time setup is still needed.
 export async function GET() {
-  const count = await countUsers();
+  const count = await countVerifiedUsers();
   if (count === null) {
     return NextResponse.json(
-      { error: "admin_users table not found — run supabase/migrations/006_create_cms_tables.sql" },
+      { error: "Admin tables are missing — run the migrations in supabase/migrations (006 and 007)." },
       { status: 500 }
     );
   }
   return NextResponse.json({ needsSetup: count === 0 });
 }
 
-// POST: creates the first admin. Only works while there are zero users, and
-// requires the old ADMIN_PASSWORD env var as a setup key.
+// POST: registers the first admin as unverified and emails them a
+// verification link. Only works while nobody has a verified account, and only
+// for addresses allowed by ADMIN_SETUP_EMAILS.
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}));
-  const setupKey = typeof body.setupKey === "string" ? body.setupKey : "";
   const name = typeof body.name === "string" ? body.name.trim() : "";
   const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
   const password = typeof body.password === "string" ? body.password : "";
 
-  const count = await countUsers();
+  const count = await countVerifiedUsers();
   if (count === null) {
-    return NextResponse.json({ error: "admin_users table not found" }, { status: 500 });
+    return NextResponse.json({ error: "Admin tables are missing — run the migrations" }, { status: 500 });
   }
   if (count > 0) {
-    return NextResponse.json({ error: "Setup has already been completed" }, { status: 403 });
-  }
-  if (!checkSetupKey(setupKey)) {
-    return NextResponse.json({ error: "Incorrect setup key" }, { status: 401 });
+    return NextResponse.json({ error: "Setup has already been completed — please log in" }, { status: 403 });
   }
   if (!name || !email.includes("@")) {
     return NextResponse.json({ error: "Name and a valid email are required" }, { status: 400 });
@@ -59,22 +52,37 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const allowed = isAllowedSetupEmail(email);
+  if (allowed === null) {
+    return NextResponse.json(
+      {
+        error:
+          "Setup is locked: set ADMIN_SETUP_EMAILS in the server environment to the email allowed to become the first admin.",
+      },
+      { status: 403 }
+    );
+  }
+  if (!allowed) {
+    return NextResponse.json({ error: "This email isn't allowed to set up the admin" }, { status: 403 });
+  }
+
+  // Re-submitting (e.g. the email got lost) just updates the pending account.
   const { data: user, error } = await supabaseAdmin
     .from("admin_users")
-    .insert({ name, email, password_hash: hashPassword(password), role: "admin" })
-    .select("id")
+    .upsert(
+      { name, email, password_hash: hashPassword(password), role: "admin", active: true, email_verified_at: null },
+      { onConflict: "email" }
+    )
+    .select("id, email, name, password_hash, email_verified_at")
     .single();
   if (error || !user) {
     return NextResponse.json({ error: error?.message || "Could not create user" }, { status: 500 });
   }
 
-  const response = NextResponse.json({ ok: true });
-  response.cookies.set(ADMIN_SESSION_COOKIE, createSessionToken(user.id), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: SESSION_MAX_AGE_SECONDS,
-  });
-  return response;
+  try {
+    await sendAdminActionEmail(request, user, "verify");
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 502 });
+  }
+  return NextResponse.json({ ok: true, email });
 }

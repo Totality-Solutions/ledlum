@@ -5,7 +5,7 @@ import { hashPassword, MIN_PASSWORD_LENGTH } from "@/lib/adminAuth";
 
 type Params = { params: Promise<{ id: string }> };
 
-const USER_COLUMNS = "id, email, name, role, active, last_login_at, created_at";
+const USER_COLUMNS = "id, email, name, role, active, email_verified_at, last_login_at, created_at";
 
 // Guards against an admin locking everyone out by demoting/disabling/deleting
 // the last active admin.
@@ -14,7 +14,8 @@ async function wouldRemoveLastAdmin(id: string): Promise<boolean> {
     .from("admin_users")
     .select("id")
     .eq("role", "admin")
-    .eq("active", true);
+    .eq("active", true)
+    .not("email_verified_at", "is", null);
   const admins = data || [];
   return admins.length <= 1 && admins.some((a) => a.id === id);
 }
