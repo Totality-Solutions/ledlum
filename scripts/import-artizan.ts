@@ -10,6 +10,8 @@ const supabase = createClient(
 );
 
 const BATCH_SIZE = 50;
+// --dry-run: parse the Excel and report what would change, without writing.
+const DRY_RUN = process.argv.includes("--dry-run");
 const EXCEL_PATH = "./Artizan.xlsx";
 const COLLECTION = "artizan";
 
@@ -31,6 +33,9 @@ const MAPPED_COLS = new Set([
   "dimension", "size", "cutout size", "body color", "cct (k)", "cct",
   "powered by", "beam angle", "ip rating", "luminous", "cri",
   "product overview",
+  // Track/TRACKS column → is_track (the collection page's "Tracks" tab),
+  // not an extra spec.
+  "track", "tracks",
 ]);
 
 function buildExtraSpecs(row: Record<string, any>, cols: string[]): Record<string, string> {
@@ -66,6 +71,7 @@ function parseArtizan(): any[] {
     const familyCol = findCol(cols, ["family"]);
     const categoryCol = findCol(cols, ["category"]);
     const productTypeCol = findCol(cols, ["product type"]);
+    const trackCol = findCol(cols, ["track", "tracks"]);
 
     if (!modelCol) {
       console.log(`  Skipping "${sheetName}" — no model column`);
@@ -119,11 +125,17 @@ function parseArtizan(): any[] {
         // confirmed with the user since only 10/31 sheets had that column filled in.
         website: "W",
         product_type: rawProductType?.toLowerCase() === "new" ? "new" : null,
+        // Any value in the sheet's Track column puts the product in the Tracks tab.
+        is_track: Boolean(trackCol && String(row[trackCol] ?? "").trim()),
         extra_specs: buildExtraSpecs(row, cols),
       });
     }
 
-    console.log(`  Sheet "${sheetName}": ${sheetRows.length} rows`);
+    const sheetModels = rows.filter((r) => r.group_name === sheetName);
+    console.log(
+      `  Sheet "${sheetName}": ${sheetModels.length} models` +
+        (trackCol ? ` (${sheetModels.filter((r) => r.is_track).length} → Tracks tab)` : "")
+    );
   }
 
   return rows;
@@ -191,7 +203,27 @@ async function main() {
   existingRows.forEach((r) => { delete r.id; });
 
   console.log(`New models to insert: ${newRows.length}`);
-  console.log(`Existing models to update: ${existingRows.length}\n`);
+  console.log(`Existing models to update: ${existingRows.length}`);
+  console.log(`Models in the Tracks tab: ${rows.filter((r) => r.is_track).length}`);
+
+  // Artizan models in the database that are no longer in the Excel. Reported
+  // only — never deleted automatically.
+  const { data: dbArtizan, error: dbErr } = await supabase
+    .from("ledlum_products")
+    .select("model")
+    .eq("collection", COLLECTION);
+  if (dbErr) throw dbErr;
+  const inExcel = new Set(rows.map((r) => r.model));
+  const missing = (dbArtizan || []).map((r: any) => r.model).filter((m: string) => !inExcel.has(m));
+  console.log(`In the database but not in the Excel (left untouched): ${missing.length}`);
+  if (missing.length) console.log(`  ${missing.join(", ")}`);
+  console.log("");
+
+  if (DRY_RUN) {
+    console.log("Dry run — nothing written.");
+    if (newRows.length) console.log(`New models: ${newRows.map((r) => r.model).join(", ")}`);
+    return;
+  }
 
   console.log("Upserting to Supabase (insert new / update existing, by model)...");
   let done = 0;

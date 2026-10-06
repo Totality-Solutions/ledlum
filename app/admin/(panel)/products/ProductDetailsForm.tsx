@@ -14,6 +14,7 @@ export const EMPTY_PRODUCT: ProductEditable = {
   cct: [],
   hero_description: "",
   website: true,
+  is_track: false,
   extra_specs: {},
   collection: "indoor",
 };
@@ -24,6 +25,7 @@ export function rowToEditable(row: any): ProductEditable {
   for (const { name } of PRODUCT_ARRAY_FIELDS) product[name] = Array.isArray(row?.[name]) ? row[name] : [];
   product.hero_description = row?.hero_description ?? "";
   product.website = row?.website === "W";
+  product.is_track = Boolean(row?.is_track);
   product.extra_specs = Object.fromEntries(
     Object.entries(row?.extra_specs || {}).map(([k, v]) => [k, String(v ?? "")])
   );
@@ -95,6 +97,10 @@ export default function ProductDetailsForm({
       <label className="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer select-none">
         <input type="checkbox" checked={product.website} onChange={(e) => set("website", e.target.checked)} className="w-4 h-4 accent-white" />
         Show on website
+      </label>
+      <label className="flex items-center gap-2 text-sm text-neutral-300 cursor-pointer select-none">
+        <input type="checkbox" checked={product.is_track} onChange={(e) => set("is_track", e.target.checked)} className="w-4 h-4 accent-white" />
+        Show in the &ldquo;Tracks&rdquo; tab
       </label>
 
       <div className="grid sm:grid-cols-2 gap-4">

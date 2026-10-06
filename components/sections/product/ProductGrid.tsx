@@ -42,6 +42,8 @@ export default function ProductGrid({ filters, products, collection }: any) {
         matchCollection = true;
       } else if (filters.collection === "New Launch") {
         matchCollection = p.isNewLaunch === true;
+      } else if (filters.collection === "Tracks") {
+        matchCollection = p.isTrack === true;
       } else if (collection === "outdoor") {
         matchCollection = p.group === filters.collection;
       } else {

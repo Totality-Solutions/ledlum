@@ -118,7 +118,7 @@ export const CMS_DEFAULTS = {
   },
 
   footer: {
-    logo: cdnImg("/images/logo/ledlum-logo-footer.png"),
+    logo: cdnImg("/images/logo/LEDLUM - Logo.webp"),
     tagline:
       "Design that inspires. Spaces that come alive. Every project reflects precision, innovation, and a thoughtful touch",
     columns: [

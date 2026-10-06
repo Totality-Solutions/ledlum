@@ -30,6 +30,7 @@ export type ProductEditable = Record<ProductTextField, string> &
   Record<ProductArrayField, string[]> & {
     hero_description: string;
     website: boolean; // stored as 'W' / null
+    is_track: boolean; // collection page "Tracks" tab
     extra_specs: Record<string, string>;
   };
 
@@ -46,6 +47,7 @@ export function parseProductInput(body: any): { row?: Record<string, unknown>; e
   }
   row.hero_description = str(body.hero_description) || null;
   row.website = body.website ? "W" : null;
+  row.is_track = Boolean(body.is_track);
 
   const specs: Record<string, string> = {};
   if (body.extra_specs && typeof body.extra_specs === "object") {

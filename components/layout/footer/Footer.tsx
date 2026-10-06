@@ -77,7 +77,7 @@ export default function Footer({
             <div className="flex flex-col justify-between max-w-sm w-full">
               <div>
                 <Link href="/" className="inline-block mb-8 hover:opacity-90 transition">
-                  <Image src={footer.logo || cdnImg("/images/logo/ledlum-logo-footer.png")} alt="Ledlum Logo" width={200} height={50} className="object-contain" style={{ width: 'auto', height: 'auto' }} loading="lazy" />
+                  <Image src={footer.logo || cdnImg("/images/logo/LEDLUM - Logo.webp")} alt="Ledlum Logo" width={200} height={50} className="object-contain" style={{ width: 'auto', height: 'auto' }} loading="lazy" />
                 </Link>
                 <p className="text-body-sm leading-relaxed text-white font-pop font-regular max-w-[320px]">
                   {footer.tagline}

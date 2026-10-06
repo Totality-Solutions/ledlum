@@ -101,6 +101,7 @@ export default function CollectionClient({
         if (item.product_type?.toLowerCase() === "new") {
           existing.isNewLaunch = true
         }
+        if (item.is_track) existing.isTrack = true
         return
       }
 
@@ -133,6 +134,8 @@ export default function CollectionClient({
         heroBannerImage: item.collection === "outdoor" ? "/images/home/product/Outdoor.jpeg" : "/images/home/product/Indoor.jpeg",
         collection: item.collection || "indoor",
         isNewLaunch,
+        // "Tracks" tab — set from the Excel Track column (is_track).
+        isTrack: Boolean(item.is_track),
         category: item.category || item.group_name || "General",
         group: item.group_name || "General",
         family: familyKey,

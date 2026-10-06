@@ -105,26 +105,20 @@ export default function ProductFilters({
     router.push(`/product/${collection}/${item.id}?model=${model.toLowerCase()}`)
   }
 
+  // The Tracks tab only appears when this collection has products flagged as
+  // tracks (the Excel "Track" column → is_track), so it's never an empty tab.
+  const hasTracks = useMemo(() => products.some((p: any) => p.isTrack), [products])
+
   const categories = useMemo(() => {
     const base = ["All", "New Launch"]
-    if (collection === "outdoor" || collection === "indoor" || collection === "klewe") {
-      const groupSet = new Set<string>()
-      products.forEach((p: any) => { if (p.group && p.group !== "General") groupSet.add(p.group) })
-      return [...base]
-    }
-    return [...base, "Tracks"]
-  }, [collection, products])
+    return hasTracks ? [...base, "Tracks"] : base
+  }, [hasTracks])
 
   const labelMap: any = useMemo(() => {
-    const map: any = { All: "All", "New Launch": "New Launch" }
-    if (collection === "outdoor" || collection === "indoor" || collection === "klewe") {
-      products.forEach((p: any) => { if (p.group) map[p.group] = p.group })
-    } else {
-      map.Tracks = "Tracks"
-      // map.Sensors = "Sensors"
-    }
+    const map: any = { All: "All", "New Launch": "New Launch", Tracks: "Tracks" }
+    products.forEach((p: any) => { if (p.group) map[p.group] = p.group })
     return map
-  }, [collection, products])
+  }, [products])
 
   // ✅ DYNAMICALLY FILTERED GROUPS DROPDOWN: 
   const groups = useMemo(() => {
@@ -133,6 +127,8 @@ export default function ProductFilters({
     products.forEach((p: any) => {
       if (filters.collection === "New Launch") {
         if (p.isNewLaunch && p.group) set.add(p.group)
+      } else if (filters.collection === "Tracks") {
+        if (p.isTrack && p.group) set.add(p.group)
       } else {
         if (p.group) set.add(p.group)
       }
