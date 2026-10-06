@@ -90,16 +90,19 @@ const ContactSection = memo(function ContactSection({
                 label="E-mail"
                 value={content.email}
                 iconType="mail"
+                href={content.email ? `mailto:${content.email.trim()}` : undefined}
               />
               <ContactLink
                 label="Call us"
                 value={content.phone}
                 iconType="phone"
+                href={content.phone ? `tel:${content.phone.replace(/[^\d+]/g, "")}` : undefined}
               />
               <ContactLink
                 label={content.whatsappLabel}
                 value={content.whatsappHours}
                 iconType="whatsapp"
+                href={whatsappHref(content.whatsappNumber || content.phone)}
               />
             </div>
 
@@ -182,17 +185,25 @@ const ContactSection = memo(function ContactSection({
 });
 
 
+// wa.me wants the number as digits only, including the country code.
+function whatsappHref(number: string | undefined): string | undefined {
+  const digits = String(number || "").replace(/\D/g, "");
+  return digits ? `https://wa.me/${digits}` : undefined;
+}
+
 /**
  * CONTACT LINK
  */
 const ContactLink = memo(function ContactLink({
   label,
   value,
-  iconType
+  iconType,
+  href,
 }: {
   label: string;
   value: string;
   iconType: "mail" | "phone" | "whatsapp";
+  href?: string;
 }) {
 
   const icons = {
@@ -203,8 +214,17 @@ const ContactLink = memo(function ContactLink({
       "M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2"
   };
 
+  // WhatsApp opens in a new tab; mailto:/tel: hand off to the mail/phone app.
+  const external = href?.startsWith("http");
+
   return (
-    <div className="group flex items-center justify-between p-2 rounded-full border border-content bg-white/[0.03] hover:bg-white/[0.07] transition-all cursor-pointer font-pop w-full">
+    <a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      aria-label={`${label}: ${value}`}
+      className="group flex items-center justify-between p-2 rounded-full border border-content bg-white/[0.03] hover:bg-white/[0.07] transition-all cursor-pointer font-pop w-full"
+    >
 
       <div className="flex items-center gap-4 md:gap-5 pl-1">
 
@@ -241,7 +261,7 @@ const ContactLink = memo(function ContactLink({
         </svg>
 
       </div>
-    </div>
+    </a>
   );
 });
 

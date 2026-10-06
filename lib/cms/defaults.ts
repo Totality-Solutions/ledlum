@@ -312,6 +312,7 @@ export const CMS_DEFAULTS = {
     intro: "Reach out to LEDLUM Lighting for premium architectural lighting solutions.",
     email: "ledlumlighting@gmail.com",
     phone: "+91 96631 02951",
+    whatsappNumber: "+91 96631 02951",
     whatsappLabel: "Msg on Whatsapp",
     whatsappHours: "10:00 am to 6:00 pm",
   },

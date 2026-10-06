@@ -329,6 +329,7 @@ export const SECTION_GROUPS: SectionGroup[] = [
           { type: "textarea", name: "intro", label: "Intro text" },
           { type: "text", name: "email", label: "Email" },
           { type: "text", name: "phone", label: "Phone" },
+          { type: "text", name: "whatsappNumber", label: "WhatsApp number", help: "With country code, e.g. +91 96631 02951. Clicking the WhatsApp card opens a chat with this number." },
           { type: "text", name: "whatsappLabel", label: "WhatsApp label" },
           { type: "text", name: "whatsappHours", label: "WhatsApp hours" },
         ],
