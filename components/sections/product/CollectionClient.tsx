@@ -9,6 +9,8 @@ import ProductGridSkeleton from "@/components/sections/product/ProductGridSkelet
 import { getAllProductsForCatalog } from "@/lib/products"
 import { cdnImg } from "@/lib/cdn"
 
+const NEW_LAUNCH_DEFAULT_COLLECTIONS = ["indoor", "outdoor"]
+
 // Client half of /product/[collection] — the server page passes the banner
 // from Admin → Product collections.
 export default function CollectionClient({
@@ -22,8 +24,10 @@ export default function CollectionClient({
   const [dbProducts, setDbProducts] = useState<any[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
+  // Indoor and Outdoor open on the "New Launch" tab (falling back to "All"
+  // below if they have no new launches); every other collection opens on "All".
   const [filters, setFilters] = useState({
-    collection: "All",
+    collection: NEW_LAUNCH_DEFAULT_COLLECTIONS.includes(collection) ? "New Launch" : "All",
     group: "All",
     dimming: "All",
     search: "",
@@ -143,6 +147,25 @@ export default function CollectionClient({
     return Array.from(familyMap.values())
   }, [collection, dbProducts])
 
+  // Default tab: once the catalog has loaded, switch the initial "New Launch"
+  // tab to "All" if there's nothing new — but only that first time, never
+  // after the visitor has picked a tab themselves.
+  const [defaultTabResolved, setDefaultTabResolved] = useState(false)
+  useEffect(() => {
+    if (loading || defaultTabResolved) return
+    setDefaultTabResolved(true)
+    if (!products.some((p) => p.isNewLaunch)) {
+      setFilters((prev) => (prev.collection === "New Launch" ? { ...prev, collection: "All" } : prev))
+    }
+  }, [loading, products, defaultTabResolved])
+
+  // Same fallback applied during render, so there's no empty-grid flash
+  // before the effect above commits it.
+  const visibleFilters =
+    !defaultTabResolved && filters.collection === "New Launch" && !products.some((p) => p.isNewLaunch)
+      ? { ...filters, collection: "All" }
+      : filters
+
   const heroImage = bannerImage || cdnImg("/images/home/product/Indoor.jpeg")
 
   if (loading) {
@@ -160,7 +183,7 @@ export default function CollectionClient({
 
       <div className="mx-auto px-6 lg:px-12 pt-12">
         <ProductFilters
-          filters={filters}
+          filters={visibleFilters}
           setFilters={setFilters}
           products={products}
           collection={collection}
@@ -169,7 +192,7 @@ export default function CollectionClient({
 
       <div className="relative mx-auto px-6 lg:px-12 py-12">
         <ProductGrid
-          filters={filters}
+          filters={visibleFilters}
           products={products}
           collection={collection}
         />
