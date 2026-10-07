@@ -226,26 +226,33 @@ const ContactLink = memo(function ContactLink({
       className="group flex items-center justify-between p-2 rounded-full border border-content bg-white/[0.03] hover:bg-white/[0.07] transition-all cursor-pointer font-pop w-full"
     >
 
-      <div className="flex items-center gap-4 md:gap-5 pl-1">
+      <div className="flex items-center gap-4 md:gap-5 pl-1 min-w-0 flex-1">
 
-        <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#8D794E] flex items-center justify-center text-white shadow-lg transition-transform group-hover:scale-95">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor">
-            <path d={icons[iconType]} />
-          </svg>
-        </div>
+        <div className="w-8 h-8 sm:w-14 sm:h-14 md:w-12 md:h-12 lg:w-[72px] lg:h-[72px] shrink-0 rounded-full bg-[#8D794E] flex items-center justify-center text-white shadow-lg transition-transform group-hover:scale-95">
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    aria-hidden="true"
+    className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9"
+  >
+    <path d={icons[iconType]} />
+  </svg>
+</div>
 
-        <div className="space-y-0.5 tracking-wider">
-          <p className="text-body-sm lg:text-body font-pop font-regular text-white">
+        {/* min-w-0 + truncate: a long value (e.g. the email) must not push
+            the arrow button out of shape on narrow phones */}
+        <div className="space-y-0.5 tracking-normal md:tracking-wider min-w-0">
+          <p className="text-body-sm lg:text-body font-pop font-regular text-white truncate">
             {label}
           </p>
-          <p className="text-body-sm lg:text-body font-pop font-regular text-white/30 lowercase">
+          <p className="text-body-sm lg:text-body font-pop font-regular text-white/30 lowercase truncate">
             {value}
           </p>
         </div>
 
       </div>
 
-      <div className="mr-2 md:mr-3 w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#8D794E] flex items-center justify-center text-white transition-colors">
+      <div className="ml-2 mr-2 md:mr-3 w-8 h-8 md:w-9 md:h-9 shrink-0 rounded-full bg-[#8D794E] flex items-center justify-center text-white transition-colors">
 
         <svg
           width="20"
