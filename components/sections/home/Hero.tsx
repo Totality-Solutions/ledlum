@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import Image, { type StaticImageData } from "@/components/common/SmartImage";
 import { cdnImg } from "@/lib/cdn";
 import clsx from "clsx";
@@ -8,7 +8,7 @@ import clsx from "clsx";
 type HeroProps = {
   type?: "image" | "video";
   src: string | StaticImageData;
-  // Poster for the video, and the banner shown on mobile instead of it.
+  // Poster for the video, and the banner shown on data saver instead of it.
   poster?: string;
   overlay?: boolean;
   children?: React.ReactNode;
@@ -21,18 +21,35 @@ const Hero = memo(function Hero({
   poster = cdnImg("/images/home/home-hero.webp"),
   children,
 }: HeroProps) {
-  // On mobile, don't decode a background video — it's the main cause of
-  // out-of-memory crashes when combined with the rest of the page.
-  const [isMobile, setIsMobile] = useState(false);
+  // Video plays on all devices, except on data-saver / slow connections where
+  // the poster image is shown instead.
+  const [lowData, setLowData] = useState(false);
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)");
-    const update = () => setIsMobile(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
+    const conn = (navigator as any).connection;
+    if (conn && (conn.saveData || ["slow-2g", "2g"].includes(conn.effectiveType))) {
+      setLowData(true);
+    }
   }, []);
 
-  const useVideo = type === "video" && !isMobile;
+  const useVideo = type === "video" && !lowData;
+
+  // Only keep the video playing while the hero is on screen. A background
+  // video decoding while the rest of the page scrolls was the cause of the
+  // out-of-memory crashes on phones.
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [useVideo]);
 
   return (
     <section className="relative w-full h-[30vh] sm:h-[50vh] lg:h-screen min-h-[230px] max-h-[700px] flex items-center justify-center bg-gray-900 overflow-hidden">
@@ -40,6 +57,7 @@ const Hero = memo(function Hero({
       {/* 🎥 VIDEO BACKGROUND */}
       {useVideo ? (
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
@@ -51,7 +69,7 @@ const Hero = memo(function Hero({
           <source src={typeof src === "string" ? src : ""} />
         </video>
       ) : type === "video" ? (
-        /* Mobile: static poster image instead of the video */
+        /* Data saver / slow connection: static poster image instead */
         <Image
           src={poster}
           alt="Hero Background"
