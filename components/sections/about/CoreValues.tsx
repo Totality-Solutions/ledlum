@@ -148,7 +148,7 @@ export default function CoreValues({ labels }: { labels: string[] }) {
       {/* --- MOBILE VIEW --- */}
       <div className="block md:hidden py-10">
         {/* Height increased slightly to 580px to accommodate bottom text */}
-        <div className="relative w-full h-[580px] overflow-hidden">
+        <div className="relative w-full h-[200px] overflow-hidden">
           <motion.div
             drag="x"
             dragConstraints={{ left: -1500, right: 1500 }}

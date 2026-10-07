@@ -96,13 +96,15 @@ export default function VisionMission({ content }: { content: CmsContent<"about.
 
             {/* CORE VALUES */}
             <div className="md:absolute md:bottom-[8%] md:right-0 flex flex-col items-center md:items-start text-center md:text-left">
-              <div style={{ rotate: '275deg', translate: '115px', }}> <ArrowCorner className={`${arrowStyle} md:-rotate-90 -rotate-[135deg]`} /></div>
+  <div className="md:rotate-[275deg] md:translate-x-[115px]">
+    <ArrowCorner className={`${arrowStyle} rotate-[140deg] md:-rotate-90`} />
+  </div>
 
-              <h2 className="font-pop">
-                <span className={ourStyle}>Our.</span>
-                <span className={wordStyle}>{content.valuesTitle}</span>
-              </h2>
-            </div>
+  <h2 className="font-pop">
+    <span className={ourStyle}>Our.</span>
+    <span className={wordStyle}>{content.valuesTitle}</span>
+  </h2>
+</div>
           </div>
         </Container>
 
