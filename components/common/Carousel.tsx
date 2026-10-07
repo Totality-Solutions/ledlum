@@ -4,6 +4,7 @@ import React, {
   useState,
   useRef,
   useEffect,
+  useCallback,
   ReactNode,
   forwardRef,
   useImperativeHandle,
@@ -22,81 +23,65 @@ export interface CarouselState {
 
 interface CarouselProps {
   items: ReactNode[];
-  thresholds?: {
-    mobile?: number;
-    tablet?: number;
-    desktop?: number;
-  };
-  gridColsClassName?: string;
+  // Card width per breakpoint. Must account for the gap so N cards fit
+  // exactly, e.g. 3 per row with a 24px gap: lg:w-[calc(33.333%-16px)].
   itemWidthClassName?: string;
   gapClassName?: string;
   className?: string;
   onStateChange?: (state: CarouselState) => void;
 }
 
+// Horizontal row of cards that swipes/scrolls when there are more than fit.
+// Layout is pure CSS (responsive card widths), so server and client render
+// the same thing on every device; JS only tracks whether there is more to
+// scroll to, for the arrow buttons.
 const Carousel = forwardRef<CarouselHandle, CarouselProps>(function Carousel(
   {
     items,
-    thresholds = { mobile: 1, tablet: 2, desktop: 4 },
-    gridColsClassName = "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
-    itemWidthClassName = "sm:w-[46%] lg:w-[calc(25%-18px)]",
+    itemWidthClassName = "w-[85%] sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)]",
     gapClassName = "gap-3 sm:gap-6",
     className = "",
     onStateChange,
   },
   ref
 ) {
-  const [isCarousel, setIsCarousel] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const updateScrollButtons = () => {
-    if (scrollRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setCanScrollLeft(scrollLeft > 2);
-      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 2);
-    }
-  };
+  const updateScrollButtons = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setCanScrollLeft(scrollLeft > 2);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 2);
+  }, []);
 
+  // Re-check whenever the row or its cards change size (rotation, resize,
+  // images/fonts loading), not just on window resize.
   useEffect(() => {
-    const handleLayoutMode = () => {
-      const width = window.innerWidth;
-      let activeCarousel = false;
+    const el = scrollRef.current;
+    if (!el) return;
+    updateScrollButtons();
+    const observer = new ResizeObserver(updateScrollButtons);
+    observer.observe(el);
+    Array.from(el.children).forEach((child) => observer.observe(child));
+    return () => observer.disconnect();
+  }, [items.length, updateScrollButtons]);
 
-      if (width >= 1024) {
-        activeCarousel = items.length > (thresholds.desktop ?? 4);
-      } else if (width >= 640) {
-        activeCarousel = items.length > (thresholds.tablet ?? 2);
-      } else {
-        activeCarousel = items.length > (thresholds.mobile ?? 1);
-      }
-
-      setIsCarousel(activeCarousel);
-      setTimeout(updateScrollButtons, 100);
-    };
-
-    handleLayoutMode();
-    window.addEventListener("resize", handleLayoutMode);
-    return () => window.removeEventListener("resize", handleLayoutMode);
-  }, [items.length, thresholds.mobile, thresholds.tablet, thresholds.desktop]);
+  const isCarousel = canScrollLeft || canScrollRight;
 
   useEffect(() => {
     onStateChange?.({ isCarousel, canScrollLeft, canScrollRight });
   }, [isCarousel, canScrollLeft, canScrollRight, onStateChange]);
 
   const scrollBy = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const firstItem = scrollRef.current.firstElementChild as HTMLElement;
-      const cardWidth = firstItem ? firstItem.offsetWidth + 24 : 300;
-      scrollRef.current.scrollTo({
-        left:
-          direction === "left"
-            ? scrollRef.current.scrollLeft - cardWidth
-            : scrollRef.current.scrollLeft + cardWidth,
-        behavior: "smooth",
-      });
-    }
+    const el = scrollRef.current;
+    if (!el) return;
+    const firstItem = el.firstElementChild as HTMLElement | null;
+    const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
+    const step = firstItem ? firstItem.offsetWidth + gap : el.clientWidth;
+    el.scrollBy({ left: direction === "left" ? -step : step, behavior: "smooth" });
   };
 
   useImperativeHandle(ref, () => ({
@@ -109,24 +94,11 @@ const Carousel = forwardRef<CarouselHandle, CarouselProps>(function Carousel(
       <div
         ref={scrollRef}
         onScroll={updateScrollButtons}
-        className={`w-full max-w-full ${gapClassName} ${
-          isCarousel
-            ? "flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth py-2"
-            : `grid ${gridColsClassName}`
-        }`}
-        style={
-          isCarousel
-            ? { scrollbarWidth: "none", msOverflowStyle: "none" }
-            : undefined
-        }
+        className={`flex w-full max-w-full overflow-x-auto snap-x snap-mandatory scroll-smooth overscroll-x-contain py-2 [&::-webkit-scrollbar]:hidden ${gapClassName}`}
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {items.map((item, index) => (
-          <div
-            key={index}
-            className={`shrink-0 min-w-0 snap-center ${
-              isCarousel ? `w-full ${itemWidthClassName}` : "w-full"
-            }`}
-          >
+          <div key={index} className={`shrink-0 min-w-0 snap-start ${itemWidthClassName}`}>
             {item}
           </div>
         ))}

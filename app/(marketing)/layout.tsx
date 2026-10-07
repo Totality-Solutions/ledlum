@@ -19,9 +19,12 @@ export default async function MarketingLayout({ children }: { children: ReactNod
 
   return (
     <>
-      <div className="min-h-screen grid grid-rows-[auto_1fr_auto]">
+      {/* minmax(0,1fr) + min-w-0: without these the grid column grows to fit
+          its widest content (e.g. a scrolling card row), so on phones the page
+          becomes wider than the screen and body's overflow-x-hidden cuts it off. */}
+      <div className="min-h-screen grid grid-cols-[minmax(0,1fr)] grid-rows-[auto_1fr_auto]">
         <Header site={content["site.settings"]} navigation={content.navigation} />
-        <main className="bg-transparent dark:bg-black">
+        <main className="min-w-0 bg-transparent dark:bg-black">
           {children}
         </main>
         <Footer

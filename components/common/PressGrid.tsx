@@ -116,9 +116,10 @@ export default function PressGrid({
     </Link>
   ));
 
-  // Same look as the Product Catalog row arrows (MarqueeFlow).
+  // Same look as the Product Catalog row arrows (MarqueeFlow). Hidden on
+  // phones: the cards are swipeable there and the arrows would cover them.
   const arrowClass =
-    "absolute top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#9a8c66] hover:bg-[#9a8c66]/80  flex items-center justify-center text-white shadow-xl transition-colors";
+    "absolute top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#9a8c66] hover:bg-[#9a8c66]/80 hidden sm:flex items-center justify-center text-white shadow-xl transition-colors";
 
   return (
     <Section className="bg-[#0A0A0A] text-white py-10 lg:py-16 px-4 lg:px-14 overflow-x-hidden">
@@ -130,7 +131,7 @@ export default function PressGrid({
               {titleMain}.
             </h2>
             {rightLabel && (
-              <p className="text-mob-h3 md:text-tab-h2 lg:text-desk-h3 font-pop font-bold text-white">
+              <p className="text-mob-h2 md:text-tab-h2 lg:text-desk-h3 font-pop font-bold text-white">
                 {rightLabel}.
               </p>
             )}
@@ -160,9 +161,8 @@ export default function PressGrid({
             ref={carouselRef}
             items={items}
             onStateChange={handleStateChange}
-            thresholds={{ mobile: 1, tablet: 2, desktop: 3 }}
-            gridColsClassName="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-            itemWidthClassName="max-w-[85%] sm:max-w-none sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+            // 1 card + peek on phones, 2 on tablets, 3 on desktop (gap 24px from sm up)
+            itemWidthClassName={data.length > 1 ? "w-[85%] sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]" : "w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"}
             gapClassName="gap-4 sm:gap-6"
           />
         </div>
