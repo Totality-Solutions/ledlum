@@ -2,10 +2,10 @@ import dotenv from "dotenv";
 import { createClient } from "@supabase/supabase-js";
 import fs from "fs";
 
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env" });
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 

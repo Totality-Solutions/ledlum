@@ -10,10 +10,10 @@ import {
   DeleteObjectsCommand,
 } from "@aws-sdk/client-s3";
 
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env" });
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
@@ -27,7 +27,7 @@ const r2 = new S3Client({
 });
 
 const BUCKET = process.env.R2_BUCKET_NAME!;
-const PUBLIC_URL = process.env.NEXT_PUBLIC_R2_PUBLIC_URL!;
+const PUBLIC_URL = process.env.R2_PUBLIC_URL!;
 
 const ROOTS: { collection: string; localPath: string }[] = [
   { collection: "indoor", localPath: "/Users/khushbooyadav/Downloads/Product Images/Indoor" },

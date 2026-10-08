@@ -15,7 +15,7 @@ import { VARIANT_WIDTHS } from "../lib/imageLoader";
 // Resumable: images that already have their largest copy are skipped, so it
 // can be stopped and re-run at any time. Originals are never modified.
 
-dotenv.config({ path: ".env.local", quiet: true });
+dotenv.config({ path: ".env", quiet: true });
 
 const FORCE = process.argv.includes("--force");
 const PREFIX = process.argv.find((a) => a.startsWith("--prefix="))?.slice("--prefix=".length) || "";

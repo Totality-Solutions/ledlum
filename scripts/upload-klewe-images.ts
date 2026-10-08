@@ -7,10 +7,10 @@ import * as XLSX from "xlsx";
 import { createClient } from "@supabase/supabase-js";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env" });
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
@@ -24,7 +24,7 @@ const r2 = new S3Client({
 });
 
 const BUCKET = process.env.R2_BUCKET_NAME!;
-const PUBLIC_URL = process.env.NEXT_PUBLIC_R2_PUBLIC_URL!;
+const PUBLIC_URL = process.env.R2_PUBLIC_URL!;
 const COLLECTION = "klewe";
 
 // The zip-extracted outer folder name has a mangled em-dash (mojibake from

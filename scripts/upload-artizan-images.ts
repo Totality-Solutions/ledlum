@@ -4,10 +4,10 @@ import path from "path";
 import { createClient } from "@supabase/supabase-js";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env" });
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
@@ -21,7 +21,7 @@ const r2 = new S3Client({
 });
 
 const BUCKET = process.env.R2_BUCKET_NAME!;
-const PUBLIC_URL = process.env.NEXT_PUBLIC_R2_PUBLIC_URL!;
+const PUBLIC_URL = process.env.R2_PUBLIC_URL!;
 const COLLECTION = "artizan";
 const ROOT = "C:/Users/Admin/Downloads/ARTIZAN-20260916T055923Z-1-001/ARTIZAN";
 

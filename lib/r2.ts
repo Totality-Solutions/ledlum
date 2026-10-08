@@ -135,7 +135,7 @@ export async function getPresignedUploadUrl(params: {
 }
 
 // For private buckets — generates a temporary signed read URL. Not needed if
-// the bucket/objects are served publicly via NEXT_PUBLIC_R2_PUBLIC_URL.
+// the bucket/objects are served publicly via R2_PUBLIC_URL.
 export async function getPresignedDownloadUrl(
   key: string,
   expiresInSeconds = 300
@@ -145,7 +145,7 @@ export async function getPresignedDownloadUrl(
 }
 
 export function getPublicUrl(key: string): string {
-  const base = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
-  if (!base) throw new Error("Missing NEXT_PUBLIC_R2_PUBLIC_URL env var.");
+  const base = process.env.R2_PUBLIC_URL;
+  if (!base) throw new Error("Missing R2_PUBLIC_URL env var.");
   return `${base.replace(/\/$/, "")}/${key}`;
 }

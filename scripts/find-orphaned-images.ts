@@ -3,10 +3,10 @@ import fs from "fs";
 import { createClient } from "@supabase/supabase-js";
 import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
 
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env" });
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 

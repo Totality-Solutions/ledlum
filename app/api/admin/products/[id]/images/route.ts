@@ -42,7 +42,7 @@ function nextSequence(galleryImages: string[]): number {
 }
 
 function urlToKey(url: string): string | null {
-  const base = process.env.NEXT_PUBLIC_R2_PUBLIC_URL?.replace(/\/$/, "");
+  const base = process.env.R2_PUBLIC_URL?.replace(/\/$/, "");
   if (!base || !url.startsWith(base + "/")) return null;
   return url.slice(base.length + 1);
 }

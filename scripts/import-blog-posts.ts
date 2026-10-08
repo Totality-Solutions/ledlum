@@ -8,12 +8,12 @@ import { createClient } from "@supabase/supabase-js";
 //
 //   npx tsx scripts/import-blog-posts.ts
 
-dotenv.config({ path: ".env.local", quiet: true });
+dotenv.config({ path: ".env", quiet: true });
 
 async function main() {
   // Imported after dotenv so cdnImg() inside blogData sees NEXT_PUBLIC_CDN_URL.
   const { blogPosts } = await import("../lib/blogData");
-  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+  const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
 
   const { data: existing, error: readError } = await supabase.from("cms_posts").select("slug");
   if (readError) throw readError;
