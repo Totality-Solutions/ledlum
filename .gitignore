@@ -47,3 +47,6 @@ yarn-error.log*
 /unused
 
 .env.local
+# Catalogue PDFs are served from the R2 CDN (NEXT_PUBLIC_CDN_URL), not from the repo
+/public/pdf/
+.claude
