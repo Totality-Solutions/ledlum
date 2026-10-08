@@ -124,7 +124,11 @@ function parseArtizan(): any[] {
         // Every Artizan product shown regardless of the sheet's own Website column —
         // confirmed with the user since only 10/31 sheets had that column filled in.
         website: "W",
-        product_type: rawProductType?.toLowerCase() === "new" ? "new" : null,
+        // Full sheet value (e.g. "S.P.O"); "New" → "new" for the New Launch badge;
+        // "-" / "N/A" are empty placeholders.
+        product_type: !rawProductType || ["-", "n/a", "na"].includes(rawProductType.toLowerCase())
+          ? null
+          : rawProductType.toLowerCase() === "new" ? "new" : rawProductType,
         // Any value in the sheet's Track column puts the product in the Tracks tab.
         is_track: Boolean(trackCol && String(row[trackCol] ?? "").trim()),
         extra_specs: buildExtraSpecs(row, cols),

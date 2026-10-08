@@ -19,6 +19,7 @@ export default function ProductsManager({ canDelete }: { canDelete: boolean }) {
   const [tab, setTab] = useState<"details" | "images">("details");
   const [creating, setCreating] = useState(false);
   const [details, setDetails] = useState<ReturnType<typeof rowToEditable> | null>(null);
+  const [dealerPrices, setDealerPrices] = useState<Record<string, string>>({});
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Product[]>([]);
   const [searching, setSearching] = useState(false);
@@ -54,7 +55,11 @@ export default function ProductsManager({ canDelete }: { canDelete: boolean }) {
     setDetails(null);
     fetch(`/api/admin/products/${selected.id}`)
       .then((res) => res.json())
-      .then((data) => !cancelled && data.product && setDetails(rowToEditable(data.product)))
+      .then((data) => {
+        if (cancelled || !data.product) return;
+        setDetails(rowToEditable(data.product));
+        setDealerPrices(data.dealerPrices || {});
+      })
       .catch(() => {});
     return () => {
       cancelled = true;
@@ -221,6 +226,7 @@ export default function ProductsManager({ canDelete }: { canDelete: boolean }) {
                   <ProductDetailsForm
                     productId={selected.id}
                     initial={details}
+                    dealerPrices={dealerPrices}
                     canDelete={canDelete}
                     onSaved={(row) => {
                       setSelected((prev) => (prev ? { ...prev, ...row } : row));

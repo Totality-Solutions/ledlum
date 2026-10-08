@@ -36,12 +36,15 @@ export function rowToEditable(row: any): ProductEditable {
 export default function ProductDetailsForm({
   productId,
   initial,
+  dealerPrices = {},
   onSaved,
   onDeleted,
   canDelete,
 }: {
   productId: number | null;
   initial: ProductEditable;
+  // From the private ledlum_product_prices table; shown read-only, never saved from here.
+  dealerPrices?: Record<string, string>;
   onSaved: (row: any) => void;
   onDeleted?: () => void;
   canDelete: boolean;
@@ -145,6 +148,20 @@ export default function ProductDetailsForm({
           </Button>
         </div>
       </div>
+
+      {Object.keys(dealerPrices).length > 0 && (
+        <div>
+          <Label help="From the Excel D.P. column. Admin only — never shown on the website.">Dealer price</Label>
+          <div className="flex flex-wrap gap-2">
+            {Object.entries(dealerPrices).map(([k, v]) => (
+              <span key={k} className="px-3 py-2 rounded border border-neutral-700 bg-neutral-900 text-sm text-neutral-200">
+                {k !== "D.P." && <span className="text-neutral-400 mr-2">{k}</span>}
+                {v}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="flex justify-between gap-2">
         <Button onClick={save} disabled={busy}>{busy ? "Saving…" : productId ? "Save details" : "Create product"}</Button>

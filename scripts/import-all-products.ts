@@ -152,7 +152,11 @@ function parseExcelSource(source: CollectionSource): any[] {
         luminous: row["Luminous"]?.toString() || null,
         cri: row["CRI"]?.toString() || null,
         website: websiteValue,
-        product_type: rawProductType?.toLowerCase() === "new" ? "new" : null,
+        // Full sheet value (e.g. "S.P.O"); "New" → "new" for the New Launch badge;
+        // "-" / "N/A" are empty placeholders.
+        product_type: !rawProductType || ["-", "n/a", "na"].includes(rawProductType.toLowerCase())
+          ? null
+          : rawProductType.toLowerCase() === "new" ? "new" : rawProductType,
         extra_specs: buildExtraSpecs(row, cols),
       });
     }
