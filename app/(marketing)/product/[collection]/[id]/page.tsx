@@ -130,6 +130,7 @@ const InnerProductPage = memo(function InnerProductPage() {
         modelFamilies={modelFamilies}
         modelImages={modelImages}
         description={product.hero.description}
+        heroImage={product.hero.images?.[0]}
       />
       <ProductShowcaseGallery images={product.gallery} />
     </main>

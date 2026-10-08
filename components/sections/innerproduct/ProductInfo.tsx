@@ -20,6 +20,8 @@ interface ProductInfoProps {
   permutations?: any[];
   modelImages?: Record<string, string>;
   description?: string;
+  // The image shown in the page's hero section; used on the PDF datasheet.
+  heroImage?: string;
 }
 
 interface LoadingStates {
@@ -211,6 +213,7 @@ export default function ProductInfoSection({
   permutations = [],
   modelImages,
   description,
+  heroImage,
 }: ProductInfoProps) {
   const [selections, setSelections] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
@@ -369,7 +372,9 @@ export default function ProductInfoSection({
         ipRating: config.ipRating?.[0] || "IP20",
         cutout: config.cutoutSizes?.[0] || "N/A",
         extraSpecs: config.extraSpecs || {},
-        imageUrl: modelImages?.[activeId.toUpperCase()],
+        // Same picture as the page's hero, so the datasheet matches what the
+        // visitor sees; falls back to the listing-card image (hero_image).
+        imageUrl: heroImage || modelImages?.[activeId.toUpperCase()],
         description: description ? [description] : undefined,
       });
       await new Promise((r) => setTimeout(r, Math.max(0, ANIMATION_DURATION - (Date.now() - start))));
