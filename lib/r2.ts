@@ -145,7 +145,7 @@ export async function getPresignedDownloadUrl(
 }
 
 export function getPublicUrl(key: string): string {
-  const base = process.env.R2_PUBLIC_URL;
+  const base = process.env.R2_PUBLIC_URL || process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
   if (!base) throw new Error("Missing R2_PUBLIC_URL env var.");
   return `${base.replace(/\/$/, "")}/${key}`;
 }

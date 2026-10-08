@@ -8,7 +8,7 @@ const FROM = "LEDLUM Website <noreply@ledlumlighting.com>";
 // Links in emails must point at the real site, not whatever Host header a
 // request came in with — set SITE_URL in production.
 export function siteOrigin(request: NextRequest): string {
-  return (process.env.SITE_URL || request.nextUrl.origin).replace(/\/$/, "");
+  return (process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin).replace(/\/$/, "");
 }
 
 const COPY: Record<TokenPurpose, { subject: string; heading: string; body: string; button: string; path: string; expires: string }> = {
