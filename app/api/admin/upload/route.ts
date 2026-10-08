@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import sharp from "sharp";
 import { requireAdmin } from "@/lib/adminSession";
 import { buildCmsKey, uploadFile } from "@/lib/r2";
 import { generateImageVariants } from "@/lib/imageVariants";
@@ -34,8 +33,18 @@ export async function POST(request: NextRequest) {
   const isOptimizableImage =
     file.type.startsWith("image/") && !["image/gif", "image/svg+xml"].includes(file.type);
 
+  // Loaded here rather than at the top of the file: if sharp's native binary
+  // can't load on the server, the upload still goes through (the original
+  // file, unconverted) instead of the whole route crashing.
+  const sharp = isOptimizableImage
+    ? await import("sharp").then((m) => m.default).catch((err) => {
+        console.error("sharp failed to load; storing the original image:", err);
+        return null;
+      })
+    : null;
+
   try {
-    if (isOptimizableImage) {
+    if (sharp) {
       const body = await sharp(input)
         .rotate()
         .resize({ width: MAX_IMAGE_WIDTH, withoutEnlargement: true })
