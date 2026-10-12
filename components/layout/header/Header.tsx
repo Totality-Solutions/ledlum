@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "@/components/common/SmartImage";
 import { usePathname } from "next/navigation"; // Hook to detect current location path
 import MobileMenu from "./MobileMenu";
+import { PiUserBold } from "react-icons/pi";
 import type { NavigationContent, SiteSettings } from "@/lib/cms/defaults";
 
 import { cdnImg } from "@/lib/cdn";
@@ -193,6 +194,18 @@ const Header = ({ site, navigation }: { site: SiteSettings; navigation: Navigati
                 />
               )}
             </button>
+
+            
+            <a
+              href="https://dashboard.ledlumlighting.com/"
+              className="flex items-center justify-center p-2 text-white transition-all hover:bg-white/10 rounded-lg active:scale-95"
+              aria-label="Dashboard login"
+              title="Dashboard"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <PiUserBold size={24} />
+            </a>
           </div>
         </div>
 
