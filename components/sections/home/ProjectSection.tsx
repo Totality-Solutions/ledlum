@@ -23,7 +23,9 @@ const OurProjectsSection = memo(function OurProjectsSection({
   content: CmsContent<"projects">;
   social: { instagram: string; linkedin: string; facebook: string };
 }) {
-  const PROJECTS = (content.images || []).filter((p) => p.image).map((p, i) => ({ id: i + 1, img: p.image }));
+  const PROJECTS = (content.images || [])
+    .filter((p) => p.image)
+    .map((p, i) => ({ id: i + 1, img: p.image, title: (p.title || "").trim() }));
   // Extract just the images for the carousel
   const carouselImages = PROJECTS.map((p) => p.img);
 
@@ -101,14 +103,22 @@ const OurProjectsSection = memo(function OurProjectsSection({
                         className="relative aspect-3/4 w-full rounded-[25px] overflow-hidden group cursor-pointer shadow-2xl"
                       >
                         <Image 
-                          src={project.img} 
-                          alt="Our Projects"
+                          src={project.img}
+                          alt={project.title || "Our Projects"}
                           fill
                          className="object-cover transition-transform duration-500 group-hover:scale-110 rounded-[16px]" 
                 style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }} 
                 sizes="(max-width: 300px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 25vw" 
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        {/* Title only when one is set in the CMS; untitled images stay as they were. */}
+                        {project.title && (
+                          <div className="absolute inset-x-0 bottom-0 z-[2] px-3 pt-8 pb-3 md:px-4 md:pb-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none">
+                            <span className="block font-pop font-medium text-white text-sm md:text-base leading-snug line-clamp-2">
+                              {project.title}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     )}
                   />

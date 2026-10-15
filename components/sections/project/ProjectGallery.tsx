@@ -13,7 +13,9 @@ import type { CmsContent } from "@/lib/cms/defaults";
 const ASPECT_RATIOS = [3 / 4, 1 / 1, 4 / 5, 3 / 4, 2 / 3, 4 / 3, 3 / 4, 1 / 1, 3 / 5, 4 / 5, 3 / 4];
 
 export default function ProjectGallery({ content }: { content: CmsContent<"projects"> }) {
-  const PROJECTS = (content.images || []).filter((p) => p.image).map((p, i) => ({ id: i + 1, img: p.image }));
+  const PROJECTS = (content.images || [])
+    .filter((p) => p.image)
+    .map((p, i) => ({ id: i + 1, img: p.image, title: (p.title || "").trim() }));
   const [selected, setSelected] = useState<number | null>(null);
 
   const open = (id: number) => setSelected(id);
@@ -81,12 +83,20 @@ export default function ProjectGallery({ content }: { content: CmsContent<"proje
               >
                 <Image
                   src={project.img}
-                  alt="Project"
+                  alt={project.title || "Project"}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 rounded-[12px]" />
+                {/* Title only when one is set in the CMS; untitled images stay as they were. */}
+                {project.title && (
+                  <div className="absolute inset-x-0 bottom-0 z-[2] px-3 pt-8 pb-3 md:px-4 md:pb-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent text-left pointer-events-none">
+                    <span className="block font-pop font-medium text-white text-sm md:text-base leading-snug line-clamp-2">
+                      {project.title}
+                    </span>
+                  </div>
+                )}
               </button>
             );
           })}
@@ -125,13 +135,21 @@ export default function ProjectGallery({ content }: { content: CmsContent<"proje
           >
             <Image
               src={current.img}
-              alt="Project"
+              alt={current.title || "Project"}
               fill
               className="object-contain"
               sizes="90vw"
               priority
             />
           </div>
+          {current.title && (
+            <p
+              className="absolute bottom-4 inset-x-4 text-center font-pop font-medium text-white text-base md:text-lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {current.title}
+            </p>
+          )}
         </div>
       )}
     </Section>

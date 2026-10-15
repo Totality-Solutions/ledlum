@@ -242,6 +242,7 @@ export const CMS_DEFAULTS = {
     exploreLabel: "Explore Projects",
     images: Array.from({ length: 11 }, (_, i) => ({
       image: cdnImg(`/images/home/project/project${i + 1}.jpeg`),
+      title: "",
     })),
   },
 

@@ -226,7 +226,10 @@ export const SECTION_GROUPS: SectionGroup[] = [
             name: "images",
             label: "Project images",
             itemLabel: "Image",
-            fields: [{ type: "image", name: "image", label: "Image" }],
+            fields: [
+              { type: "image", name: "image", label: "Image" },
+              { type: "text", name: "title", label: "Title", help: "Shown on the image, e.g. project name and city. Leave empty for no title." },
+            ],
           },
         ],
       },
